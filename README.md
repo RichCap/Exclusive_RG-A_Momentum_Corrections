@@ -1,2 +1,2 @@
-# Exclusive_RG-A_Momentum_Corrections
+# Exclusive RG-A Momentum Corrections
 Momentum Corrections developed using exclusive pion reactions.
