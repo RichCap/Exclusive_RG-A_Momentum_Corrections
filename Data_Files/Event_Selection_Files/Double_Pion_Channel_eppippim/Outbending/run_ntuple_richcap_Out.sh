@@ -18,4 +18,4 @@ source /work/clas12/kenjo/groovy/env.csh
 FILES=(/cache/clas12/rg-a/production/recon/fall2018/torus+1/pass1/v1/dst/train/nSidis/nSidis_005*)
 # Above is for #SBATCH --array=0-185
 
-srun ../ntuple_ePipPimP.groovy ${FILES[$SLURM_ARRAY_TASK_ID]}
+srun ../ntuple_ePipPimP_richcap.groovy ${FILES[$SLURM_ARRAY_TASK_ID]}
