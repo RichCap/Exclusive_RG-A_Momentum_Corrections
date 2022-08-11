@@ -10,6 +10,17 @@ Momentum Corrections developed using exclusive pion reactions.
 
 ## Update Notes:
 
+### On 8-11-2022:
+1) Updates to python code:
+    * Updated both inbending and outbending proton corrections (without phi dependance)
+    * Also updated time estimation of code (minor edit)
+2) Updates to jupyter notebook:
+    * Updated some cells/options and fixed (possible) issues with some parts of the correction generating code
+3) Current evaluation of corrections:
+    * Outbending Proton corrections work well for double pion channel in terms of Proton AND Electron Bins/Sectors
+        * Would have left as it was, however, the π0 channel was not as well off, so an additional correction was added
+    * Outbending Proton corrections work well for double pion channel in terms of Proton AND Electron Bins/Sectors
+
 ### On 8-10-2022:
 #### As of 8:00 pm
 * Edited the jupyter notebook file and the python script (cleaned up old/outdated code)
@@ -19,3 +30,4 @@ Momentum Corrections developed using exclusive pion reactions.
 * Added all (existing) files to this github
     * More may come/change as updates are made
 * Some files may not work properly due to changes to file location (work being done to localize the code to work in any directory)
+

@@ -450,6 +450,10 @@ if(event_Name != "error"):
     Extra_Part_of_Name = "_GitHub_1_Pro"
     # Uploaded code to github (this is the first file name after uploading to github)
     
+    Extra_Part_of_Name = "_GitHub_2_Pro"
+    # Updated both inbending and outbending proton corrections (without phi dependance)
+    # Also updated time estimation of code (minor edit)
+    
 
     if(event_type != "P0"):
         if(Delta_P_histo_Q != 'y'):
@@ -1387,6 +1391,11 @@ if(event_Name != "error"):
                         dp = dp + (-0.0049576)*pp + (0.00709573);
                         
                         
+                        // From GitHub_1 for GitHub_2
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 1][All Pro Phi Bins] is:
+                        dp = dp + ((-4.1714e-04)*pp*pp + (6.8231e-03)*pp + (-9.5502e-03));
+                        
+                        
                     }
 
                     if(sec == 2){
@@ -1418,6 +1427,11 @@ if(event_Name != "error"):
                         // From VFinal_SP_V6_Pro for VFinal_SP_V7_Pro
                         // The LINEAR function predicted for Δp_{pro} for [Cor = El/Pi+/Pi- Cor (Quad - Quad Phi) - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 2][All Pro Phi Bins] is:
                         dp = dp + (-0.00559668)*pp + (0.00781151);
+                        
+                        
+                        // From GitHub_1 for GitHub_2
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 2][All Pro Phi Bins] is:
+                        dp = dp + ((3.4040e-04)*pp*pp + (2.9688e-03)*pp + (-8.4316e-03));
                         
                         
                     }
@@ -1453,6 +1467,11 @@ if(event_Name != "error"):
                         dp = dp + (-0.00598024)*pp + (0.00867433);
                         
                         
+                        // From GitHub_1 for GitHub_2
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 3][All Pro Phi Bins] is:
+                        dp = dp + ((2.3578e-03)*pp*pp + (-1.8221e-03)*pp + (-2.0130e-03));
+                        
+                        
                     }
 
                     if(sec == 4){
@@ -1484,6 +1503,11 @@ if(event_Name != "error"):
                         // From VFinal_SP_V6_Pro for VFinal_SP_V7_Pro
                         // The LINEAR function predicted for Δp_{pro} for [Cor = El/Pi+/Pi- Cor (Quad - Quad Phi) - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 4][All Pro Phi Bins] is:
                         dp = dp + (-0.00528728)*pp + (0.0063143);
+                        
+                        
+                        // From GitHub_1 for GitHub_2
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 4][All Pro Phi Bins] is:
+                        dp = dp + ((4.2225e-03)*pp*pp + (-8.7515e-03)*pp + (1.3453e-03));
                         
                         
                     }
@@ -1519,6 +1543,11 @@ if(event_Name != "error"):
                         dp = dp + (-0.00703286)*pp + (0.00816163);
                         
                         
+                        // From GitHub_1 for GitHub_2
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 5][All Pro Phi Bins] is:
+                        dp = dp + ((1.7379e-03)*pp*pp + (1.7106e-03)*pp + (-4.8564e-03));
+                        
+                        
                     }
 
                     if(sec == 6){
@@ -1550,6 +1579,11 @@ if(event_Name != "error"):
                         // From VFinal_SP_V6_Pro for VFinal_SP_V7_Pro
                         // The LINEAR function predicted for Δp_{pro} for [Cor = El/Pi+/Pi- Cor (Quad - Quad Phi) - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 6][All Pro Phi Bins] is:
                         dp = dp + (-0.00975372)*pp + (0.01145557);
+                        
+                        
+                        // From GitHub_1 for GitHub_2
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 6][All Pro Phi Bins] is:
+                        dp = dp + ((2.1718e-03)*pp*pp + (-3.7965e-04)*pp + (-5.1268e-03));
                         
                         
                     }
@@ -1701,7 +1735,7 @@ if(event_Name != "error"):
 
 
     ############################################################
-    #----------#     Last updated on: 6-9-2022     #----------#
+    #----------#     Last updated on: 8-11-2022     #----------#
     ############################################################
 
 
@@ -2050,7 +2084,7 @@ if(event_Name != "error"):
                 
                 if(corPro == 2){ // Quadratic Momentum - No Phi Dependence
 
-                    // STILL IN DEVELOPMENT (As of 6-5-2022)
+                    // STILL IN DEVELOPMENT (As of 8-11-2022)
 
                     if(sec == 1){
                         // The QUADRATIC function predicted for Δp_{pro} for [Cor = El/Pi+/Pi- Cor (Quad - Quad Phi) - No Pro Cor (Energy Loss Cor)][Sector 1][All Pro Phi Bins] is:
@@ -2059,7 +2093,13 @@ if(event_Name != "error"):
                         // From VFinal_SP_V2_Pro for VFinal_SP_V3_Pro
                         // The LINEAR function predicted for Δp_{pro} for [Cor = El/Pi+/Pi- Cor (Quad - Quad Phi) - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 1][All Pro Phi Bins] is:
                         dp = dp + (0.00080717)*pp + (-0.00110934);
-
+                        
+                        
+                        // From GitHub_1 for GitHub_2
+                        // The QUADRATIC function predicted for Δp_{pro} for [Outbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 1][All Pro Phi Bins] is:
+                        dp = dp + ((-3.0072e-03)*pp*pp + (8.1872e-03)*pp + (-8.5605e-03));
+                        
+                        
                     }
 
                     if(sec == 2){
@@ -2069,7 +2109,13 @@ if(event_Name != "error"):
                         // From VFinal_SP_V2_Pro for VFinal_SP_V3_Pro
                         // The LINEAR function predicted for Δp_{pro} for [Cor = El/Pi+/Pi- Cor (Quad - Quad Phi) - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 2][All Pro Phi Bins] is:
                         dp = dp + (-0.00219862)*pp + (-0.00013674);
-
+                        
+                        
+                        // From GitHub_1 for GitHub_2
+                        // The QUADRATIC function predicted for Δp_{pro} for [Outbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 2][All Pro Phi Bins] is:
+                        dp = dp + ((-2.7312e-03)*pp*pp + (0.01281)*pp + (-0.01061));
+                        
+                        
                     }
 
                     if(sec == 3){
@@ -2079,7 +2125,13 @@ if(event_Name != "error"):
                         // From VFinal_SP_V2_Pro for VFinal_SP_V3_Pro
                         // The LINEAR function predicted for Δp_{pro} for [Cor = El/Pi+/Pi- Cor (Quad - Quad Phi) - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 3][All Pro Phi Bins] is:
                         dp = dp + (-0.00132046)*pp + (-0.00173872);
-
+                        
+                        
+                        // From GitHub_1 for GitHub_2
+                        // The QUADRATIC function predicted for Δp_{pro} for [Outbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 3][All Pro Phi Bins] is:
+                        dp = dp + ((-4.2909e-04)*pp*pp + (5.6398e-03)*pp + (-7.0443e-03));
+                        
+                        
                     }
 
                     if(sec == 4){
@@ -2089,7 +2141,13 @@ if(event_Name != "error"):
                         // From VFinal_SP_V2_Pro for VFinal_SP_V3_Pro
                         // The LINEAR function predicted for Δp_{pro} for [Cor = El/Pi+/Pi- Cor (Quad - Quad Phi) - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 4][All Pro Phi Bins] is:
                         dp = dp + (0.00024025)*pp + (-0.00287093);
-
+                        
+                        
+                        // From GitHub_1 for GitHub_2
+                        // The QUADRATIC function predicted for Δp_{pro} for [Outbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 4][All Pro Phi Bins] is:
+                        dp = dp + ((-4.2337e-03)*pp*pp + (0.01534)*pp + (-0.01327));
+                        
+                        
                     }
 
                     if(sec == 5){
@@ -2099,7 +2157,13 @@ if(event_Name != "error"):
                         // From VFinal_SP_V2_Pro for VFinal_SP_V3_Pro
                         // The LINEAR function predicted for Δp_{pro} for [Cor = El/Pi+/Pi- Cor (Quad - Quad Phi) - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 5][All Pro Phi Bins] is:
                         dp = dp + (7.24e-05)*pp + (-0.00224052);
-
+                        
+                        
+                        // From GitHub_1 for GitHub_2
+                        // The QUADRATIC function predicted for Δp_{pro} for [Outbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 5][All Pro Phi Bins] is:
+                        dp = dp + ((-2.4041e-03)*pp*pp + (0.0107)*pp + (-0.01073));
+                        
+                        
                     }
 
                     if(sec == 6){
@@ -2109,7 +2173,13 @@ if(event_Name != "error"):
                         // From VFinal_SP_V2_Pro for VFinal_SP_V3_Pro
                         // The LINEAR function predicted for Δp_{pro} for [Cor = El/Pi+/Pi- Cor (Quad - Quad Phi) - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 6][All Pro Phi Bins] is:
                         dp = dp + (0.00100324)*pp + (-0.00102267);
-
+                        
+                        
+                        // From GitHub_1 for GitHub_2
+                        // The QUADRATIC function predicted for Δp_{pro} for [Outbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 6][All Pro Phi Bins] is:
+                        dp = dp + ((-1.2336e-03)*pp*pp + (5.0923e-03)*pp + (-8.5287e-03));
+                        
+                        
                     }
 
                 }
@@ -4979,12 +5049,12 @@ if(event_Name != "error"):
 
 
     if(datatype == "Inbending"):
-    #     TimeToProcess = 65 # This number should be set to the number of histograms expected to be made per minute while running this code
-        TimeToProcess = 9.77035490605428
+        # This number should be set to the number of histograms expected to be made per minute while running this code (VERY rough estimate - often changes between runs)
+        TimeToProcess = 720 if("DP" in event_type and file_location != "All") else 747 if("P0" in event_type) else 9.77035490605428
     if(datatype == "Outbending"):
-        TimeToProcess = 17 # This is a VERY rough estimate of the runtime/histogram for when each file is loaded individually (times will vary bases on number of histograms/corrections and the file used)
-        # if(file_location == "All"):
-        #     TimeToProcess = 2.031700288184438 # This is the runtime/histogram as of 12-31-2021 (All files)
+        # This is a VERY rough estimate of the runtime/histogram for when each file is loaded individually (times will vary bases on number of histograms/corrections and the file used)
+        TimeToProcess = 1080 if("DP" in event_type and file_location != "All") else 747 if("P0" in event_type) else 17 
+
 
 
 
@@ -4998,7 +5068,7 @@ if(event_Name != "error"):
         print("".join(["\nEstimated time to run: ", str(round((count_Total/TimeToProcess)*60)), " seconds at a rate of ", str(TimeToProcess), " histograms per minute"]))
 
 
-    print("Note: Estimates are based off observations made over time while running all files together at once. Exact times will vary greatly based on choices and file size.")
+    print("Note: Estimates are based on observations made over time while running this code. Exact times will vary greatly based on choices and file size. (Estimates may also need to be updated after significant changes occur)")
 
 
 

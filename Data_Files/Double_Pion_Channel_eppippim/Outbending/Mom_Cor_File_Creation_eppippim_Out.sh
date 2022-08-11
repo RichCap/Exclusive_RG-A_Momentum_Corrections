@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --ntasks=1
-#SBATCH --job-name=double_pion_out_pro_mom_cor_eppipX_VGithub_1_DP_8_10_2022
+#SBATCH --job-name=double_pion_out_pro_mom_cor_eppipX_GitHub_2_DP_8_11_2022
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=richard.capobianco@uconn.edu 
 #SBATCH --output=/farm_out/%u/%x-%j-%N.out
