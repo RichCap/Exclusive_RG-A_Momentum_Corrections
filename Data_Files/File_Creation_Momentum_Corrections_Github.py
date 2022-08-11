@@ -5,7 +5,7 @@ from datetime import datetime
 from sys import argv
 # Let there be 4 arguements in argv when running this code
 
-# Arguement 1: Name of this code (File_Creation_All_Corrections_Simplified_No_Loop_Finished_SP.py)
+# Arguement 1: Name of this code (File_Creation_Momentum_Corrections_Github.py)
 
 # Arguement 2: data-type (In/Out)
     # Options: 
@@ -23,9 +23,9 @@ from sys import argv
     # If the file number is given as 'test', then the code will run without saving any of the histograms
 
 # EXAMPLES: 
-    # python File_Creation_All_Corrections_Simplified_No_Loop_Finished_SP.py In SP All
+    # python File_Creation_Momentum_Corrections_Github.py In SP All
         # The line above would run ALL INBENDING files together for the ep->eπ+N channel
-    # python File_Creation_All_Corrections_Simplified_No_Loop_Finished_SP.py Out DP test
+    # python File_Creation_Momentum_Corrections_Github.py Out DP test
         # The line above would test-run the OUTBENDING files for the ep->epπ+π- channel (no results would be saved)
 
 code_name, datatype, event_type, file_location = argv
@@ -58,7 +58,10 @@ if(datatype == "Inbending"):
     file_name = str(file_name.replace("qa.", ""))
     file_name = str(file_name.replace("exclusiveselection.root", "Ex_Select"))
     
-                    
+    
+    
+file_name = str(file_name.replace("".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Double_Pion_Channel_eppippim/", str(datatype), "/"]), ""))
+    
 
     
     
@@ -441,6 +444,11 @@ if(event_Name != "error"):
     
 #     Extra_Part_of_Name = '_Final_SP_VDP'
 #     # Electron and π+ corrections are done, proton corrections in development
+
+
+
+    Extra_Part_of_Name = "_GitHub_1_Pro"
+    # Uploaded code to github (this is the first file name after uploading to github)
     
 
     if(event_type != "P0"):
@@ -524,6 +532,8 @@ if(event_Name != "error"):
             else:
                 # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/trotta/wagon/RhoWagon/PyAnalysis/data/outb/epPipPim.outb.qa.lvl1_eppimpip.skim4_00*"
                 running_code_with_these_files = "/lustre19/expphy/volatile/clas12/trotta/wagon/RhoWagon/PyAnalysis/data/outb/epPipPim.outb.qa.nSidis_005*"
+                
+            running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Double_Pion_Channel_eppippim/", str(datatype), "/epPipPim.", "out" if("Out" in str(datatype)) else "in", "b.qa.nSidis_005*"])
                 
         if(event_type == "P0"):
             if(datatype == "Inbending"):
@@ -716,9 +726,9 @@ if(event_Name != "error"):
     if(event_type != "SP"):
         try:
             ##=====##    Momentum Magnitude    ##=====##
-            rdf = rdf.Define("pro","sqrt(prox*prox+proy*proy+proz*proz)")
+            rdf = rdf.Define("pro","sqrt(prox*prox + proy*proy + proz*proz)")
             ##=====##       Polar Angles       ##=====##
-            rdf = rdf.Define("proth","atan2(sqrt(prox*prox+proy*proy), proz)*(180/3.1415926)")
+            rdf = rdf.Define("proth","atan2(sqrt(prox*prox + proy*proy), proz)*(180/3.1415926)")
             ##=====##     Azimuthal Angles     ##=====##
             rdf = rdf.Define("proPhi", """
                 double proPhi = (180/3.1415926)*atan2(proy, prox);
@@ -2226,701 +2236,6 @@ if(event_Name != "error"):
 
 
 
-#     ###########################################################################################################
-#     ##=======================================================================================================##
-#     ##==============##============##         Correction Application Code         ##============##============##
-#     ##=======================================================================================================##
-#     ###########################################################################################################
-
-#     # // corEl ==> Gives the 'generation' of the electron correction
-#     #     // corEl == 0 --> No Correction
-#     #     // corEl == 1 --> No Phi Bins (From Utsav - REMOVED)
-#     #     // corEl == 3 --> Utsav's Continous Correction (REMOVED)
-#     #     // corEl == 2 --> Quad Momentum - Quad Phi (Final Version)
-#     def NameElCor(corEl, datatype):
-#         coutN = 0
-#         if('mm0' in corEl):
-#             coutN = 0
-#         if('mm1' in corEl):
-#             coutN = 1
-#         if('mmPhi' in corEl):
-#             coutN = 3
-#         if('mmF' in corEl):
-#             coutN = 2
-
-#         return coutN
-
-
-
-#     # // corPip ==> Gives the 'generation' of the Pi+ Pion correction
-#     #     // corPip == 0 --> No Correction
-#     #     // corPip == 1 --> No Phi Bins (Andrey's Baseline Correction)
-#     #     // corPip == 2 --> Quad Momentum, Quad Phi (Final Version)
-#     def NamePipCor(corPip, datatype):
-#         coutN = 0
-#         if("Pip" not in corPip):
-#             coutN = 0
-#         if('PipMMQ' in corPip):
-#             coutN = 1
-#         if('PipMMF' in corPip):
-#             coutN = 2
-
-#         return coutN
-
-
-
-
-
-#     # // corPim ==> Gives the 'generation' of the Pi- Pion correction
-#     #     // corPim == 0 --> No Correction
-#     #     // corPim == 1 --> Nick's Quad Momentum, Quad Phi
-#     #     // corPim == 2 --> Rounded version of corPim == 1 (Not developed yet)
-#     def NamePimCor(corPim, datatype):
-#         coutN = 0
-#         if("Pim" not in corPim):
-#             coutN = 0
-#         if('PimMMpim_qPhi' in corPim):
-#             coutN = 1
-#         if('PimMMpim_F' in corPim):
-#             coutN = 2
-
-#         return coutN
-
-
-
-
-#     # // corPro ==> Gives the 'generation' of the Proton correction
-#     #     // corPro == 0 --> No Correction
-#     #     // corPro == 1 --> Quad Momentum, Quad Phi
-#     #     // corPro == 2 --> Quad Momentum, No Phi
-#     #     // corPro == 3 --> Linear Momentum, No Phi
-#     def NameProCor(corPro, datatype):
-#         coutN = 0
-#         if("Pro" not in corPro):
-#             coutN = 0
-#         if('ProMMpro_qPhi' in corPro):
-#             coutN = 1
-#         if('ProMMpro_qNoPhi' in corPro):
-#             coutN = 2 # Quad - No Phi
-#         if('ProMMpro_NoPhi' in corPro):
-#             coutN = 3 # Linear - No Phi
-
-#         return coutN
-
-
-
-
-#     def CorDpp(Data_Frame, Correction, Out_Type, Channel_Type, MM_Type, Data_Type, Extra_Cut):
-#         # Correction --> Name of Correction (string)
-#         # Out_Type --> Desired output of this function
-#             # Examples:
-#                 # (*) 'MM' --> Missing Mass Calculation (changes with MM_Type)
-#                 # (*) 'D_p' --> ∆P Calculation 
-#                     # Options are:
-#                         # 'D_pel' (Default of SP Channel)
-#                         # 'D_pip' 
-#                         # 'D_pro' (Default of DP and P0 Channels)
-#                         # 'D_pim' (NOT AVAILABLE - must use Nick's Code)
-#                 # (*) 'Mom' -> Corrected Momentum (same options as ∆P regarding particle choice - will default to the electron)
-#                 # (*) "WM" --> Invariant Mass      
-#         # Channel_Type --> Name of channel (i.e., event_type)
-#         # Data_Type --> Whether the correction is for the 'Inbending' or 'Outbending' data
-
-
-#         Full_Correction_Output = ""
-
-
-
-
-
-#         # Correction Numbers (for code - translating the input string into integers for C++):
-#         corEl_Num = str(NameElCor(Correction, Data_Type))
-#         corPip_Num = str(NamePipCor(Correction, Data_Type))
-#         corPim_Num = str(NamePimCor(Correction, Data_Type))
-#         corPro_Num = str(NameProCor(Correction, Data_Type))
-
-#         # print("Correction by particle is:")
-#         # print("".join(["El = ", corEl_Num]))
-#         # print("".join(["Pip = ", corPip_Num]))
-#         # print("".join(["Pim = ", corPim_Num]))
-#         # print("".join(["Pro = ", corPro_Num]))
-
-
-
-
-
-#         # Correction Choice (Inbending/Outbending):
-#         if("In" in Data_Type):
-#             Correction_Code = Correction_Code_Full_In
-#         else:
-#             Correction_Code = Correction_Code_Full_Out
-
-
-
-
-
-#         # Particles for Correction:
-#         Particles_for_Correction = "".join(["""
-#     auto fe = dppC(ex, ey, ez, esec, 0, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
-#     auto eleC = ROOT::Math::PxPyPzMVector(ex*fe, ey*fe, ez*fe, 0);
-#         """])
-
-#         if("P0" not in Channel_Type and ("Mom_el" not in Out_Type and "Mom_pim" not in Out_Type and "Mom_pro" not in Out_Type)):
-#             Particles_for_Correction = "".join([Particles_for_Correction, """
-#     auto fpip = dppC(pipx, pipy, pipz, pipsec, 1, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
-#     auto pipC = ROOT::Math::PxPyPzMVector(pipx*fpip, pipy*fpip, pipz*fpip, 0.13957);
-#         """])
-
-#         if("DP" in Channel_Type and ("Mom_el" not in Out_Type and "Mom_pip" not in Out_Type and "Mom_pro" not in Out_Type)):
-#             Particles_for_Correction = "".join([Particles_for_Correction, """
-#     auto fpim = dppC(pimx, pimy, pimz, pimsec, 2, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
-#     auto pimC = ROOT::Math::PxPyPzMVector(pimx*fpim, pimy*fpim, pimz*fpim, 0.13957);
-#         """])
-
-#         if("P0" in Channel_Type):
-#             Particles_for_Correction = "".join([Particles_for_Correction, """
-#     auto fpro = dppC(prox, proy, proz, prosec, 3, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
-#     auto proC = ROOT::Math::PxPyPzMVector(prox*fpro, proy*fpro, proz*fpro, 0.938);
-#         """])
-#         if("DP" in Channel_Type and ("Mom_el" not in Out_Type and "Mom_pip" not in Out_Type and "Mom_pim" not in Out_Type)):
-#             if("_NoELC" not in Correction):
-                
-#                 Particles_for_Correction = "".join(["""
-#             """, Particles_for_Correction, """
-#         auto fpro = dppC(prox_cor, proy_cor, proz_cor, prosec, 3, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
-#         auto proC = ROOT::Math::PxPyPzMVector(prox_cor*fpro, proy_cor*fpro, proz_cor*fpro, 0.938);
-#             """])
-                
-#             else: # If "_NoELC" is in 'Correction', then the proton energy loss correction is not applied
-                
-#                 Particles_for_Correction = "".join(["""
-
-#             """, Particles_for_Correction, """
-#         auto fpro = dppC(prox, proy, proz, prosec, 3, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
-#         auto proC = ROOT::Math::PxPyPzMVector(prox*fpro, proy*fpro, proz*fpro, 0.938);
-#             """])
-
-#         if("Mom" in Out_Type and "Mom_el" not in Out_Type):
-#             Particles_for_Correction = Particles_for_Correction.replace("auto fe", "// auto fe")
-#             Particles_for_Correction = Particles_for_Correction.replace("auto eleC", "// auto eleC")
-
-
-#         # print("".join(["Corrections in use: \n", Particles_for_Correction]))
-
-
-
-
-#         # Calculation Choice
-#         Calculation_Code_Choice = ""
-
-
-#         ##========================================================##
-#         ##===============||----------------------||===============##
-#         ##===============||    Invariant Mass    ||===============##
-#         ##===============||----------------------||===============##
-#         ##========================================================##
-#         if("WM" in Out_Type):
-#             Calculation_Code_Choice = "".join(["""
-
-#     auto Output_Vectors = beam + targ - eleC;
-
-#     auto Final_Output = Output_Vectors.M""", "2" if Out_Type == "WM2" else "","""();
-
-#             """])
-
-
-#         ##======================================================##
-#         ##===============||--------------------||===============##
-#         ##===============||    Missing Mass    ||===============##
-#         ##===============||--------------------||===============##
-#         ##======================================================##
-#         if("MM" in Out_Type):
-
-#             ##==============================================##
-#             ##=====##   Single Pion (eπ+N) Channel   ##=====##
-#             ##==============================================##
-#             if('epipX' == MM_Type and Channel_Type != "P0"):
-#                 Calculation_Code_Choice = """
-
-#     auto Output_Vectors = beam + targ - eleC - pipC;
-
-#     auto Final_Output = Output_Vectors.M();
-
-#                 """
-
-#             ##================================================##
-#             ##=====##   Double Pion (epπ+π-) Channel   ##=====##
-#             ##================================================##
-#             if('eppippimX' == MM_Type and Channel_Type == "DP"):
-#                 Calculation_Code_Choice = """
-#     auto Output_Vectors = beam + targ - eleC - proC - pipC - pimC;
-
-#     auto Final_Output = Output_Vectors.M2();
-
-#                 """
-
-#             if('eppipX' == MM_Type and Channel_Type == "DP"):
-#                 Calculation_Code_Choice = """
-#     auto Output_Vectors = beam + targ - eleC - pipC - proC;
-
-#     auto Final_Output = Output_Vectors.M2();
-
-#                 """
-
-#             if('eppimX' == MM_Type and Channel_Type == "DP"):
-#                 Calculation_Code_Choice = """
-#     auto Output_Vectors = beam + targ - eleC - pimC - proC;
-
-#     auto Final_Output = Output_Vectors.M2();
-
-#                 """
-
-#             if('epippimX' == MM_Type and Channel_Type == "DP"):
-#                 Calculation_Code_Choice = """
-#     auto Output_Vectors = beam + targ - eleC - pipC - pimC;
-
-#     auto Final_Output = Output_Vectors.M();
-
-#                 """
-
-#             if('epX' == MM_Type and Channel_Type == "DP"):
-#                 Calculation_Code_Choice = """
-#     auto Output_Vectors = beam + targ - eleC - proC;
-
-#     auto Final_Output = Output_Vectors.M2();
-
-#                 """
-
-#             ##===============================##
-#             ##=====##   Pi0 Channel   ##=====##
-#             ##===============================##
-#             if('eppi0X' == MM_Type or Channel_Type == "P0"):
-#                 Calculation_Code_Choice = """
-#     auto Output_Vectors = beam + targ - eleC - proC;
-
-#     auto Final_Output = Output_Vectors.M2();
-
-#                 """
-
-
-#         ##========================================================##
-#         ##===============||----------------------||===============##
-#         ##===============||    ∆P Calculation    ||===============##
-#         ##===============||----------------------||===============##
-#         ##========================================================##
-#         if("D_p" in Out_Type):
-
-#             ##=============================================================##
-#             ##===============||---------------------------||===============##
-#             ##===============||    Single Pion Channel    ||===============##
-#             ##===============||---------------------------||===============##
-#             ##=============================================================##
-#             if(Channel_Type == "SP"):
-#                 Calculation_Code_Choice = """
-#     double neutronM2 = 0.9396*0.9396;
-#                 """
-#                 if("D_pip" in Out_Type):
-#                     ##================================================================================================##
-#                     ##=====================##         ∆P (Single Pion - π+) Calculations         ##===================##
-#                     ##================================================================================================##
-#                     Calculation_Code_Choice = "".join([Calculation_Code_Choice, """
-
-#     // Below are the kinematic calculations of the π+ momentum (from el+pro->el+Pip+N) based on the assumption that the π+ angle and electron reconstruction were measured by the detector correctly for elastic events in the epipX channel
-#     // (The neutron is used as the "missing" particle)
-
-#     auto termA = (neutronM2 - (0.938*0.938) - (0.13957*0.13957))/2;
-#     auto termB = 0.938*(10.6041 - eleC.P()) - 10.6041*eleC.P()*(1 - cos(eleC.Theta()));
-#     auto termC = ((eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, pipC))) - (10.6041*cos(pipC.Theta())));
-
-#     auto sqrtTerm = ((termA - termB)*(termA - termB)) + (0.13957*0.13957)*((termC*termC) - ((0.938 + 10.6041 - eleC.P())*(0.938 + 10.6041 - eleC.P())));
-#     auto denominator = ((0.938 + 10.6041 - eleC.P()) + termC)*((0.938 + 10.6041 - eleC.P()) - termC);
-#     auto numeratorP = (termA - termB)*termC + (0.938 + 10.6041 - eleC.P())*sqrt(sqrtTerm);
-#     auto numeratorM = (termA - termB)*termC - (0.938 + 10.6041 - eleC.P())*sqrt(sqrtTerm);
-
-#     auto pip_CalculateP = numeratorP/denominator;
-#     auto pip_CalculateM = numeratorM/denominator;
-
-#     auto pip_Calculate = pip_CalculateP;
-
-#     if(abs(pipC.P() - pip_CalculateP) >= abs(pipC.P() - pip_CalculateM)){
-#         pip_Calculate = pip_CalculateM;
-#     }
-#     if(abs(pipC.P() - pip_CalculateP) <= abs(pipC.P() - pip_CalculateM)){
-#         pip_Calculate = pip_CalculateP;
-#     }
-
-#     auto Final_Output = pip_Calculate - pipC.P();
-
-#                     """])
-
-#                 if("D_pel" in Out_Type):
-#                     ##======================================================================================================##
-#                     ##=====================##         ∆P (Single Pion - Electron) Calculations         ##===================##
-#                     ##======================================================================================================##
-#                     Calculation_Code_Choice = "".join([Calculation_Code_Choice, """
-
-#     // Below are the kinematic calculations of the electron momentum (from el+pro->el+Pip+N) based on the assumption that the electron angle and π+ reconstruction were measured by the detector correctly for elastic events in the epipX channel
-#     // (The neutron is used as the "missing" particle)
-
-#     auto termA = ((neutronM2 - (0.938*0.938) - (0.13957*0.13957))/2) - 0.938*10.6041;
-#         // termA --> (("Neutron Mass Squared" - "Proton Mass Squared" - "π+ Mass Squared")/2) - "Proton Mass"*"Initial Electron Beam Energy"
-
-#     auto termB = pipC.E() - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, pipC)) - 10.6041*(1 - cos(eleC.Theta())) - 0.938;
-#         // termB --> "π+ Energy" - "π+ Momentum"*cos("Angle between Electron and π+") - "Initial Electron Beam Energy"*(1 - cos("Electron Theta")) - "Proton Mass"
-
-#     auto termC = 10.6041*(pipC.E() - pipC.P()*cos(pipC.Theta())) + 0.938*pipC.E();
-#         // termC --> "Initial Electron Beam Energy"*("π+ Energy" - "π+ Momentum"*cos("π+ Theta")) + "Proton Mass"*"π+ Energy"
-
-#     auto pel_Calculated = (termA + termC)/termB;
-
-#     auto Final_Output = pel_Calculated - eleC.P();
-
-#                     """])
-
-
-
-#     #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
-#     #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
-#     #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
-
-
-
-#             ##=============================================================##
-#             ##===============||---------------------------||===============##
-#             ##===============||    Double Pion Channel    ||===============##
-#             ##===============||---------------------------||===============##
-#             ##=============================================================## 
-#             if(Channel_Type == "DP"):
-#                 if("D_pro" in Out_Type):
-#                     ##=================================================================================================##
-#                     ##=====================##         ∆P (Double Pion - Pro) Calculations         ##===================##
-#                     ##=================================================================================================##
-                    
-#                     if("_NoELC" in Correction):
-#                         Calculation_Code_Choice = """
-
-#         auto Beam_Energy = 10.6041;
-#         // Defined by the run group/data set
-
-#         // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pip+pim) based on the assumption that the proton angle and electron/π+ reconstruction were measured by the detector correctly for elastic events in the ep->epπ+π- channel 
-#         // (π- is used as a "missing" particle)
-
-#         auto termA1 = pipC.E() + eleC.P() - Beam_Energy - (0.938);
-#         // termA1 = "π+ Energy" + "Electron Momentum" - "Initial Beam Energy" - "Proton Mass"
-
-#         auto termB1 = Beam_Energy*cos(proC.Theta()) - eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC)) - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, proC));
-#         // termB1 = "Initial Beam Energy"*cos("Proton Theta Angle") - "Electron Momentum" * cos("Angle between the Proton and Electron") - "π+ Momentum" * cos("Angle between the Proton and π+")
-
-#         auto termC1 = (0.938)*(Beam_Energy - eleC.P() - pipC.E() + (0.938)) - Beam_Energy*(eleC.P()*(1 - cos(eleC.Theta())) + (pipC.E() - pipC.P()*cos(pipC.Theta()))) + eleC.P()*(pipC.E() - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, eleC)));
-#         // termC1 = "Proton Mass"*("Initial Beam Energy" - "Electron Momentum" - "π+ Energy" + "Proton Mass") - "Initial Beam Energy" * ("Electron Momentum" * (1 - cos("Electron Angle")) + ("π+ Energy" - "π+ Momentum" * cos("π+ Angle"))) + "Electron Momentum" * ("π+ Energy" - "π+ Momentum" * cos("Angle between the π+ and Electron"))
-
-#         auto termA2 = (termA1*termA1 - termB1*termB1);
-#         auto termB2 = -2*termB1*termC1;
-#         auto termC2 = termA1*termA1*(0.938)*(0.938) - termC1*termC1;
-
-#         auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
-#         auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
-
-#         auto pro_Calculate = pro_CalculateP;
-
-#         if(abs(proC.P() - pro_CalculateP) <= abs(proC.P() - pro_CalculateM)){
-#             pro_Calculate = pro_CalculateP;
-#         }
-
-#         else{
-#             pro_Calculate = pro_CalculateM;
-#         }
-
-
-#         auto Final_Output = pro_Calculate - proC.P();
-
-#                         """
-                        
-#                     else:
-#                         Calculation_Code_Choice = """
-
-#         auto Beam_Energy = 10.6041;
-#         // Defined by the run group/data set
-
-#         // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pip+pim) based on the assumption that the proton angle and electron/π+ reconstruction were measured by the detector correctly for elastic events in the ep->epπ+π- channel 
-#         // (*) π- is used as a "missing" particle
-#         // The Proton used throughout this calculation has the Energy Loss Corrections already applied
-        
-        
-#         // // Proton Energy Corrections //
-#         // double ppro_mag = sqrt(prox*prox + proy*proy + proz*proz);
-#         // double pro_t = sqrt(prox*prox + proy*proy);
-#         // auto ppro = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
-#         // bool lowband = (ppro.Theta()*(180/3.1415926)) < 27;
-#         // double dploss = exp(-2.739 - 3.932*ppro_mag) + 0.002907;
-#         // if(!lowband) dploss = exp(-1.2 - 4.228*ppro_mag) + 0.007502;
-#         // double feloss = (ppro_mag + dploss)/ppro_mag;
-#         // double prox1 = feloss*prox;
-#         // double proy1 = feloss*proy;
-#         // double proz1 = feloss*proz;
-        
-#         auto proC_EC = ROOT::Math::PxPyPzMVector(prox_cor, proy_cor, proz_cor, 0.938);
-
-#         auto termA1 = pipC.E() + eleC.P() - Beam_Energy - (0.938);
-#         // termA1 = "π+ Energy" + "Electron Momentum" - "Initial Beam Energy" - "Proton Mass"
-
-#         auto termB1 = Beam_Energy*cos(proC_EC.Theta()) - eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC_EC)) - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, proC_EC));
-#         // termB1 = "Initial Beam Energy"*cos("Proton Theta Angle") - "Electron Momentum" * cos("Angle between the Proton and Electron") - "π+ Momentum" * cos("Angle between the Proton and π+")
-
-#         auto termC1 = (0.938)*(Beam_Energy - eleC.P() - pipC.E() + (0.938)) - Beam_Energy*(eleC.P()*(1 - cos(eleC.Theta())) + (pipC.E() - pipC.P()*cos(pipC.Theta()))) + eleC.P()*(pipC.E() - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, eleC)));
-#         // termC1 = "Proton Mass"*("Initial Beam Energy" - "Electron Momentum" - "π+ Energy" + "Proton Mass") - "Initial Beam Energy" * ("Electron Momentum" * (1 - cos("Electron Angle")) + ("π+ Energy" - "π+ Momentum" * cos("π+ Angle"))) + "Electron Momentum" * ("π+ Energy" - "π+ Momentum" * cos("Angle between the π+ and Electron"))
-
-#         auto termA2 = (termA1*termA1 - termB1*termB1);
-#         auto termB2 = -2*termB1*termC1;
-#         auto termC2 = termA1*termA1*(0.938)*(0.938) - termC1*termC1;
-
-#         auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
-#         auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
-
-#         auto pro_Calculate = pro_CalculateP;
-
-#         if(abs(proC_EC.P() - pro_CalculateP) <= abs(proC_EC.P() - pro_CalculateM)){
-#             pro_Calculate = pro_CalculateP;
-#         }
-
-#         else{
-#             pro_Calculate = pro_CalculateM;
-#         }
-
-
-#         auto Final_Output = pro_Calculate - proC_EC.P();
-
-#                         """
-
-
-
-#     #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
-#     #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
-#     #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
-
-
-
-#             ##=========================================================##
-#             ##===============||-----------------------||===============##
-#             ##===============||    π0 Pion Channel    ||===============##
-#             ##===============||-----------------------||===============##
-#             ##=========================================================## 
-#             if(Channel_Type == "P0"):
-#                 if("D_pro" in Out_Type):
-#                     ##=====================================================================================================##
-#                     ##=====================##         ∆P (π0 Pion Channel - Pro) Calculations         ##===================##
-#                     ##=====================================================================================================##
-#                     if("_NoELC" in Correction):
-#                         Calculation_Code_Choice = """
-
-#         auto Beam_Energy = 10.6041;
-#         double pi0M2term = (0.13498*0.13498)/2;
-
-
-#         // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pi0) based on the assumption that the proton angle and electron reconstruction were measured by the detector correctly for elastic events in the ep->epπ0 channel
-#         // (π0 is used as the "missing" particle)
-
-
-#         auto termA1 = pi0M2term - (0.938)*((Beam_Energy) - eleC.P() + (0.938)) + (Beam_Energy)*eleC.P()*(1 - cos(eleC.Theta()));
-#             // termA1 = pi0M2term - "Proton Mass"*("Initial Beam Energy" - "Electron Momentum" + "Proton Mass") + "Initial Beam Energy"*"Electron Momentum"*(1 - cos("Electron Theta Angle"))
-
-#         auto termB1 = (Beam_Energy)*cos(proC.Theta()) - eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC,proC));
-#             // termB1 = "Initial Beam Energy"*cos("Proton Theta Angle") - "Electron Momentum"*cos("Angle between the Proton and Electron")
-
-#         auto termC1 = eleC.P() - (Beam_Energy) - (0.938);
-#             // termC1 = "Electron Momentum" - "Initial Beam Energy" - "Proton Mass"
-
-#         auto termA2 = (termB1*termB1 - termC1*termC1);
-#         auto termB2 = -2*termB1*termA1;
-#         auto termC2 = termA1*termA1 - termC1*termC1*(0.938)*(0.938);
-
-#         auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
-#         auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
-
-#         auto pro_Calculate = pro_CalculateP;
-
-#         if(abs(proC.P() - pro_CalculateP) <= abs(proC.P() - pro_CalculateM)){
-#             pro_Calculate = pro_CalculateP;
-#         }
-#         else{
-#             pro_Calculate = pro_CalculateM;
-#         }
-
-#         auto Final_Output = pro_Calculate - proC.P();
-
-#                         """
-                        
-#                     else:
-#                         Calculation_Code_Choice = """
-
-#         auto Beam_Energy = 10.6041;
-#         double pi0M2term = (0.13498*0.13498)/2;
-
-
-#         // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pi0) based on the assumption that the proton angle and electron reconstruction were measured by the detector correctly for elastic events in the ep->epπ0 channel
-#         // (π0 is used as the "missing" particle)
-#         // The Proton used throughout this calculation has the Energy Loss Corrections already applied
-
-
-#         auto proC_EC = ROOT::Math::PxPyPzMVector(prox_cor, proy_cor, proz_cor, 0.938);
-
-
-#         auto termA1 = pi0M2term - (0.938)*((Beam_Energy) - eleC.P() + (0.938)) + (Beam_Energy)*eleC.P()*(1 - cos(eleC.Theta()));
-#             // termA1 = pi0M2term - "Proton Mass"*("Initial Beam Energy" - "Electron Momentum" + "Proton Mass") + "Initial Beam Energy"*"Electron Momentum"*(1 - cos("Electron Theta Angle"))
-
-#         auto termB1 = (Beam_Energy)*cos(proC_EC.Theta()) - eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC_EC));
-#             // termB1 = "Initial Beam Energy"*cos("Proton Theta Angle") - "Electron Momentum"*cos("Angle between the Proton and Electron")
-
-#         auto termC1 = eleC.P() - (Beam_Energy) - (0.938);
-#             // termC1 = "Electron Momentum" - "Initial Beam Energy" - "Proton Mass"
-
-#         auto termA2 = (termB1*termB1 - termC1*termC1);
-#         auto termB2 = -2*termB1*termA1;
-#         auto termC2 = termA1*termA1 - termC1*termC1*(0.938)*(0.938);
-
-#         auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
-#         auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
-
-#         auto pro_Calculate = pro_CalculateP;
-
-#         if(abs(proC_EC.P() - pro_CalculateP) <= abs(proC_EC.P() - pro_CalculateM)){
-#             pro_Calculate = pro_CalculateP;
-#         }
-#         else{
-#             pro_Calculate = pro_CalculateM;
-#         }
-
-#         auto Final_Output = pro_Calculate - proC_EC.P();
-
-#                         """
-
-                        
-                        
-                        
-#                 if("D_pel" in Out_Type):
-#                     ##==========================================================================================================##
-#                     ##=====================##         ∆P (π0 Pion Channel - Electron) Calculations         ##===================##
-#                     ##==========================================================================================================##
-#                     if("_NoELC" in Correction):
-#                         Calculation_Code_Choice = """
-
-#     // Below are the kinematic calculations of the electron momentum (from el+pro->el+pro+pi0) based on the assumption that the electron angle and proton reconstruction were measured by the detector correctly for elastic events in the epπ0 channel
-#     // (π0 is used as the "missing" particle)
-
-
-#     auto Beam_Energy = 10.6041;
-    
-#     auto termA = (0.13498*0.13498)/2;
-#         // termA --> "(Pi0 Mass Squared)/2"
-
-#     auto termB = termA - (0.938)*((Beam_Energy) - proC.E() + (0.938)) + (Beam_Energy)*(proC.E() - proC.P()*cos(proC.Theta()));
-#         // termB --> "0.5*Pi0 Mass^2" - "Proton Mass" * ("Initial Electron Beam Energy" - "Proton Energy" + "Proton Mass") + "Initial Electron Beam Energy" * ("Proton Energy" - "Proton Momentum"*cos("Proton Theta"))
-
-#     auto termC = proC.E() - 0.938 - proC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC)) - Beam_Energy*(1 - cos(eleC.Theta()));
-#         // termC --> "Proton Energy" - "Proton Mass" - "Proton Momentum"*cos("Angle between Electron and Proton") - "Initial Electron Beam Energy"*(1 - cos("Electron Theta"))
-
-#     auto pel_Calculated = termB/termC;
-
-#     auto Final_Output = pel_Calculated - eleC.P();
-
-#                     """
-
-#                     else:
-#                         Calculation_Code_Choice = """
-
-#     // Below are the kinematic calculations of the electron momentum (from el+pro->el+pro+pi0) based on the assumption that the electron angle and proton reconstruction were measured by the detector correctly for elastic events in the epπ0 channel
-#     // (π0 is used as the "missing" particle)
-#     // The Proton used throughout this calculation has the Energy Loss Corrections already applied
-
-#     auto Beam_Energy = 10.6041;
-    
-#     auto proC_EC = ROOT::Math::PxPyPzMVector(prox_cor, proy_cor, proz_cor, 0.938);
-    
-#     auto termA = (0.13498*0.13498)/2;
-#         // termA --> "(Pi0 Mass Squared)/2"
-
-#     auto termB = termA - (0.938)*((Beam_Energy) - proC_EC.E() + (0.938)) + (Beam_Energy)*(proC_EC.E() - proC_EC.P()*cos(proC_EC.Theta()));
-#         // termB --> "0.5*Pi0 Mass^2" - "Proton Mass" * ("Initial Electron Beam Energy" - "Proton Energy" + "Proton Mass") + "Initial Electron Beam Energy" * ("Proton Energy" - "Proton Momentum"*cos("Proton Theta"))
-
-#     auto termC = proC_EC.E() - 0.938 - proC_EC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC_EC)) - Beam_Energy*(1 - cos(eleC.Theta()));
-#         // termC --> "Proton Energy" - "Proton Mass" - "Proton Momentum"*cos("Angle between Electron and Proton") - "Initial Electron Beam Energy"*(1 - cos("Electron Theta"))
-
-#     auto pel_Calculated = termB/termC;
-
-#     auto Final_Output = pel_Calculated - eleC.P();
-
-#                     """
-                    
-
-#         ##########################################################################################################
-#         ##======================================================================================================##
-#         ##==============##============##         Delta P Calculations (End)         ##============##============##
-#         ##======================================================================================================##
-#         ##########################################################################################################
-
-
-#         ##=============================================================##
-#         ##===============||---------------------------||===============##
-#         ##===============||    Corrected Momentums    ||===============##
-#         ##===============||---------------------------||===============##
-#         ##=============================================================##
-#         if("Mom" in Out_Type):
-#             Calculation_Code_Choice = "".join(["""
-
-#     auto Final_Output = """, "ele" if "p" not in Out_Type else str(Out_Type.replace("Mom_", "")), """C.P();
-
-#             """])
-
-
-
-
-#         Full_Correction_Output = "".join([Correction_Code, """
-
-#     """, "// " if "MM" not in Out_Type else "", """auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
-#     """, "// " if "MM" not in Out_Type else "", """auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-#         """, Particles_for_Correction, """
-#         """, Calculation_Code_Choice, """
-
-#     return Final_Output;
-#         """])
-
-
-#         if("pim" not in Out_Type):
-#             Full_Correction_Output = Full_Correction_Output.replace("auto fpim =", "// auto fpim =")
-#             Full_Correction_Output = Full_Correction_Output.replace("auto pimC =", "// auto pimC =")
-
-
-#     #     print(Full_Correction_Output)
-
-#         Output_Title = str(Correction)
-#         if("MM" not in Out_Type):
-#             Output_Title = "".join([str(Out_Type.replace("Mom_", "")), "_", Output_Title])
-
-
-#     #     print("".join(['Output = Data_Frame.Define("', str(Output_Title), '''", """
-
-#     # ''', Full_Correction_Output,'''
-
-#     # """)''']))
-
-#         Output = Data_Frame.Define(str(Output_Title), str(Full_Correction_Output))
-
-#         if(Extra_Cut != "None" and Extra_Cut != ""):
-#             Output = Output.Filter(Extra_Cut)
-
-
-
-#         return Output
-
-#     print("Done with Calculations.")
-#     ##################################################################################################################################################################
-#     ##==============================================================================================================================================================##
-#     ##==============##============##============##============##         Calculations for RDF (End)         ##============##============##============##============##
-#     ##==============================================================================================================================================================##
-#     ##################################################################################################################################################################
-
-
-
     ###########################################################################################################
     ##=======================================================================================================##
     ##==============##============##         Correction Application Code         ##============##============##
@@ -2946,7 +2261,6 @@ if(event_Name != "error"):
         return coutN
 
 
-
     # // corPip ==> Gives the 'generation' of the Pi+ Pion correction
     #     // corPip == 0 --> No Correction
     #     // corPip == 1 --> No Phi Bins (Andrey's Baseline Correction)
@@ -2963,9 +2277,6 @@ if(event_Name != "error"):
         return coutN
 
 
-
-
-
     # // corPim ==> Gives the 'generation' of the Pi- Pion correction
     #     // corPim == 0 --> No Correction
     #     // corPim == 1 --> Nick's Quad Momentum, Quad Phi
@@ -2980,8 +2291,6 @@ if(event_Name != "error"):
             coutN = 2
 
         return coutN
-
-
 
 
     # // corPro ==> Gives the 'generation' of the Proton correction
@@ -3003,8 +2312,6 @@ if(event_Name != "error"):
         return coutN
 
 
-
-
     def CorDpp(Data_Frame, Correction, Out_Type, Channel_Type, MM_Type, Data_Type, Extra_Cut):
         # Correction --> Name of Correction (string)
         # Out_Type --> Desired output of this function
@@ -3021,12 +2328,7 @@ if(event_Name != "error"):
         # Channel_Type --> Name of channel (i.e., event_type)
         # Data_Type --> Whether the correction is for the 'Inbending' or 'Outbending' data
 
-
         Full_Correction_Output = ""
-
-
-
-
 
         # Correction Numbers (for code - translating the input string into integers for C++):
         corEl_Num = str(NameElCor(Correction, Data_Type))
@@ -3041,17 +2343,11 @@ if(event_Name != "error"):
         # print("".join(["Pro = ", corPro_Num]))
 
 
-
-
-
         # Correction Choice (Inbending/Outbending):
         if("In" in Data_Type):
             Correction_Code = Correction_Code_Full_In
         else:
             Correction_Code = Correction_Code_Full_Out
-
-
-
 
 
         # Particles for Correction:
@@ -3072,11 +2368,7 @@ if(event_Name != "error"):
     auto pimC = ROOT::Math::PxPyPzMVector(pimx*fpim, pimy*fpim, pimz*fpim, 0.13957);
         """])
 
-    #     if("P0" in Channel_Type):
-    #         Particles_for_Correction = "".join([Particles_for_Correction, """
-    # auto fpro = dppC(prox, proy, proz, prosec, 3, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
-    # auto proC = ROOT::Math::PxPyPzMVector(prox*fpro, proy*fpro, proz*fpro, 0.938);
-    #     """])
+
         if("SP" not in Channel_Type and ("Mom_el" not in Out_Type and "Mom_pip" not in Out_Type and "Mom_pim" not in Out_Type)):
             if("_NoELC" not in Correction):
 
@@ -3726,20 +3018,6 @@ if(event_Name != "error"):
             if("Energy Loss Cor" not in CorrectionName and '_NoELC' not in CorrectionNameIn):
                 CorrectionName = CorrectionName.replace('Pro Cor (Quad - Quad Phi)', 'Pro Cor (Quad - Quad Phi - Energy Loss Cor)')
 
-#         if(CorrectionName1 == 'El Cor (Quad - Quad Phi)' and CorrectionName2 == 'Pi+ Cor (Quad - Quad Phi)'):
-#             if(CorrectionName3 == 'Pi- Cor (Quad - Quad Phi)'):
-#                 if('Pro Cor (Quad - Quad Phi' in CorrectionName4):
-#                     CorrectionName = "".join(["El/Pi+/Pi-/Pro Cor (Quad - Quad Phi)"])
-#                 else:
-#                     CorrectionName = "".join(["El/Pi+/Pi- Cor (Quad - Quad Phi) - ", CorrectionName4])
-#             else:
-#                 if('Pro Cor (Quad - Quad Phi' in CorrectionName4):
-#                     CorrectionName = "".join(["El/Pi+/Pro Cor (Quad - Quad Phi) - ", CorrectionName3])
-#                 else:
-#                     CorrectionName = "".join(["El/Pi+ Cor (Quad - Quad Phi) - ", CorrectionName3, " - ", CorrectionName4])
-#         if(event_type != "SP"):
-#             if("Energy Loss Cor" not in CorrectionName and '_NoELC' not in CorrectionNameIn):
-#                 CorrectionName = CorrectionName.replace('Pro Cor (Quad - Quad Phi)', 'Pro Cor (Quad - Quad Phi - Energy Loss Cor)')
         
 
         return CorrectionName
@@ -4664,54 +3942,6 @@ if(event_Name != "error"):
     if(MM_type == "eppipX"):
 
         if("In" in datatype):
-#             Calculated_Exclusive_Cuts = """
-#                 auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
-#                 auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-#                 auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-#                 auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
-#                 auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
-#                 auto MM_Vector = beam + targ - ele - pip0 - pro0;
-#                 auto cut_up = 0.2;
-#                 auto cut_down = -0.2;
-#                 if(esec == 1){
-#                     // Upper Cut
-#                     cut_up = (-0.009921)*el + (0.168377);
-#                     // Lower Cut
-#                     cut_down = (0.001922)*el + (-0.086595);
-#                 }
-#                 if(esec == 2){
-#                     // Upper Cut
-#                     cut_up = (-0.00562)*el + (0.127627);
-#                     // Lower Cut
-#                     cut_down = (-0.000138)*el + (-0.071724);
-#                 }
-#                 if(esec == 3){
-#                     // Upper Cut
-#                     cut_up = (-0.009304)*el + (0.146936);
-#                     // Lower Cut
-#                     cut_down = (-0.000706)*el + (-0.091368);
-#                 }
-#                 if(esec == 4){
-#                     // Upper Cut
-#                     cut_up = (-0.003718)*el + (0.128973);
-#                     // Lower Cut
-#                     cut_down = (0.000949)*el + (-0.073575);
-#                 }
-#                 if(esec == 5){
-#                     // Upper Cut
-#                     cut_up = (-0.008771)*el + (0.153181);
-#                     // Lower Cut
-#                     cut_down = (0.004081)*el + (-0.083977);
-#                 }
-#                 if(esec == 6){
-#                     // Upper Cut
-#                     cut_up = (-0.007735)*el + (0.147002);
-#                     // Lower Cut
-#                     cut_down = (0.000711)*el + (-0.071272);
-#                 }
-#                 return (MM_Vector.M2() < cut_up && MM_Vector.M2() > cut_down);
-#             """
-
             Calculated_Exclusive_Cuts = """
 
                 auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
@@ -4885,52 +4115,7 @@ if(event_Name != "error"):
     ##=======================================================================================================================##
     ###########################################################################################################################
     if(MM_type == "eppi0X"):
-#         Calculated_Exclusive_Cuts = """
-#             auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
-#             auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-#             auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-#             auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
-#             auto MM_Vector = beam + targ - ele - pro0;
-#             auto cut_up = 0.2;
-#             auto cut_down = -0.2;
-#             if(esec == 1){
-#                 // Upper Cut
-#                 cut_up = (-0.038636)*el + (0.491438);
-#                 // Lower Cut
-#                 cut_down = (0.020965)*el + (-0.341715);
-#             }
-#             if(esec == 2){
-#                 // Upper Cut
-#                 cut_up = (-0.049158)*el + (0.533676);
-#                 // Lower Cut
-#                 cut_down = (0.023972)*el + (-0.358863);
-#             }
-#             if(esec == 3){
-#                 // Upper Cut
-#                 cut_up = (-0.026703)*el + (0.362458);
-#                 // Lower Cut
-#                 cut_down = (0.020304)*el + (-0.379255);
-#             }
-#             if(esec == 4){
-#                 // Upper Cut
-#                 cut_up = (-0.033785)*el + (0.448895);
-#                 // Lower Cut
-#                 cut_down = (0.027886)*el + (-0.369668);
-#             }
-#             if(esec == 5){
-#                 // Upper Cut
-#                 cut_up = (-0.042292)*el + (0.499413);
-#                 // Lower Cut
-#                 cut_down = (0.021688)*el + (-0.31488);
-#             }
-#             if(esec == 6){
-#                 // Upper Cut
-#                 cut_up = (-0.044042)*el + (0.514813);
-#                 // Lower Cut
-#                 cut_down = (0.018828)*el + (-0.316737);
-#             }
-#             return (MM_Vector.M2() < cut_up && MM_Vector.M2() > cut_down);
-#         """
+
         if("In" in datatype):
             Calculated_Exclusive_Cuts = """
 
@@ -5090,52 +4275,6 @@ if(event_Name != "error"):
     ##==============================================================================================================================##
     ##################################################################################################################################
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-#     ##==============================================================================================================================##
-#     ##=========================================##    OVERWRITING ALL EXCLUSIVITY CUTS    ##=========================================##
-#     if(MM_type == "epipX"):
-#         Calculated_Exclusive_Cuts = """
-#             auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
-#             auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-#             auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-#             auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
-#             auto MM_Vector = beam + targ - ele - pip0;
-#             MM_Vector.M() < 1.1"""
-#     if(MM_type == "eppipX"):
-#         Calculated_Exclusive_Cuts = """
-#             auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
-#             auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-#             auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-#             auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
-#             auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
-#             auto MM_Vector = beam + targ - ele - pip0 - pro0;
-#             MM_Vector.M2() < 0.2"""
-#     if(MM_type == "eppi0X"):
-#         Calculated_Exclusive_Cuts = """
-#             auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
-#             auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-#             auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-#             auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
-#             auto MM_Vector = beam + targ - ele - pro0;
-#             MM_Vector.M2() < 0.2"""
-#     ##=========================================##    OVERWRITING ALL EXCLUSIVITY CUTS    ##=========================================##
-#     ##==============================================================================================================================##
-    
-    
-    
-    
-    
-    
     
     
     
@@ -6511,3 +5650,4 @@ Accepted Inputs are:
     
 Ending Code...
     """]))
+
