@@ -10,6 +10,26 @@ Momentum Corrections developed using exclusive pion reactions.
 
 ## Update Notes:
 
+### On 8-15-2022:
+1) Updates to python code:
+    * Final versions of the momentum corrections have been created
+    * Final corrections are included in the new python file called: File_Creation_Final_Momentum_Corrections_Github.py
+        * Includes the most simplied version of the corrections (condensed to fewer number of lines)
+    * Latest output files include the following name: Extra_Part_of_Name = "_GitHub_F2_Pro"
+2) Updates to jupyter notebook:
+    * Correction output now prints in scientific notation with a limited number of sig figs
+    * Removed more unnecessary parts of the code
+    * Preparing to split the Missing Mass Histograms and ∆P histograms into two separate files
+    * Current options selected will show all of the most relevant histograms for the proton corrections (using mainly the double pion data)
+        * Can switch between Inbending/Outbending and Double Pion/π0 Channels from one cell (See: Choice of File/Data types)
+3) Current evaluation of corrections:
+    * Electron/π+/Proton Corrections are complete
+        * π- Correction may be updated later (work done by Nick)
+        * May add boundries of the corrections directly to the code (furthur discussion with group is required)
+    * Planned updates will consist of cosmetic updates to images or a reduction to the number of lines required for each correction
+        
+    
+
 ### On 8-11-2022:
 1) Updates to python code:
     * Updated both inbending and outbending proton corrections (without phi dependance)
@@ -30,4 +50,8 @@ Momentum Corrections developed using exclusive pion reactions.
 * Added all (existing) files to this github
     * More may come/change as updates are made
 * Some files may not work properly due to changes to file location (work being done to localize the code to work in any directory)
+
+
+
+
 
