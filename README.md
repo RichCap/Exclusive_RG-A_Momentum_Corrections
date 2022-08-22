@@ -10,6 +10,16 @@ Momentum Corrections developed using exclusive pion reactions.
 
 ## Update Notes:
 
+### On 8-21-2022:
+1) Updates to python code:
+    * Added Invariant Mass Cut of W < 3 GeV to Single Pion Channel (to study the effects of Inclusive reactions)
+    * File Name = "_GitHub_SP_New_W"
+2) Added Single Pion Data Folders
+    * Running now (not finished)
+    * Python code has not been updated to refer to these files (still refer to old files that may or may not exist on the volitile folder)
+    
+    
+
 ### On 8-15-2022:
 1) Updates to python code:
     * Final versions of the momentum corrections have been created
