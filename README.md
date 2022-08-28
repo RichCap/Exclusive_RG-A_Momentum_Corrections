@@ -7,8 +7,22 @@ Momentum Corrections developed using exclusive pion reactions.
 2) Split the final jupyter notebook into two files (one for ∆P histograms and one for the Missing Mass histograms)
 3) Add π0 files (from home directory) to this github (if their size allows)
 4) Include a "Images" section on github?
+5) Create Corrections based on Elastic Scattering events
 
 ## Update Notes:
+
+
+### On 8-25-2022:
+1) Updates to python code:
+    * SP File location added (files are not located within these repositories on GitHub)
+    * Created Elastic Scattering Options/Calculations
+    * Invariant Mass Cut of W < 3 GeV is now an option for any channel
+    * Created Invariant Mass Histograms options (has tighter cuts on W than the optional cut stated above - i.e., from 0.7 GeV < W < 1.3 GeV)
+    * File Name = "_GitHub_Elastic"
+2) Added Elastic Scattering Data Folder
+    * Files not created yet
+
+
 
 ### On 8-21-2022:
 1) Updates to python code:

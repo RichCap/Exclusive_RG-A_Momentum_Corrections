@@ -17,6 +17,7 @@ from sys import argv
     # 1) SP -> Single Pion (i.e., ep->eπ+N)
     # 2) DP -> Double Pion (i.e., ep->epπ+π-)
     # 3) P0 -> Pi0 Channel (i.e., ep->epπ0)
+    # 3) ES -> Elastic Scattering (i.e., ep->e'p')
 
 # Arguement 4: file number (Full file name)
     # If the file number is given as 'All', then all files will be run instead of a select number of them
@@ -44,6 +45,8 @@ if(datatype == "Outbending"):
     file_name = str(file_name.replace("/u/home/richcap/", ""))
     file_name = str(file_name.replace("qa.", ""))
     file_name = str(file_name.replace("exclusiveselection.root", "Ex_Select"))
+    file_name = str(file_name.replace("/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/inbending/ePipX/epip.skim4_00", ""))
+                                      
 
     
 if(datatype == "Inbending"):
@@ -57,11 +60,18 @@ if(datatype == "Inbending"):
     file_name = str(file_name.replace("/u/home/richcap/", ""))
     file_name = str(file_name.replace("qa.", ""))
     file_name = str(file_name.replace("exclusiveselection.root", "Ex_Select"))
+    file_name = str(file_name.replace("/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/outbending/ePipX/skim4_00", ""))
     
     
+file_name = str(file_name.replace("/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/inbending/ePipX/epip.skim4_00", ""))
+file_name = str(file_name.replace("/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/outbending/ePipX/skim4_00", ""))
     
 file_name = str(file_name.replace("".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Double_Pion_Channel_eppippim/", str(datatype), "/"]), ""))
+file_name = str(file_name.replace("".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Single_Pion_Channel_epipN/", str(datatype), "/"]), ""))
+file_name = str(file_name.replace("".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/"]), ""))
     
+file_name = str(file_name.replace("eP_Elastic.inb.nSidis_00", ""))
+file_name = str(file_name.replace("eP_Elastic.outb.nSidis_00", ""))
 
     
     
@@ -76,6 +86,7 @@ event_Name = "error"
 if(event_type == "SP"):
     event_Name = "Single Pion Channel"
     MM_type = "epipX"
+    
 if(event_type == "DP"):
     event_Name = "Double Pion Channel"
     # # Missing Mass Choice:
@@ -87,6 +98,10 @@ if(event_type == "DP"):
 if(event_type == "P0"):
     event_Name = "Pi0 Channel"
     MM_type = "eppi0X"
+    
+if(event_type == "ES"):
+    event_Name = "Elastic Scattering"
+    MM_type = "epX"
 
     
 if(MM_type == "epippimX"):
@@ -141,6 +156,8 @@ if(event_Name != "error"):
         Delta_Pel_histo_Q, Delta_Pip_histo_Q = 'n', 'n'
     if(event_type == "P0"):
         Delta_Pel_histo_Q, Delta_Pim_histo_Q, Delta_Pip_histo_Q = 'n', 'n', 'n'
+    if(event_type == "ES"):
+        Delta_Pim_histo_Q, Delta_Pip_histo_Q, Delta_Pro_histo_Q = 'n', 'n', 'n' # The proton corrections are turned off for now
 
         
     if(Delta_P_histo_Q != 'n'):
@@ -162,6 +179,12 @@ if(event_Name != "error"):
     CheckDataFrameQ = 'n'
 
 
+    Invariant_Mass_Cuts_Q = "Cut_On"
+    # Invariant_Mass_Cuts_Q = "Cut_Off"
+    
+    if(Invariant_Mass_Cuts_Q == "Cut_On"):
+        print("\nCutting on Invariant Mass (Only W < 3 GeV)\n" if(event_type == "ES") else "\nUsing Elastic Cuts\n")
+    
 
 
     ########################################################################################
@@ -206,6 +229,11 @@ if(event_Name != "error"):
     Extra_Part_of_Name = "_GitHub_SP_New_W"
     # Using for studies involving inclusive applications of these momentum correction
     # Added Invariant Mass Cut of W < 3 GeV (condition given is a requirement)
+    
+    
+    Extra_Part_of_Name = "_GitHub_Elastic"
+    # Created Elastic Scattering Options/Calculations
+    # Invariant Mass Cut of W < 3 GeV is now an option for any channel
     
 
     if(event_type != "P0"):
@@ -273,14 +301,17 @@ if(event_Name != "error"):
     #############################################################################
 
     # Default option is all outbending files
-    running_code_with_these_files = "/lustre19/expphy/volatile/clas12/shrestha/clas12momcorr/data/outbending/ePipX/skim4_00*"
+    # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/shrestha/clas12momcorr/data/outbending/ePipX/skim4_00*"
+    running_code_with_these_files = "/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/outbending/ePipX/skim4_005*"
 
     if(file_location == "All" or file_location == "Test" or file_location == "test"):
         if(event_type == "SP"):
             if(datatype == "Inbending"):
                 running_code_with_these_files = "/lustre19/expphy/volatile/clas12/shrestha/clas12momcorr/data/inbending/ePipX/epip.skim4_00*"
+                running_code_with_these_files = "/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/inbending/ePipX/epip.skim4_005*"
             else:
                 running_code_with_these_files = "/lustre19/expphy/volatile/clas12/shrestha/clas12momcorr/outbending/ePipX/skim4_00*"
+                running_code_with_these_files = "/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/outbending/ePipX/skim4_005*"
 
         if(event_type == "DP"):
             if(datatype == "Inbending"):
@@ -298,12 +329,13 @@ if(event_Name != "error"):
             else:
                 running_code_with_these_files = "/u/home/richcap/lvl2_eppi0.outb.qa.eloss.exclusiveselection.root"
                 running_code_with_these_files = "/u/home/richcap/lvl2_eppi0.outb.qa.exclusiveselection.root"
+                
+        if(event_type == "ES"):
+            running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/*.root"])
+
 
     else:
-        if(datatype == "Inbending"):
-            running_code_with_these_files = file_location
-        else:
-            running_code_with_these_files = file_location
+        running_code_with_these_files = file_location
 
     rdf = ROOT.RDataFrame("h22", str(running_code_with_these_files))
 
@@ -392,9 +424,9 @@ if(event_Name != "error"):
     #------------------------------------------#
     try:
         ##=====##    Momentum Magnitude    ##=====##
-        rdf = rdf.Define("el","sqrt(ex*ex+ey*ey+ez*ez)")
+        rdf = rdf.Define("el", "sqrt(ex*ex + ey*ey + ez*ez)")
         ##=====##       Polar Angles       ##=====##
-        rdf = rdf.Define("elth","atan2(sqrt(ex*ex+ey*ey), ez)*(180/3.1415926)")
+        rdf = rdf.Define("elth", "atan2(sqrt(ex*ex + ey*ey), ez)*(180/3.1415926)")
         ##=====##     Azimuthal Angles     ##=====##
         rdf = rdf.Define("elPhi", """
             double elPhi = (180/3.1415926)*atan2(ey, ex);
@@ -413,12 +445,12 @@ if(event_Name != "error"):
     #------------------------------------------#
     #---------------# Pi+ Pion #---------------#
     #------------------------------------------#
-    if(event_type != "P0"):
+    if(event_type != "P0" and event_type != "ES"):
         try:
             ##=====##    Momentum Magnitude    ##=====##
-            rdf = rdf.Define("pip","sqrt(pipx*pipx+pipy*pipy+pipz*pipz)")
+            rdf = rdf.Define("pip", "sqrt(pipx*pipx+pipy*pipy+pipz*pipz)")
             ##=====##       Polar Angles       ##=====##
-            rdf = rdf.Define("pipth","atan2(sqrt(pipx*pipx+pipy*pipy), pipz)*(180/3.1415926)")
+            rdf = rdf.Define("pipth", "atan2(sqrt(pipx*pipx+pipy*pipy), pipz)*(180/3.1415926)")
             ##=====##     Azimuthal Angles     ##=====##
             rdf = rdf.Define("pipPhi", """
                 double pipPhi = (180/3.1415926)*atan2(pipy, pipx);
@@ -440,9 +472,9 @@ if(event_Name != "error"):
     if(event_type == "DP"):
         try:
             ##=====##    Momentum Magnitude    ##=====##
-            rdf = rdf.Define("pim","sqrt(pimx*pimx+pimy*pimy+pimz*pimz)")
+            rdf = rdf.Define("pim", "sqrt(pimx*pimx+pimy*pimy+pimz*pimz)")
             ##=====##       Polar Angles       ##=====##
-            rdf = rdf.Define("pimth","atan2(sqrt(pimx*pimx+pimy*pimy), pimz)*(180/3.1415926)")
+            rdf = rdf.Define("pimth", "atan2(sqrt(pimx*pimx+pimy*pimy), pimz)*(180/3.1415926)")
             ##=====##     Azimuthal Angles     ##=====##
             rdf = rdf.Define("pimPhi", """
                 double pimPhi = (180/3.1415926)*atan2(pimy, pimx);
@@ -464,9 +496,9 @@ if(event_Name != "error"):
     if(event_type != "SP"):
         try:
             ##=====##    Momentum Magnitude    ##=====##
-            rdf = rdf.Define("pro","sqrt(prox*prox + proy*proy + proz*proz)")
+            rdf = rdf.Define("pro", "sqrt(prox*prox + proy*proy + proz*proz)")
             ##=====##       Polar Angles       ##=====##
-            rdf = rdf.Define("proth","atan2(sqrt(prox*prox + proy*proy), proz)*(180/3.1415926)")
+            rdf = rdf.Define("proth", "atan2(sqrt(prox*prox + proy*proy), proz)*(180/3.1415926)")
             ##=====##     Azimuthal Angles     ##=====##
             rdf = rdf.Define("proPhi", """
                 double proPhi = (180/3.1415926)*atan2(proy, prox);
@@ -1428,13 +1460,13 @@ if(event_Name != "error"):
     auto eleC = ROOT::Math::PxPyPzMVector(ex*fe, ey*fe, ez*fe, 0);
         """])
 
-        if("P0" not in Channel_Type and ("Mom_el" not in Out_Type and "Mom_pim" not in Out_Type and "Mom_pro" not in Out_Type)):
+        if("P0" not in Channel_Type and "ES" not in Channel_Type and ("Mom_el" not in Out_Type and "Mom_pim" not in Out_Type and "Mom_pro" not in Out_Type)):
             Particles_for_Correction = "".join([Particles_for_Correction, """
     auto fpip = dppC(pipx, pipy, pipz, pipsec, 1, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
     auto pipC = ROOT::Math::PxPyPzMVector(pipx*fpip, pipy*fpip, pipz*fpip, 0.13957);
         """])
 
-        if("DP" in Channel_Type and ("Mom_el" not in Out_Type and "Mom_pip" not in Out_Type and "Mom_pro" not in Out_Type)):
+        if("DP" in Channel_Type and "ES" not in Channel_Type and ("Mom_el" not in Out_Type and "Mom_pip" not in Out_Type and "Mom_pro" not in Out_Type)):
             Particles_for_Correction = "".join([Particles_for_Correction, """
     auto fpim = dppC(pimx, pimy, pimz, pimsec, 2, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
     auto pimC = ROOT::Math::PxPyPzMVector(pimx*fpim, pimy*fpim, pimz*fpim, 0.13957);
@@ -1556,6 +1588,17 @@ if(event_Name != "error"):
     auto Final_Output = Output_Vectors.M2();
 
                 """
+                
+            ##======================================##
+            ##=====##   Elastic Scattering   ##=====##
+            ##======================================##
+            if('epX' == MM_Type or Channel_Type == "ES"):
+                Calculation_Code_Choice = """
+    auto Output_Vectors = beam + targ - eleC - proC;
+
+    auto Final_Output = Output_Vectors.M2();
+
+                """
 
 
         ##========================================================##
@@ -1580,7 +1623,7 @@ if(event_Name != "error"):
                     ##================================================================================================##
                     Calculation_Code_Choice = "".join([Calculation_Code_Choice, """
 
-    // Below are the kinematic calculations of the π+ momentum (from el+pro->el+Pip+N) based on the assumption that the π+ angle and electron reconstruction were measured by the detector correctly for elastic events in the epipX channel
+    // Below are the kinematic calculations of the π+ momentum (from el+pro->el+Pip+N) based on the assumption that the π+ angle and electron reconstruction were measured by the detector correctly for exclusive events in the epipX channel
     // (The neutron is used as the "missing" particle)
 
     auto termA = (neutronM2 - (0.938*0.938) - (0.13957*0.13957))/2;
@@ -1614,7 +1657,7 @@ if(event_Name != "error"):
                     ##======================================================================================================##
                     Calculation_Code_Choice = "".join([Calculation_Code_Choice, """
 
-    // Below are the kinematic calculations of the electron momentum (from el+pro->el+Pip+N) based on the assumption that the electron angle and π+ reconstruction were measured by the detector correctly for elastic events in the epipX channel
+    // Below are the kinematic calculations of the electron momentum (from el+pro->el+Pip+N) based on the assumption that the electron angle and π+ reconstruction were measured by the detector correctly for exclusive events in the epipX channel
     // (The neutron is used as the "missing" particle)
 
     auto termA = ((neutronM2 - (0.938*0.938) - (0.13957*0.13957))/2) - 0.938*Beam_Energy;
@@ -1654,7 +1697,7 @@ if(event_Name != "error"):
 
 
 
-    // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pip+pim) based on the assumption that the proton angle and electron/π+ reconstruction were measured by the detector correctly for elastic events in the ep->epπ+π- channel 
+    // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pip+pim) based on the assumption that the proton angle and electron/π+ reconstruction were measured by the detector correctly for exclusive events in the ep->epπ+π- channel 
     // (π- is used as a "missing" particle)
 
     auto termA1 = pipC.E() + eleC.P() - Beam_Energy - (0.938);
@@ -1711,7 +1754,7 @@ if(event_Name != "error"):
     double pi0M2term = (0.13498*0.13498)/2;
 
 
-    // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pi0) based on the assumption that the proton angle and electron reconstruction were measured by the detector correctly for elastic events in the ep->epπ0 channel
+    // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pi0) based on the assumption that the proton angle and electron reconstruction were measured by the detector correctly for exclusive events in the ep->epπ0 channel
     // (π0 is used as the "missing" particle)
 
 
@@ -1752,7 +1795,7 @@ if(event_Name != "error"):
                     ##==========================================================================================================##
                     Calculation_Code_Choice = """
 
-    // Below are the kinematic calculations of the electron momentum (from el+pro->el+pro+pi0) based on the assumption that the electron angle and proton reconstruction were measured by the detector correctly for elastic events in the epπ0 channel
+    // Below are the kinematic calculations of the electron momentum (from el+pro->el+pro+pi0) based on the assumption that the electron angle and proton reconstruction were measured by the detector correctly for exclusive events in the epπ0 channel
     // (π0 is used as the "missing" particle)
 
 
@@ -1769,6 +1812,88 @@ if(event_Name != "error"):
 
     auto Final_Output = pel_Calculated - eleC.P();
 
+                    """
+
+
+
+    #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+    #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+    #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+
+
+            ##============================================================##
+            ##===============||--------------------------||===============##
+            ##===============||    Elastic Scattering    ||===============##
+            ##===============||--------------------------||===============##
+            ##============================================================## 
+            if(Channel_Type == "ES"):
+                if("D_pro" in Out_Type):
+                    ##========================================================================================================##
+                    ##=====================##         ∆P (Elastic Scattering - Pro) Calculations         ##===================##
+                    ##========================================================================================================##
+                    Calculation_Code_Choice = """
+
+    // Below are the kinematic calculations of the proton momentum (from el+pro->el'+pro') based on the assumption that the proton angle and electron reconstruction were measured by the detector correctly for elastic events in the ep->e'p' channel
+
+    auto termA1 = 2*eleC.P() - (Beam_Energy);
+        // termA1 = 2*"Electron Momentum" - "Initial Beam Energy"
+
+    auto termB1 = eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC)) - (Beam_Energy)*cos(proC.Theta());
+        // termB1 = "Electron Momentum"*cos("Angle between the Proton and Electron") - "Initial Beam Energy"*cos("Proton Theta Angle")
+        
+    auto termC1 = 2*(Beam_Energy)*eleC.P()*(1 - cos(eleC.Theta()));
+        // termC1 = 2*"Initial Beam Energy"*"Electron Momentum"*(1 - cos("Electron Theta Angle"))
+
+
+    auto termA2 = (termB1*termB1 - termA1*termA1);
+    auto termB2 = 2*termB1*termC1;
+    auto termC2 = termC1*termC1 - termA1*termA1*(0.938)*(0.938);
+
+    auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
+    auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
+
+    auto pro_Calculate = pro_CalculateP;
+
+    if(abs(proC.P() - pro_CalculateP) <= abs(proC.P() - pro_CalculateM)){
+        pro_Calculate = pro_CalculateP;
+    }
+    else{
+        pro_Calculate = pro_CalculateM;
+    }
+
+    auto Final_Output = pro_Calculate - proC.P();
+
+                        """
+
+
+                if("D_pel" in Out_Type):
+                    ##=============================================================================================================##
+                    ##=====================##         ∆P (Elastic Scattering - Electron) Calculations         ##===================##
+                    ##=============================================================================================================##
+    #                 Calculation_Code_Choice = """
+    # // Below are the kinematic calculations of the electron momentum (from el+pro->el'+pro') based on the assumption that the electron angle was measured by the detector correctly for elastic events in the ep->e'p' channel
+    # auto termA = 2*(proC.E() - proC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC)) - Beam_Energy*(1 - cos(eleC.Theta())));
+    #     // termA --> 2 * ("Proton Energy" - "Proton Momentum"*cos("Angle between Electron and Proton") - "Initial Electron Beam Energy"*(1 - cos("Electron Theta")))
+    # auto termB = Beam_Energy*(proC.E() - proC.P()*cos(proC.Theta()));
+    #     // termB --> "Initial Electron Beam Energy" * ("Proton Energy" - "Proton Momentum"*cos("Proton Theta"))
+    # auto pel_Calculated = termB/termA;
+    # auto Final_Output = pel_Calculated - eleC.P();
+    #                 """
+                    Calculation_Code_Choice = """
+                    
+    // Below are the kinematic calculations of the electron momentum (from el+pro->el'+pro') based on the assumption that the electron angle was measured by the detector correctly for elastic events in the ep->e'p' channel
+    
+    auto termA = Beam_Energy*(1 - cos(eleC.Theta())) + 0.938;
+        // termA --> "Initial Electron Beam Energy"*(1 - cos("Electron Theta")) + "Proton Mass"
+        
+    auto termB = Beam_Energy*0.938;
+        // termB --> "Initial Electron Beam Energy" * "Proton Mass"
+        
+
+    auto pel_Calculated = termB/termA;
+    
+    auto Final_Output = pel_Calculated - eleC.P();
                     """
 
 
@@ -1794,14 +1919,13 @@ if(event_Name != "error"):
 
 
 
-
         Full_Correction_Output = "".join([Correction_Code, """
 
     auto Beam_Energy = 10.6041;
     // Defined by the run group/data set
 
-    """, "// " if "MM" not in Out_Type else "", """auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
-    """, "// " if "MM" not in Out_Type else "", """auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+    """, "// " if("MM" not in Out_Type and "WM" not in Out_Type) else "", """auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
+    """, "// " if("MM" not in Out_Type and "WM" not in Out_Type) else "", """auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
         """, Particles_for_Correction, """
         """, Calculation_Code_Choice, """
 
@@ -1831,21 +1955,36 @@ if(event_Name != "error"):
         ##==================================#####################################==================================##
         ############################################################################################################# 
 
-        if(Channel_Type == "SP"):
-            Output = Output.Filter("""
-                auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
-                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-                auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-                auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
+        if(Invariant_Mass_Cuts_Q == "Cut_On" or Channel_Type == "ES"):
+            if(Channel_Type != "ES"):
+                Output = Output.Filter("""
+                    auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
+                    auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+                    auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
 
-                auto q = beam - ele;
-                auto Q2 = - q.M2();
-                auto W = sqrt(targ.M2() + 2*targ.M()*(beam.E() - ele.E()) - Q2);
+                    auto q = beam - ele;
+                    auto Q2 = - q.M2();
+                    auto W = sqrt(targ.M2() + 2*targ.M()*(beam.E() - ele.E()) - Q2);
 
-                auto W_Cut = (W < 3);
+                    auto W_Cut = (W < 3);
 
-                return W_Cut;
-            """)
+                    return W_Cut;
+                """)
+            else:
+                Output = Output.Filter("""
+                    auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
+                    auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+                    auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+
+                    auto q = beam - ele;
+                    auto Q2 = - q.M2();
+                    auto W = sqrt(targ.M2() + 2*targ.M()*(beam.E() - ele.E()) - Q2);
+
+                    auto W_Cut = (W > 0.7 && W < 1.3);
+
+                    return W_Cut;
+                """)
+                Output = Output.Filter("elth > 5 && elth < 35")
 
         #############################################################################################################
         ##==================================#####################################==================================##
@@ -2082,11 +2221,11 @@ if(event_Name != "error"):
             print("".join(["Error with the Electron Correction in CorrectionNameInput = ", str(CorrectionNameIn)]))
             CorrectionName1 = "El Cor (ERROR)"
 
-        if(CorrectionName2 == 'Error' and event_type != "P0"):
+        if(CorrectionName2 == 'Error' and event_type != "P0" and event_type != "ES"):
             print("".join(["Error with the Pi+ Pion Correction in CorrectionNameInput = ", str(CorrectionNameIn)]))
             CorrectionName2 = "Pi+ Cor (ERROR)"
 
-        if(CorrectionName3 == 'Error' and event_type != "P0" and event_type != "SP"):
+        if(CorrectionName3 == 'Error' and event_type != "P0" and event_type != "SP" and event_type != "ES"):
             print("".join(["Error with the Pi- Pion Correction in CorrectionNameInput = ", str(CorrectionNameIn)]))
             CorrectionName3 = "Pi- Cor (ERROR)"
 
@@ -2098,8 +2237,10 @@ if(event_Name != "error"):
         
         if(event_type == "SP"):
             CorrectionName = "".join([CorrectionName1, " - " if CorrectionName2 != "" else "", CorrectionName2])
-        else:
+        elif(event_type != "ES"):
             CorrectionName = "".join([CorrectionName1, " - " if CorrectionName2 != "" else "", CorrectionName2, " - " if CorrectionName3 != "" else "", CorrectionName3, " - " if CorrectionName4 != "" else "", CorrectionName4])
+        else:
+            CorrectionName = "".join([CorrectionName1, " - " if CorrectionName4 != "" else "", CorrectionName4])
 
 
         if(CorrectionName1 == 'El Cor (Quad - Quad Phi)' and CorrectionName2 == 'Pi+ Cor (Quad - Quad Phi)'):
@@ -2348,6 +2489,76 @@ if(event_Name != "error"):
     ##================================================================================##
     ##==========##     For 1D Missing Mass Histograms - hmmCall (End)     ##==========##
     ##================================================================================##
+
+
+
+
+
+    ##==============================================================================================##
+    ##==========##     For 2D Invariant Mass vs Momentum Histograms - HWC_Histo_All     ##==========##
+    ##==============================================================================================##
+
+    def histoMaker_HWC_Histo_All(Bank, Correction, Sector, Region, Binning, Particle_Plot, Particle):
+        # Difference between Particle and Particle_Plot ==> Particle defines which particle is referenced for sectors and phi bins while Particle_Plot refers to which particle momentum will be plotted against
+        regionName = ''
+
+        # No Phi Bin Region
+        if(Binning == '1'):
+            regionName = ''
+
+        # 3 Phi Bin Region
+        if(Binning == '3'):
+            if(Particle == 'el'):
+                if(Region == 'reg1'):
+                    regionName = ''.join([' for ', str(Particle) , ' Bin: -5 < #phi_{', str(Particle), '} < 5'])
+                if(Region == 'reg2'):
+                    regionName = ''.join([' for ', str(Particle) , ' Bin: #phi_{', str(Particle), '} < -5'])
+                if(Region == 'reg3'):
+                    regionName = ''.join([' for ', str(Particle) , ' Bin: #phi_{', str(Particle), '} > 5'])
+            else:
+                if(Region == 'reg1'):
+                    regionName = ''.join([' for ', str(Particle) , ' Bin: -10 < #phi_{', str(Particle), '} < 10'])
+                if(Region == 'reg2'):
+                    regionName = ''.join([' for ', str(Particle) , ' Bin: #phi_{', str(Particle), '} < -10'])
+                if(Region == 'reg3'):
+                    regionName = ''.join([' for ', str(Particle) , ' Bin: #phi_{', str(Particle), '} > 10'])
+
+        # 5 Phi Bin Region
+        if(Binning == '5'):
+            if(Region == 'reg1'):
+                regionName = ''.join([' for ', str(Particle) , ' Bin: -5 < #phi_{', str(Particle), '} < 5'])
+            if(Region == 'reg2'):
+                regionName = ''.join([' for ', str(Particle) , ' Bin: -15 < #phi_{', str(Particle), '} < -5'])
+            if(Region == 'reg3'):
+                regionName = ''.join([' for ', str(Particle) , ' Bin: #phi_{', str(Particle), '} < -15'])
+            if(Region == 'reg4'):
+                regionName = ''.join([' for ', str(Particle) , ' Bin: 5 < #phi_{', str(Particle), '} < 15'])
+            if(Region == 'reg5'):
+                regionName = ''.join([' for ', str(Particle) , ' Bin: #phi_{', str(Particle), '} > 15'])
+
+
+        if(Sector == 0):
+            SecName = 'All Sectors'
+        else:
+            SecName = ''.join([str(Particle) , ' Sector ', str(Sector)])
+
+        CorrrectionName = corNameTitles(Correction)
+
+        name = (Correction, Sector, Binning, Region, Particle_Plot, Particle)
+        
+        output_title = "".join([datatype, " Invariant Mass ", str(CorrrectionName), " ", SecName, regionName, "; p_{", Particle_Plot, "} [GeV]; W [GeV]"])
+        
+        WC_out = "".join(["WM_", Correction])
+
+        output = Bank.Histo2D(("".join(["HWC_Histo_All_", str(name)]), str(output_title), 200, 2 if 'el' in Particle_Plot else 0, 12 if 'el' in Particle_Plot else 10, 200, 0, 5), Particle_Plot, WC_out)
+
+        return output
+
+    
+
+    ##================================================================================================##
+    ##==========##     For 2D Missing Mass vs Momentum Histograms - hmmCPARTall (End)     ##==========##
+    ##================================================================================================##
 
 
 
@@ -3540,13 +3751,13 @@ if(event_Name != "error"):
 
 
 
-    # # Extra Sector Filter that filters based on Electron Sectors (instead of just Pi+ Sectors). ExtraElectronSecListFilterOn = 'no' turns this option off
+    # # Extra Sector Filter that filters based on Electron Sectors (instead of just π+ Sectors). ExtraElectronSecListFilterOn = 'no' turns this option off
     # ExtraElectronSecListFilterOn = 'no'
     ExtraElectronSecListFilterOn = 'yes'
     
     
-    if(event_type != "SP"):
-        Delta_Pip_histo_SecList = [1, 2, 3, 4, 5, 6] # Only the proton correction is available for the double pion channel (Turned off pi0 channel as well)
+    if(event_type != "SP" and event_type != "ES"):
+        Delta_Pip_histo_SecList = [1, 2, 3, 4, 5, 6] # Only the proton correction is available for the double pion channel (Turned off π0 channel as well)
         ExtraElectronSecListFilterOn = 'no'
     
 
@@ -3556,7 +3767,7 @@ if(event_Name != "error"):
         ExtraElectronSecListFilter = ['all']
 
 
-    # # Combine Electron and Pi+ Filters? 
+    # # Combine Electron and π+ Filters? 
     # Combine_el_pip_filters_Q = "yes"
     Combine_el_pip_filters_Q = "no"
 
@@ -3569,7 +3780,6 @@ if(event_Name != "error"):
         if(datatype == "Inbending"):
             Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF']
 
-
         if(datatype == "Outbending"):
             Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF']
             
@@ -3581,30 +3791,38 @@ if(event_Name != "error"):
             
     if(event_type == "DP"):
         if(datatype == "Inbending"):
-               
             Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F_NoELC', 'mm0', 'mmF_PipMMF_PimMMpim_qPhi', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F']
             
         if(datatype == "Outbending"):
-            
             Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F_NoELC', 'mm0', 'mmF_PipMMF_PimMMpim_qPhi', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F']
-            
             
         # Select which comparisons you would like to see (i.e. which variables would you like to compare to the theoretical calculations)
         Delta_P_histo_CompareList = ['pro']
             
+            
     if(event_type == "P0"):
         if(datatype == "Inbending"):
-            
             Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
 
         if(datatype == "Outbending"):
+            Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
             
+        # Select which comparisons you would like to see (i.e. which variables would you like to compare to the theoretical calculations)
+        # Delta_P_histo_CompareList = ['pro', 'el']
+        Delta_P_histo_CompareList = ['pro']
+        
+        
+    if(event_type == "ES"):
+        if(datatype == "Inbending"):
+            Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
+            
+        if(datatype == "Outbending"):
             Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
             
             
         # Select which comparisons you would like to see (i.e. which variables would you like to compare to the theoretical calculations)
         # Delta_P_histo_CompareList = ['pro', 'el']
-        Delta_P_histo_CompareList = ['pro']
+        Delta_P_histo_CompareList = ['el']
 
 
 
@@ -3635,13 +3853,12 @@ if(event_Name != "error"):
     SBehQ = 'no'
 
 
-
-    # Number of (pi+/pro) phi bins
+    # Number of (π+/pro) phi bins
     NumPhiBins = ['1', '3']
 
 
     # # Number of (electron) phi bins
-    # To run code normally (without electron phi bins in delta p histograms), let NumPhiBinsEL = ['1'] (anything else will cut histograms based on electron phi angles)
+    # To run code normally (without electron phi bins in ∆P histograms), let NumPhiBinsEL = ['1'] (anything else will cut histograms based on electron phi angles)
     NumPhiBinsEL = ['1', '3']
     
     if(ExtraElectronSecListFilterOn == 'no'):
@@ -3792,6 +4009,11 @@ if(event_Name != "error"):
         
         particle_plot_List = ['el', 'pro']
 
+        
+    if(event_type == "ES"):
+        particleList = ['el', 'pro']
+        
+        particle_plot_List = ['el', 'pro']
 
 
     correctionList = ['mm0']
@@ -3805,23 +4027,26 @@ if(event_Name != "error"):
             
     if(event_type == "DP"):
         if(datatype == "Inbending"):
-            
             correctionList = ['mm0_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F_NoELC', 'mm0', 'mmF_PipMMF_PimMMpim_qPhi', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F']
             
         if(datatype == "Outbending"):
-            
             correctionList = ['mm0_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F_NoELC', 'mm0', 'mmF_PipMMF_PimMMpim_qPhi', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F']
             
             
     if(event_type == "P0"):
         if(datatype == "Inbending"):
-            
             correctionList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
             
         if(datatype == "Outbending"):
-            
             correctionList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
             
+            
+    if(event_type == "ES"):
+        if(datatype == "Inbending"):
+            correctionList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
+            
+        if(datatype == "Outbending"):
+            correctionList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
             
 
 
@@ -3832,12 +4057,15 @@ if(event_Name != "error"):
     # binningList = ['3']
 
 
-    # SecRangeMin = 0 refers to all sectors so the code will start by making histograms that do not filter by sector
-    # Any number 1-6 will correspond to the sector of that same number (do not go above 6 or have SecRangeMin>SecRangeMax)
-    # If SecRangeMin = SecRangeMax, then only 1 sector (the one specified) will be shown
-    # The range of sectors will always be continuous
+    # Sector = 0 refers to all sectors so the code will start by making histograms that do not filter by sector
+    # Any number 1-6 will correspond to the sector of that same number (do not go above 6)
 
-    SecRangeMin, SecRangeMax = 0, 6
+    # SecRangeMin, SecRangeMax = 0, 6
+    SecRangeAll = [0, 1, 2, 3, 4, 5, 6]
+
+    SecRangeMin = min(SecRangeAll)
+    SecRangeMax = max(SecRangeAll)
+    StartOfSRR = 0 if(SecRangeMin == 0 and SecRangeMax > 0) else (SecRangeMin - 1)
 
 
 
@@ -3861,6 +4089,11 @@ if(event_Name != "error"):
     # RunExtra = 'yes'
     RunExtra = 'no'
 
+    
+    # Run with the Invariant Mass histograms?
+    # Letting Run_Invariant_Mass_Histos = 'yes' causes the code to also create histograms for Invariant Mass versus the particle momentum
+    Run_Invariant_Mass_Histos = 'yes'
+    # Run_Invariant_Mass_Histos = 'no'
 
     ##-----------------------------------------------------------------------##
     ##=====##=====##     Non-vital Histogram Options (End)     ##=====##=====##
@@ -3898,21 +4131,19 @@ if(event_Name != "error"):
     # Print_Names_Of_Histos_To_Be_Made_Q = 'yes'
     Print_Names_Of_Histos_To_Be_Made_Q = 'no'
 
-    SecRangeAll = []
-    SecRangeAll.extend(range(SecRangeMin, SecRangeMax + 1))
-
-
-    if(SecRangeMin == 0 and SecRangeMax > 0):
-        SecRangeAll = []
-        SecRangeAll.extend(range(SecRangeMin, SecRangeMax + 1))
-        StartOfSRR = 0
-    if(SecRangeMin > 0):
-        SecRangeAll = []
-        SecRangeAll.extend(range(SecRangeMin, SecRangeMax + 1))
-        StartOfSRR = SecRangeMin - 1
-    if(SecRangeMin == 0 and SecRangeMax == 0):
-        SecRangeReduce = 'N/A'
-        StartOfSRR = SecRangeMin - 1
+    # SecRangeAll = []
+    # SecRangeAll.extend(range(SecRangeMin, SecRangeMax + 1))
+    # if(SecRangeMin == 0 and SecRangeMax > 0):
+    #     SecRangeAll = []
+    #     SecRangeAll.extend(range(SecRangeMin, SecRangeMax + 1))
+    #     StartOfSRR = 0
+    # if(SecRangeMin > 0):
+    #     SecRangeAll = []
+    #     SecRangeAll.extend(range(SecRangeMin, SecRangeMax + 1))
+    #     StartOfSRR = SecRangeMin - 1
+    # if(SecRangeMin == 0 and SecRangeMax == 0):
+    #     SecRangeReduce = 'N/A'
+    #     StartOfSRR = SecRangeMin - 1
 
 
 
@@ -3935,6 +4166,9 @@ if(event_Name != "error"):
 
         if(Run_Phase_Space == 'yes'):
             print("Will be running the phase space histograms (without missing mass).")
+            
+        if(Run_Invariant_Mass_Histos == 'yes'):
+            print("Will be running histograms with Invariant Mass.")
 
         if(str(ShowBGq) != 'no'):
             print("".join(["Using ShowBackground()?: ", ShowBGq]))
@@ -3954,7 +4188,6 @@ if(event_Name != "error"):
                         for particle_filter in particleList:
 
                             regionList = regList_Call(binning, particle_filter, 1)
-
 
                             for region in regionList:
 
@@ -3984,6 +4217,17 @@ if(event_Name != "error"):
                                 countHisto += 3
                             else:
                                 countHisto += 2
+                                
+    if(Run_Phase_Space == 'yes'):
+        for particle in particle_plot_List:
+            for particle_filter in particleList:
+                for correction in correctionList:
+                    for sector in SecRangeAll:
+                        for binning in binningList:
+                            regionList = regList_Call(binning, particle_filter, 1)
+                            for region in regionList:
+                                countHisto += 1
+
 
 
     print("".join(["\n\033[1mTotal Missing Mass Histograms that will be made: \033[0m", str(countHisto)]))
@@ -4295,6 +4539,65 @@ if(event_Name != "error"):
 
 
 
+    #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+    #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+    #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+
+
+
+
+    ##################################################################################################################
+    ##=====##=====##=====##=====##=====##     Making Missing Mass Histograms     ##=====##=====##=====##=====##=====##
+    ##################################################################################################################
+
+
+    HWC_Histo_All = {}
+    count_WM = 0
+    
+    if(Run_Phase_Space == 'yes'):
+        for particle in particle_plot_List:
+            for sector in SecRangeAll:
+                for correction in correctionList:
+                    sdf1 = CorDpp(rdf, correction, "WM", event_type, MM_type, datatype, "")
+
+                    for binning in binningList:
+                        for particle_filter in particleList:
+                            if(particle_filter == 'el'):
+                                secfilter = 'esec'
+                            if(particle_filter == 'pip'):
+                                secfilter = 'pipsec'
+                            if(particle_filter == 'pim'):
+                                secfilter = 'pimsec'
+                            if(particle_filter == 'pro'):
+                                secfilter = 'prosec'
+
+                            if(sector == 0):
+                                sdf = sdf1
+                            if(sector != 0):
+                                sdf = sdf1.Filter("".join([secfilter, ' == ', str(sector)]))
+
+                            regionList = regList_Call(binning, particle_filter, 1)
+
+                            for region in regionList:
+                                name = (correction, sector, binning, region, particle, particle_filter)
+                                HWC_Histo_All[name] = histoMaker_HWC_Histo_All(regFilter(sdf, binning, sector, region, "", "nf", particle_filter), correction, sector, region, binning, particle, particle_filter)
+
+                                count += 1
+                                count_WM += 1
+
+
+
+        print("".join(["Total Invariant Mass Histograms made: ", str(count_WM)]))
+
+    ##################################################################################################################
+    ##=====##=====##=====##=====##=====##     Made Invariant Mass Histograms     ##=====##=====##=====##=====##=====##
+    ##################################################################################################################
+
+
+
+
+
     ###############################################################################################################
     ##=====##=====##=====##=====##     Making Histograms for showing Phase Space     ##=====##=====##=====##=====##
     ###############################################################################################################
@@ -4426,7 +4729,7 @@ if(event_Name != "error"):
         countSaved = 0
 
 
-        # # # # # # # # # # # # # # # # # # # #    For the Delta_p Histograms    # # # # # # # # # # # # # # # # # # # # 
+        # # # # # # # # # # # # # # # # # # # #    For the ∆P Histograms    # # # # # # # # # # # # # # # # # # # # 
 
         if(Delta_P_histo_Q == 'y'):  
 
@@ -4455,7 +4758,7 @@ if(event_Name != "error"):
                             reglist = regList_Call(binning, "pip" if event_type == "SP" else "pro", 2)
 
 
-                            # Pi+ Regions
+                            # π+ Regions
                             for regionListName in reglist:
                                 if(len(regionListName) != 1):
                                     region, regionName = regionListName[1], regionListName[0]
@@ -4561,6 +4864,19 @@ if(event_Name != "error"):
                                 if(correction == 'mm0'):
                                     hPARTthPhiall[ref].Write()
                                     countSaved += 1
+                                    
+                                    
+        # # # # # # # # # # # # # # # # # # # # #     Invariant Mass Histograms     # # # # # # # # # # # # # # # # # # # # #
+             
+        if(Run_Phase_Space == 'yes'):
+            for saving_WM_name in HWC_Histo_All:
+                HWC_Histo_All[saving_WM_name].Write()
+                countSaved += 1
+            
+            
+        # # # # # # # # # # # # # # # # # # # # #               Done               # # # # # # # # # # # # # # # # # # # # #
+        
+        
 
         RoutputFile.Close()
 
@@ -4635,6 +4951,7 @@ Accepted Inputs are:
     1) SP -> For Single Pion Channel (i.e., ep->eπ+N)
     2) DP -> For Double Pion Channel (i.e., ep->epπ+π-)
     3) P0 -> For Pi0 Channel (i.e., ep->epπ0)
+    4) ES -> For Elastic Scattering (i.e., ep->e'p')
     
 Ending Code...
     """]))
