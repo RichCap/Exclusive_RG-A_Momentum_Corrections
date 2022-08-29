@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --ntasks=1
-#SBATCH --job-name=Mom_Cor_File_Creation_groovy_ES_Inbending
+#SBATCH --job-name=Mom_Cor_File_Creation_groovy_ES_with_CDpro_New_Inbending
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=richard.capobianco@uconn.edu 
 #SBATCH --output=/farm_out/%u/%x-%j-%N.out

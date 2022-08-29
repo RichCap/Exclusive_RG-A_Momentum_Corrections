@@ -73,6 +73,10 @@ file_name = str(file_name.replace("".join(["/lustre19/expphy/volatile/clas12/ric
 file_name = str(file_name.replace("eP_Elastic.inb.nSidis_00", ""))
 file_name = str(file_name.replace("eP_Elastic.outb.nSidis_00", ""))
 
+
+file_name = str(file_name.replace("eP_Elastic_with_CDpro.inb.nSidis_00", ""))
+file_name = str(file_name.replace("eP_Elastic_with_CDpro.outb.nSidis_00", ""))
+
     
     
 ROOT.gStyle.SetTitleOffset(1.3,'y')
@@ -235,6 +239,22 @@ if(event_Name != "error"):
     # Created Elastic Scattering Options/Calculations
     # Invariant Mass Cut of W < 3 GeV is now an option for any channel
     
+    
+    Extra_Part_of_Name = "_GitHub_Elastic_V2"
+    # Removed Invariant Mass Cuts (checking statistics with existing PID cuts)
+    
+    
+    Extra_Part_of_Name = "_GitHub_Elastic_V3"
+    # Added new Missing Mass cuts to files that still required the protons be in the forward detector (for cut comparison)
+    
+    
+    Extra_Part_of_Name = "_GitHub_Elastic_CD_V1"
+    # Using elastic groovy files that do not use the forward detector requirement in proton PID cuts (did not add the Invariant Mass Cuts back yet)
+    
+    
+    Extra_Part_of_Name = "_GitHub_Elastic_CD_V2"
+    # Added the Invariant Mass Cuts back to the same files used by "_GitHub_Elastic_CD_V1"
+    
 
     if(event_type != "P0"):
         if(Delta_P_histo_Q != 'y'):
@@ -331,7 +351,9 @@ if(event_Name != "error"):
                 running_code_with_these_files = "/u/home/richcap/lvl2_eppi0.outb.qa.exclusiveselection.root"
                 
         if(event_type == "ES"):
-            running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/*.root"])
+            # running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/*.root"])
+            running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/eP_Elastic_with_CDpro*.root"])
+
 
 
     else:
@@ -1975,13 +1997,10 @@ if(event_Name != "error"):
                     auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
                     auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
                     auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-
                     auto q = beam - ele;
                     auto Q2 = - q.M2();
                     auto W = sqrt(targ.M2() + 2*targ.M()*(beam.E() - ele.E()) - Q2);
-
                     auto W_Cut = (W > 0.7 && W < 1.3);
-
                     return W_Cut;
                 """)
                 Output = Output.Filter("elth > 5 && elth < 35")
@@ -2546,7 +2565,7 @@ if(event_Name != "error"):
 
         name = (Correction, Sector, Binning, Region, Particle_Plot, Particle)
         
-        output_title = "".join([datatype, " Invariant Mass ", str(CorrrectionName), " ", SecName, regionName, "; p_{", Particle_Plot, "} [GeV]; W [GeV]"])
+        output_title = "".join(["#splitline{", datatype, " Invariant Mass}{#splitline{", str(CorrrectionName), " -- ", SecName, "}{", regionName, "}}; p_{", Particle_Plot, "} [GeV]; W [GeV]"])
         
         WC_out = "".join(["WM_", Correction])
 
@@ -2798,11 +2817,11 @@ if(event_Name != "error"):
 
 
 
-    #########################################################################################################################
-    ##=====================================================================================================================##
+    ###########################################################################################################################
+    ##=======================================================================================================================##
     ##===============##=============##         Exclusivity Cuts (Using MM from eπ+(N))         ##=============##=============##
-    ##=====================================================================================================================##
-    #########################################################################################################################
+    ##=======================================================================================================================##
+    ###########################################################################################################################
     if(MM_type == "epipX"):
         
         if("In" in datatype):
@@ -3589,7 +3608,46 @@ if(event_Name != "error"):
     ##==============================================================================================================================##
     ##===============##=============##         End of Exclusivity Cuts (Using MM^2 from epπ0)         ##=============##=============##
     ##==============================================================================================================================##
-    ##################################################################################################################################
+    ##################################################################################################################################    
+    
+    
+    
+    
+    #######################################################################################################################################
+    ##===================================================================================================================================##
+    ##===============##=============##         Exclusivity Cuts (Using MM from Elastic Scattering)         ##=============##=============##
+    ##===================================================================================================================================##
+    #######################################################################################################################################
+    # Unlike the other channels, these cuts are not applied based on any kinematic function (just a regular cut on Missing Mass Squared)
+    
+    if(MM_type == "epX"):
+
+            Calculated_Exclusive_Cuts = """
+            
+                auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
+                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+                auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+                auto pro_vec = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
+
+                auto MM_Vector = beam + targ - ele - pro_vec;
+
+                auto cut_up = 0.15;
+                auto cut_down = -0.15;
+
+
+                return (MM_Vector.M2() < cut_up && MM_Vector.M2() > cut_down);
+
+            """
+
+
+    ################################################################################################################################
+    ##============================================================================================================================##
+    ##===============##=============##        End of Exclusivity Cuts (Using MM from eπ+(N))        ##=============##=============##
+    ##============================================================================================================================##
+    ################################################################################################################################
+
+
+    
 
     
     
@@ -3770,6 +3828,10 @@ if(event_Name != "error"):
     # # Combine Electron and π+ Filters? 
     # Combine_el_pip_filters_Q = "yes"
     Combine_el_pip_filters_Q = "no"
+    
+    
+    if(event_type == "ES" and Combine_el_pip_filters_Q == "no"):
+        Delta_Pip_histo_SecList = ["all"]
 
 
     Delta_P_histo_CorList = ['mm0']
@@ -3855,6 +3917,9 @@ if(event_Name != "error"):
 
     # Number of (π+/pro) phi bins
     NumPhiBins = ['1', '3']
+    
+    if(event_type == "ES"):
+        NumPhiBins = ['1']
 
 
     # # Number of (electron) phi bins
@@ -4239,10 +4304,10 @@ if(event_Name != "error"):
 
     if(datatype == "Inbending"):
         # This number should be set to the number of histograms expected to be made per minute while running this code (VERY rough estimate - often changes between runs)
-        TimeToProcess = 720 if("DP" in event_type and file_location != "All") else 747 if("P0" in event_type) else 9.77035490605428
+        TimeToProcess = 720 if("DP" in event_type and file_location != "All") else 747 if("P0" in event_type) else 121.8 if("ES" in event_type) else 1081
     if(datatype == "Outbending"):
         # This is a VERY rough estimate of the runtime/histogram for when each file is loaded individually (times will vary bases on number of histograms/corrections and the file used)
-        TimeToProcess = 1080 if("DP" in event_type and file_location != "All") else 747 if("P0" in event_type) else 17 
+        TimeToProcess = 1080 if("DP" in event_type and file_location != "All") else 747 if("P0" in event_type) else 110.7 if("ES" in event_type) else 98 
 
 
 
