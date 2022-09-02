@@ -32,7 +32,7 @@ else suff += '.qa'
 
 // Files with the name "eP_Elastic_with_CDpro_New" removed the condition for "OkForAsymmetry"
 def outname = args[0].split("/")[-1]
-def ff = new ROOTFile("eP_Elastic_with_CDpro_New.${suff}.${outname}.root")
+def ff = new ROOTFile("eP_Elastic_with_CDpro.${suff}.${outname}.root")
 def tt = ff.makeTree('h22','title','run/I:evn/I:ex:ey:ez:prox:proy:proz:esec:prosec')
 
 
@@ -57,26 +57,26 @@ GParsPool.withPool 2,{
                 def run = runb.getInt("run", 0)
                 def evn = runb.getInt("event", 0)
 
-//                 if(ismc || qa.OkForAsymmetry(run, evn))
-//                 if(true) {
-                def canele = ElectronCandidate.getElectronCandidate(0, partb, ecb, ccb, trajb, isinb)
-                def ele = canele.getLorentzVector()
-                if(canele.iselectron()) {
-                    def protcans = (0..<partb.getRows()).collect{ProtonCandidate.getProtonCandidate(it, partb, trajb, isinb)}.findAll{it.isproton(Cut.PID, Cut.CHI2PID, Cut.DC_FIDUCIAL_REG1, Cut.DC_FIDUCIAL_REG2, Cut.DC_FIDUCIAL_REG3, Cut.DELTA_VZ)} // Applying all PID cuts EXCEPT for the requirement to be in the forward detector (i.e., can come from the central detector too)
+                if(ismc || qa.OkForAsymmetry(run, evn))
+                if(true) {
+                    def canele = ElectronCandidate.getElectronCandidate(0, partb, ecb, ccb, trajb, isinb)
+                    def ele = canele.getLorentzVector()
+                    if(canele.iselectron()) {
+                        def protcans = (0..<partb.getRows()).collect{ProtonCandidate.getProtonCandidate(it, partb, trajb, isinb)}.findAll{it.isproton(Cut.PID, Cut.CHI2PID, Cut.DC_FIDUCIAL_REG1, Cut.DC_FIDUCIAL_REG2, Cut.DC_FIDUCIAL_REG3, Cut.DELTA_VZ)} // Applying all PID cuts EXCEPT for the requirement to be in the forward detector (i.e., can come from the central detector too)
 
-                    if(protcans.size() == 1) {
-                        def canprot = protcans[0]
-                        def esec = canele.getPCALsector(), prosec = canprot.getDCsector()
+                        if(protcans.size() == 1) {
+                            def canprot = protcans[0]
+                            def esec = canele.getPCALsector(), prosec = canprot.getDCsector()
 
-                            def pro = canprot.getLorentzVector()
+                                def pro = canprot.getLorentzVector()
 
-                            tt.fill(run, evn, ele.px(), ele.py(), ele.pz(),
-                                pro.px(), pro.py(), pro.pz(),
-                                esec, prosec)
+                                tt.fill(run, evn, ele.px(), ele.py(), ele.pz(),
+                                    pro.px(), pro.py(), pro.pz(),
+                                    esec, prosec)
 
+                        }
                     }
                 }
-//                 }
             }
         }
 

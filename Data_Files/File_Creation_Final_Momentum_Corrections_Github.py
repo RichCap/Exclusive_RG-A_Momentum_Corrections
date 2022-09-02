@@ -69,6 +69,7 @@ file_name = str(file_name.replace("/work/clas12/shrestha/clas12momcorr/utsav/dat
 file_name = str(file_name.replace("".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Double_Pion_Channel_eppippim/", str(datatype), "/"]), ""))
 file_name = str(file_name.replace("".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Single_Pion_Channel_epipN/", str(datatype), "/"]), ""))
 file_name = str(file_name.replace("".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/"]), ""))
+file_name = str(file_name.replace("".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/Valerii_Files/"]), ""))
     
 file_name = str(file_name.replace("eP_Elastic.inb.nSidis_00", ""))
 file_name = str(file_name.replace("eP_Elastic.outb.nSidis_00", ""))
@@ -77,7 +78,19 @@ file_name = str(file_name.replace("eP_Elastic.outb.nSidis_00", ""))
 file_name = str(file_name.replace("eP_Elastic_with_CDpro.inb.nSidis_00", ""))
 file_name = str(file_name.replace("eP_Elastic_with_CDpro.outb.nSidis_00", ""))
 
+
+file_name = str(file_name.replace("eP_Elastic_with_CDpro_New.inb.nSidis_00", ""))
+file_name = str(file_name.replace("eP_Elastic_with_CDpro_New.outb.nSidis_00", ""))
+
+
+file_name = str(file_name.replace("eP_Elastic_with_CDpro_New.inb.skim4_00", ""))
+file_name = str(file_name.replace("eP_Elastic_with_CDpro_New.outb.skim4_00", ""))
+
     
+file_name = str(file_name.replace("eP_Elastic_with_CDpro.inb.skim4_00", ""))
+file_name = str(file_name.replace("eP_Elastic_with_CDpro.outb.skim4_00", ""))
+
+
     
 ROOT.gStyle.SetTitleOffset(1.3,'y')
 ROOT.gStyle.SetGridColor(17)
@@ -112,8 +125,10 @@ if(MM_type == "epippimX"):
     Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max = 160, 0, 1
 elif(MM_type == "epipX"):
     Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max = 200, 0.5, 1.2
-else:
+elif(event_type != "ES"):
     Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max = 160, -0.5, 0.5
+else:
+    Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max = 120, -0.1, 0.1
 
 if(event_Name != "error"):
     
@@ -255,6 +270,14 @@ if(event_Name != "error"):
     Extra_Part_of_Name = "_GitHub_Elastic_CD_V2"
     # Added the Invariant Mass Cuts back to the same files used by "_GitHub_Elastic_CD_V1"
     
+    
+    Extra_Part_of_Name = "_GitHub_Elastic_CD_New_V1"
+    # Kept the Invariant Mass Cuts and changed the input files (used files without the OkForAsymmetry cuts)
+    
+    
+    Extra_Part_of_Name = "_GitHub_Valerii_V1"
+    # Using same files used by Valerii for the elastic corrections (same cuts as the versions above)
+    
 
     if(event_type != "P0"):
         if(Delta_P_histo_Q != 'y'):
@@ -352,7 +375,9 @@ if(event_Name != "error"):
                 
         if(event_type == "ES"):
             # running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/*.root"])
-            running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/eP_Elastic_with_CDpro*.root"])
+            # running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/eP_Elastic_with_CDpro*.root"])
+            running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/eP_Elastic_with_CDpro_New*.root"])
+            running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/Valerii_Files/eP_Elastic_with_CDpro_New", ".inb" if("In" in str(datatype)) else ".outb", "*root"])
 
 
 
@@ -2496,7 +2521,7 @@ if(event_Name != "error"):
         CorrrectionName = corNameTitles(Correction)
 
         name = (Correction, Sector, '', Binning, Region, Particle, '')
-        output_title = "".join([datatype, " MM", "^2" if MM_type != "epipX" else "", "_{", str(MM_type), "} ", str(CorrrectionName), " ", str(SecName), str(regionName), ";MM", "^2" if MM_type != "epipX" else "", "_{", str(MM_type), "}"])
+        output_title = "".join([datatype, " MM", "^{2}" if MM_type != "epipX" else "", "_{", str(MM_type), "} ", str(CorrrectionName), " ", str(SecName), str(regionName), ";MM", "^{2}" if MM_type != "epipX" else "", "_{", str(MM_type), "}"])
 
         output = Bank.Histo1D(("".join(["hmmCall_", str(name)]), str(output_title), Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max), Correction)
 
@@ -2640,7 +2665,7 @@ if(event_Name != "error"):
 
 
         name = (Correction, Sector, '', Binning, Region, Particle_Plot, Particle, '')
-        output_title = "".join([datatype, " MM", "^2" if MM_type != "epipX" else "", "_{", str(MM_type), "} ", str(CorrrectionName), " ", SecName, regionName, ";p_{", Particle_Plot, "} [GeV];MM", "^2" if MM_type != "epipX" else "", "_{", str(MM_type), "}"])
+        output_title = "".join([datatype, " MM", "^{2}" if MM_type != "epipX" else "", "_{", str(MM_type), "} ", str(CorrrectionName), " ", SecName, regionName, ";p_{", Particle_Plot, "} [GeV];MM", "^{2}" if MM_type != "epipX" else "", "_{", str(MM_type), "}"])
 
         output = Bank.Histo2D(("".join(["hmmCPARTall_", str(name)]), str(output_title), 200, 2 if 'el' in Particle_Plot else 0, 12 if 'el' in Particle_Plot else 10, Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max), Particle_Plot, Correction)
 
@@ -2708,7 +2733,7 @@ if(event_Name != "error"):
 
 
         name = (Correction, Sector, '', Binning, Region, Particle, '')
-        output_title = "".join([datatype, " MM", "^2" if MM_type != "epipX" else "", "_{", str(MM_type), "} vs #theta_{", Particle, "} ", str(CorrrectionName), " ", SecName, regionName, ";#theta_{", Particle, "} [#circ];MM", "^2" if MM_type != "epipX" else "", "_{", str(MM_type), "}"])
+        output_title = "".join([datatype, " MM", "^{2}" if MM_type != "epipX" else "", "_{", str(MM_type), "} vs #theta_{", Particle, "} ", str(CorrrectionName), " ", SecName, regionName, ";#theta_{", Particle, "} [#circ];MM", "^{2}" if MM_type != "epipX" else "", "_{", str(MM_type), "}"])
 
 
         output = Bank.Histo2D(("".join(["hmmCPARTthall_", str(name)]), str(output_title), 200, 0, 50, Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max), "".join([Particle, "th"]), mmValue)
@@ -2777,7 +2802,7 @@ if(event_Name != "error"):
         CorrrectionName = corNameTitles(Correction)
 
         name = (Correction, Sector, '', Binning, Region, Particle, '')
-        output_title = "".join([datatype, " MM", "^2" if MM_type != "epipX" else "", "_{", str(MM_type), "} vs #phi_{", Particle, "} ", str(CorrrectionName), " ", SecName, regionName, ";#phi_{", Particle, "} [#circ];MM", "^2" if MM_type != "epipX" else "", "_{", str(MM_type), "}"])
+        output_title = "".join([datatype, " MM", "^{2}" if MM_type != "epipX" else "", "_{", str(MM_type), "} vs #phi_{", Particle, "} ", str(CorrrectionName), " ", SecName, regionName, ";#phi_{", Particle, "} [#circ];MM", "^{2}" if MM_type != "epipX" else "", "_{", str(MM_type), "}"])
 
 
         output = Bank.Histo2D(("".join(["hmmCPARTPhiall_", str(name)]), str(output_title), 200, -20, 60, Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max), "".join(["local" if shift != "NS" else "", Particle, "Phi"]), Correction)
@@ -3615,36 +3640,82 @@ if(event_Name != "error"):
     
     #######################################################################################################################################
     ##===================================================================================================================================##
-    ##===============##=============##         Exclusivity Cuts (Using MM from Elastic Scattering)         ##=============##=============##
+    ##===============##=============##         Exclusivity Cuts (Using WM from Elastic Scattering)         ##=============##=============##
     ##===================================================================================================================================##
     #######################################################################################################################################
-    # Unlike the other channels, these cuts are not applied based on any kinematic function (just a regular cut on Missing Mass Squared)
-    
-    if(MM_type == "epX"):
+    # Unlike the other channels, these cuts are based on the invariant mass as a function of the proton momentum, instead of the electron (the proton distributions proved easier to fit reliably)
+    if(event_type == "ES"):
+        
+        Calculated_Exclusive_Cuts = """
 
-            Calculated_Exclusive_Cuts = """
-            
-                auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
-                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-                auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-                auto pro_vec = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
+            auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
+            auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+            auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+            auto pro_vec = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
 
-                auto MM_Vector = beam + targ - ele - pro_vec;
+            auto WM_Vector = beam + targ - ele;
 
-                auto cut_up = 0.15;
-                auto cut_down = -0.15;
+            auto cut_up = 1.3;
+            auto cut_down = 0.7;
+
+            if(prosec == 1){
+                // Upper Cut
+                cut_up = (-0.01681)*pro + (1.161632);
+
+                // Lower Cut
+                cut_down = (-0.010922)*pro + (0.752055);
+            }
+
+            if(prosec == 2){
+                // Upper Cut
+                cut_up = (-0.010715)*pro + (1.126388);
+
+                // Lower Cut
+                cut_down = (0.003043)*pro + (0.743958);
+            }
+
+            if(prosec == 3){
+                // Upper Cut
+                cut_up = (0.002676)*pro + (1.097903);
+
+                // Lower Cut
+                cut_down = (-0.010257)*pro + (0.754182);
+            }
+
+            if(prosec == 4){
+                // Upper Cut
+                cut_up = (0.034199)*pro + (1.086733);
+
+                // Lower Cut
+                cut_down = (-0.007852)*pro + (0.757037);
+            }
+
+            if(prosec == 5){
+                // Upper Cut
+                cut_up = (-0.008283)*pro + (1.138548);
+
+                // Lower Cut
+                cut_down = (0.000569)*pro + (0.727266);
+            }
+
+            if(prosec == 6){
+                // Upper Cut
+                cut_up = (-0.031538)*pro + (1.143523);
+
+                // Lower Cut
+                cut_down = (-0.02431)*pro + (0.705814);
+            }
+
+            return (WM_Vector.M() < cut_up && WM_Vector.M() > cut_down);
+
+        """
 
 
-                return (MM_Vector.M2() < cut_up && MM_Vector.M2() > cut_down);
-
-            """
-
-
-    ################################################################################################################################
-    ##============================================================================================================================##
-    ##===============##=============##        End of Exclusivity Cuts (Using MM from eπ+(N))        ##=============##=============##
-    ##============================================================================================================================##
-    ################################################################################################################################
+    ############################################################################################################################################
+    ##========================================================================================================================================##
+    ##===============##=============##        End of Exclusivity Cuts (Using WM from Elastic Scattering)        ##=============##=============##
+    ##========================================================================================================================================##
+    ############################################################################################################################################
 
 
     
@@ -4621,26 +4692,26 @@ if(event_Name != "error"):
     count_WM = 0
     
     if(Run_Phase_Space == 'yes'):
-        for particle in particle_plot_List:
+        for correction in correctionList:
+            
+            sdf1 = CorDpp(rdf, correction, "WM", event_type, MM_type, datatype, "")
+            
             for sector in SecRangeAll:
-                for correction in correctionList:
-                    sdf1 = CorDpp(rdf, correction, "WM", event_type, MM_type, datatype, "")
+                for particle in particle_plot_List:
+                    for particle_filter in particleList:
 
-                    for binning in binningList:
-                        for particle_filter in particleList:
-                            if(particle_filter == 'el'):
-                                secfilter = 'esec'
-                            if(particle_filter == 'pip'):
-                                secfilter = 'pipsec'
-                            if(particle_filter == 'pim'):
-                                secfilter = 'pimsec'
-                            if(particle_filter == 'pro'):
-                                secfilter = 'prosec'
+                        secfilter = 'esec' if(particle_filter == 'el') else "pipsec" if(particle_filter == 'pip') else 'pimsec' if(particle_filter == 'pim') else "prosec" if(particle_filter == 'pro') else 'error'
 
-                            if(sector == 0):
-                                sdf = sdf1
-                            if(sector != 0):
-                                sdf = sdf1.Filter("".join([secfilter, ' == ', str(sector)]))
+                        if(secfilter == "error"):
+                            print("\nERROR IN SECTOR DEFINITION (Invariant Mass)\n")
+
+                        if(sector == 0):
+                            sdf = sdf1
+                        if(sector != 0):
+                            sdf = sdf1.Filter("".join([secfilter, ' == ', str(sector)]))
+                        
+                        
+                        for binning in binningList:
 
                             regionList = regList_Call(binning, particle_filter, 1)
 
@@ -4789,7 +4860,7 @@ if(event_Name != "error"):
 
         print("\n\033[1mSaving Results Now...\033[0m")
 
-        RoutputFile = ROOT.TFile(str(OutputFileName),'recreate')
+        RoutputFile = ROOT.TFile(str(OutputFileName), 'recreate')
 
         countSaved = 0
 
