@@ -68,11 +68,11 @@ GParsPool.withPool 2,{
                             def canprot = protcans[0]
                             def esec = canele.getPCALsector(), prosec = canprot.getDCsector()
 
-                                def pro = canprot.getLorentzVector()
+                            def pro = canprot.getLorentzVector()
 
-                                tt.fill(run, evn, ele.px(), ele.py(), ele.pz(),
-                                    pro.px(), pro.py(), pro.pz(),
-                                    esec, prosec)
+                            tt.fill(run, evn, ele.px(), ele.py(), ele.pz(),
+                                pro.px(), pro.py(), pro.pz(),
+                                esec, prosec)
 
                         }
                     }

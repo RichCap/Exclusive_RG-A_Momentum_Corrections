@@ -17,7 +17,8 @@ from sys import argv
     # 1) SP -> Single Pion (i.e., ep->eπ+N)
     # 2) DP -> Double Pion (i.e., ep->epπ+π-)
     # 3) P0 -> Pi0 Channel (i.e., ep->epπ0)
-    # 3) ES -> Elastic Scattering (i.e., ep->e'p')
+    # 4) ES -> Elastic Scattering (i.e., ep->e'p')
+    # 5) MC -> Simulated Single Pion (i.e., ep->eπ+N  - same option as SP but file names will be different)
 
 # Arguement 4: file number (Full file name)
     # If the file number is given as 'All', then all files will be run instead of a select number of them
@@ -28,6 +29,9 @@ from sys import argv
         # The line above would run ALL INBENDING files together for the ep->eπ+N channel
     # python File_Creation_Final_Momentum_Corrections_Github.py Out DP test
         # The line above would test-run the OUTBENDING files for the ep->epπ+π- channel (no results would be saved)
+        
+        
+        
 
 code_name, datatype, event_type, file_location = argv
 
@@ -90,6 +94,8 @@ file_name = str(file_name.replace("eP_Elastic_with_CDpro_New.outb.skim4_00", "")
 file_name = str(file_name.replace("eP_Elastic_with_CDpro.inb.skim4_00", ""))
 file_name = str(file_name.replace("eP_Elastic_with_CDpro.outb.skim4_00", ""))
 
+file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/richcap/SIDIS_Analysis/Data_Files_Groovy/Matched_REC_MC/MC_Matching_sidis_epip_richcap.inb.qa.45nA_job_", "")).replace(".hipo.root", "")
+
 
     
 ROOT.gStyle.SetTitleOffset(1.3,'y')
@@ -100,7 +106,7 @@ ROOT.gStyle.SetPadGridY(1)
 
 event_Name = "error"
 
-if(event_type == "SP"):
+if(event_type == "SP" or event_type == "MC"):
     event_Name = "Single Pion Channel"
     MM_type = "epipX"
     
@@ -169,7 +175,7 @@ if(event_Name != "error"):
         Delta_Pel_histo_Q, Delta_Pip_histo_Q, Delta_Pim_histo_Q, Delta_Pro_histo_Q = 'n', 'n', 'n', 'n'
         
         
-    if(event_type == "SP"):
+    if(event_type == "SP" or event_type == "MC"):
         Delta_Pim_histo_Q, Delta_Pro_histo_Q = 'n', 'n'
     if(event_type == "DP"):
         Delta_Pel_histo_Q, Delta_Pip_histo_Q = 'n', 'n'
@@ -199,7 +205,7 @@ if(event_Name != "error"):
 
 
     Invariant_Mass_Cuts_Q = "Cut_On"
-    # Invariant_Mass_Cuts_Q = "Cut_Off"
+    Invariant_Mass_Cuts_Q = "Cut_Off"
     
     if(Invariant_Mass_Cuts_Q == "Cut_On"):
         print("\nCutting on Invariant Mass (Only W < 3 GeV)\n" if(event_type == "ES") else "\nUsing Elastic Cuts\n")
@@ -278,17 +284,38 @@ if(event_Name != "error"):
     Extra_Part_of_Name = "_GitHub_Valerii_V1"
     # Using same files used by Valerii for the elastic corrections (same cuts as the versions above)
     
-
-    if(event_type != "P0"):
-        if(Delta_P_histo_Q != 'y'):
-            OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp", Extra_Part_of_Name, "_File_", str(file_name), ".root"])
+    
+    Extra_Part_of_Name = "_GitHub_Valerii_V2"
+    # Using same files used by Valerii for the elastic corrections (cuts at the level of the groovy code are unchanged)
+    # Added new Invariant Mass cuts based on the proton momentum
+    
+    Extra_Part_of_Name = "_GitHub_Valerii_V3"
+    # Using same files used by Valerii for the elastic corrections (cuts at the level of the groovy code are unchanged)
+    # Removed old (general) Invariant mass cut (this version only uses the calculated cuts)
+    # Needs to fix an issue with abnormally low event counts for electron momentums (lower than the same plots using the proton momentums)
+    
+    
+    Extra_Part_of_Name = "_GitHub_Valerii_V4"
+    # Using same files used by Valerii for the elastic corrections (cuts at the level of the groovy code are unchanged)
+    # Reduced the x and y binning (y by a factor of 2, x by a factor of 10) of the ∆P plots (elastic electron only)
+    # ∆P plots with phi dependence have been turned off - also reduced their momentum range (was set to 20 GeV instead of 12 GeV) <-- Electron only (new changes will only affect the elastic channel - old channels were kept the same for consistency)
+    
+    if(event_type != "MC"):
+        if(event_type != "P0"):
+            if(Delta_P_histo_Q != 'y'):
+                OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp", Extra_Part_of_Name, "_File_", str(file_name), ".root"])
+            else:
+                OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_With_Dp", Extra_Part_of_Name, "_File_", str(file_name), ".root"])
         else:
-            OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_With_Dp", Extra_Part_of_Name, "_File_", str(file_name), ".root"])
+            if(Delta_P_histo_Q != 'y'):
+                OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp", Extra_Part_of_Name, ".root"])
+            else:
+                OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_With_Dp", Extra_Part_of_Name, ".root"])
     else:
         if(Delta_P_histo_Q != 'y'):
-            OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp", Extra_Part_of_Name, ".root"])
+            OutputFileName = "".join(["Simulated_", event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp", Extra_Part_of_Name, "_File_", str(file_name), ".root"])
         else:
-            OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_With_Dp", Extra_Part_of_Name, ".root"])
+            OutputFileName = "".join(["Simulated_", event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_With_Dp", Extra_Part_of_Name, "_File_", str(file_name), ".root"])
             
 
     print("".join(["\n\033[1mName of file that will be saved:\033[0m\n", str(OutputFileName), "\n"]))
@@ -347,7 +374,7 @@ if(event_Name != "error"):
     # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/shrestha/clas12momcorr/data/outbending/ePipX/skim4_00*"
     running_code_with_these_files = "/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/outbending/ePipX/skim4_005*"
 
-    if(file_location == "All" or file_location == "Test" or file_location == "test"):
+    if(file_location == "All" or file_location == "Test" or file_location == "test" or file_location == "time"):
         if(event_type == "SP"):
             if(datatype == "Inbending"):
                 running_code_with_these_files = "/lustre19/expphy/volatile/clas12/shrestha/clas12momcorr/data/inbending/ePipX/epip.skim4_00*"
@@ -378,8 +405,11 @@ if(event_Name != "error"):
             # running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/eP_Elastic_with_CDpro*.root"])
             running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/eP_Elastic_with_CDpro_New*.root"])
             running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/Valerii_Files/eP_Elastic_with_CDpro_New", ".inb" if("In" in str(datatype)) else ".outb", "*root"])
+            running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/Valerii_Files/eP_Elastic_with_CDpro", ".inb" if("In" in str(datatype)) else ".outb", "*root"])
 
-
+        if(event_type == "MC"):
+            running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/SIDIS_Analysis/Data_Files_Groovy/Matched_REC_MC/MC_Matching_sidis_epip_richcap.inb.qa.45nA_job_*.root"])
+            event_type = "SP"
 
     else:
         running_code_with_these_files = file_location
@@ -2001,35 +2031,35 @@ if(event_Name != "error"):
         ##==========##==========##==========##       Invariant Mass Cuts       ##==========##==========##==========##
         ##==================================#####################################==================================##
         ############################################################################################################# 
-
-        if(Invariant_Mass_Cuts_Q == "Cut_On" or Channel_Type == "ES"):
-            if(Channel_Type != "ES"):
-                Output = Output.Filter("""
-                    auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
-                    auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-                    auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-
-                    auto q = beam - ele;
-                    auto Q2 = - q.M2();
-                    auto W = sqrt(targ.M2() + 2*targ.M()*(beam.E() - ele.E()) - Q2);
-
-                    auto W_Cut = (W < 3);
-
-                    return W_Cut;
-                """)
-            else:
-                Output = Output.Filter("""
-                    auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
-                    auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-                    auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-                    auto q = beam - ele;
-                    auto Q2 = - q.M2();
-                    auto W = sqrt(targ.M2() + 2*targ.M()*(beam.E() - ele.E()) - Q2);
-                    auto W_Cut = (W > 0.7 && W < 1.3);
-                    return W_Cut;
-                """)
-                Output = Output.Filter("elth > 5 && elth < 35")
-
+        # 
+        # if(Invariant_Mass_Cuts_Q == "Cut_On" or Channel_Type == "ES"):
+        #     if(Channel_Type != "ES"):
+        #         Output = Output.Filter("""
+        #             auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
+        #             auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+        #             auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+        # 
+        #             auto q = beam - ele;
+        #             auto Q2 = - q.M2();
+        #             auto W = sqrt(targ.M2() + 2*targ.M()*(beam.E() - ele.E()) - Q2);
+        # 
+        #             auto W_Cut = (W < 3);
+        # 
+        #             return W_Cut;
+        #         """)
+        #     else:
+        #         Output = Output.Filter("""
+        #             auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
+        #             auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+        #             auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+        #             auto q = beam - ele;
+        #             auto Q2 = - q.M2();
+        #             auto W = sqrt(targ.M2() + 2*targ.M()*(beam.E() - ele.E()) - Q2);
+        #             auto W_Cut = (W > 0.7 && W < 1.3);
+        #             return W_Cut;
+        #         """)
+        #         # Output = Output.Filter("elth > 5 && elth < 35")
+        # 
         #############################################################################################################
         ##==================================#####################################==================================##
         ##==========##==========##==========##    Invariant Mass Cuts (End)    ##==========##==========##==========##
@@ -3971,14 +4001,20 @@ if(event_Name != "error"):
     # Extend range of the 2D histograms? (The 2D histograms are the ∆P values versus the particle's momentum measurements) 
     # For the y-axis to have a user-determined range, let Extend2D_histo = 'y'
     # For the y-axis to have a range of -0.4 to 0.4, let Extend2D_histo = 'n'
-        # Note: binning set for the default of 200 bins for a range of -1 to 1
+        # Note: original default binning was set to 200 bins for a range of -1 to 1 (halved for the elastic colisions)
     Extend2D_histo = 'y'
 
+    
     # Set the extended range:
-    extendx_min, extendx_max = -3, 3
-
-
-    NumOfExtendedBins = round((extendx_max - extendx_min)/0.005)
+    if(event_type != "ES"):
+        extendx_min, extendx_max = -3, 3
+        size_of_Dp_Bins = 0.005
+    else:
+        extendx_min, extendx_max = -0.3, 0.3
+        size_of_Dp_Bins = 0.01
+        
+        
+    NumOfExtendedBins = round((extendx_max - extendx_min)/size_of_Dp_Bins)
 
 
     # For using ShowBackground() with the slices of the extra 2D histograms
@@ -3995,7 +4031,8 @@ if(event_Name != "error"):
 
     # # Number of (electron) phi bins
     # To run code normally (without electron phi bins in ∆P histograms), let NumPhiBinsEL = ['1'] (anything else will cut histograms based on electron phi angles)
-    NumPhiBinsEL = ['1', '3']
+    # NumPhiBinsEL = ['1', '3']
+    NumPhiBinsEL = ['1']
     
     if(ExtraElectronSecListFilterOn == 'no'):
         NumPhiBinsEL = ['1']
@@ -4567,14 +4604,14 @@ if(event_Name != "error"):
 
                                         if(Extend2D_histo == 'y'):
                                             if(binningEL == '1'):
-                                                Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), "".join(["(", datatype, ") #Delta p_{el} vs p_{el} ", str(SecName), " ", str(correctionNAME), " ", str(regionName), "; p_{el}; #Delta p_{el}"]), 240, 0, 12, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
+                                                Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), "".join(["(", datatype, ") #Delta p_{el} vs p_{el} ", str(SecName), " ", str(correctionNAME), " ", str(regionName), "; p_{el}; #Delta p_{el}"]), 240 if(event_type != "ES") else 120, 0, 12, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
                                             else:
-                                                Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), "".join(["#splitline{#splitline{(", datatype,") #Delta p_{el} vs p_{el} -- ", str(SecName), "}{Correction: ", str(correctionNAME), "}}{Pi+: ", str(regionName), " -- El: ", str(regionNameEL), "}; p_{el}; #Delta p_{el}"]), 240, 0, 20, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
+                                                Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), "".join(["#splitline{#splitline{(", datatype,") #Delta p_{el} vs p_{el} -- ", str(SecName), "}{Correction: ", str(correctionNAME), "}}{Pi+: ", str(regionName), " -- El: ", str(regionNameEL), "}; p_{el}; #Delta p_{el}"]), 240 if(event_type != "ES") else 120, 0, 20 if(event_type != "ES") else 12, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
                                         else:
                                             if(binningEL == '1'):
-                                                Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), "".join(["(", datatype, ") #Delta p_{el} vs p_{el} ", str(SecName), " ", str(correctionNAME), " ", str(regionName), "; p_{el}; #Delta p_{el}"]), 240, 0, 12, 80, -0.4, 0.4), 'el', ''.join(['D_pel_', str(correction)]))
+                                                Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), "".join(["(", datatype, ") #Delta p_{el} vs p_{el} ", str(SecName), " ", str(correctionNAME), " ", str(regionName), "; p_{el}; #Delta p_{el}"]), 240 if(event_type != "ES") else 120, 0, 12, 80, -0.4, 0.4), 'el', ''.join(['D_pel_', str(correction)]))
                                             else:
-                                                Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), "".join(["#splitline{#splitline{(", datatype,") #Delta p_{el} vs p_{el} -- ", str(SecName), "}{Correction: ", str(correctionNAME), "}}{Pi+: ", str(regionName), " -- El: ", str(regionNameEL), "}; p_{el}; #Delta p_{el}"]), 240, 0, 20, 80, -0.4, 0.4), 'el', ''.join(['D_pel_', str(correction)]))
+                                                Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), "".join(["#splitline{#splitline{(", datatype,") #Delta p_{el} vs p_{el} -- ", str(SecName), "}{Correction: ", str(correctionNAME), "}}{Pi+: ", str(regionName), " -- El: ", str(regionNameEL), "}; p_{el}; #Delta p_{el}"]), 240 if(event_type != "ES") else 120, 0, 20 if(event_type != "ES") else 12, 80, -0.4, 0.4), 'el', ''.join(['D_pel_', str(correction)]))
 
 
                                         Delta_P_histo_Count += 1

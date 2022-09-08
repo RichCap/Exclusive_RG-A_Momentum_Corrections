@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --ntasks=1
-#SBATCH --job-name=Mom_Cors_ep_elastic_Inbending_GitHub_Valerii_V1_9_1_2022
+#SBATCH --job-name=Mom_Cors_ep_elastic_Inbending_GitHub_Valerii_V4_9_5_2022
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=richard.capobianco@uconn.edu 
 #SBATCH --output=/farm_out/%u/%x-%j-%N.out
@@ -14,6 +14,7 @@
 
 
 FILES=(/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/Valerii_Files/eP_Elastic_with_CDpro_New.inb.qa.skim4_005*)
+# FILES=(/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/Valerii_Files/eP_Elastic_with_CDpro.inb.qa.skim4_005*)
 # array files (Inbending): 0-53
 
 # # Old Inbending files (do not use for elastic ep->e'p' events)
