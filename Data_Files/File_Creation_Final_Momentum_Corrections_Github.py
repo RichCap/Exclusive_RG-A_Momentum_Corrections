@@ -143,22 +143,118 @@ if(event_Name != "error"):
     # These lines are left over from older versions of the code. Do not change or remove them without editing all other parts of code that reference them.
     CutChoice = 'none'
     if(event_type == "ES"):
+        # CutChoice = """
+        #     // Below are the kinematic cuts based on the calculated proton angle (theta) (from elastic scattering)
+        #     auto pro_Vec = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
+        #     auto Pro_Th_Calc = proth; // Initialize the calculated proton angle as the same value as the measured proton angle
+        #     // Pro_Th_Calc = atan(0.938/((10.6041 + 0.938)*tan(elth/2)))*(180/3.1415926);
+        #     Pro_Th_Calc = acos(((10.6041 + 0.938)*(pro_Vec.E() - + 0.938))/(10.6041*pro))*(180/3.1415926);
+        #     auto Delta_Theta = proth - Pro_Th_Calc;
+        #     auto Final_Output_Cut = (abs(Delta_Theta) < 10);
+        #     return Final_Output_Cut
+        # """
+        
+        # CutChoice = """
+        #     double el_Phi = (180/3.1415926)*atan2(ey, ex);
+        #     if(el_Phi < 0){
+        #         el_Phi += 360;
+        #     }
+        #     double pro_Phi = (180/3.1415926)*atan2(proy, prox);
+        #     if(pro_Phi < 0){
+        #         pro_Phi += 360;
+        #     }
+        #     double Absolute_Dif_in_Phi = abs(el_Phi - pro_Phi);
+        #     bool Back_to_Back_Cut = (Absolute_Dif_in_Phi > 175 && Absolute_Dif_in_Phi < 185);
+        #     return Back_to_Back_Cut;
+        # """
+        
+        # CutChoice = """
+        #     double el_Phi = (180/3.1415926)*atan2(ey, ex);
+        #     if(el_Phi < 0){
+        #         el_Phi += 360;
+        #     }
+        #     double pro_Phi = (180/3.1415926)*atan2(proy, prox);
+        #     if(pro_Phi < 0){
+        #         pro_Phi += 360;
+        #     }
+        #     auto Cut_Up = 185;
+        #     auto Cut_Down = 175;
+        #     auto pro_Mom = sqrt(prox*prox + proy*proy + proz*proz);
+        #     if(prosec == 1){
+        #         Cut_Up = (0.06324)*pro_Mom*pro_Mom + (-0.7572)*pro_Mom + (183.8);
+        #         Cut_Down = (-0.1371)*pro_Mom*pro_Mom + (1.47)*pro_Mom + (174.6);
+        #     }
+        #     if(prosec == 2){
+        #         Cut_Up = (0.3865)*pro_Mom*pro_Mom + (-3.627)*pro_Mom + (189);
+        #         Cut_Down = (-0.08961)*pro_Mom*pro_Mom + (0.8174)*pro_Mom + (176.7);
+        #     }
+        #     if(prosec == 3){
+        #         Cut_Up = (0.5506)*pro_Mom*pro_Mom + (-5.208)*pro_Mom + (192.9);
+        #         Cut_Down = (-0.1467)*pro_Mom*pro_Mom + (1.54)*pro_Mom + (174.7);
+        #     }
+        #     if(prosec == 4){
+        #         Cut_Up = (0.3489)*pro_Mom*pro_Mom + (-3.401)*pro_Mom + (189.2);
+        #         Cut_Down = (-0.262)*pro_Mom*pro_Mom + (2.528)*pro_Mom + (172.9);
+        #     }
+        #     if(prosec == 5){
+        #         Cut_Up = (0.1473)*pro_Mom*pro_Mom + (-1.502)*pro_Mom + (185.2);
+        #         Cut_Down = (-0.5576)*pro_Mom*pro_Mom + (5.217)*pro_Mom + (167.5);
+        #     }
+        #     if(prosec == 6){
+        #         Cut_Up = (0.0829)*pro_Mom*pro_Mom + (-0.803)*pro_Mom + (183.5);
+        #         Cut_Down = (-0.4048)*pro_Mom*pro_Mom + (3.767)*pro_Mom + (170.9);
+        #     }
+        #     double Absolute_Dif_in_Phi = abs(el_Phi - pro_Phi);
+        #     bool Back_to_Back_Cut = ((Absolute_Dif_in_Phi < Cut_Up && Absolute_Dif_in_Phi > Cut_Down) && (Absolute_Dif_in_Phi > 175 && Absolute_Dif_in_Phi < 185));
+        #     return Back_to_Back_Cut;
+        # """
+        
         CutChoice = """
-            // Below are the kinematic cuts based on the calculated proton angle (theta) (from elastic scattering)
-            
-            auto pro_Vec = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
-
-            auto Pro_Th_Calc = proth; // Initialize the calculated proton angle as the same value as the measured proton angle
-
-            // Pro_Th_Calc = atan(0.938/((10.6041 + 0.938)*tan(elth/2)))*(180/3.1415926);
-            Pro_Th_Calc = acos(((10.6041 + 0.938)*(pro_Vec.E() - + 0.938))/(10.6041*pro))*(180/3.1415926);
-
-            auto Delta_Theta = proth - Pro_Th_Calc;
-
-            auto Final_Output_Cut = (abs(Delta_Theta) < 10);
-
-            return Final_Output_Cut
+            double el_Phi = (180/3.1415926)*atan2(ey, ex);
+            if(el_Phi < 0){
+                el_Phi += 360;
+            }
+            double pro_Phi = (180/3.1415926)*atan2(proy, prox);
+            if(pro_Phi < 0){
+                pro_Phi += 360;
+            }
+            auto Cut_Up = 183;
+            auto Cut_Down = 177;
+            auto pro_Mom = sqrt(prox*prox + proy*proy + proz*proz);
+            if(prosec == 1){
+                Cut_Up = (0.05197)*pro_Mom*pro_Mom + (-0.5854)*pro_Mom + (182.6);
+                Cut_Down = (-0.1322)*pro_Mom*pro_Mom + (1.368)*pro_Mom + (175.6);
+            }
+            if(prosec == 2){
+                Cut_Up = (0.2763)*pro_Mom*pro_Mom + (-2.684)*pro_Mom + (186.6);
+                Cut_Down = (0.03978)*pro_Mom*pro_Mom + (-0.2779)*pro_Mom + (179.4);
+            }
+            if(prosec == 3){
+                Cut_Up = (0.4532)*pro_Mom*pro_Mom + (-4.22)*pro_Mom + (190);
+                Cut_Down = (-0.04239)*pro_Mom*pro_Mom + (0.5187)*pro_Mom + (177.6);
+            }
+            if(prosec == 4){
+                Cut_Up = (0.2458)*pro_Mom*pro_Mom + (-2.365)*pro_Mom + (186.2);
+                Cut_Down = (-0.1747)*pro_Mom*pro_Mom + (1.656)*pro_Mom + (175.4);
+            }
+            if(prosec == 5){
+                Cut_Up = (0.01636)*pro_Mom*pro_Mom + (-0.2425)*pro_Mom + (181.9);
+                Cut_Down = (-0.4539)*pro_Mom*pro_Mom + (4.239)*pro_Mom + (170.2);
+            }
+            if(prosec == 6){
+                Cut_Up = (0.04508)*pro_Mom*pro_Mom + (-0.3975)*pro_Mom + (182);
+                Cut_Down = (-0.4667)*pro_Mom*pro_Mom + (4.327)*pro_Mom + (170.2);
+            }
+            double Absolute_Dif_in_Phi = abs(el_Phi - pro_Phi);
+            bool Back_to_Back_Cut = ((Absolute_Dif_in_Phi < Cut_Up && Absolute_Dif_in_Phi > Cut_Down) && (Absolute_Dif_in_Phi > 177 && Absolute_Dif_in_Phi < 183));
+            return Back_to_Back_Cut;
         """
+        
+
+    if(CutChoice == 'none'):
+        kinematicCuts = [""]
+    else:
+        kinematicCuts = ["", CutChoice]
 
 
     ##################################################################################
@@ -342,6 +438,21 @@ if(event_Name != "error"):
     # Last cuts on the calculated proton angle (∆Theta_Proton < 5˚) did not work =====> Changed how ∆Theta_Proton is calculated (now does not use electron info) - Also changed the cut to 10˚ instead of 5˚
     # Added ∆Theta histograms for more refined exclusive elastic cuts (still use the prior method of calculating ∆Theta_Proton)
     
+    Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V4"
+    # Using same files used by Valerii for the elastic corrections but more files were run (missing files were recovered)
+    # Replaced the calculated proton angle cuts with another back-to-back cut on the absolute difference in the azimuthal angles of each particle =====> CutChoice is that this ∆Phi should be about 180˚ ±5˚
+    # Changed ∆Theta histograms to being ∆Angle histograms (added ∆Phi to the ∆Theta versions of the caclculation)
+    
+    Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V5"
+    # Using same files used by Valerii for the elastic corrections but more files were run (missing files were recovered)
+    # Back-to-back cut now features a cut on the absolute difference of the phi angles of the elastic particles (cut is a pol2 function of the proton momentum - unique to each proton sector AND cuts off for |∆Phi - 180| > 5˚)
+    # Modified the Invariant Mass cut using prior back-to-back cut (|∆Phi - 180| > 5˚)
+    
+    
+    Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V6"
+    # Using same files used by Valerii for the elastic corrections but more files were run (missing files were recovered)
+    # Back-to-back cut now features a cut on the absolute difference of the phi angles of the elastic particles (cut is a pol2 function of the proton momentum - cut is now tighter than the previous version - unique to each proton sector AND cuts off for |∆Phi - 180| > 3˚)
+    # Modified the Invariant Mass cut using prior back-to-back cut
     
     if(event_type == "MC"):
         Extra_Part_of_Name = "_GitHub_MC_Test_V1"
@@ -1595,7 +1706,7 @@ if(event_Name != "error"):
                         # 'D_pip' 
                         # 'D_pro' (Default of DP and P0 Channels)
                         # 'D_pim' (NOT AVAILABLE - must use Nick's Code)
-                # (*) 'D_pth' -> ∆Theta Calculation (only for the elastic proton calulation - as of 9/16/2022)
+                # (*) 'D_Angle' -> ∆Theta/∆Phi Calculation (only for the elastic proton calulation - as of 9/16/2022)
                 # (*) 'Mom' --> Corrected Momentum (same options as ∆P regarding particle choice - will default to the electron)
                 # (*) "WM" ---> Invariant Mass      
         # Channel_Type --> Name of channel (i.e., event_type)
@@ -2067,29 +2178,88 @@ if(event_Name != "error"):
         
         
                 
-        ##========================================================##
-        ##===============||----------------------||===============##
-        ##===============||  ∆Theta Calculation  ||===============##
-        ##===============||----------------------||===============##
-        ##========================================================##
-        if("D_pth" in Out_Type):
-            try:
-                Calculation_Code_Choice = "".join([Calculation_Code_Choice, """
+        ##=============================================================##
+        ##===============||---------------------------||===============##
+        ##===============||  ∆Theta/∆Phi Calculation  ||===============##
+        ##===============||---------------------------||===============##
+        ##=============================================================##
+        if("D_Angle" in Out_Type):
+            if("D_Angle_V1" in Out_Type):
+                try:
+                    Calculation_Code_Choice = "".join([Calculation_Code_Choice, """
 
-                    // Below are the kinematic calculations of the proton angle (theta) (from elastic scattering) 
-                    // To be used for exclusivity cuts
-                    
-                    auto Pro_Th_Calc = (proC.Theta())*(180/3.1415926); // Initialize the calculated proton angle as the same value as the measured/corrected proton angle (converted to degrees)
-                    
-                    Pro_Th_Calc = atan(0.938/((Beam_Energy + 0.938)*tan(eleC.Theta()/2)))*(180/3.1415926);
-                    
-                    auto Delta_Theta = ((proC.Theta())*(180/3.1415926)) - Pro_Th_Calc;
-                    
-                    auto Final_Output = Delta_Theta;
+                        // Below are the kinematic calculations of the proton angle (theta) (from elastic scattering) 
+                        // To be used for exclusivity cuts
 
-                """])
-            except:
-                print("\nFAILED ∆Theta CALCULATION\n")
+                        auto Pro_Th_Calc = (proC.Theta())*(180/3.1415926); // Initialize the calculated proton angle as the same value as the measured/corrected proton angle (converted to degrees)
+
+                        Pro_Th_Calc = atan(0.938/((Beam_Energy + 0.938)*tan(eleC.Theta()/2)))*(180/3.1415926);
+
+                        auto Delta_Theta = ((proC.Theta())*(180/3.1415926)) - Pro_Th_Calc;
+
+                        auto Final_Output = Delta_Theta;
+
+                    """])
+                except:
+                    print("\nFAILED ∆Theta CALCULATION (Version 1)\n")
+            elif("D_Angle_V2" in Out_Type):
+                try:
+                    Calculation_Code_Choice = "".join([Calculation_Code_Choice, """
+
+                        // Below are the kinematic calculations of the proton angle (theta) (from elastic scattering) 
+                        // To be used for exclusivity cuts
+
+                        auto Pro_Th_Calc = (proC.Theta())*(180/3.1415926); // Initialize the calculated proton angle as the same value as the measured/corrected proton angle (converted to degrees)
+
+                        Pro_Th_Calc = acos(((10.6041 + 0.938)*(proC.E() - + 0.938))/(10.6041*proC.P()))*(180/3.1415926);
+
+                        auto Delta_Theta = ((proC.Theta())*(180/3.1415926)) - Pro_Th_Calc;
+
+                        auto Final_Output = Delta_Theta;
+
+                    """])
+                except:
+                    print("\nFAILED ∆Theta CALCULATION (Version 2)\n")
+            elif("D_Angle_V3" in Out_Type):
+                try:
+                    Calculation_Code_Choice = "".join([Calculation_Code_Choice, """
+
+                        // Below are the sums of the electron and proton azimuthal angles (used to give new kinematic cuts)
+
+                        double el_Phi = (180/3.1415926)*eleC.Phi();
+                        if(el_Phi < 0){
+                            el_Phi += 360;
+                        }
+                        double pro_Phi = (180/3.1415926)*proC.Phi();
+                        if(pro_Phi < 0){
+                            pro_Phi += 360;
+                        }
+                        double Absolute_Dif_in_Phi = abs(el_Phi - pro_Phi);
+
+                        auto Final_Output = Absolute_Dif_in_Phi;
+
+                    """])
+                except:
+                    print("\nFAILED ABSOLUTE ∆Phi CALCULATION\n")
+            else:
+                # print("Defaulting to Verion 1 of ∆Theta Calculation")
+                try:
+                    Calculation_Code_Choice = "".join([Calculation_Code_Choice, """
+
+                        // Below are the kinematic calculations of the proton angle (theta) (from elastic scattering) 
+                        // To be used for exclusivity cuts
+
+                        auto Pro_Th_Calc = (proC.Theta())*(180/3.1415926); // Initialize the calculated proton angle as the same value as the measured/corrected proton angle (converted to degrees)
+
+                        Pro_Th_Calc = atan(0.938/((Beam_Energy + 0.938)*tan(eleC.Theta()/2)))*(180/3.1415926);
+
+                        auto Delta_Theta = ((proC.Theta())*(180/3.1415926)) - Pro_Th_Calc;
+
+                        auto Final_Output = Delta_Theta;
+
+                    """])
+                except:
+                    print("\nFAILED ∆Theta/∆Phi CALCULATION\n")
 
 
 
@@ -2190,7 +2360,7 @@ if(event_Name != "error"):
         
         if(Channel_Type == "ES"):
             
-            # Output = Output.Filter("(elth + proth) > 175 && (elth + proth) < 185")
+            # Output = Output.Filter("(abs(elPhi) + abs(proPhi)) > 175 && (abs(elPhi) + abs(proPhi)) < 185")
             Output = Output.Filter("""
                 
                 bool Back_to_Back_Cut = (1 == 1);
@@ -3886,63 +4056,144 @@ if(event_Name != "error"):
         
         
         # These cuts use the electron momentum again for exclusive cuts
+        #Calculated_Exclusive_Cuts = """
+        #    auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
+        #    auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+        #    auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+        #    auto WM_Vector = beam + targ - ele;
+        #    auto cut_up = 1.3;
+        #    auto cut_down = 0.7;
+        #    if(esec == 1){
+        #        // Upper Cut
+        #        cut_up = (-0.093145)*el + (1.961317);
+        #        // Lower Cut
+        #        cut_down = (0.01084)*el + (0.647544);
+        #    }
+        #    if(esec == 2){
+        #        // Upper Cut
+        #        cut_up = (-0.01451)*el + (1.244786);
+        #        // Lower Cut
+        #        cut_down = (-0.012609)*el + (0.837096);
+        #    }
+        #    if(esec == 3){
+        #        // Upper Cut
+        #        cut_up = (-0.023103)*el + (1.272624);
+        #        // Lower Cut
+        #        cut_down = (0.029087)*el + (0.379436);
+        #    }
+        #    if(esec == 4){
+        #        // Upper Cut
+        #        cut_up = (-0.00425)*el + (1.181053);
+        #        // Lower Cut
+        #        cut_down = (0.020303)*el + (0.551494);
+        #    }
+        #    if(esec == 5){
+        #        // Upper Cut
+        #        cut_up = (-0.017859)*el + (1.258346);
+        #        // Lower Cut
+        #        cut_down = (0.009527)*el + (0.670976);
+        #    }
+        #    if(esec == 6){
+        #        // Upper Cut
+        #        cut_up = (-0.038059)*el + (1.434456);
+        #        // Lower Cut
+        #        cut_down = (0.008221)*el + (0.657088);
+        #    }
+        #    return (WM_Vector.M() < cut_up && WM_Vector.M() > cut_down);
+        #"""
+        
+        # Calculated_Exclusive_Cuts = """
+        #         auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
+        #         auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+        #         auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+        #         auto WM_Vector = beam + targ - ele;
+        #         auto cut_up = 1.3;
+        #         auto cut_down = 0.7;
+        #         if(esec == 1){
+        #             // Upper Cut
+        #             cut_up = (-0.111676)*el + (2.12464);
+        #             // Lower Cut
+        #             cut_down = (0.002756)*el + (0.724664);
+        #         }
+        #         if(esec == 2){
+        #             // Upper Cut
+        #             cut_up = (-0.040776)*el + (1.447346);
+        #             // Lower Cut
+        #             cut_down = (-0.004404)*el + (0.770656);
+        #         }
+        #         if(esec == 3){
+        #             // Upper Cut
+        #             cut_up = (-0.02295)*el + (1.208917);
+        #             // Lower Cut
+        #             cut_down = (0.0187)*el + (0.472965);
+        #         }
+        #         if(esec == 4){
+        #             // Upper Cut
+        #             cut_up = (-0.015927)*el + (1.230619);
+        #             // Lower Cut
+        #             cut_down = (0.026033)*el + (0.505816);
+        #         }
+        #         if(esec == 5){
+        #             // Upper Cut
+        #             cut_up = (-0.036465)*el + (1.398281);
+        #             // Lower Cut
+        #             cut_down = (0.021904)*el + (0.571651);
+        #         }
+        #         if(esec == 6){
+        #             // Upper Cut
+        #             cut_up = (-0.006486)*el + (1.139895);
+        #             // Lower Cut
+        #             cut_down = (-0.011735)*el + (0.831166);
+        #         }
+        #         return (WM_Vector.M() < cut_up && WM_Vector.M() > cut_down);
+        # """
+
         Calculated_Exclusive_Cuts = """
-
-            auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
-            auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-            auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-
-            auto WM_Vector = beam + targ - ele;
-
-            auto cut_up = 1.3;
-            auto cut_down = 0.7;
-            
-            if(esec == 1){
-                // Upper Cut
-                cut_up = (-0.093145)*el + (1.961317);
-                // Lower Cut
-                cut_down = (0.01084)*el + (0.647544);
-            }
-
-            if(esec == 2){
-                // Upper Cut
-                cut_up = (-0.01451)*el + (1.244786);
-                // Lower Cut
-                cut_down = (-0.012609)*el + (0.837096);
-            }
-
-            if(esec == 3){
-                // Upper Cut
-                cut_up = (-0.023103)*el + (1.272624);
-                // Lower Cut
-                cut_down = (0.029087)*el + (0.379436);
-            }
-
-            if(esec == 4){
-                // Upper Cut
-                cut_up = (-0.00425)*el + (1.181053);
-                // Lower Cut
-                cut_down = (0.020303)*el + (0.551494);
-            }
-
-            if(esec == 5){
-                // Upper Cut
-                cut_up = (-0.017859)*el + (1.258346);
-                // Lower Cut
-                cut_down = (0.009527)*el + (0.670976);
-            }
-
-            if(esec == 6){
-                // Upper Cut
-                cut_up = (-0.038059)*el + (1.434456);
-                // Lower Cut
-                cut_down = (0.008221)*el + (0.657088);
-            }
-
-            return (WM_Vector.M() < cut_up && WM_Vector.M() > cut_down);
-            
+                auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
+                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+                auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+                auto WM_Vector = beam + targ - ele;
+                auto cut_up = 1.3;
+                auto cut_down = 0.7;
+                if(esec == 1){
+                    // Upper Cut
+                    cut_up = (-0.076871)*el + (1.805601);
+                    // Lower Cut
+                    cut_down = (0.00298)*el + (0.72575);
+                }
+                if(esec == 2){
+                    // Upper Cut
+                    cut_up = (-0.018833)*el + (1.242403);
+                    // Lower Cut
+                    cut_down = (-0.026636)*el + (0.96864);
+                }
+                if(esec == 3){
+                    // Upper Cut
+                    cut_up = (-0.021441)*el + (1.205248);
+                    // Lower Cut
+                    cut_down = (0.006907)*el + (0.579189);
+                }
+                if(esec == 4){
+                    // Upper Cut
+                    cut_up = (-0.029754)*el + (1.331609);
+                    // Lower Cut
+                    cut_down = (0.012845)*el + (0.621605);
+                }
+                if(esec == 5){
+                    // Upper Cut
+                    cut_up = (-0.023731)*el + (1.268058);
+                    // Lower Cut
+                    cut_down = (-0.005646)*el + (0.813451);
+                }
+                if(esec == 6){
+                    // Upper Cut
+                    cut_up = (-0.034827)*el + (1.380834);
+                    // Lower Cut
+                    cut_down = (-0.008328)*el + (0.804171);
+                }
+                return (WM_Vector.M() < cut_up && WM_Vector.M() > cut_down);
         """
-
+        
     ############################################################################################################################################
     ##========================================================================================================================================##
     ##===============##=============##        End of Exclusivity Cuts (Using WM from Elastic Scattering)        ##=============##=============##
@@ -4180,11 +4431,11 @@ if(event_Name != "error"):
     if(event_type == "ES"):
         if(datatype == "Inbending"):
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F', 'mmEF_NoELC', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
-            Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF_ProMMpro_F', 'mmEF_NoELC', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
+            Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF_ProMMpro_F', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
             
         if(datatype == "Outbending"):
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F', 'mmEF_NoELC', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
-            Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF_ProMMpro_F', 'mmEF_NoELC', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
+            Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF_ProMMpro_F', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
             
             
         # Select which comparisons you would like to see (i.e. which variables would you like to compare to the theoretical calculations)
@@ -4296,48 +4547,61 @@ if(event_Name != "error"):
 
     if(Delta_P_histo_Q == 'y'):
 
-        for correction in Delta_P_histo_CorList:
-            for sec in Delta_Pip_histo_SecList:
-                for secEL in ExtraElectronSecListFilter:
-                    for binning in NumPhiBins:
-                        reglist = regList_Call(binning, 'pip' if(event_type == "SP" or event_type == "MC") else "pro", 1)
-                        for binningEL in NumPhiBinsEL:
+        for Cuts in kinematicCuts:
+            for correction in Delta_P_histo_CorList:
+                for sec in Delta_Pip_histo_SecList:
+                    for secEL in ExtraElectronSecListFilter:
+                        for binning in NumPhiBins:
+                            reglist = regList_Call(binning, 'pip' if(event_type == "SP" or event_type == "MC") else "pro", 1)
+                            for binningEL in NumPhiBinsEL:
 
-                            if(Combine_el_pip_filters_Q != "yes"):
-                                if(binning == '3' and binningEL != "1"):
-                                    continue
-                                if(binningEL == '3' and binning != "1"):
-                                    continue
-                                if(sec != 'all' and secEL != 'all'):
-                                    continue
+                                if(Combine_el_pip_filters_Q != "yes"):
+                                    if(binning == '3' and binningEL != "1"):
+                                        continue
+                                    if(binningEL == '3' and binning != "1"):
+                                        continue
+                                    if(sec != 'all' and secEL != 'all'):
+                                        continue
 
-                            reglistEL = regList_Call(binningEL, 'el', 1)
+                                reglistEL = regList_Call(binningEL, 'el', 1)
 
-                            # Pi+/Proton Regions
-                            for region in reglist:
-                                # El Regions
-                                for regionEL in reglistEL:
-
-                                    if('pi+' in Delta_P_histo_CompareList and Delta_Pip_histo_Q == 'y'):
-                                        Delta_P_histo_Count += 1
-                                        
-                                    if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
-                                        Delta_P_histo_Count += 1
-
-                                    if('el' in Delta_P_histo_CompareList and Delta_Pel_histo_Q == 'y'):
-                                        Delta_P_histo_Count += 1
-
-                                    if(CutChoice != 'none'):
+                                # Pi+/Proton Regions
+                                for region in reglist:
+                                    # El Regions
+                                    for regionEL in reglistEL:
 
                                         if('pi+' in Delta_P_histo_CompareList and Delta_Pip_histo_Q == 'y'):
                                             Delta_P_histo_Count += 1
-                                            
+
                                         if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
                                             Delta_P_histo_Count += 1
 
                                         if('el' in Delta_P_histo_CompareList and Delta_Pel_histo_Q == 'y'):
                                             Delta_P_histo_Count += 1
 
+                                            
+    if(event_type == "ES"):
+        for Calc_Version in ["D_Angle_V1", "D_Angle_V2", "D_Angle_V3"]:
+            for correction in Delta_P_histo_CorList:
+                correctionNAME = corNameTitles(correction)
+                for sec in [0, 1, 2, 3, 4, 5, 6]:
+                    SecName = "".join(["Pro Sector ", str(sec)]) if(sec != "all" and sec != 0) else ""
+                    for Cuts in kinematicCuts:
+                        for binning in NumPhiBins:
+                            reglist = regList_Call(binning, 'pro', 2)
+                            # Pro Regions
+                            for regionListName in reglist:
+                                for binningEL in NumPhiBinsEL:
+                                    if(Combine_el_pip_filters_Q != "yes"):
+                                        if(binning == '3' and binningEL != "1"):
+                                            continue
+                                        if(binningEL == '3' and binning != "1"):
+                                            continue
+                                    reglistEL = regList_Call(binningEL, 'el', 2)
+                                    # EL Regions
+                                    for regionListNameEL in reglistEL:
+
+                                        Delta_P_histo_Count += 1
 
 
         print("".join(["\033[1mNumber of ∆P histograms to be made: \033[0m", str(Delta_P_histo_Count)]))
@@ -4423,13 +4687,13 @@ if(event_Name != "error"):
             # correctionList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
             # correctionList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F', 'mmEF_NoELC', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
             # correctionList = ['mm0_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF_ProMMpro_F', 'mmEF_NoELC', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
-            correctionList = ['mm0_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF_ProMMpro_F', 'mmEF_NoELC', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
+            correctionList = ['mm0_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF_ProMMpro_F', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
             
         if(datatype == "Outbending"):
             # correctionList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
             # correctionList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F', 'mmEF_NoELC', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
             # correctionList = ['mm0_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF_ProMMpro_F', 'mmEF_NoELC', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
-            correctionList = ['mm0_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF_ProMMpro_F', 'mmEF_NoELC', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
+            correctionList = ['mm0_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF_ProMMpro_F', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
             
 
 
@@ -4487,12 +4751,6 @@ if(event_Name != "error"):
     # Use the function ShowBackground? ('yes' or 'no')
     ShowBGq = 'no'
     # ShowBGq = 'yes'
-
-
-    if(CutChoice == 'none'):
-        kinematicCuts = [""]
-    else:
-        kinematicCuts = ["", CutChoice]
 
 
 
@@ -4841,24 +5099,20 @@ if(event_Name != "error"):
 
     if(event_type == "ES"):
 
-        Dmom_th_Histo = {}
+        Dmom_Angle_Histo = {}
 
-        print("Making the ∆Theta Histograms...")
-        for correction in Delta_P_histo_CorList:
+        print("Making the ∆Theta/∆Phi Histograms...")
+        for Calc_Version in ["D_Angle_V1", "D_Angle_V2", "D_Angle_V3"]:
+            for correction in Delta_P_histo_CorList:
 
-            correctionNAME = corNameTitles(correction)
-            
-            Erdf = rdf
-            Erdf = CorDpp(Erdf, correction, "D_pth", event_type, MM_type, datatype, Calculated_Exclusive_Cuts)
+                correctionNAME = corNameTitles(correction)
 
-            for sec in Delta_Pip_histo_SecList:
+                Erdf = rdf
+                Erdf = CorDpp(Erdf, correction, Calc_Version, event_type, MM_type, datatype, Calculated_Exclusive_Cuts)
 
-                SecName = "".join(["Pro Sector ", str(sec)]) if(sec != "all" and sec != 0) else ""
+                for sec in [0, 1, 2, 3, 4, 5, 6]:
 
-                for secEL in ExtraElectronSecListFilter:
-
-                    if(secEL != "all" and secEL != 0):
-                        SecName = "".join(["Pro Sector ", str(sec), " and El Sector ", str(secEL)]) if(sec != "all" and sec != 0) else "".join(['El Sector ', str(secEL)])
+                    SecName = "".join(["Pro Sector ", str(sec)]) if(sec != "all" and sec != 0) else ""
 
                     for Cuts in kinematicCuts:
 
@@ -4866,7 +5120,7 @@ if(event_Name != "error"):
 
                             reglist = regList_Call(binning, 'pro', 2)
 
-                            # Pi+/Pro Regions
+                            # Pro Regions
                             for regionListName in reglist:
                                 if(len(regionListName) != 1):
                                     region, regionName = regionListName[1], regionListName[0]
@@ -4879,8 +5133,6 @@ if(event_Name != "error"):
                                         if(binning == '3' and binningEL != "1"):
                                             continue
                                         if(binningEL == '3' and binning != "1"):
-                                            continue
-                                        if(sec != 'all' and secEL != 'all'):
                                             continue
 
                                     reglistEL = regList_Call(binningEL, 'el', 2)
@@ -4898,28 +5150,28 @@ if(event_Name != "error"):
                                             sdf = regFilter(Erdf, binning, sec, region, 'S', Cuts, 'pro')
 
 
-                                        if(secEL != "all" and secEL != 0):
-                                            sdf = sdf.Filter("".join(["esec == ", str(secEL)]))
-
-
                                         if(binningEL != '1'):
-                                            sdf = regFilter(sdf, binningEL, secEL, regionEL, 'S', Cuts, 'el')
-                                            histoName = (correction, '', SecName, binning, region, binningEL, regionEL, "Cut" if(Cuts != "") else "")
+                                            sdf = regFilter(sdf, binningEL, 0, regionEL, 'S', Cuts, 'el')
+                                            histoName = (correction, '', SecName, binning, region, binningEL, regionEL, "Cut" if(Cuts != "") else "", str(Calc_Version))
                                         else:
-                                            histoName = (correction, '', SecName, binning, region, "Cut" if(Cuts != "") else "")
+                                            histoName = (correction, '', SecName, binning, region, "Cut" if(Cuts != "") else "", str(Calc_Version))
 
 
+                                        Min_Delta_Angle = -25 if("V3" not in Calc_Version) else 155
+                                        Max_Delta_Angle = 25 if("V3" not in Calc_Version) else 205
+                                        
                                         if(binningEL == '1'):
-                                            Dmom_th_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_th_Histo", str(histoName)]), "".join(["(", datatype, ") #Delta #theta_{pro} vs p_{pro} ", str(SecName), " ", str(correctionNAME), " " ,str(regionName), "; ", "p_{pro}" if("_NoELC" in correction) else "Corrected p_{pro}", "; #Delta #theta_{pro}"]), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pro' if("_NoELC" in correction) else "pro_cor", ''.join(['D_pth_', str(correction)]))
+                                            Dmom_Angle_Histo_Title = "".join(["(", datatype, ") #Delta ", "".join(["#theta_{pro} (Version ", "1" if("V1" in Calc_Version) else "2", ")"]) if("V3" not in Calc_Version) else "#phi", " vs p_{pro} ", str(SecName), " ", str(correctionNAME), " " ,str(regionName), "; ", "p_{pro}" if("_NoELC" in correction) else "Corrected p_{pro}", "; #Delta", "#theta_{pro}" if("V3" not in Calc_Version) else "#phi"])
                                         else:
-                                            Dmom_th_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_th_Histo", str(histoName)]), "".join(["#splitline{#splitline{#Delta #theta_{pro} vs p_{pro} -- ", str(SecName), "}{Correction: ", str(correctionNAME), "}}{Pro: ", str(regionName) + " -- El: ", str(regionNameEL), "}; ", "p_{pro}" if("_NoELC" in correction) else "Corrected p_{pro}", "; #Delta #theta_{pro}"]), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pro' if("_NoELC" in correction) else "pro_cor", ''.join(['D_pth_', str(correction)]))
-
+                                            Dmom_Angle_Histo_Title = "".join(["#splitline{#splitline{(", datatype, ") #Delta ", "".join(["#theta_{pro} (Version ", "1" if("V1" in Calc_Version) else "2", ")"]) if("V3" not in Calc_Version) else "#phi", " vs p_{pro} -- ", str(SecName), "}{Correction: ", str(correctionNAME), "}}{Pro: ", str(regionName) + " -- El: ", str(regionNameEL), "}; ", "p_{pro}" if("_NoELC" in correction) else "Corrected p_{pro}", "; #Delta", "#theta_{pro}" if("V3" not in Calc_Version) else "#phi"])
+                                        
+                                        Dmom_Angle_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_Angle_Histo", str(histoName)]), str(Dmom_Angle_Histo_Title), 200, 0, 10, 100, Min_Delta_Angle, Max_Delta_Angle), 'pro' if("_NoELC" in correction) else "pro_cor", ''.join([str(Calc_Version), "_", str(correction)]))
 
                                         Delta_P_histo_Count += 1
 
 
 
-        print("".join(["Number of ∆P Histograms made (with ∆Theta): ", str(Delta_P_histo_Count)]))
+        print("".join(["Number of ∆P Histograms made (with ∆Theta/∆Phi): ", str(Delta_P_histo_Count)]))
 
 
     ###########################################################################################################
@@ -5428,13 +5680,13 @@ if(event_Name != "error"):
         
         
     if(event_type == "ES"):
-        for saving_Dth_pro_name in Dmom_th_Histo:
+        for saving_DAngle_name in Dmom_Angle_Histo:
             if(SaveResultsQ == 'yes'):
-                Dmom_th_Histo[saving_Dth_pro_name].Write()
+                Dmom_Angle_Histo[saving_DAngle_name].Write()
             elif(CheckDataFrameQ == "y"):
-                print("".join(["Dmom_th_Histo[", str(saving_Dth_pro_name), "]"]))
+                print("".join(["Dmom_Angle_Histo[", str(saving_DAngle_name), "]"]))
             elif(Full_Crash_Check == "y"):
-                print(type(Dmom_th_Histo[saving_Dth_pro_name]))
+                print(type(Dmom_Angle_Histo[saving_DAngle_name]))
             countSaved += 1
             
             

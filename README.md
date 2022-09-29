@@ -12,6 +12,70 @@ Momentum Corrections developed using exclusive pion reactions.
 ## Update Notes:
 
 
+### Updates up to 9-29-2022:
+#### General:
+1) Momentum_Corrections_Github_Missing_Mass_Only.ipynb is being used as a condensed version of the jupyter code (will eventually simplify all previous code into a single cell/output)
+    * Currently missing some old options such as printing ∆P ad function of phi (to be updated later)
+2) Focus has been placed on the Elastic Channel
+#### Other updates since last note (sorted based on the file name used when running File_Creation_Final_Momentum_Corrections_Github.py)
+* Extra_Part_of_Name = "_GitHub_Elastic"
+    (*) Created Elastic Scattering Options/Calculations
+    (*) Invariant Mass Cut of W < 3 GeV is now an option for any channel
+* Extra_Part_of_Name = "_GitHub_Elastic_V2"
+    (*) Removed Invariant Mass Cuts (checking statistics with existing PID cuts)
+* Extra_Part_of_Name = "_GitHub_Elastic_V3"
+    (*) Added new Missing Mass cuts to files that still required the protons be in the forward detector (for cut comparison)
+* Extra_Part_of_Name = "_GitHub_Elastic_CD_V1"
+    (*) Using elastic groovy files that do not use the forward detector requirement in proton PID cuts (did not add the Invariant Mass Cuts back yet)
+* Extra_Part_of_Name = "_GitHub_Elastic_CD_V2"
+    (*) Added the Invariant Mass Cuts back to the same files used by "_GitHub_Elastic_CD_V1"
+* Extra_Part_of_Name = "_GitHub_Elastic_CD_New_V1"
+    (*) Kept the Invariant Mass Cuts and changed the input files (used files without the OkForAsymmetry cuts)
+* Extra_Part_of_Name = "_GitHub_Valerii_V1"
+    (*) Using same files used by Valerii for the elastic corrections (same cuts as the versions above)
+* Extra_Part_of_Name = "_GitHub_Valerii_V2"
+    (*) Using same files used by Valerii for the elastic corrections (cuts at the level of the groovy code are unchanged)
+    (*) Added new Invariant Mass cuts based on the proton momentum
+* Extra_Part_of_Name = "_GitHub_Valerii_V3"
+    (*) Using same files used by Valerii for the elastic corrections (cuts at the level of the groovy code are unchanged)
+    (*) Removed old (general) Invariant mass cut (this version only uses the calculated cuts)
+    (*) Needs to fix an issue with abnormally low event counts for electron momentums (lower than the same plots using the proton momentums)
+* Extra_Part_of_Name = "_GitHub_Valerii_V4"
+    (*) Using same files used by Valerii for the elastic corrections (cuts at the level of the groovy code are unchanged)
+    (*) Reduced the x and y binning (y by a factor of 2, x by a factor of 10) of the ∆P plots (elastic electron only)
+    (*) ∆P plots with phi dependence have been turned off - also reduced their momentum range (was set to 20 GeV instead of 12 GeV) <-- Electron only (new changes will only affect the elastic channel - old channels were kept the same for consistency) 
+* Extra_Part_of_Name = "_GitHub_Valerii_V5"
+    (*) Using same files used by Valerii for the elastic corrections but more files were run (missing files were recovered)
+    (*) Modified the Invariant Mass cuts to be based on the electron momentum
+    (*) Testing first type of elastic electron correction based on "_GitHub_Valerii_V4"
+* Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V1"
+    (*) Using same files used by Valerii for the elastic corrections but more files were run (missing files were recovered)
+    (*) Added new back-to-back cuts based on the electron's and proton's theta angles (should add up to about 180˚ with the current condition giving a ±5˚ margin of error)
+* Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V2"
+    (*) Using same files used by Valerii for the elastic corrections but more files were run (missing files were recovered)
+    (*) Replaced the last cut with the particle angles with a cut on particle sectors and testing new cuts on the calculated proton angle (∆Theta_Proton < 5˚)
+    (*) Also simplified how the histograms are eventually saved (added an option to print/test the histograms to be saved)
+    (*) Started to add code to create ∆Theta histograms for more refined exclusive elastic cuts (still being developed)
+* Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V3"
+    (*) Using same files used by Valerii for the elastic corrections but more files were run (missing files were recovered)
+    (*) Last cuts on the calculated proton angle (∆Theta_Proton < 5˚) did not work =====> Changed how ∆Theta_Proton is calculated (now does not use electron info) - Also changed the cut to 10˚ instead of 5˚
+    (*) Added ∆Theta histograms for more refined exclusive elastic cuts (still use the prior method of calculating ∆Theta_Proton)
+* Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V4"
+    (*) Using same files used by Valerii for the elastic corrections but more files were run (missing files were recovered)
+    (*) Replaced the calculated proton angle cuts with another back-to-back cut on the absolute difference in the azimuthal angles of each particle =====> CutChoice is that this ∆Phi should be about 180˚ ±5˚
+    (*) Changed ∆Theta histograms to being ∆Angle histograms (added ∆Phi to the ∆Theta versions of the caclculation)
+* Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V5"
+    (*) Using same files used by Valerii for the elastic corrections but more files were run (missing files were recovered)
+    (*) Back-to-back cut now features a cut on the absolute difference of the phi angles of the elastic particles (cut is a pol2 function of the proton momentum - unique to each proton sector AND cuts off for |∆Phi - 180| > 5˚)
+    (*) Modified the Invariant Mass cut using prior back-to-back cut (|∆Phi - 180| > 5˚)
+* Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V6"
+    (*) Using same files used by Valerii for the elastic corrections but more files were run (missing files were recovered)
+    (*) Back-to-back cut now features a cut on the absolute difference of the phi angles of the elastic particles (cut is a pol2 function of the proton momentum - cut is now tighter than the previous version - unique to each proton sector AND cuts off for |∆Phi - 180| > 3˚)
+    (*) Modified the Invariant Mass cut using prior back-to-back cut
+All of the above notes (from before "_GitHub_Back_to_Back_Test_V1") were removed on this date
+
+
+
 ### On 8-25-2022:
 1) Updates to python code:
     * SP File location added (files are not located within these repositories on GitHub)
