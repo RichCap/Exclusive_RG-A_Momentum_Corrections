@@ -12,12 +12,43 @@ Momentum Corrections developed using exclusive pion reactions.
 ## Update Notes:
 
 
+### Update from 10-2-2022:
+Update notes given in the python Code:
+    * Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V8"
+        1) Had to update the newest ∆Theta_Pro calculation (did not work again)
+        2) Updated the way that the default histogram titles were made
+        3) Changed the ranges on some histograms
+    * Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V9"
+        1) Increased the number of bins used in the ∆Theta_Pro Histograms
+        2) Added an additional exclusivity cut (CutChoice_2) based on ∆Theta Calculation (D_Angle_V1)
+        3) Exclusivity Cuts now do not use linear or quadratic equations, but instead use the gaussian widths of the fitted histograms
+        4) "Cut_Function" now supports a combination of all of these added cuts (names updated somewhat from V8 to differentiate between all of the cut options)
+        5) Removed Phi binning from the Elastic Channel (option was not being used)
+
+
+### Updates up to 9-29-2022 (commit 2):
+1) Added another version of ∆Theta_pro calculation ("D_Angle_V3" gives the proper ∆Phi histograms while "D_Angle_V4" gives the proper ∆Theta_pro calculations)
+2) D_Angle plots are now plotted vs the electron momentum (even if calculating proton angle)
+3) Multiple exclusivity cuts can now be applied seperately and together
+4) Removed the Back-to-Back SECTOR cut (was an automated cut that is covered more directly by other existing cuts)
+5) Reduced number of corrections being run
+6) Removed old code that was no longer in use including:
+    * 1D Missing Mass Histograms
+    * Missing Mass vs Particle Angles (theta and phi)
+7) Changed how the kinematic momentum/angle plots are named and made (better naming convensions used)
+    * hPARTthall -> Histo_P_v_Th
+    * hPARTPhiall -> Histo_P_v_Phi
+    * hPARTthPhiall -> Histo_Th_v_Phi
+    * histoMakerhmmCPARTall -> Missing_Mass_Histo_Maker
+8) Name is now: Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V7"
+
+
 ### Updates up to 9-29-2022:
 #### General:
 1) Momentum_Corrections_Github_Missing_Mass_Only.ipynb is being used as a condensed version of the jupyter code (will eventually simplify all previous code into a single cell/output)
     * Currently missing some old options such as printing ∆P ad function of phi (to be updated later)
 2) Focus has been placed on the Elastic Channel
-#### Other updates since last note (sorted based on the file name used when running File_Creation_Final_Momentum_Corrections_Github.py)
+#### Other updates since last note (sorted based on the file name used when running File_Creation_Final_Momentum_Corrections_Github.py - Oldest to Newest)
 * Extra_Part_of_Name = "_GitHub_Elastic"
     (*) Created Elastic Scattering Options/Calculations
     (*) Invariant Mass Cut of W < 3 GeV is now an option for any channel
