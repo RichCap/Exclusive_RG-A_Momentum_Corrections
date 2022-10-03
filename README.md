@@ -1,7 +1,8 @@
 # Exclusive RG-A Momentum Corrections
 Momentum Corrections developed using exclusive pion reactions.
 
-
+Main Correction Code Location: Data_Files/File_Creation_Final_Momentum_Corrections_Github.py
+Main Notebook Used to Evaluate Files created with the above python code: Momentum_Corrections_Github_Main.ipynb
 
 
 # Plans:
