@@ -2,28 +2,49 @@
 Momentum Corrections developed using exclusive pion reactions.
 
 
+
+
 # Plans:
 1) Add more README files for side notes (like this)
-2) Split the final jupyter notebook into two files (one for ∆P histograms and one for the Missing Mass histograms)
+2) Steamline Jupyter Notebook Code to be eaiser to run/modify
+    * Currently developing under the name: Momentum_Corrections_Github_Main.ipynb
 3) Add π0 files (from home directory) to this github (if their size allows)
-4) Include a "Images" section on github?
-5) Create Corrections based on Elastic Scattering events
+4) Create Corrections based on Elastic Scattering events
 
 ## Update Notes:
 
 
+## Updates from 10-3-2022:
+Updates to repository:
+* Changed the name of "Momentum_Corrections_Github_Missing_Mass_Only.ipynb" to "Momentum_Corrections_Github_Main.ipynb"
+* Added Image Folder to save images to github
+* Added new event type "EO" --> Electron Only
+    * To be used for elastic scattering corrections
+    * Files do not tag the proton, but are otherwise identical to the files created for the "ES" option (elastic scattering)
+Update notes given in the python Code:
+* Extra_Part_of_Name = "_GitHub_Cut_Tests_V1"
+    1) Added a base Invariant Mass Cut that is always applied to the Elastic Events (WM range is set to be between at least 0.6 and 1.3 GeV always)
+    2) Removed options to plot versus proton momentum and with any additional cuts (done for time constraints)
+* Extra_Part_of_Name = "_GitHub_Cut_Tests_V2"
+    1) Added New ∆Phi Cuts with more momentum bins
+    2) Only the above cut (and the baseline cut from "_GitHub_Cut_Tests_V1") was run
+* Extra_Part_of_Name = "_GitHub_Cut_Tests_V3"
+    1) Added New ∆Theta Cuts based on the cuts from "_GitHub_Cut_Tests_V2"
+    2) Turned off 'phase space' plots (plots that did not involve ∆P, ∆Theta, ∆Phi, or Invariant/Missing Mass)
+
+
 ### Update from 10-2-2022:
 Update notes given in the python Code:
-    * Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V8"
-        1) Had to update the newest ∆Theta_Pro calculation (did not work again)
-        2) Updated the way that the default histogram titles were made
-        3) Changed the ranges on some histograms
-    * Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V9"
-        1) Increased the number of bins used in the ∆Theta_Pro Histograms
-        2) Added an additional exclusivity cut (CutChoice_2) based on ∆Theta Calculation (D_Angle_V1)
-        3) Exclusivity Cuts now do not use linear or quadratic equations, but instead use the gaussian widths of the fitted histograms
-        4) "Cut_Function" now supports a combination of all of these added cuts (names updated somewhat from V8 to differentiate between all of the cut options)
-        5) Removed Phi binning from the Elastic Channel (option was not being used)
+* Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V8"
+    1) Had to update the newest ∆Theta_Pro calculation (did not work again)
+    2) Updated the way that the default histogram titles were made
+    3) Changed the ranges on some histograms
+* Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V9"
+    1) Increased the number of bins used in the ∆Theta_Pro Histograms
+    2) Added an additional exclusivity cut (CutChoice_2) based on ∆Theta Calculation (D_Angle_V1)
+    3) Exclusivity Cuts now do not use linear or quadratic equations, but instead use the gaussian widths of the fitted histograms
+    4) "Cut_Function" now supports a combination of all of these added cuts (names updated somewhat from V8 to differentiate between all of the cut options)
+    5) Removed Phi binning from the Elastic Channel (option was not being used)
 
 
 ### Updates up to 9-29-2022 (commit 2):

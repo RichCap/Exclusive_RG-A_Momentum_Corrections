@@ -18,6 +18,7 @@ from sys import argv
     # 2) DP -> Double Pion (i.e., ep->epπ+π-)
     # 3) P0 -> Pi0 Channel (i.e., ep->epπ0)
     # 4) ES -> Elastic Scattering (i.e., ep->e'p')
+    # 4) EO -> Electron Only (i.e., ep->e'X)
     # 5) MC -> Simulated Single Pion (i.e., ep->eπ+N  - same option as SP but file names will be different)
 
 # Arguement 4: file number (Full file name)
@@ -167,6 +168,10 @@ if(event_type == "P0"):
 if(event_type == "ES"):
     event_Name = "Elastic Scattering"
     MM_type = "epX"
+    
+if(event_type == "EO"):
+    event_Name = "Electron Only"
+    MM_type = "eX"
 
     
 if(MM_type == "epippimX"):
@@ -186,52 +191,12 @@ if(event_Name != "error"):
     CutChoice = 'none'
     CutChoice_2 = ''
     if(event_type == "ES"):
-        # CutChoice = """
-        #     double el_Phi = (180/3.1415926)*atan2(ey, ex);
-        #     if(el_Phi < 0){
-        #         el_Phi += 360;
-        #     }
-        #     double pro_Phi = (180/3.1415926)*atan2(proy, prox);
-        #     if(pro_Phi < 0){
-        #         pro_Phi += 360;
-        #     }
-        #     auto Cut_Up = 183;
-        #     auto Cut_Down = 177;
-        #     auto pro_Mom = sqrt(prox*prox + proy*proy + proz*proz);
-        #     if(prosec == 1){
-        #         Cut_Up = (0.05197)*pro_Mom*pro_Mom + (-0.5854)*pro_Mom + (182.6);
-        #         Cut_Down = (-0.1322)*pro_Mom*pro_Mom + (1.368)*pro_Mom + (175.6);
-        #     }
-        #     if(prosec == 2){
-        #         Cut_Up = (0.2763)*pro_Mom*pro_Mom + (-2.684)*pro_Mom + (186.6);
-        #         Cut_Down = (0.03978)*pro_Mom*pro_Mom + (-0.2779)*pro_Mom + (179.4);
-        #     }
-        #     if(prosec == 3){
-        #         Cut_Up = (0.4532)*pro_Mom*pro_Mom + (-4.22)*pro_Mom + (190);
-        #         Cut_Down = (-0.04239)*pro_Mom*pro_Mom + (0.5187)*pro_Mom + (177.6);
-        #     }
-        #     if(prosec == 4){
-        #         Cut_Up = (0.2458)*pro_Mom*pro_Mom + (-2.365)*pro_Mom + (186.2);
-        #         Cut_Down = (-0.1747)*pro_Mom*pro_Mom + (1.656)*pro_Mom + (175.4);
-        #     }
-        #     if(prosec == 5){
-        #         Cut_Up = (0.01636)*pro_Mom*pro_Mom + (-0.2425)*pro_Mom + (181.9);
-        #         Cut_Down = (-0.4539)*pro_Mom*pro_Mom + (4.239)*pro_Mom + (170.2);
-        #     }
-        #     if(prosec == 6){
-        #         Cut_Up = (0.04508)*pro_Mom*pro_Mom + (-0.3975)*pro_Mom + (182);
-        #         Cut_Down = (-0.4667)*pro_Mom*pro_Mom + (4.327)*pro_Mom + (170.2);
-        #     }
-        #     double Absolute_Dif_in_Phi = abs(el_Phi - pro_Phi);
-        #     bool Back_to_Back_Cut = ((Absolute_Dif_in_Phi < Cut_Up && Absolute_Dif_in_Phi > Cut_Down) && (Absolute_Dif_in_Phi > 177 && Absolute_Dif_in_Phi < 183));
-        #     return Back_to_Back_Cut;
-        # """
         CutChoice = """
             // For ∆Phi Cuts:
             auto Beam_Energy = 10.6041;
             auto Proton_Mass = 0.938;
-            // auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
-            // auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
+            auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
+            auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
             auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
 
             auto el_Phi = (180/3.1415926)*atan2(ey, ex);
@@ -243,235 +208,377 @@ if(event_Name != "error"):
             auto Cut_Variable = abs(el_Phi - pro_Phi);
 
             if(esec == 1){
-                if(eleC.P() > 5.95 && eleC.P() < 6.95){
-                    Cut_Upper = 181.4529;
-                    Cut_Lower = 178.5084;
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 181.23;
+                    Cut_Lower = 178.75;
                 }
-                if(eleC.P() > 6.95 && eleC.P() < 7.95){
-                    Cut_Upper = 181.1727;
-                    Cut_Lower = 178.8251;
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 181.16;
+                    Cut_Lower = 178.8;
                 }
-                if(eleC.P() > 7.95 && eleC.P() < 8.95){
-                    Cut_Upper = 181.6639;
-                    Cut_Lower = 178.3427;
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 181.14;
+                    Cut_Lower = 178.84;
                 }
-                if(eleC.P() > 8.95 && eleC.P() < 9.95){
-                    Cut_Upper = 185.4843;
-                    Cut_Lower = 173.4843;
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 181.17;
+                    Cut_Lower = 178.79;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 181.38;
+                    Cut_Lower = 178.66;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 181.61;
+                    Cut_Lower = 178.35;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 182.37;
+                    Cut_Lower = 177.77;
                 }
             }
             if(esec == 2){
-                if(eleC.P() > 5.95 && eleC.P() < 6.95){
-                    Cut_Upper = 181.3213;
-                    Cut_Lower = 179.2422;
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 181.47;
+                    Cut_Lower = 179.06;
                 }
-                if(eleC.P() > 6.95 && eleC.P() < 7.95){
-                    Cut_Upper = 181.5118;
-                    Cut_Lower = 179.3871;
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 181.45;
+                    Cut_Lower = 179.03;
                 }
-                if(eleC.P() > 7.95 && eleC.P() < 8.95){
-                    Cut_Upper = 182.7421;
-                    Cut_Lower = 177.7457;
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 181.53;
+                    Cut_Lower = 179.05;
                 }
-                if(eleC.P() > 8.95 && eleC.P() < 9.95){
-                    Cut_Upper = 183.7521;
-                    Cut_Lower = 171.7521;
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 181.5;
+                    Cut_Lower = 179.2;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 181.69;
+                    Cut_Lower = 179.26;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 181.93;
+                    Cut_Lower = 179.03;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 182.43;
+                    Cut_Lower = 177.64;
                 }
             }
             if(esec == 3){
-                if(eleC.P() > 5.95 && eleC.P() < 6.95){
-                    Cut_Upper = 181.5717;
-                    Cut_Lower = 179.1984;
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 181.56;
+                    Cut_Lower = 179.2;
                 }
-                if(eleC.P() > 6.95 && eleC.P() < 7.95){
-                    Cut_Upper = 181.594;
-                    Cut_Lower = 179.4014;
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 181.68;
+                    Cut_Lower = 179.09;
                 }
-                if(eleC.P() > 7.95 && eleC.P() < 8.95){
-                    Cut_Upper = 181.7894;
-                    Cut_Lower = 179.0698;
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 181.62;
+                    Cut_Lower = 179.15;
                 }
-                if(eleC.P() > 8.95 && eleC.P() < 9.95){
-                    Cut_Upper = 184.2841;
-                    Cut_Lower = 172.2841;
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 181.63;
+                    Cut_Lower = 179.26;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 181.76;
+                    Cut_Lower = 179.25;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 181.81;
+                    Cut_Lower = 179.15;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 181.96;
+                    Cut_Lower = 178.08;
                 }
             }
             if(esec == 4){
-                if(eleC.P() > 5.95 && eleC.P() < 6.95){
-                    Cut_Upper = 181.5414;
-                    Cut_Lower = 178.3493;
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 181.35;
+                    Cut_Lower = 178.63;
                 }
-                if(eleC.P() > 6.95 && eleC.P() < 7.95){
-                    Cut_Upper = 181.6829;
-                    Cut_Lower = 178.1695;
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 181.74;
+                    Cut_Lower = 178.14;
                 }
-                if(eleC.P() > 7.95 && eleC.P() < 8.95){
-                    Cut_Upper = 181.9644;
-                    Cut_Lower = 178.0903;
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 181.59;
+                    Cut_Lower = 178.24;
                 }
-                if(eleC.P() > 8.95 && eleC.P() < 9.95){
-                    Cut_Upper = 183.1595;
-                    Cut_Lower = 171.1595;
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 181.69;
+                    Cut_Lower = 178.22;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 181.93;
+                    Cut_Lower = 177.93;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 182.05;
+                    Cut_Lower = 178.05;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 182.13;
+                    Cut_Lower = 177.77;
                 }
             }
             if(esec == 5){
-                if(eleC.P() > 5.95 && eleC.P() < 6.95){
-                    Cut_Upper = 180.8175;
-                    Cut_Lower = 178.6057;
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 181.06;
+                    Cut_Lower = 178.6;
                 }
-                if(eleC.P() > 6.95 && eleC.P() < 7.95){
-                    Cut_Upper = 180.7289;
-                    Cut_Lower = 178.5983;
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 180.92;
+                    Cut_Lower = 178.52;
                 }
-                if(eleC.P() > 7.95 && eleC.P() < 8.95){
-                    Cut_Upper = 182.3011;
-                    Cut_Lower = 177.6209;
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 180.94;
+                    Cut_Lower = 178.52;
                 }
-                if(eleC.P() > 8.95 && eleC.P() < 9.95){
-                    Cut_Upper = 187.7434;
-                    Cut_Lower = 175.7434;
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 180.89;
+                    Cut_Lower = 178.43;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 180.88;
+                    Cut_Lower = 178.47;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 181.1;
+                    Cut_Lower = 178.32;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 182.47;
+                    Cut_Lower = 178.04;
                 }
             }
             if(esec == 6){
-                if(eleC.P() > 5.95 && eleC.P() < 6.95){
-                    Cut_Upper = 181.0785;
-                    Cut_Lower = 178.7784;
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 181.26;
+                    Cut_Lower = 178.78;
                 }
-                if(eleC.P() > 6.95 && eleC.P() < 7.95){
-                    Cut_Upper = 180.8418;
-                    Cut_Lower = 178.6393;
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 181.33;
+                    Cut_Lower = 178.71;
                 }
-                if(eleC.P() > 7.95 && eleC.P() < 8.95){
-                    Cut_Upper = 181.5217;
-                    Cut_Lower = 178.2073;
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 181.14;
+                    Cut_Lower = 178.68;
                 }
-                if(eleC.P() > 8.95 && eleC.P() < 9.95){
-                    Cut_Upper = 188.4642;
-                    Cut_Lower = 176.4642;
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 181.07;
+                    Cut_Lower = 178.53;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 180.93;
+                    Cut_Lower = 178.51;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 181.32;
+                    Cut_Lower = 178.16;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 182.42;
+                    Cut_Lower = 177.81;
                 }
             }
             return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
         """
-        
         CutChoice_2 = """
-            // For ∆Theta_Pro Cuts:
+            // For ∆Theta Cuts:
             auto Beam_Energy = 10.6041;
             auto Proton_Mass = 0.938;
-            // auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
-            // auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
+            auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
+            auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
             auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
             auto proC = ROOT::Math::PxPyPzMVector(prox, proy, proz, Proton_Mass);
             auto Pro_Th_Calc = atan(Proton_Mass/((Beam_Energy + Proton_Mass)*tan(eleC.Theta()/2)))*(180/3.1415926);
             auto Cut_Variable = ((proC.Theta())*(180/3.1415926)) - Pro_Th_Calc;
             double Cut_Upper = 5;
             double Cut_Lower = -5;
-
             if(esec == 1){
-                if(eleC.P() > 5.95 && eleC.P() < 6.95){
-                    Cut_Upper = 0.7575;
-                    Cut_Lower = -0.4608;
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 0.4;
+                    Cut_Lower = -0.26;
                 }
-                if(eleC.P() > 6.95 && eleC.P() < 7.95){
-                    Cut_Upper = 0.7676;
-                    Cut_Lower = -0.5171;
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 0.39;
+                    Cut_Lower = -0.3;
                 }
-                if(eleC.P() > 7.95 && eleC.P() < 8.95){
-                    Cut_Upper = 0.9186;
-                    Cut_Lower = -0.7317;
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 0.42;
+                    Cut_Lower = -0.29;
                 }
-                if(eleC.P() > 8.95 && eleC.P() < 9.95){
-                    Cut_Upper = 0.9748;
-                    Cut_Lower = -2.1245;
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 0.48;
+                    Cut_Lower = -0.31;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 0.55;
+                    Cut_Lower = -0.39;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 0.69;
+                    Cut_Lower = -0.52;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 1.12;
+                    Cut_Lower = -1.0;
                 }
             }
             if(esec == 2){
-                if(eleC.P() > 5.95 && eleC.P() < 6.95){
-                    Cut_Upper = 0.7205;
-                    Cut_Lower = -0.3338;
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 0.4;
+                    Cut_Lower = -0.21;
                 }
-                if(eleC.P() > 6.95 && eleC.P() < 7.95){
-                    Cut_Upper = 0.7115;
-                    Cut_Lower = -0.3899;
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 0.45;
+                    Cut_Lower = -0.25;
                 }
-                if(eleC.P() > 7.95 && eleC.P() < 8.95){
-                    Cut_Upper = 0.889;
-                    Cut_Lower = -0.6735;
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 0.48;
+                    Cut_Lower = -0.27;
                 }
-                if(eleC.P() > 8.95 && eleC.P() < 9.95){
-                    Cut_Upper = 0.8488;
-                    Cut_Lower = -1.6807;
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 0.52;
+                    Cut_Lower = -0.26;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 0.58;
+                    Cut_Lower = -0.28;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 0.71;
+                    Cut_Lower = -0.39;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 1.17;
+                    Cut_Lower = -0.9;
                 }
             }
             if(esec == 3){
-                if(eleC.P() > 5.95 && eleC.P() < 6.95){
-                    Cut_Upper = 0.7013;
-                    Cut_Lower = -0.334;
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 0.4;
+                    Cut_Lower = -0.22;
                 }
-                if(eleC.P() > 6.95 && eleC.P() < 7.95){
-                    Cut_Upper = 0.7025;
-                    Cut_Lower = -0.3888;
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 0.43;
+                    Cut_Lower = -0.27;
                 }
-                if(eleC.P() > 7.95 && eleC.P() < 8.95){
-                    Cut_Upper = 0.7961;
-                    Cut_Lower = -0.574;
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 0.47;
+                    Cut_Lower = -0.29;
                 }
-                if(eleC.P() > 8.95 && eleC.P() < 9.95){
-                    Cut_Upper = 0.9481;
-                    Cut_Lower = -1.5024;
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 0.52;
+                    Cut_Lower = -0.28;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 0.58;
+                    Cut_Lower = -0.29;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 0.65;
+                    Cut_Lower = -0.35;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 1.02;
+                    Cut_Lower = -0.71;
                 }
             }
             if(esec == 4){
-                if(eleC.P() > 5.95 && eleC.P() < 6.95){
-                    Cut_Upper = 0.7388;
-                    Cut_Lower = -0.3748;
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 0.38;
+                    Cut_Lower = -0.27;
                 }
-                if(eleC.P() > 6.95 && eleC.P() < 7.95){
-                    Cut_Upper = 0.7237;
-                    Cut_Lower = -0.3933;
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 0.49;
+                    Cut_Lower = -0.28;
                 }
-                if(eleC.P() > 7.95 && eleC.P() < 8.95){
-                    Cut_Upper = 0.8517;
-                    Cut_Lower = -0.5961;
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 0.52;
+                    Cut_Lower = -0.28;
                 }
-                if(eleC.P() > 8.95 && eleC.P() < 9.95){
-                    Cut_Upper = 0.767;
-                    Cut_Lower = -1.3557;
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 0.54;
+                    Cut_Lower = -0.27;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 0.61;
+                    Cut_Lower = -0.32;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 0.65;
+                    Cut_Lower = -0.38;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 1.17;
+                    Cut_Lower = -0.9;
                 }
             }
             if(esec == 5){
-                if(eleC.P() > 5.95 && eleC.P() < 6.95){
-                    Cut_Upper = 0.7106;
-                    Cut_Lower = -0.3624;
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 0.34;
+                    Cut_Lower = -0.26;
                 }
-                if(eleC.P() > 6.95 && eleC.P() < 7.95){
-                    Cut_Upper = 0.7402;
-                    Cut_Lower = -0.4588;
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 0.4;
+                    Cut_Lower = -0.31;
                 }
-                if(eleC.P() > 7.95 && eleC.P() < 8.95){
-                    Cut_Upper = 0.8318;
-                    Cut_Lower = -0.6648;
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 0.46;
+                    Cut_Lower = -0.35;
                 }
-                if(eleC.P() > 8.95 && eleC.P() < 9.95){
-                    Cut_Upper = 0.8671;
-                    Cut_Lower = -1.1934;
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 0.49;
+                    Cut_Lower = -0.37;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 0.47;
+                    Cut_Lower = -0.4;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 0.51;
+                    Cut_Lower = -0.49;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 1.02;
+                    Cut_Lower = -1.0;
                 }
             }
             if(esec == 6){
-                if(eleC.P() > 5.95 && eleC.P() < 6.95){
-                    Cut_Upper = 0.7011;
-                    Cut_Lower = -0.3781;
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 0.37;
+                    Cut_Lower = -0.31;
                 }
-                if(eleC.P() > 6.95 && eleC.P() < 7.95){
-                    Cut_Upper = 0.7233;
-                    Cut_Lower = -0.4596;
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 0.4;
+                    Cut_Lower = -0.36;
                 }
-                if(eleC.P() > 7.95 && eleC.P() < 8.95){
-                    Cut_Upper = 0.889;
-                    Cut_Lower = -0.7782;
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 0.43;
+                    Cut_Lower = -0.38;
                 }
-                if(eleC.P() > 8.95 && eleC.P() < 9.95){
-                    Cut_Upper = 0.7155;
-                    Cut_Lower = -1.3666;
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 0.44;
+                    Cut_Lower = -0.36;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 0.46;
+                    Cut_Lower = -0.4;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 0.65;
+                    Cut_Lower = -0.56;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 0.97;
+                    Cut_Lower = -0.99;
                 }
             }
             return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
@@ -517,6 +624,8 @@ if(event_Name != "error"):
         Delta_Pel_histo_Q, Delta_Pim_histo_Q, Delta_Pip_histo_Q = 'n', 'n', 'n'
     if(event_type == "ES"):
         Delta_Pim_histo_Q, Delta_Pip_histo_Q, Delta_Pro_histo_Q = 'n', 'n', 'n' # The proton corrections are turned off for now
+    if(event_type == "EO"):
+        Delta_Pim_histo_Q, Delta_Pip_histo_Q, Delta_Pro_histo_Q = 'n', 'n', 'n'
 
         
     if(Delta_P_histo_Q != 'n'):
@@ -539,10 +648,12 @@ if(event_Name != "error"):
 
 
     Invariant_Mass_Cuts_Q = "Cut_On"
-    Invariant_Mass_Cuts_Q = "Cut_Off"
+    # Invariant_Mass_Cuts_Q = "Cut_Off"
     
-    if(Invariant_Mass_Cuts_Q == "Cut_On"):
-        print("\nCutting on Invariant Mass (Only W < 3 GeV)\n" if(event_type == "ES") else "\nUsing Elastic Cuts\n")
+    if(Invariant_Mass_Cuts_Q == "Cut_Off"):
+        # print("\nCutting on Invariant Mass (Only W < 3 GeV)\n" if(event_type == "ES") else "\nUsing Elastic Cuts\n")
+        print("Not Using any additional cuts...")
+        CutChoice, CutChoice_2 = "none", ""
     
 
 
@@ -626,6 +737,18 @@ if(event_Name != "error"):
     # "Cut_Function" now supports a combination of all of these added cuts (names updated somewhat from V8 to differentiate between all of the cut options)
     # Removed Phi binning from the Elastic Channel (option was not being used)
 
+    
+    Extra_Part_of_Name = "_GitHub_Cut_Tests_V1"
+    # Added a base Invariant Mass Cut that is always applied to the Elastic Events (WM range is set to be between at least 0.6 and 1.3 GeV always)
+    # Removed options to plot versus proton momentum and with any additional cuts (done for time constraints)
+    
+    Extra_Part_of_Name = "_GitHub_Cut_Tests_V2"
+    # Added New ∆Phi Cuts with more momentum bins
+    # Only the above cut (and the baseline cut from "_GitHub_Cut_Tests_V1") was run
+    
+    Extra_Part_of_Name = "_GitHub_Cut_Tests_V3"
+    # Added New ∆Theta Cuts based on the cuts from "_GitHub_Cut_Tests_V2"
+    # Turned off 'phase space' plots (plots that did not involve ∆P, ∆Theta, ∆Phi, or Invariant/Missing Mass)
     
     if(event_type == "MC"):
         Extra_Part_of_Name = "_GitHub_MC_Test_V1"
@@ -738,6 +861,9 @@ if(event_Name != "error"):
             running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/eP_Elastic_with_CDpro_New*.root"])
             running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/Valerii_Files/eP_Elastic_with_CDpro_New", ".inb" if("In" in str(datatype)) else ".outb", "*root"])
             running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/Valerii_Files/eP_Elastic_with_CDpro", ".inb" if("In" in str(datatype)) else ".outb", "*root"])
+            
+        if(event_type == "EO"):
+            running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Only_Electron_Channel/electron_only", ".inb" if("In" in str(datatype)) else ".outb", "*root"])
 
         if(event_type == "MC"):
             running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/SIDIS_Analysis/Data_Files_Groovy/Matched_REC_MC/MC_Matching_sidis_epip_richcap.inb.qa.45nA_job_*.root"])
@@ -747,6 +873,20 @@ if(event_Name != "error"):
         running_code_with_these_files = file_location
 
     rdf = ROOT.RDataFrame("h22", str(running_code_with_these_files))
+    
+    if(event_type == "ES" or event_type = "EO"):
+        print("Applying Base Invariant Mass Cuts to Elastic Events...")
+        rdf = rdf.Filter("""
+        auto Beam_Energy = 10.6041;
+        auto Proton_Mass = 0.938;
+        auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
+        auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
+        auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+        auto Cut_Variable = (beam + targ - eleC).M();
+        double Cut_Upper = 1.3;
+        double Cut_Lower = 0.6;
+        return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
+        """)
 
     #############################################################################
     ##=====##=====##=====##=====##   Loading RDF   ##=====##=====##=====##=====##
@@ -759,7 +899,7 @@ if(event_Name != "error"):
 
 
 
-    if(event_type != "SP" and event_type != "MC"):
+    if(event_type != "SP" and event_type != "MC" and event_type != "EO"):
         if("prox" not in rdf.GetColumnNames() and "px" in rdf.GetColumnNames()):
             rdf = rdf.Define("prox", "px")
         if("proy" not in rdf.GetColumnNames() and "py" in rdf.GetColumnNames()):
@@ -785,14 +925,14 @@ if(event_Name != "error"):
 
 
     ## Proton Energy Loss Corrections ##
-    if(event_type != "SP" and event_type != "MC"):
+    if(event_type != "SP" and event_type != "MC" and event_type != "EO"):
         
         Proton_Energy_Loss_Cor = ''.join(["""
         
         
         double dE_loss = 0;
         
-        //=====// My Version of Andrey's Proton Energy Loss Correction (Corrections should be identical to the ones above, but the code is written slightly differently) //=====//
+        //=====// My Version of Andrey's Proton Energy Loss Correction (Corrections should be identical) //=====//
         
         """, """
         
@@ -852,121 +992,122 @@ if(event_Name != "error"):
         print("Failure to process Electron Kinematics")
         print("".join(["ERROR: ", str(e)]))
 
-    #------------------------------------------#
-    #---------------# Pi+ Pion #---------------#
-    #------------------------------------------#
-    if(event_type != "P0" and event_type != "ES"):
-        try:
-            ##=====##    Momentum Magnitude    ##=====##
-            rdf = rdf.Define("pip", "sqrt(pipx*pipx+pipy*pipy+pipz*pipz)")
-            ##=====##       Polar Angles       ##=====##
-            rdf = rdf.Define("pipth", "atan2(sqrt(pipx*pipx+pipy*pipy), pipz)*(180/3.1415926)")
-            ##=====##     Azimuthal Angles     ##=====##
-            rdf = rdf.Define("pipPhi", """
-                double pipPhi = (180/3.1415926)*atan2(pipy, pipx);
-                if(((pipsec == 4 || pipsec == 3) && pipPhi < 0) || (pipsec > 4 && pipPhi < 90)){
-                    pipPhi += 360;
-                }
-                return pipPhi;
-            """)
-            rdf = rdf.Define("localpipPhi", "pipPhi - (pipsec - 1)*60")
-            rdf = rdf.Define("localpipPhiS", "localpipPhi + (32/(pip-0.05))")
-            rdf = rdf.Define("pipPhiS", "pipPhi + (32/(pip-0.05))")
-            rdf = rdf.Define("pipPhiNS", "(180/3.1415926)*atan2(pipy, pipx)") # 'NS' ==> No shifts (distribution will be from ±180˚)
-        except Exception as e:
-            print("Failure to process Pi+ Pion Kinematics")
-            print("".join(["ERROR: ", str(e)]))
-        
-    #------------------------------------------#
-    #---------------# Pi- Pion #---------------#
-    #------------------------------------------#
-    if(event_type == "DP"):
-        try:
-            ##=====##    Momentum Magnitude    ##=====##
-            rdf = rdf.Define("pim", "sqrt(pimx*pimx+pimy*pimy+pimz*pimz)")
-            ##=====##       Polar Angles       ##=====##
-            rdf = rdf.Define("pimth", "atan2(sqrt(pimx*pimx+pimy*pimy), pimz)*(180/3.1415926)")
-            ##=====##     Azimuthal Angles     ##=====##
-            rdf = rdf.Define("pimPhi", """
-                double pimPhi = (180/3.1415926)*atan2(pimy, pimx);
-                if(((pimsec == 4 || pimsec == 3) && pimPhi < 0) || (pimsec > 4 && pimPhi < 90)){
-                    pimPhi += 360;
-                }
-                return pimPhi;
-            """)
-            rdf = rdf.Define("localpimPhi", "pimPhi - (pimsec - 1)*60")
-            rdf = rdf.Define("localpimPhiS", "localpimPhi - (32/(pim-0.05))")
-            rdf = rdf.Define("pimPhiS", "pimPhi - (32/(pim-0.05))")
-            rdf = rdf.Define("pimPhiNS", "(180/3.1415926)*atan2(pimy, pimx)") # 'NS' ==> No shifts (distribution will be from ±180˚)
-        except Exception as e:
-            print("Failure to process Pi- Pion Kinematics")
-            print("".join(["ERROR: ", str(e)]))
-        
-    #----------------------------------------#
-    #---------------# Proton #---------------#
-    #----------------------------------------#
-    if(event_type != "SP" and event_type != "MC"):
-        try:
-            ##=====##    Momentum Magnitude    ##=====##
-            rdf = rdf.Define("pro", "sqrt(prox*prox + proy*proy + proz*proz)")
-            ##=====##       Polar Angles       ##=====##
-            rdf = rdf.Define("proth", "atan2(sqrt(prox*prox + proy*proy), proz)*(180/3.1415926)")
-            ##=====##     Azimuthal Angles     ##=====##
-            rdf = rdf.Define("proPhi", """
-                double proPhi = (180/3.1415926)*atan2(proy, prox);
-                if(((prosec == 4 || prosec == 3) && proPhi < 0) || (prosec > 4 && proPhi < 90)){
-                    proPhi += 360;
-                }
-                return proPhi;
-            """)
-            rdf = rdf.Define("localproPhi", "proPhi - (prosec - 1)*60")
-            rdf = rdf.Define("localproPhiS", "localproPhi + (32/(pro-0.05))")
-            rdf = rdf.Define("proPhiS", "proPhi + (32/(pro-0.05))")
-            rdf = rdf.Define("proPhiNS", "(180/3.1415926)*atan2(proy, prox)") # 'NS' ==> No shifts (distribution will be from ±180˚)
-        except Exception as e:
-            print("Failure to process Proton Kinematics")
-            print("".join(["ERROR: ", str(e)]))
-            
-    #-----------------------------------------------------------#
-    #---------------# Proton (Energy Corrected) #---------------#
-    #-----------------------------------------------------------#
-    if(event_type != "SP" and event_type != "MC"):
-        try:
-            ##=====##    (Energy Corrected) Momentum Coordinates    ##=====##
-            rdf = rdf.Define("prox_cor", "".join(["""
-            """, Proton_Energy_Loss_Cor, """
-            double prox_cor = feloss*prox;
-            return prox_cor;
-            """]))
-            rdf = rdf.Define("proy_cor", "".join(["""
-            """, Proton_Energy_Loss_Cor, """
-            double proy_cor = feloss*proy;
-            return proy_cor;
-            """]))
-            rdf = rdf.Define("proz_cor", "".join(["""
-            """, Proton_Energy_Loss_Cor, """
-            double proz_cor = feloss*proz;
-            return proz_cor;
-            """]))
-            ##=====##    (Energy Corrected) Momentum Magnitude    ##=====##
-            rdf = rdf.Define("pro_cor", "sqrt(prox_cor*prox_cor + proy_cor*proy_cor + proz_cor*proz_cor)")
-            ##=====##       (Energy Corrected) Polar Angles       ##=====##
-            rdf = rdf.Define("proth_cor", "atan2(sqrt(prox_cor*prox_cor + proy_cor*proy_cor), proz_cor)*(180/3.1415926)")
-            ##=====##     (Energy Corrected) Azimuthal Angles     ##=====##
-            rdf = rdf.Define("proPhi_cor", """
-                double proPhi_cor = (180/3.1415926)*atan2(proy_cor, prox_cor);
-                if(((prosec == 4 || prosec == 3) && proPhi_cor < 0) || (prosec > 4 && proPhi_cor < 90)){
-                    proPhi_cor += 360;
-                }
-                return proPhi_cor;
-            """)
-            rdf = rdf.Define("localproPhi_cor", "proPhi_cor - (prosec - 1)*60")
-            rdf = rdf.Define("localproPhiS_cor", "localproPhi_cor + (32/(pro_cor-0.05))")
-            rdf = rdf.Define("proPhiS_cor", "proPhi_cor + (32/(pro_cor-0.05))")
-            rdf = rdf.Define("proPhiNS_cor", "(180/3.1415926)*atan2(proy_cor, prox_cor)") # 'NS' ==> No shifts (distribution will be from ±180˚)
-        except Exception as e:
-            print("Failure to process Proton Kinematics")
-            print("".join(["ERROR: ", str(e)]))
+    if(event_type != "EO"):
+        #------------------------------------------#
+        #---------------# Pi+ Pion #---------------#
+        #------------------------------------------#
+        if(event_type != "P0" and event_type != "ES"):
+            try:
+                ##=====##    Momentum Magnitude    ##=====##
+                rdf = rdf.Define("pip", "sqrt(pipx*pipx+pipy*pipy+pipz*pipz)")
+                ##=====##       Polar Angles       ##=====##
+                rdf = rdf.Define("pipth", "atan2(sqrt(pipx*pipx+pipy*pipy), pipz)*(180/3.1415926)")
+                ##=====##     Azimuthal Angles     ##=====##
+                rdf = rdf.Define("pipPhi", """
+                    double pipPhi = (180/3.1415926)*atan2(pipy, pipx);
+                    if(((pipsec == 4 || pipsec == 3) && pipPhi < 0) || (pipsec > 4 && pipPhi < 90)){
+                        pipPhi += 360;
+                    }
+                    return pipPhi;
+                """)
+                rdf = rdf.Define("localpipPhi", "pipPhi - (pipsec - 1)*60")
+                rdf = rdf.Define("localpipPhiS", "localpipPhi + (32/(pip-0.05))")
+                rdf = rdf.Define("pipPhiS", "pipPhi + (32/(pip-0.05))")
+                rdf = rdf.Define("pipPhiNS", "(180/3.1415926)*atan2(pipy, pipx)") # 'NS' ==> No shifts (distribution will be from ±180˚)
+            except Exception as e:
+                print("Failure to process Pi+ Pion Kinematics")
+                print("".join(["ERROR: ", str(e)]))
+
+        #------------------------------------------#
+        #---------------# Pi- Pion #---------------#
+        #------------------------------------------#
+        if(event_type == "DP"):
+            try:
+                ##=====##    Momentum Magnitude    ##=====##
+                rdf = rdf.Define("pim", "sqrt(pimx*pimx+pimy*pimy+pimz*pimz)")
+                ##=====##       Polar Angles       ##=====##
+                rdf = rdf.Define("pimth", "atan2(sqrt(pimx*pimx+pimy*pimy), pimz)*(180/3.1415926)")
+                ##=====##     Azimuthal Angles     ##=====##
+                rdf = rdf.Define("pimPhi", """
+                    double pimPhi = (180/3.1415926)*atan2(pimy, pimx);
+                    if(((pimsec == 4 || pimsec == 3) && pimPhi < 0) || (pimsec > 4 && pimPhi < 90)){
+                        pimPhi += 360;
+                    }
+                    return pimPhi;
+                """)
+                rdf = rdf.Define("localpimPhi", "pimPhi - (pimsec - 1)*60")
+                rdf = rdf.Define("localpimPhiS", "localpimPhi - (32/(pim-0.05))")
+                rdf = rdf.Define("pimPhiS", "pimPhi - (32/(pim-0.05))")
+                rdf = rdf.Define("pimPhiNS", "(180/3.1415926)*atan2(pimy, pimx)") # 'NS' ==> No shifts (distribution will be from ±180˚)
+            except Exception as e:
+                print("Failure to process Pi- Pion Kinematics")
+                print("".join(["ERROR: ", str(e)]))
+
+        #----------------------------------------#
+        #---------------# Proton #---------------#
+        #----------------------------------------#
+        if(event_type != "SP" and event_type != "MC"):
+            try:
+                ##=====##    Momentum Magnitude    ##=====##
+                rdf = rdf.Define("pro", "sqrt(prox*prox + proy*proy + proz*proz)")
+                ##=====##       Polar Angles       ##=====##
+                rdf = rdf.Define("proth", "atan2(sqrt(prox*prox + proy*proy), proz)*(180/3.1415926)")
+                ##=====##     Azimuthal Angles     ##=====##
+                rdf = rdf.Define("proPhi", """
+                    double proPhi = (180/3.1415926)*atan2(proy, prox);
+                    if(((prosec == 4 || prosec == 3) && proPhi < 0) || (prosec > 4 && proPhi < 90)){
+                        proPhi += 360;
+                    }
+                    return proPhi;
+                """)
+                rdf = rdf.Define("localproPhi", "proPhi - (prosec - 1)*60")
+                rdf = rdf.Define("localproPhiS", "localproPhi + (32/(pro-0.05))")
+                rdf = rdf.Define("proPhiS", "proPhi + (32/(pro-0.05))")
+                rdf = rdf.Define("proPhiNS", "(180/3.1415926)*atan2(proy, prox)") # 'NS' ==> No shifts (distribution will be from ±180˚)
+            except Exception as e:
+                print("Failure to process Proton Kinematics")
+                print("".join(["ERROR: ", str(e)]))
+
+        #-----------------------------------------------------------#
+        #---------------# Proton (Energy Corrected) #---------------#
+        #-----------------------------------------------------------#
+        if(event_type != "SP" and event_type != "MC"):
+            try:
+                ##=====##    (Energy Corrected) Momentum Coordinates    ##=====##
+                rdf = rdf.Define("prox_cor", "".join(["""
+                """, Proton_Energy_Loss_Cor, """
+                double prox_cor = feloss*prox;
+                return prox_cor;
+                """]))
+                rdf = rdf.Define("proy_cor", "".join(["""
+                """, Proton_Energy_Loss_Cor, """
+                double proy_cor = feloss*proy;
+                return proy_cor;
+                """]))
+                rdf = rdf.Define("proz_cor", "".join(["""
+                """, Proton_Energy_Loss_Cor, """
+                double proz_cor = feloss*proz;
+                return proz_cor;
+                """]))
+                ##=====##    (Energy Corrected) Momentum Magnitude    ##=====##
+                rdf = rdf.Define("pro_cor", "sqrt(prox_cor*prox_cor + proy_cor*proy_cor + proz_cor*proz_cor)")
+                ##=====##       (Energy Corrected) Polar Angles       ##=====##
+                rdf = rdf.Define("proth_cor", "atan2(sqrt(prox_cor*prox_cor + proy_cor*proy_cor), proz_cor)*(180/3.1415926)")
+                ##=====##     (Energy Corrected) Azimuthal Angles     ##=====##
+                rdf = rdf.Define("proPhi_cor", """
+                    double proPhi_cor = (180/3.1415926)*atan2(proy_cor, prox_cor);
+                    if(((prosec == 4 || prosec == 3) && proPhi_cor < 0) || (prosec > 4 && proPhi_cor < 90)){
+                        proPhi_cor += 360;
+                    }
+                    return proPhi_cor;
+                """)
+                rdf = rdf.Define("localproPhi_cor", "proPhi_cor - (prosec - 1)*60")
+                rdf = rdf.Define("localproPhiS_cor", "localproPhi_cor + (32/(pro_cor-0.05))")
+                rdf = rdf.Define("proPhiS_cor", "proPhi_cor + (32/(pro_cor-0.05))")
+                rdf = rdf.Define("proPhiNS_cor", "(180/3.1415926)*atan2(proy_cor, prox_cor)") # 'NS' ==> No shifts (distribution will be from ±180˚)
+            except Exception as e:
+                print("Failure to process Proton Kinematics")
+                print("".join(["ERROR: ", str(e)]))
 
 
     ################################################################################################################################
@@ -1912,20 +2053,20 @@ if(event_Name != "error"):
     auto eleC = ROOT::Math::PxPyPzMVector(ex*fe, ey*fe, ez*fe, 0);
         """])
 
-        if("P0" not in Channel_Type and "ES" not in Channel_Type and ("Mom_el" not in Out_Type and "Mom_pim" not in Out_Type and "Mom_pro" not in Out_Type)):
+        if("P0" not in Channel_Type and "E" not in Channel_Type and ("Mom_el" not in Out_Type and "Mom_pim" not in Out_Type and "Mom_pro" not in Out_Type)):
             Particles_for_Correction = "".join([Particles_for_Correction, """
     auto fpip = dppC(pipx, pipy, pipz, pipsec, 1, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
     auto pipC = ROOT::Math::PxPyPzMVector(pipx*fpip, pipy*fpip, pipz*fpip, 0.13957);
         """])
 
-        if("DP" in Channel_Type and "ES" not in Channel_Type and ("Mom_el" not in Out_Type and "Mom_pip" not in Out_Type and "Mom_pro" not in Out_Type)):
+        if("DP" in Channel_Type and "E" not in Channel_Type and ("Mom_el" not in Out_Type and "Mom_pip" not in Out_Type and "Mom_pro" not in Out_Type)):
             Particles_for_Correction = "".join([Particles_for_Correction, """
     auto fpim = dppC(pimx, pimy, pimz, pimsec, 2, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
     auto pimC = ROOT::Math::PxPyPzMVector(pimx*fpim, pimy*fpim, pimz*fpim, 0.13957);
         """])
 
 
-        if("SP" not in Channel_Type and "MC" not in Channel_Type and ("Mom_el" not in Out_Type and "Mom_pip" not in Out_Type and "Mom_pim" not in Out_Type)):
+        if("SP" not in Channel_Type and "MC" not in Channel_Type and "EO" not in Channel_Type and ("Mom_el" not in Out_Type and "Mom_pip" not in Out_Type and "Mom_pim" not in Out_Type)):
             if("_NoELC" not in Correction):
 
                 Particles_for_Correction = "".join(["""
@@ -2278,8 +2419,8 @@ if(event_Name != "error"):
             ##===============||    Elastic Scattering    ||===============##
             ##===============||--------------------------||===============##
             ##============================================================## 
-            if(Channel_Type == "ES"):
-                if("D_pro" in Out_Type):
+            if("E" in Channel_Type):
+                if("D_pro" in Out_Type and Channel_Type == "ES"):
                     ##========================================================================================================##
                     ##=====================##         ∆P (Elastic Scattering - Pro) Calculations         ##===================##
                     ##========================================================================================================##
@@ -2324,7 +2465,7 @@ if(event_Name != "error"):
                     ##=============================================================================================================##
                     Calculation_Code_Choice = """
                     
-    // Below are the kinematic calculations of the electron momentum (from el+pro->el'+pro') based on the assumption that the electron angle was measured by the detector correctly for elastic events in the ep->e'p' channel
+    // Below are the kinematic calculations of the electron momentum (from el+pro->el'+pro') based on the assumption that the electron angle was measured by the detector correctly
     
     auto termA = Beam_Energy*(1 - cos(eleC.Theta())) + 0.938;
         // termA --> "Initial Electron Beam Energy"*(1 - cos("Electron Theta")) + "Proton Mass"
@@ -2811,6 +2952,13 @@ if(event_Name != "error"):
             CorrectionName1 = 'El Cor (Quad - Quad Phi)'
         if('mmEF' in CorrectionNameIn):
             CorrectionName1 = 'El Cor (Quad - Quad Phi - Elastic Cor)'
+            
+        if(event_type == "EO"):
+            if(CorrectionNameIn == "mm0"):
+                CorrectionName = "No Momentum Corrections"
+            else:
+                CorrectionName = CorrectionName1
+            return CorrectionName
 
         if('Pip' not in CorrectionNameIn):
             CorrectionName2 = 'No Pi+ Cor' if event_type != "P0" else ""
@@ -3133,9 +3281,9 @@ if(event_Name != "error"):
 
     
 
-    ##================================================================================================##
-    ##==========##     For 2D Missing Mass vs Momentum Histograms - hmmCPARTall (End)     ##==========##
-    ##================================================================================================##
+    ##====================================================================================================##
+    ##==========##     For 2D Invariant Mass vs Momentum Histograms - HWC_Histo_All (End)     ##==========##
+    ##====================================================================================================##
 
 
 
@@ -4027,7 +4175,7 @@ if(event_Name != "error"):
     ##===============##=============##         Exclusivity Cuts (Using WM from Elastic Scattering)         ##=============##=============##
     ##===================================================================================================================================##
     #######################################################################################################################################
-    if(event_type == "ES"):
+    if("E" in event_type):
         Calculated_Exclusive_Cuts = """
         // For Invariant Mass Cut:
         auto Beam_Energy = 10.6041;
@@ -4038,7 +4186,7 @@ if(event_Name != "error"):
 
         auto Cut_Variable = (beam + targ - eleC).M();
         double Cut_Upper = 1.3;
-        double Cut_Lower = 0.7;
+        double Cut_Lower = 0.6;
 
         if(esec == 1){
             if(eleC.P() > 5.95 && eleC.P() < 6.95){
@@ -4180,6 +4328,9 @@ if(event_Name != "error"):
         kinematicCuts = ["", Calculated_Exclusive_Cuts, CutChoice, "Both"]
         
         
+    kinematicCuts = ["", CutChoice, CutChoice_2, "Both_3"]
+        
+        
     def Cut_Function(Data_Frame, Input_Cut, Output_Type="Default"):
         
         Cut_Title = ""
@@ -4197,6 +4348,9 @@ if(event_Name != "error"):
             Cut_Title = "Azimuthal and Polar Angle Cuts"
         if(str(Input_Cut) == "All"):
             Cut_Title = "All Additional Cuts"
+            
+        if(Output_Type == "Title"):
+            return Cut_Title
 
         Cut_Data_Frame = Data_Frame
         if(Input_Cut != ""):
@@ -4230,7 +4384,9 @@ if(event_Name != "error"):
             return [Cut_Data_Frame, Cut_Title]
     
 
-
+    print(color.BOLD + "\nRunning Code with the following Cuts:" + color.END)
+    for Cuts in kinematicCuts:
+        print(Cut_Function("Data_Frame", Cuts, "Title") if(Cut_Function("Data_Frame", Cuts, "Title") != "") else "No (Additonal) Cuts")
     
     #########################################################################################################################################################
     ##=====================================================================================================================================================##
@@ -4334,7 +4490,7 @@ if(event_Name != "error"):
     ExtraElectronSecListFilterOn = 'yes'
     
     
-    if(event_type != "SP" and event_type != "ES"):
+    if(event_type != "SP" and "E" not in event_type):
         Delta_Pip_histo_SecList = [1, 2, 3, 4, 5, 6] # Only the proton correction is available for the double pion channel (Turned off π0 channel as well)
         ExtraElectronSecListFilterOn = 'no'
     
@@ -4350,7 +4506,7 @@ if(event_Name != "error"):
     Combine_el_pip_filters_Q = "no"
     
     
-    if(event_type == "ES" and Combine_el_pip_filters_Q == "no"):
+    if("E" in event_type and Combine_el_pip_filters_Q == "no"):
         Delta_Pip_histo_SecList = ["all"]
 
 
@@ -4409,6 +4565,15 @@ if(event_Name != "error"):
         # Select which comparisons you would like to see (i.e. which variables would you like to compare to the theoretical calculations)
         # Delta_P_histo_CompareList = ['pro', 'el']
         Delta_P_histo_CompareList = ['el']
+        
+        
+        
+    if(event_type == "EO"):
+        if(datatype == "Inbending"):
+            Delta_P_histo_CorList = ['mm0', 'mmF']
+        if(datatype == "Outbending"):
+            Delta_P_histo_CorList = ['mm0', 'mmF']
+        Delta_P_histo_CompareList = ['el']
 
 
 
@@ -4423,7 +4588,7 @@ if(event_Name != "error"):
     
     # Set the y-axis range od the ∆P histograms:
         # Note: original default binning was set to 200 bins for a range of -1 to 1 (halved for the elastic colisions)
-    if(event_type != "ES"):
+    if("E" not in event_type):
         extendx_min, extendx_max = -3, 3
         size_of_Dp_Bins = 0.005
     else:
@@ -4442,7 +4607,7 @@ if(event_Name != "error"):
     # Number of (π+/pro) phi bins
     NumPhiBins = ['1', '3']
     
-    if(event_type == "ES"):
+    if("E" in event_type):
         NumPhiBins = ['1']
 
 
@@ -4469,10 +4634,11 @@ if(event_Name != "error"):
         for cor_names in Delta_P_histo_CorList:
             print("".join(["\t", str(cor_num), ") ", str(cor_names), " -> '", corNameTitles(cor_names), "'"]))
             cor_num += 1
-        print("".join(["The ", "Pi+" if(event_type == "SP" or event_type == "MC") else "proton", " sectors being run are: ", str(Delta_Pip_histo_SecList)]))
+        if(event_type != "EO"):
+            print("".join(["The ", "Pi+" if(event_type == "SP" or event_type == "MC") else "proton", " sectors being run are: ", str(Delta_Pip_histo_SecList)]))
         print("".join(["The electron sectors being run are: ", str(ExtraElectronSecListFilter)]))
-
-        print("".join(["The list of (", "Pi+" if(event_type == "SP" or event_type == "MC") else "Proton", ") phi bins that will be run is: ", str(NumPhiBins)]))
+        if(event_type != "EO"):
+            print("".join(["The list of (", "Pi+" if(event_type == "SP" or event_type == "MC") else "Proton", ") phi bins that will be run is: ", str(NumPhiBins)]))
         print("".join(["The list of (Electron) phi bins that will be run is: ", str(NumPhiBinsEL)]))
 
         if(str(SBehQ) != 'no'):
@@ -4598,8 +4764,14 @@ if(event_Name != "error"):
         
     if(event_type == "ES"):
         particleList = ['el', 'pro']
-        
         particle_plot_List = ['el', 'pro']
+        
+        particleList = ['el']
+        particle_plot_List = ['el']
+        
+    if(event_type == "EO"):
+        particleList = ['el']
+        particle_plot_List = ['el']
 
     correctionList = ['mm0']
     
@@ -4641,6 +4813,12 @@ if(event_Name != "error"):
             # correctionList = ['mm0_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF_ProMMpro_F', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
             correctionList = ['mm0_NoELC', 'mm0', 'mmF_ProMMpro_F']
             
+            
+    if(event_type == "EO"):
+        if(datatype == "Inbending"):
+            correctionList = ['mm0', 'mmF']
+        if(datatype == "Outbending"):
+            correctionList = ['mm0', 'mmF']
 
 
 
@@ -4649,7 +4827,7 @@ if(event_Name != "error"):
     binningList = ['1', '3']
     # binningList = ['3']
     
-    if(event_type == "ES"):
+    if("E" in event_type):
         binningList = ['1']
 
     # Sector = 0 refers to all sectors so the code will start by making histograms that do not filter by sector
@@ -4666,9 +4844,16 @@ if(event_Name != "error"):
 
 
 
-    ##-----------------------------------------------------------------##
-    ##=====##=====##     Non-vital Histogram Options     ##=====##=====##
-    ##-----------------------------------------------------------------##
+    ##-------------------------------------------------------##
+    ##=====##=====##     Histogram Options     ##=====##=====##
+    ##-------------------------------------------------------##
+    
+    Run_Missing_Mass_Histos = 'yes'
+    # Run_Missing_Mass_Histos = 'no'
+    
+    if("E" in event_type):
+        Run_Missing_Mass_Histos = 'no'
+    
 
     # Letting Run_Phase_Space = 'yes' allows for the histograms without the missing mass values to be run
     Run_Phase_Space = 'yes'
@@ -4677,6 +4862,7 @@ if(event_Name != "error"):
 
     # This list is for the extra phase space histograms which can be run with or without shifts      
     shiftList = ['', 'S', 'NS']
+    shiftList = ['', 'S']
 
 
     
@@ -4685,9 +4871,9 @@ if(event_Name != "error"):
     Run_Invariant_Mass_Histos = 'yes'
     # Run_Invariant_Mass_Histos = 'no'
 
-    ##-----------------------------------------------------------------------##
-    ##=====##=====##     Non-vital Histogram Options (End)     ##=====##=====##
-    ##-----------------------------------------------------------------------##
+    ##-------------------------------------------------------------##
+    ##=====##=====##     Histogram Options (End)     ##=====##=====##
+    ##-------------------------------------------------------------##
 
 
 
@@ -4718,7 +4904,7 @@ if(event_Name != "error"):
 
 
     if(particleList != []):
-        print("\n\033[1mFor the Missing Mass Histograms...\033[0m")
+        print("\n\033[1mFor the Kinematic Histograms...\033[0m")
         print("".join(["Particles to be plotted include: ", str(particle_plot_List)]))
         print("".join(["Particles to be used for sector/phi binning include: ", str(particleList)]))
 
@@ -4734,34 +4920,36 @@ if(event_Name != "error"):
 
         print("".join(["The sectors to be included are: ", str(SecRangeAll)]))
 
-        if(Run_Phase_Space == 'yes'):
-            print("Will be running the phase space histograms (without missing mass).")
-            
-        if(Run_Invariant_Mass_Histos == 'yes'):
-            print("Will be running histograms with Invariant Mass.")
+        if(Run_Missing_Mass_Histos != "yes")
+            print("Will NOT be running the Missing Mass histograms.")        
+        if(Run_Phase_Space != 'yes'):
+            print("Will NOT be running the phase space histograms.")
+        if(Run_Invariant_Mass_Histos != 'yes'):
+            print("Will NOT be running histograms with Invariant Mass.")
 
         if(str(ShowBGq) != 'no'):
             print("".join(["Using ShowBackground()?: ", ShowBGq]))
 
     else:
-        print("\n\033[1mNot running Missing Mass Histograms...\033[0m")
+        print("\n\033[1mNot running Kinematic Histograms...\033[0m")
 
     countHisto = 0
 
 
-    for Cuts in kinematicCuts:
-        for particle in particle_plot_List:
-            for sector in SecRangeAll:
-                for correction in correctionList:
-                    for binning in binningList:
-                        for particle_filter in particleList:
-                            regionList = regList_Call(binning, particle_filter, 1)
-                            for region in regionList:
-                                if(Print_Names_Of_Histos_To_Be_Made_Q == 'yes'):
-                                    print(str((correction, sector, "", binning, region, particle, particle_filter, "Cut" if(Cuts != "") else "")))
-                                countHisto += 1
-                                if(ShowBGq == 'yes' and particle == 'el'):
+    if(Run_Missing_Mass_Histos == "yes"):
+        for Cuts in kinematicCuts:
+            for particle in particle_plot_List:
+                for sector in SecRangeAll:
+                    for correction in correctionList:
+                        for binning in binningList:
+                            for particle_filter in particleList:
+                                regionList = regList_Call(binning, particle_filter, 1)
+                                for region in regionList:
+                                    if(Print_Names_Of_Histos_To_Be_Made_Q == 'yes'):
+                                        print(str((correction, sector, "", binning, region, particle, particle_filter, "Cut" if(Cuts != "") else "")))
                                     countHisto += 1
+                                    if(ShowBGq == 'yes' and particle == 'el'):
+                                        countHisto += 1
 
 
     if(Run_Phase_Space == 'yes'):
@@ -4779,7 +4967,7 @@ if(event_Name != "error"):
                                 if('mm0' == correction):
                                     countHisto += 1
                                 
-                                
+    if(Run_Invariant_Mass_Histos == 'yes'): 
         for Cuts in kinematicCuts:
             for particle in particle_plot_List:
                 for particle_filter in particleList:
@@ -4791,7 +4979,7 @@ if(event_Name != "error"):
                                     countHisto += 1
 
 
-    print("".join(["\n\033[1mTotal Missing Mass Histograms that will be made: \033[0m", str(countHisto)]))
+    print("".join(["\n\033[1mTotal Kinematic Histograms that will be made: \033[0m", str(countHisto)]))
 
     print("".join(["\033[1mWith the first half of the code, the total will be: \033[0m", str(Total_Extra + countHisto)]))
 
@@ -4982,7 +5170,7 @@ if(event_Name != "error"):
 
 
                                         if('el' in Delta_P_histo_CompareList and Delta_Pel_histo_Q == 'y'):
-                                            Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), Title.replace("Particle", "El"), 240 if(event_type != "ES") else 120, 0, 12, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
+                                            Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), Title.replace("Particle", "El"), 240 if("E" not in event_type) else 120, 0, 12, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
                                             # if(binningEL == '1'):
                                             #     Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), "".join(["#splitline{" if(Cut_Title != "") else "", "(", str(datatype), ") #Delta p_{el} vs p_{el} ", str(SecName), " ", str(correctionNAME), " ", str(regionName), "".join(["}{Cut Applied: ", str(Cut_Title), "}"]) if(Cut_Title != "") else "", "; p_{el}; #Delta p_{el}"]), 240 if(event_type != "ES") else 120, 0, 12, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
                                             # else:
@@ -5142,15 +5330,15 @@ if(event_Name != "error"):
 
 
 
-    ##################################################################################################################
-    ##=====##=====##=====##=====##=====##     Making Missing Mass Histograms     ##=====##=====##=====##=====##=====##
-    ##################################################################################################################
+    ####################################################################################################################
+    ##=====##=====##=====##=====##=====##     Making Invariant Mass Histograms     ##=====##=====##=====##=====##=====##
+    ####################################################################################################################
 
 
     HWC_Histo_All = {}
     count_WM = 0
     
-    if(Run_Phase_Space == 'yes'):
+    if(Run_Invariant_Mass_Histos == 'yes'):
         for Cuts in kinematicCuts:
             Cut_rdf, Cut_Title = Cut_Function(rdf, Cuts)
             for correction in correctionList:
@@ -5373,7 +5561,7 @@ if(event_Name != "error"):
                 
                 
                 
-    # # # # # # # # # # # # # # # # # # # #    For the ∆P Histograms    # # # # # # # # # # # # # # # # # # # # 
+    # # # # # # # # # # # # # # # # # # # #    For the ∆Angle Histograms    # # # # # # # # # # # # # # # # # # # # 
                 
         
         
@@ -5392,14 +5580,15 @@ if(event_Name != "error"):
 
     # # # # # # # # # # # # # # # # # # Second half of code (Missing Mass Histograms) # # # # # # # # # # # # # # # # # #
 
-    for saving_MM_name in hmmCPARTall:
-        if(SaveResultsQ == 'yes'):
-            hmmCPARTall[saving_MM_name].Write()
-        elif(CheckDataFrameQ == "y"):
-            print("".join(["hmmCPARTall[", str(saving_MM_name), "]"]))
-        elif(Full_Crash_Check == "y"):
-            print(type(hmmCPARTall[saving_MM_name]))
-        countSaved += 1
+    if(Run_Missing_Mass_Histos == "yes"):
+        for saving_MM_name in hmmCPARTall:
+            if(SaveResultsQ == 'yes'):
+                hmmCPARTall[saving_MM_name].Write()
+            elif(CheckDataFrameQ == "y"):
+                print("".join(["hmmCPARTall[", str(saving_MM_name), "]"]))
+            elif(Full_Crash_Check == "y"):
+                print(type(hmmCPARTall[saving_MM_name]))
+            countSaved += 1
 
 
     # # # # # # # # # # # # # # #   Other Phase Space Histograms (without Missing Mass)   # # # # # # # # # # # # # # #
@@ -5434,7 +5623,7 @@ if(event_Name != "error"):
 
     # # # # # # # # # # # # # # # # # # # # #     Invariant Mass Histograms     # # # # # # # # # # # # # # # # # # # # #
 
-    if(Run_Phase_Space == 'yes'):
+    if(Run_Invariant_Mass_Histos == 'yes'):
         for saving_WM_name in HWC_Histo_All:
             if(SaveResultsQ == 'yes'):
                 HWC_Histo_All[saving_WM_name].Write()
