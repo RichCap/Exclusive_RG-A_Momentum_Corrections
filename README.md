@@ -11,8 +11,75 @@ Main Notebook Used to Evaluate Files created with the above python code: Momentu
     * Currently developing under the name: Momentum_Corrections_Github_Main.ipynb
 3) Add π0 files (from home directory) to this github (if their size allows)
 4) Create Corrections based on Elastic Scattering events
+5) Remove MM_type from list of parameters (integrate into event_type)
 
 ## Update Notes:
+As of 10-7-2022, the data files used (the outputs of the groovy code) were also saved to the work directory.
+Saved here to prevent a loss of files while working on the volitile folder.
+Backup File location: /w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections
+
+
+## Updates from 10-14-2022:
+General Updates:
+* Combined the Electron Only Electron Corrections with new Single Pion Electron Correction (files produced using skim4 which had fewer cuts)
+    * New Corrections have much wider coverage (up to p = 9.95 GeV)
+    * Code was update such that these corrections can be produced (results of fits have not been added back to the python script)
+    * The directory for the skim4 Inbending Files were added to this repository (files created using the same files used to create the Elastic Scattering/Electron Only Files)
+* The Universal Jupyter Notebook code has been updated to create phi-dependent corrections again 
+    * Another update is still needed to plot each phi bin together for ∆P plots
+* More options are available to see plots with and without certain cuts, but the code will skip options which apply a variable cut on a plot/histogram containing information about that variable
+* More features added to help provide consistency between different channels and images for the Jupyter Notebook
+Update notes given in the python Code:
+* Extra_Part_of_Name = "_GitHub_Cut_Tests_V5"
+    * Changed the base invariant mass cut to be wider (range extended to W < 1.8 GeV - does not affect existing cuts)
+    * Suppressed histograms with cuts that were made with the same variable being plotted
+    * Turned off phase space histograms (to run faster)
+    * Turned off some cuts - Running the code with the following cuts (only):
+        (*) No (Additonal) Cuts
+        (*) Calculated Exclusivity Cuts
+        (*) Azimuthal Kinematic Cut
+        (*) Calculated Polar Kinematic Cut
+        (*) Azimuthal and Polar Angle Cuts
+        (*) All Additional Cuts)
+    * Changed which corrections are being applied to the histograms (without the proton, only electron corrections are needed for ∆P and Invariant Mass)
+    * Turned off extra angle calculation types (just V1 and V3 are running - these are the only working versions of ∆Theta and ∆Phi)
+    * Only ran for the "ES" channel (not "EO")
+
+* Extra_Part_of_Name = "_GitHub_Cut_Tests_V6"
+    * The basic Invariant Mass cut is now not made automatically --> testing new cut which is just a basic cut at W < 0.7 GeV and W > 1.4 GeV (called "Calculated_Exclusive_Cuts_V2")
+    * Updated the tighter Invariant Mass cut using the Invariant mass plots from the tagged proton channel (i.e., "ES")
+    * Increased the range of the y-axis of the ∆P plots (increased to ±2 GeV with the same sizes of binning)
+    * Turned the phase space histograms back on
+
+* Extra_Part_of_Name = "_GitHub_Cut_Tests_V7"
+    * Made the basic Invariant Mass cut tighter (i.e., "Calculated_Exclusive_Cuts_V2" --> W < 0.7 GeV and W > 1.2 GeV)
+    * Decreased the range of the y-axis of the ∆P plots (decreased to ±1 GeV with the same sizes of binning --> the ideal may be even lower as all desirable events are between ±0.3 Gev but the range has been extended to see more when necessary)
+
+* Extra_Part_of_Name = "_GitHub_Electron_Refinement_V1"
+    * Reintroduced the automatic baseline cut on Invariant Mass for elastic channels (W < 0.6 GeV and W > 1.3 GeV --- "Calculated_Exclusive_Cuts_V2" is not effected)
+    * Increased the bin sizes along the y-axis of the ∆P plots for the non-elastic channels (same bin ranges as before, but the bin sizes are now consistent with those from the elastic scattering channels)
+        (*) Other similar updates were also added so that these channels will produce plots which are consistent with the elastic scattering events
+    * Running with electron phi bins
+    * Phase space histograms now only create a plot for sector 0 (i.e., all sectors -- Optional condition that can be turned off -- does not affect other options)
+    * Only running electron kinematics and corrections (for elastic and single pion channels -- Pi+ corrections are included in the SP channel)
+    * Updated the default location of the SP files (compatible with current file names for the SP files made with the groovy script)
+
+* Extra_Part_of_Name = "_GitHub_Electron_Refinement_V2"
+    * Minor update to histogram titles (related to the phi binning parts of titles)
+    * Updated SP files to take in files using skim4 data (files which did not have the W cuts applied)
+
+## Updates from 10-4-2022:
+General Updates:
+* Ran the "Electron Only" file options (updated all programs to be compatible with this option)
+* Deleted old code from the main jupyter notebook (from how the code used to run - Momentum_Corrections_Github_Main.ipynb now runs the majority of the histograms within one cell)
+    * Some old cells have only been commented out and still need to be fully deleted
+    * Momentum_Corrections_Github_Missing_Mass_Only.ipynb still contains a recent version of these cell and has not been deleted from the repository yet (has been deleted/renamed in the working directory)
+* Improve the fitting procedures for the invariant mass plots (specifically for the elastic events "ES")
+Update notes given in the python Code:
+* Extra_Part_of_Name = "_GitHub_Cut_Tests_V4"
+    1) Added New Invariant Mass Cuts based on the cuts from "_GitHub_Cut_Tests_V3"
+        * 3 options of Invariant Mass Cuts have been added based on combinations of the above cuts
+    2) Turned back on 'phase space' plots but turned off Missing Mass plots (using Invariant Mass instead)
 
 
 ## Updates from 10-3-2022:

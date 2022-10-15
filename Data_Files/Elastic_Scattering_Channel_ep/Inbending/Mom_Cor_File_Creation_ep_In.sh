@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --ntasks=1
-#SBATCH --job-name=Mom_Cors_ep_elastic_Inbending_GitHub_Cut_Tests_V3_10_2_2022
+#SBATCH --job-name=Mom_Cors_ep_elastic_Inbending_GitHub_Electron_Refinement_V1_10_7_2022
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=richard.capobianco@uconn.edu 
 #SBATCH --output=/farm_out/%u/%x-%j-%N.out
@@ -26,4 +26,3 @@ FILES=(/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Mom
 # # array files (Inbending): 0-173
 
 srun python ../../File_Creation_Final_Momentum_Corrections_Github.py In ES ${FILES[$SLURM_ARRAY_TASK_ID]}
-
