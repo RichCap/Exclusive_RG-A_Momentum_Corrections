@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --ntasks=1
-#SBATCH --job-name=Mom_Cors_electron_only_Inbending_GitHub_Electron_Refinement_V1_10_7_2022
+#SBATCH --job-name=Mom_Cors_electron_only_Inbending_GitHub_Electron_Refinement_V6_10_17_2022
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=richard.capobianco@uconn.edu 
 #SBATCH --output=/farm_out/%u/%x-%j-%N.out

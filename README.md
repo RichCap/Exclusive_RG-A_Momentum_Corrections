@@ -19,6 +19,50 @@ Saved here to prevent a loss of files while working on the volitile folder.
 Backup File location: /w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections
 
 
+## Updates from 10-21-2022:
+General Updates:
+* Added Code to run Pass 1 and Pass 2 Data from Spring 2019 (full tests not yet complete)
+* Improving fits of all 2D histograms (sliced histograms)
+* Finalizing Extended Electron Corrections (not done as of this update, but nearing completion - may be done by the next github update...)
+* Prior python notes older than those in this update were removed from within the python code
+    * See older updates below for their details
+    * Updates for "_GitHub_Back_to_Back_Test_V9" and "_GitHub_Cut_Tests_V7" were kept to show the last version of each update name (and because V9 makes these names easy to search for when editting the code)
+Update notes from python script:
+* Extra_Part_of_Name = "_GitHub_Electron_Refinement_V3"
+    * Added new (extended) Electron Momentum Corrections (Kinematic Coverage is: 0.95-9.95 GeV)
+    * Not running Electron Only Correction (i.e., 'mmF') for the Single Pion Channel (may run it later during the refinement of the pion corrections)
+
+* Extra_Part_of_Name = "_GitHub_Electron_Refinement_V4"
+    * Updated Missing Mass histograms so that their momentum ranges are always from p = 0-12 GeV (does not depend on the plotted particle anymore)
+    * Refined Electron Corrections based on Extra_Part_of_Name = "_GitHub_Electron_Refinement_V3"
+        (*) Kinematic Coverage changed to: 1.45-9.95 GeV
+    * Running the pi+ pion corrections again
+
+* Extra_Part_of_Name = "_GitHub_Electron_Refinement_V5"
+    * Doubled the number of bins in the ∆P plots (both in x and y binning for the electron corrections, just in the y binning for all others)
+        (*) Changed the range of the electron momentum plotted in the ∆P histograms from 0-12 GeV (with 120 bins total) to the new dimensions of 0.5-10.5 GeV with 400 bins total (bin size is 0.025 GeV/bin)
+    * Added the Correction options where only the electron is corrected to the SP channel
+    * No new corrections since "_GitHub_Electron_Refinement_V4"
+
+* Extra_Part_of_Name = "_GitHub_Electron_Refinement_V6"
+    * Refined the Electron Corrections based on the new fits of the uncorrected ∆P plots
+    
+* Other Names (specific for certain file inputs):
+    * Notes:
+        1) event_type == "MC" is for simulated data tests
+        2) pass_version is used for the Spring 2019 data (to note the difference between pass1 files and pass2 files)
+```
+if(event_type == "MC"):
+    Extra_Part_of_Name = "_GitHub_MC_Test_V1"
+    # Testing the momentum corrections using Monte Carlo files (for use in SIDIS analysis)
+    # Runs the same as event_type == "SP"
+
+if(pass_version != "NA" and pass_version != ""):
+    Extra_Part_of_Name = "".join(["_GitHub_Spring_2019_Pass_", "1" if("Pass 1" in pass_version) else "2", "_V1"])
+    # Testing Spring 2019 data with pass 1 and pass 2 files
+```
+
+
 ## Updates from 10-14-2022:
 General Updates:
 * Combined the Electron Only Electron Corrections with new Single Pion Electron Correction (files produced using skim4 which had fewer cuts)
