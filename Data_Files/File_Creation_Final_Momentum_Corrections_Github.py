@@ -43,10 +43,15 @@ file_name = str(file_location)
 
 
 pass_version = "NA"
+Beam_Energy = 10.6041 # Fall 2018 Beam Energy
+
+# Spring 2019 Data sets
 if("P1" in event_type):
     pass_version = "Spring 2019 - Pass 1"
+    Beam_Energy = 10.1998
 if("P2" in event_type):
     pass_version = "Spring 2019 - Pass 2"
+    Beam_Energy = 10.1998
     
 event_type = str((event_type.replace("P1", "")).replace("P2", ""))
 
@@ -112,8 +117,11 @@ file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/richcap/Mome
 
 file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Single_Pion_Channel_epipN/Inbending_skim4/ePip.inb.qa.", ""))
 
-file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass1/Inbending/ePip.pass1.inb.qa.nSidis_00", ""))
-file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass2/Inbending/ePip.pass2.inb.qa.nSidis_00", ""))
+file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass1/Inbending_nSidis/ePip.pass1.inb.qa.nSidis_00", ""))
+file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass2/Inbending_nSidis/ePip.pass2.inb.qa.nSidis_00", ""))
+
+file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass1/Inbending/ePip.pass1.inb.qa.MissingNeutron_00", ""))
+file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass2/Inbending/ePip.pass2.inb.qa.MissingNeutron_00", ""))
 
     
 ROOT.gStyle.SetTitleOffset(1.3, 'y')
@@ -212,13 +220,15 @@ if(event_Name != "error"):
     
     if(pass_version != "NA" and pass_version != ""):
         print("".join(["\n", color.BOLD, color.BLUE, "RUNNING FILES FROM: ", str(pass_version), "\n", color.END]))
+        
+    print("".join(["Initial Beam Energy is given as: ", color.BOLD, str(Beam_Energy), " GeV", color.END, "\n"]))
 
     # These lines are left over from older versions of the code. Do not change or remove them without editing all other parts of code that reference them.
     CutChoice, CutChoice_2 = 'none', 'none'
     if(event_type == "ES"):
-        CutChoice = """
+        CutChoice = "".join(["""
             // For ∆Phi Cuts:
-            auto Beam_Energy = 10.6041;
+            auto Beam_Energy = """, str(Beam_Energy), """;
             auto Proton_Mass = 0.938;
             auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
             auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
@@ -413,10 +423,10 @@ if(event_Name != "error"):
                 }
             }
             return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
-        """
-        CutChoice_2 = """
+        """])
+        CutChoice_2 = "".join(["""
             // For ∆Theta Cuts:
-            auto Beam_Energy = 10.6041;
+            auto Beam_Energy = """, str(Beam_Energy),""";
             auto Proton_Mass = 0.938;
             auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
             auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
@@ -607,7 +617,7 @@ if(event_Name != "error"):
                 }
             }
             return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
-        """
+        """])
 
 
     ##################################################################################
@@ -753,8 +763,25 @@ if(event_Name != "error"):
     
     Extra_Part_of_Name = "_GitHub_Electron_Refinement_V6"
     # Refined the Electron Corrections based on the new fits of the uncorrected ∆P plots
+
     
     
+    Extra_Part_of_Name = "_GitHub_Pion_Refinement_V1"
+    # Created new Pion Corrections using the new electron corrections (and fit methods)
+    # Minor issue noticed: there seems to be some print funtion which outputs empty lines during the running of this code - this should not effect the histograms, but is an oddity that I would like to fix (this was not noticed ever before)
+    
+    Extra_Part_of_Name = "_GitHub_Pion_Refinement_V2"
+    # Refined the Pion Corrections from "GitHub_Pion_Refinement_V1"
+    # Fixed an issue with 'pass_version' being used with Fall2018 data (code check for pass_version != "NS" instead of pass_version != "NA")
+    
+    Extra_Part_of_Name = "_GitHub_Pion_Refinement_V3"
+    # Refined the Pion Corrections from "GitHub_Pion_Refinement_V1" ("GitHub_Pion_Refinement_V2" refinements were accidentally applied to the electron instead of the pion)
+    # Set the initial beam energies used throughout the code at the beginning (based on file input) to avoid issues when loading other (i.e., Spring 2019) datasets
+    # Fixed the minor note mentioned for "GitHub_Pion_Refinement_V1"
+    
+    Extra_Part_of_Name = "_GitHub_Pion_Refinement_V4"
+    # Refined the Pion Corrections from "GitHub_Pion_Refinement_V3"
+
     
     if(event_type == "MC"):
         Extra_Part_of_Name = "_GitHub_MC_Test_V1"
@@ -765,6 +792,14 @@ if(event_Name != "error"):
         Extra_Part_of_Name = "".join(["_GitHub_Spring_2019_Pass_", "1" if("Pass 1" in pass_version) else "2", "_V1"])
         # Testing Spring 2019 data with pass 1 and pass 2 files
         
+        Extra_Part_of_Name = "".join(["_GitHub_Spring_2019_Pass_", "1" if("Pass 1" in pass_version) else "2", "_V2"])
+        # Update file locations to take in events from different file skims (MissingNeutron files instead of the nSidis files)
+        # Removed "Extended" Electron Corrections (i.e., the refinements of the original corrections from the last collaboration meeting)
+        
+        Extra_Part_of_Name = "".join(["_GitHub_Spring_2019_Pass_", "1" if("Pass 1" in pass_version) else "2", "_V3"])
+        # Fixed initial beam energies (was still using energy from Fall 2018 instead of from Spring 2019)
+        # File locations take events from MissingNeutron files instead of the nSidis files (want to switch back to nSidis)
+    
     
     if(event_type != "MC"):
         if(event_type != "P0"):
@@ -847,15 +882,18 @@ if(event_Name != "error"):
                     # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/shrestha/clas12momcorr/data/inbending/ePipX/epip.skim4_00*"
                     # running_code_with_these_files = "/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/inbending/ePipX/epip.skim4_005*"
                     running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Single_Pion_Channel_epipN/Inbending/ePip.inb.qa.nSidis_005*"
+                    running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Single_Pion_Channel_epipN/Inbending_skim4/ePip.inb.qa.skim4_00*"
                 else:
                     # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/shrestha/clas12momcorr/outbending/ePipX/skim4_00*"
                     # running_code_with_these_files = "/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/outbending/ePipX/skim4_005*"
                     running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Single_Pion_Channel_epipN/Outbending/ePip.outb.qa.nSidis_005*"
             else:
                 if("Pass 1" in pass_version):
-                    running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass1/Inbending/ePip.pass1.inb.qa.nSidis_00*"
+                    running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass1/Inbending_nSidis/ePip.pass1.inb.qa.nSidis_00*"
+                    # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass1/Inbending/ePip.pass1.inb.qa.MissingNeutron_00*"
                 else:
-                    running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass2/Inbending/ePip.pass2.inb.qa.nSidis_00*"
+                    running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass2/Inbending_nSidis/ePip.pass2.inb.qa.nSidis_00*"
+                    # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass2/Inbending/ePip.pass2.inb.qa.MissingNeutron_00*"
                         
         if(event_type == "DP"):
             if(datatype == "Inbending"):
@@ -895,8 +933,8 @@ if(event_Name != "error"):
     
     if("E" in event_type):
         print(color.BOLD + "\nApplying Base Invariant Mass Cuts to Elastic Events...\n" + color.END)
-        rdf = rdf.Filter("""
-        auto Beam_Energy = 10.6041;
+        rdf = rdf.Filter("".join(["""
+        auto Beam_Energy = """, str(Beam_Energy), """;
         auto Proton_Mass = 0.938;
         auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
         auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
@@ -905,7 +943,7 @@ if(event_Name != "error"):
         double Cut_Upper = 1.3;
         double Cut_Lower = 0.6;
         return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
-        """)
+        """]))
 
     #############################################################################
     ##=====##=====##=====##=====##   Loading RDF   ##=====##=====##=====##=====##
@@ -1177,9 +1215,9 @@ if(event_Name != "error"):
     ##=================================================================================================##
     #####################################################################################################
 
-    ############################################################
-    #----------#     Last updated on: 10-17-2022     #----------#
-    ############################################################
+    #############################################################
+    #----------#     Last updated on: 11-7-2022     #----------#
+    #############################################################
 
     if(datatype == "Inbending"):
         Correction_Code_Full_In = """
@@ -1199,7 +1237,8 @@ if(event_Name != "error"):
                 
             // corPip ==> Gives the 'generation' of the π+ Pion correction
                 // corPip == 0 --> No Correction
-                // corPip == 1 --> Final Version of Corrections
+                // corPip == 1 --> Old Version of Corrections
+                // corPip == 2 --> Final Version of Corrections
 
             // corPim ==> Gives the 'generation' of the π- Pion correction
                 // corPim == 0 --> No Correction
@@ -1428,6 +1467,8 @@ if(event_Name != "error"):
                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Uncorrected][Sector 6] is:
                         dp = ((1.1076e-06)*phi*phi + (4.0156e-05)*phi + (-1.6341e-04))*pp*pp + ((-2.8613e-05)*phi*phi + (-5.1861e-04)*phi + (-0.0056437))*pp + ((1.2419e-04)*phi*phi + (4.9084e-04)*phi + (0.049976));
                     }
+
+                    
                     // if(sec == 1){
                     //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Uncorrected][Sector 1] is:
                     //     dp = ((-1.5040e-05)*phi*phi + (8.3658e-05)*phi + (1.4496e-04))*pp*pp + ((1.6822e-04)*phi*phi + (-0.0011009)*phi + (-0.0078315))*pp + ((-4.0600e-04)*phi*phi + (7.6757e-04)*phi + (0.053669));
@@ -1499,41 +1540,75 @@ if(event_Name != "error"):
 
 
             if(corPip != 0 && ivec == 1){
-
                 if(sec == 1){
-
                     dp = ((-5.2e-07)*phi*phi + (-1.383e-05)*phi + (4.7179e-04))*pp*pp + ((8.33e-06)*phi*phi + (3.8849e-04)*phi + (-6.81319e-03))*pp + ((-1.645e-05)*phi*phi + (-5.0057e-04)*phi + (1.9902e-02));
-
                 }
-
                 if(sec == 2){
-
                     dp = ((-1.88e-06)*phi*phi + (3.303e-05)*phi + (1.1331e-03))*pp*pp + ((1.569e-05)*phi*phi + (-3.974e-05)*phi + (-1.25869e-02))*pp + ((-2.903e-05)*phi*phi + (-1.0638e-04)*phi + (2.61529e-02));
-
                 }
-
                 if(sec == 3){
-
                     dp = ((2.4e-07)*phi*phi + (-1.04e-05)*phi + (7.0864e-04))*pp*pp + ((8.0e-06)*phi*phi + (-5.156e-05)*phi + (-8.12169e-03))*pp  + ((-2.42e-05)*phi*phi + (8.928e-05)*phi + (2.13223e-02));
-
                 }
-
                 if(sec == 4){
-
                     dp = ((-4.0e-08)*phi*phi + (-3.59e-05)*phi + (1.32146e-03))*pp*pp + ((1.023e-05)*phi*phi + (2.2199e-04)*phi + (-1.33043e-02))*pp + ((-2.801e-05)*phi*phi + (-1.576e-04)*phi + (3.27995e-02));
-
                 }
-
                 if(sec == 5){
-
                     dp = ((2.7e-06)*phi*phi + (5.03e-06)*phi + (1.59668e-03))*pp*pp + ((-1.28e-05)*phi*phi + (-1.99e-06)*phi + (-1.71578e-02))*pp + ((2.091e-05)*phi*phi + (-4.14e-05)*phi + (3.25434e-02));
-
                 }
-
                 if(sec == 6){
-
                     dp = ((2.13e-06)*phi*phi + (-7.49e-05)*phi + (1.75565e-03))*pp*pp + ((-7.37e-06)*phi*phi + (5.8222e-04)*phi + (-1.27969e-02))*pp + ((4.9e-07)*phi*phi + (-7.2253e-04)*phi + (3.11499e-02));
-
+                }
+                
+                
+                if(corPip == 2){
+                    if(sec == 1){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion - With Elastic)][Sector 1] is:
+                        dp = ((-5.4904e-07)*phi*phi + (-1.4436e-05)*phi + (3.1534e-04))*pp*pp + ((3.8231e-06)*phi*phi + (3.6582e-04)*phi + (-0.0046759))*pp + ((-5.4913e-06)*phi*phi + (-4.0157e-04)*phi + (0.010767));
+                        
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (With (New) Pion - With Elastic)][Sector 1] is:
+                        dp = dp + ((6.1103e-07)*phi*phi + (5.5291e-06)*phi + (-1.9120e-04))*pp*pp + ((-3.2300e-06)*phi*phi + (1.5377e-05)*phi + (7.5279e-04))*pp + ((2.1434e-06)*phi*phi + (-6.9572e-06)*phi + (-7.9333e-05));
+                        dp = dp + ((-1.3049e-06)*phi*phi + (1.1295e-05)*phi + (4.5797e-04))*pp*pp + ((9.3122e-06)*phi*phi + (-5.1074e-05)*phi + (-0.0030757))*pp + ((-1.3102e-05)*phi*phi + (2.2153e-05)*phi + (0.0040938));
+                    }
+                    if(sec == 2){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion - With Elastic)][Sector 2] is:
+                        dp = ((-1.0087e-06)*phi*phi + (2.1319e-05)*phi + (7.8641e-04))*pp*pp + ((6.7485e-06)*phi*phi + (7.3716e-05)*phi + (-0.0094591))*pp + ((-1.1820e-05)*phi*phi + (-3.8103e-04)*phi + (0.018936));
+                        
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (With (New) Pion - With Elastic)][Sector 2] is:
+                        dp = dp + ((8.8155e-07)*phi*phi + (-2.8257e-06)*phi + (-2.6729e-04))*pp*pp + ((-5.4499e-06)*phi*phi + (3.8397e-05)*phi + (0.0015914))*pp + ((6.8926e-06)*phi*phi + (-5.9386e-05)*phi + (-0.0021749));
+                        dp = dp + ((-2.0147e-07)*phi*phi + (1.1061e-05)*phi + (3.8827e-04))*pp*pp + ((4.9294e-07)*phi*phi + (-6.0257e-05)*phi + (-0.0022087))*pp + ((9.8548e-07)*phi*phi + (5.9047e-05)*phi + (0.0022905));
+                    }
+                    if(sec == 3){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion - With Elastic)][Sector 3] is:
+                        dp = ((8.6722e-08)*phi*phi + (-1.7975e-05)*phi + (4.8118e-05))*pp*pp + ((2.6273e-06)*phi*phi + (3.1453e-05)*phi + (-0.0015943))*pp + ((-6.4463e-06)*phi*phi + (-5.8990e-05)*phi + (0.0041703));
+                        
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (With (New) Pion - With Elastic)][Sector 3] is:
+                        dp = dp + ((9.6317e-07)*phi*phi + (-1.7659e-06)*phi + (-8.8318e-05))*pp*pp + ((-5.1346e-06)*phi*phi + (8.3318e-06)*phi + (3.7723e-04))*pp + ((3.9548e-06)*phi*phi + (-6.9614e-05)*phi + (2.1393e-04));
+                        dp = dp + ((5.6438e-07)*phi*phi + (8.1678e-06)*phi + (-9.4406e-05))*pp*pp + ((-3.9074e-06)*phi*phi + (-6.5174e-05)*phi + (5.4218e-04))*pp + ((6.3198e-06)*phi*phi + (1.0611e-04)*phi + (-4.5749e-04));
+                    }
+                    if(sec == 4){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion - With Elastic)][Sector 4] is:
+                        dp = ((4.3406e-07)*phi*phi + (-4.9036e-06)*phi + (2.3064e-04))*pp*pp + ((1.3624e-06)*phi*phi + (3.2907e-05)*phi + (-0.0034872))*pp + ((-5.1017e-06)*phi*phi + (2.4593e-05)*phi + (0.0092479));
+                        
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (With (New) Pion - With Elastic)][Sector 4] is:
+                        dp = dp + ((6.0218e-07)*phi*phi + (-1.4383e-05)*phi + (-3.1999e-05))*pp*pp + ((-1.1243e-06)*phi*phi + (9.3884e-05)*phi + (-4.1985e-04))*pp + ((-1.8808e-06)*phi*phi + (-1.2222e-04)*phi + (0.0014037));
+                        dp = dp + ((-2.5490e-07)*phi*phi + (-8.5120e-07)*phi + (7.9109e-05))*pp*pp + ((2.5879e-06)*phi*phi + (8.6108e-06)*phi + (-5.1533e-04))*pp + ((-4.4521e-06)*phi*phi + (-1.7012e-05)*phi + (7.4848e-04));
+                    }
+                    if(sec == 5){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion - With Elastic)][Sector 5] is:
+                        dp = ((2.4292e-07)*phi*phi + (8.8741e-06)*phi + (2.9482e-04))*pp*pp + ((3.7229e-06)*phi*phi + (7.3215e-06)*phi + (-0.0050685))*pp + ((-1.1974e-05)*phi*phi + (-1.3043e-04)*phi + (0.0078836));
+                        
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (With (New) Pion - With Elastic)][Sector 5] is:
+                        dp = dp + ((1.0867e-06)*phi*phi + (-7.7630e-07)*phi + (-4.4930e-05))*pp*pp + ((-5.6564e-06)*phi*phi + (-1.3417e-05)*phi + (2.5224e-04))*pp + ((6.8460e-06)*phi*phi + (9.0495e-05)*phi + (-4.6587e-04));
+                        dp = dp + ((8.5720e-07)*phi*phi + (-6.7464e-06)*phi + (-4.0944e-05))*pp*pp + ((-4.7370e-06)*phi*phi + (5.8808e-05)*phi + (1.9047e-04))*pp + ((5.7404e-06)*phi*phi + (-1.1105e-04)*phi + (-1.9392e-04));
+                    }
+                    if(sec == 6){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion - With Elastic)][Sector 6] is:
+                        dp = ((2.1191e-06)*phi*phi + (-3.3710e-05)*phi + (2.5741e-04))*pp*pp + ((-1.2915e-05)*phi*phi + (2.3753e-04)*phi + (-2.6882e-04))*pp + ((2.2676e-05)*phi*phi + (-2.3115e-04)*phi + (-0.001283));
+                        
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (With (New) Pion - With Elastic)][Sector 6] is:
+                        dp = dp + ((6.0270e-07)*phi*phi + (-6.8200e-06)*phi + (1.3103e-04))*pp*pp + ((-1.8745e-06)*phi*phi + (3.8646e-05)*phi + (-8.8056e-04))*pp + ((2.0885e-06)*phi*phi + (-3.4932e-05)*phi + (4.5895e-04));
+                        dp = dp + ((4.7349e-08)*phi*phi + (-5.7528e-06)*phi + (-3.4097e-06))*pp*pp + ((1.7731e-06)*phi*phi + (3.5865e-05)*phi + (-5.7881e-04))*pp + ((-9.7008e-06)*phi*phi + (-4.1836e-05)*phi + (0.0035403));
+                    }
                 }
 
             }
@@ -2126,13 +2201,17 @@ if(event_Name != "error"):
 
     # // corPip ==> Gives the 'generation' of the π+ Pion correction
     #     // corPip == 0 --> No Correction
-    #     // corPip == 1 --> Quad Momentum, Quad Phi (Final Version)
+    #     // corPip == 1 --> Quad Momentum, Quad Phi (Old Version)
+    #     // corPip == 2 --> Quad Momentum, Quad Phi (Final Version)
     def NamePipCor(corPip, datatype):
         coutN = 0
         if("Pip" not in corPip):
             coutN = 0
         else:
-            coutN = 1
+            if("PipMMEF" in corPip):
+                coutN = 2                
+            else:
+                coutN = 1
         return coutN
 
 
@@ -2673,7 +2752,7 @@ if(event_Name != "error"):
 
     auto Pro_Th_Calc = (proC.Theta())*(180/3.1415926); // Initialize the calculated proton angle as the same value as the measured/corrected proton angle (converted to degrees)
 
-    Pro_Th_Calc = acos(((10.6041 + 0.938)*(proC.E() - + 0.938))/(10.6041*proC.P()))*(180/3.1415926);
+    Pro_Th_Calc = acos(((Beam_Energy + 0.938)*(proC.E() - + 0.938))/(Beam_Energy*proC.P()))*(180/3.1415926);
 
     auto Delta_Theta = ((proC.Theta())*(180/3.1415926)) - Pro_Th_Calc;
 
@@ -2818,7 +2897,7 @@ if(event_Name != "error"):
 
         Full_Correction_Output = "".join([Correction_Code, """
 
-    auto Beam_Energy = 10.6041;
+    auto Beam_Energy = """, str(Beam_Energy), """;
     // Defined by the run group/data set
 
     """, "// " if("MM" not in Out_Type and "WM" not in Out_Type) else "", """auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
@@ -2845,6 +2924,8 @@ if(event_Name != "error"):
             # print("".join([color.BOLD, "Correction Code: \n", color.END, str(Full_Correction_Output)]) if("D_Angle" in Out_Type) else "")
             if(Extra_Cut != "none" and Extra_Cut != ""):
                 Output = Output.Filter(Extra_Cut)
+                if("D_Angle" in Out_Type):
+                    print("".join([color.BOLD, "\n\n\nCut Code: \n", color.END, str(Extra_Cut)]))
                 # print("".join([color.BOLD, "\n\n\nCut Code: \n", color.END, str(Extra_Cut)]) if("D_Angle" in Out_Type) else "")
             # if("D_Angle_V4" in Out_Type and Correction == "mm0" and Extra_Cut != ""):
             #     Output.Display(str(Output_Title), 10).Print()
@@ -2858,6 +2939,7 @@ if(event_Name != "error"):
             
             print("".join([color.BLUE, color.BOLD, "\nINPUTS: CorDpp(Data_Frame, ", str(Correction), ", ", str(Out_Type), ", ", str(Channel_Type), ", ", str(MM_Type), ", ", str(Data_Type), ", ", str(Extra_Cut), ")", color.END]))
             print("".join([color.RED, color.BOLD, "ERROR GIVEN: \n", str(e), color.END, "\n\n"]))
+            print("".join([color.RED, color.BOLD, "TRACEBACK: \n", str(traceback.format_exc()), color.END, "\n\n"]))
             
 
         
@@ -3100,6 +3182,8 @@ if(event_Name != "error"):
                 CorrectionName2 = 'Pi+ Cor (Quad - Quad Phi - Refined 5)'
             if('MMF' in CorrectionNameIn):
                 CorrectionName2 = 'Pi+ Cor (Quad - Quad Phi)'
+            if('MMEF' in CorrectionNameIn):
+                CorrectionName2 = 'Pi+ Cor (Quad - Quad Phi - With Elastic Cors)'
 
         if('Pim' not in CorrectionNameIn):
             CorrectionName3 = 'No Pi- Cor' if event_type == "DP" else ""
@@ -3390,7 +3474,7 @@ if(event_Name != "error"):
                
 
         start_title = "".join(["#splitline{", str(datatype), " Invariant Mass}"])
-        if(pass_version != "NS" and pass_version != ""):
+        if(pass_version != "NA" and pass_version != ""):
             start_title = "".join(["#splitline{", str(start_title), "{", str(pass_version), "}}"])
         
         output_title = "".join([str(start_title), "{", str(CorrrectionName), " -- ", SecName, "}; p_{", Particle_Plot_Formatting, "} [GeV]; W [GeV]"])
@@ -3462,7 +3546,7 @@ if(event_Name != "error"):
 
                 
         start_title = "".join(["#splitline{(", str(datatype), ") MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "} ", str(SecName), "}"])
-        if(pass_version != "NS" and pass_version != ""):
+        if(pass_version != "NA" and pass_version != ""):
             start_title = "".join(["#splitline{", str(start_title), "{", str(pass_version), "}}"])
                 
         output_title = "".join([str(start_title), "{Correction:", str(CorrrectionName), "};p_{", str(Particle_Plot_Formatting), "} [GeV];MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}"])
@@ -3520,9 +3604,9 @@ if(event_Name != "error"):
         
         if("In" in datatype):
 
-            Calculated_Exclusive_Cuts = """
+            Calculated_Exclusive_Cuts = "".join(["""
             
-                auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
+                auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
                 auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
                 auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
                 auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
@@ -3734,13 +3818,13 @@ if(event_Name != "error"):
 
                 return (MM_Vector.M() < cut_up && MM_Vector.M() > cut_down);
 
-            """
+            """])
             
         if("Out" in datatype):
 
-            Calculated_Exclusive_Cuts = """
+            Calculated_Exclusive_Cuts = "".join(["""
             
-                auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
+                auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
                 auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
                 auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
                 auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
@@ -3951,7 +4035,7 @@ if(event_Name != "error"):
 
                 return (MM_Vector.M() < cut_up && MM_Vector.M() > cut_down);
 
-            """
+            """])
 
 
     ################################################################################################################################
@@ -3971,9 +4055,9 @@ if(event_Name != "error"):
     if(MM_type == "eppipX"):
 
         if("In" in datatype):
-            Calculated_Exclusive_Cuts = """
+            Calculated_Exclusive_Cuts = "".join(["""
 
-                auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
+                auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
                 auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
                 auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
                 auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
@@ -4046,7 +4130,7 @@ if(event_Name != "error"):
 
                 return (MM_Vector.M2() < cut_up && MM_Vector.M2() > cut_down);
 
-            """
+            """])
             
 
 
@@ -4054,9 +4138,9 @@ if(event_Name != "error"):
         if("Out" in datatype):
             
 
-            Calculated_Exclusive_Cuts = """
+            Calculated_Exclusive_Cuts = "".join(["""
 
-                auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
+                auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
                 auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
                 auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
                 auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
@@ -4130,7 +4214,7 @@ if(event_Name != "error"):
 
                 return (MM_Vector.M2() < cut_up && MM_Vector.M2() > cut_down);
 
-            """
+            """])
     ##################################################################################################################################
     ##==============================================================================================================================##
     ##===============##=============##       End of Exclusivity Cuts (Using MM^2 from epπ+(π-))       ##=============##=============##
@@ -4146,9 +4230,9 @@ if(event_Name != "error"):
     if(MM_type == "eppi0X"):
 
         if("In" in datatype):
-            Calculated_Exclusive_Cuts = """
+            Calculated_Exclusive_Cuts = "".join(["""
 
-                auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
+                auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
                 auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
                 auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
                 auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
@@ -4220,12 +4304,12 @@ if(event_Name != "error"):
                 
                 return (MM_Vector.M2() < cut_up && MM_Vector.M2() > cut_down);
                 
-            """
+            """])
             
         if("Out" in datatype):
-            Calculated_Exclusive_Cuts = """
+            Calculated_Exclusive_Cuts = "".join(["""
 
-                auto beam = ROOT::Math::PxPyPzMVector(0, 0, 10.6041, 0);
+                auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
                 auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
                 auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
                 auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
@@ -4297,7 +4381,7 @@ if(event_Name != "error"):
                 
                 return (MM_Vector.M2() < cut_up && MM_Vector.M2() > cut_down);
                 
-            """
+            """])
     ##################################################################################################################################
     ##==============================================================================================================================##
     ##===============##=============##         End of Exclusivity Cuts (Using MM^2 from epπ0)         ##=============##=============##
@@ -4313,9 +4397,9 @@ if(event_Name != "error"):
     ##===================================================================================================================================##
     #######################################################################################################################################
     if("E" in event_type):
-        Calculated_Exclusive_Cuts = """        
+        Calculated_Exclusive_Cuts = "".join(["""        
         // For Invariant Mass Cut (Determined with the help of Azimuthal Kinematic Cut applied on the invariant mass histogram):
-        auto Beam_Energy = 10.6041;
+        auto Beam_Energy = """, str(Beam_Energy), """;
         auto Proton_Mass = 0.938;
         auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
         auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
@@ -4552,9 +4636,9 @@ if(event_Name != "error"):
             }
         }
         return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
-        """
-        Calculated_Exclusive_Cuts_V2 = """
-        auto Beam_Energy = 10.6041;
+        """])
+        Calculated_Exclusive_Cuts_V2 = "".join(["""
+        auto Beam_Energy = """, str(Beam_Energy), """;
         auto Proton_Mass = 0.938;
         auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
         auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
@@ -4563,7 +4647,7 @@ if(event_Name != "error"):
         double Cut_Upper = 1.2;
         double Cut_Lower = 0.7;
         return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
-        """
+        """])
         
     ############################################################################################################################################
     ##========================================================================================================================================##
@@ -4804,6 +4888,8 @@ if(event_Name != "error"):
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF']
             Delta_P_histo_CorList = ['mm0', 'mmF_PipMMF', 'mmExF_PipMMF', 'mmEF_PipMMF']
             Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmExF', 'mmF_PipMMF', 'mmExF_PipMMF', 'mmEF_PipMMF']
+            Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmF_PipMMF', 'mmEF_PipMMF']
+            Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmF_PipMMF', 'mmEF_PipMMF', 'mmEF_PipMMEF']
 
         if(datatype == "Outbending"):
             Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF']
@@ -4860,6 +4946,7 @@ if(event_Name != "error"):
     if(event_type == "EO"):
         if(datatype == "Inbending"):
             Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmExF']
+            Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF']
         if(datatype == "Outbending"):
             Delta_P_histo_CorList = ['mm0', 'mmF']
         Delta_P_histo_CompareList = ['el']
@@ -5085,6 +5172,8 @@ if(event_Name != "error"):
             # correctionList = ['mm0', 'mmF', 'mmF_PipMMF']
             correctionList = ['mm0', 'mmF_PipMMF', 'mmExF_PipMMF', 'mmEF_PipMMF']
             correctionList = ['mm0', 'mmF', 'mmEF', 'mmExF', 'mmF_PipMMF', 'mmExF_PipMMF', 'mmEF_PipMMF']
+            correctionList = ['mm0', 'mmF', 'mmEF', 'mmF_PipMMF', 'mmEF_PipMMF']
+            correctionList = ['mm0', 'mmF', 'mmEF', 'mmF_PipMMF', 'mmEF_PipMMF', 'mmEF_PipMMEF']
         if(datatype == "Outbending"):
             correctionList = ['mm0', 'mmF', 'mmF_PipMMF']
             
@@ -5126,6 +5215,7 @@ if(event_Name != "error"):
         if(datatype == "Inbending"):
             # correctionList = ['mm0', 'mmF']
             correctionList = ['mm0', 'mmF', 'mmEF', 'mmExF']
+            correctionList = ['mm0', 'mmF', 'mmEF']
         if(datatype == "Outbending"):
             correctionList = ['mm0', 'mmF']
 
@@ -5230,9 +5320,7 @@ if(event_Name != "error"):
 
         print("".join(["The number of phi bins will include: ", str(binningList)]))
 
-        print("".join(["The sectors to be included are: ", str(SecRangeAll)]))
-
-        print("")
+        print("".join(["The sectors to be included are: ", str(SecRangeAll), "\n"]))
         
         if(Run_Missing_Mass_Histos != "yes"):
             print(color.BOLD + "Will NOT be running the Missing Mass histograms." + color.END)
@@ -5264,7 +5352,7 @@ if(event_Name != "error"):
                                 regionList = regList_Call(binning, particle_filter, 1)
                                 for region in regionList:
                                     if(Print_Names_Of_Histos_To_Be_Made_Q == 'yes'):
-                                        print(str((correction, sector, "", binning, region, particle, particle_filter, "Cut" if(Cuts != "") else "")))
+                                        print("Histo: " + str((correction, sector, "", binning, region, particle, particle_filter, "Cut" if(Cuts != "") else "")))
                                     countHisto += 1
                                     if(ShowBGq == 'yes' and particle == 'el'):
                                         countHisto += 1
@@ -5464,7 +5552,7 @@ if(event_Name != "error"):
                                             
                                             
                                         Title_Line_1 = "".join(["(", str(datatype), ") #Delta p_{Particle} vs p_{Particle}"])
-                                        if(pass_version != "NS" and pass_version != ""):
+                                        if(pass_version != "NA" and pass_version != ""):
                                             Title_Line_1 = "".join(["#splitline{", str(pass_version), "}{", str(Title_Line_1), "}"])
                                         Title_Line_2 = ((("".join(["Correction: ", str(root_color.Bold), "{", correctionNAME, "}"]).replace("Pi+", "#pi^{+}")).replace("Pi-", "#pi^{-}")).replace("Phi", "#phi"))
                                         Title_Line_3 = "".join([str(SecName), "".join([" -- #phi_{", "#pi^{+} " if(event_type == "SP" or event_type == "MC") else "Pro", "} Bin: ", str(regionName)]) if(str(regionName) != "" and "No Phi Bins" not in regionName) else "", "".join([" -- #phi_{El} Bin: ", str(regionNameEL)]) if(str(regionNameEL) != "" and "No Phi Bins" not in regionNameEL) else ""])
@@ -5763,7 +5851,7 @@ if(event_Name != "error"):
                                 Title_Mom_Phi_Line_1 = "".join(["(", str(datatype), ") p_{", str(particle_title), "} vs #phi_{", str(particle_title), "}", str(shiftTitle(shift))])
                                 Title_The_Phi_Line_1 = "".join(["(", str(datatype), ") #theta_{", str(particle_title), "} vs ", str(local_Q), "#phi_{", str(particle_title), "}", str(shiftTitle(shift))])
                 
-                                if(pass_version != "NS" and pass_version != ""):
+                                if(pass_version != "NA" and pass_version != ""):
                                     Title_Mom_The_Line_1 = "".join(["#splitline{", str(pass_version), "}{", str(Title_Mom_The_Line_1), "}"])
                                     Title_Mom_Phi_Line_1 = "".join(["#splitline{", str(pass_version), "}{", str(Title_Mom_Phi_Line_1), "}"])
                                     Title_The_Phi_Line_1 = "".join(["#splitline{", str(pass_version), "}{", str(Title_The_Phi_Line_1), "}"])
@@ -5876,7 +5964,7 @@ if(event_Name != "error"):
                 elif(CheckDataFrameQ == "y"):
                     print("".join(["Dmom_pip_Histo[", str(saving_Dp_pip_name), "]"]))
                 elif(Full_Crash_Check == "y"):
-                    print(type(Dmom_pip_Histo[saving_Dp_pip_name]))
+                    print("".join(["type = ", str(type(Dmom_pip_Histo[saving_Dp_pip_name]))]))
                 countSaved += 1
 
         if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
@@ -5886,7 +5974,7 @@ if(event_Name != "error"):
                 elif(CheckDataFrameQ == "y"):
                     print("".join(["Dmom_pro_Histo[", str(saving_Dp_pro_name), "]"]))
                 elif(Full_Crash_Check == "y"):
-                    print(type(Dmom_pro_Histo[saving_Dp_pro_name]))
+                    print("".join(["type = ", str(type(Dmom_pro_Histo[saving_Dp_pro_name]))]))
                 countSaved += 1
 
         if('el' in Delta_P_histo_CompareList and Delta_Pel_histo_Q == 'y'):
@@ -5896,7 +5984,7 @@ if(event_Name != "error"):
                 elif(CheckDataFrameQ == "y"):
                     print("".join(["Dmom_pel_Histo[", str(saving_Dp_pel_name), "]"]))
                 elif(Full_Crash_Check == "y"):
-                    print(type(Dmom_pel_Histo[saving_Dp_pel_name]))
+                    print("".join(["type = ", str(type(Dmom_pel_Histo[saving_Dp_pel_name]))]))
                 countSaved += 1
 
                 
@@ -5913,7 +6001,7 @@ if(event_Name != "error"):
             elif(CheckDataFrameQ == "y"):
                 print("".join(["Dmom_Angle_Histo[", str(saving_DAngle_name), "]"]))
             elif(Full_Crash_Check == "y"):
-                print(type(Dmom_Angle_Histo[saving_DAngle_name]))
+                print("".join(["type = ", str(type(Dmom_Angle_Histo[saving_DAngle_name]))]))
             countSaved += 1
             
             
@@ -5928,7 +6016,7 @@ if(event_Name != "error"):
             elif(CheckDataFrameQ == "y"):
                 print("".join(["hmmCPARTall[", str(saving_MM_name), "]"]))
             elif(Full_Crash_Check == "y"):
-                print(type(hmmCPARTall[saving_MM_name]))
+                print("".join(["type = ", str(type(hmmCPARTall[saving_MM_name]))]))
             countSaved += 1
 
 
@@ -5941,7 +6029,7 @@ if(event_Name != "error"):
             elif(CheckDataFrameQ == "y"):
                 print("".join(["Histo_P_v_Th[", str(saving_th_name), "]"]))
             elif(Full_Crash_Check == "y"):
-                print(type(Histo_P_v_Th[saving_th_name]))
+                print("".join(["type = ", str(type(Histo_P_v_Th[saving_th_name]))]))
             countSaved += 1
 
         for saving_Phi_name in Histo_P_v_Phi:
@@ -5950,7 +6038,7 @@ if(event_Name != "error"):
             elif(CheckDataFrameQ == "y"):
                 print("".join(["Histo_P_v_Phi[", str(saving_Phi_name), "]"]))
             elif(Full_Crash_Check == "y"):
-                print(type(Histo_P_v_Phi[saving_Phi_name]))
+                print("".join(["type = ", str(type(Histo_P_v_Phi[saving_Phi_name]))]))
             countSaved += 1
 
         for saving_thPhi_name in Histo_Th_v_Phi:
@@ -5959,7 +6047,7 @@ if(event_Name != "error"):
             elif(CheckDataFrameQ == "y"):
                 print("".join(["Histo_Th_v_Phi[", str(saving_thPhi_name), "]"]))
             elif(Full_Crash_Check == "y"):
-                print(type(Histo_Th_v_Phi[saving_thPhi_name]))
+                print("".join(["type = ", str(type(Histo_Th_v_Phi[saving_thPhi_name]))]))
             countSaved += 1
 
     # # # # # # # # # # # # # # # # # # # # #     Invariant Mass Histograms     # # # # # # # # # # # # # # # # # # # # #
@@ -5971,7 +6059,7 @@ if(event_Name != "error"):
             elif(CheckDataFrameQ == "y"):
                 print("".join(["HWC_Histo_All[", str(saving_WM_name), "]"]))
             elif(Full_Crash_Check == "y"):
-                print(type(HWC_Histo_All[saving_WM_name]))
+                print("".join(["type = ", str(type(HWC_Histo_All[saving_WM_name]))]))
             countSaved += 1
 
 

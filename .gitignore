@@ -1,0 +1,15 @@
+*.hipo.root
+*.ipynb_checkpoints/
+*0.root
+*1.root
+*2.root
+*3.root
+*4.root
+*5.root
+*6.root
+*7.root
+*8.root
+*9.root
+Data_Files/Double_Pion_Channel_eppippim/Inbending/Other_Mom_Cor_File_Creation_eppippim_In_SF.sh
+Data_Files/Single_Pion_Channel_epipN/Outbending/Other_Mom_Cor_File_Creation_epipX_Out_SF.sh
+Momentum_Corrections_Github_Missing_Mass_Only.ipynb

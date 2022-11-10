@@ -14,10 +14,49 @@ Main Notebook Used to Evaluate Files created with the above python code: Momentu
 5) Remove MM_type from list of parameters (integrate into event_type)
 
 ## Update Notes:
+As of 11-10-2022, all files were moved to the work directory mentioned below.
 As of 10-7-2022, the data files used (the outputs of the groovy code) were also saved to the work directory.
 Saved here to prevent a loss of files while working on the volitile folder.
 Backup File location: /w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections
 
+
+
+## Updates from 11-10-2022:
+General Updates:
+* Needed to copy all files into the work directory to avoid a corruption issue encountered with commiting git updates with the files in the volatile folder
+* Pi+ Corrections were completed as of GitHub_Pion_Refinement_V4
+Update notes from python script:
+* Extra_Part_of_Name = "_GitHub_Pion_Refinement_V3"
+    * Refined the Pion Corrections from "GitHub_Pion_Refinement_V1" ("GitHub_Pion_Refinement_V2" refinements were accidentally applied to the electron instead of the pion)
+    * Set the initial beam energies used throughout the code at the beginning (based on file input) to avoid issues when loading other (i.e., Spring 2019) datasets
+    * Fixed the minor note mentioned for "GitHub_Pion_Refinement_V1"
+    
+* Extra_Part_of_Name = "_GitHub_Pion_Refinement_V4"
+    * Refined the Pion Corrections from "GitHub_Pion_Refinement_V3"
+    
+* Spring 2019 Updates (Pass 1 and Pass 2):
+```
+    if(pass_version != "NA" and pass_version != ""):
+        Extra_Part_of_Name = "".join(["_GitHub_Spring_2019_Pass_", "1" if("Pass 1" in pass_version) else "2", "_V3"])
+        # Fixed initial beam energies (was still using energy from Fall 2018 instead of from Spring 2019)
+        # File locations take events from MissingNeutron files instead of the nSidis files (want to switch back to nSidis)
+```
+
+
+## Updates from 11-4-2022:
+General Updates:
+* Made a Multigraph which plots all 3 phi bins together for the ∆P plots
+* Switched the way the ∆P (Pi+) plots are fit (now use the same method as the electron plots)
+* Pi+ Kinematics are plotted from 0.75-7.25 GeV (the ∆P plots use increments of 0.5 GeV while the Missing Mass plots use increments of 1 GeV)
+Update notes from python script:
+* Extra_Part_of_Name = "_GitHub_Pion_Refinement_V1"
+    * Created new Pion Corrections using the new electron corrections (and fit methods)
+    * Minor issue noticed: there seems to be some print funtion which outputs empty lines during the running of this code - this should not effect the histograms, but is an oddity that I would like to fix (this was not noticed ever before)
+    
+* Extra_Part_of_Name = "_GitHub_Pion_Refinement_V2"
+    * Refined the Pion Corrections from "GitHub_Pion_Refinement_V1"
+    * Fixed an issue with 'pass_version' being used with Fall2018 data (code check for pass_version != "NS" instead of pass_version != "NA")
+    
 
 ## Updates from 10-21-2022:
 General Updates:
