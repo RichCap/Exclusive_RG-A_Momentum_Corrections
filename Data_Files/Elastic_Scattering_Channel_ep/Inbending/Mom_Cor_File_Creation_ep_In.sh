@@ -14,15 +14,8 @@
 
 
 
-FILES=(/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/Valerii_Files/eP_Elastic_with_CDpro.inb.qa.skim4_005*)
+FILES=(/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Elastic_Scattering_ep/Inbending/eP_Elastic_with_CDpro.inb.qa.skim4_005*)
 # array files (Inbending): 0-173
 
-
-# FILES=(/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/Valerii_Files/eP_Elastic_with_CDpro_New.inb.qa.skim4_005*)
-# # array files (Fewer cuts - Inbending): 0-53
-
-# # Old Inbending files (do not use for elastic ep->e'p' events)
-# FILES=(/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/Inbending/eP_Elastic_with_CDpro_New.inb.qa.nSidis_00*)
-# # array files (Inbending): 0-173
 
 srun python ../../File_Creation_Final_Momentum_Corrections_Github.py In ES ${FILES[$SLURM_ARRAY_TASK_ID]}

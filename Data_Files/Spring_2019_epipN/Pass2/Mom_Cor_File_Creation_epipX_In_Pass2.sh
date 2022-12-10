@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --ntasks=1
-#SBATCH --job-name=Mom_Cors_epipX_SP_Inbending_GitHub_Spring_2019_Pass2_V1_10_20_2022
+#SBATCH --job-name=Mom_Cors_epipX_SP_Inbending_GitHub_Spring_2019_Pass2_V3_11_8_2022
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=richard.capobianco@uconn.edu 
 #SBATCH --output=/farm_out/%u/%x-%j-%N.out
@@ -12,10 +12,10 @@
 #SBATCH --array=0-29
 
 
-FILES=(/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass2/Inbending/ePip.pass2.inb.qa.nSidis_00*)
+FILES=(/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_nSidis/ePip.pass2.inb.qa.nSidis_00*)
 # (Inbending - Pass 2) array=0-29
 
-# FILES=(/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass1/Inbending/ePip.pass1.inb.qa.nSidis_00*)
+# FILES=(/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass1/Inbending_nSidis/ePip.pass1.inb.qa.nSidis_00*)
 # # (Inbending - Pass 1) array=0-120
 
 

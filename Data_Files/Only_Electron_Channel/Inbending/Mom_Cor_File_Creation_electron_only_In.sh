@@ -14,7 +14,7 @@
 
 
 
-FILES=(/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Only_Electron_Channel/electron_only.inb.qa.skim4_00*)
+FILES=(/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Only_Electron_Channel/Inbending/electron_only.inb.qa.skim4_00*)
 # array files (Inbending): 0-173
 
 

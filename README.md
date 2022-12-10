@@ -12,13 +12,23 @@ Main Notebook Used to Evaluate Files created with the above python code: Momentu
 3) Add π0 files (from home directory) to this github (if their size allows)
 4) Create Corrections based on Elastic Scattering events
 5) Remove MM_type from list of parameters (integrate into event_type)
+6) I am considering adding the elastic scattering channel (with tagged proton) to the double pion/pi0 channel to potentially improve the corrections
+    * I may even replace the pi0 channel with elastic protons, as the pi0 channel has very low statitics that can make it harder to work with/fit at times
+7) Have the proton corrections mainly focus on the low momentum protons as these events should be dominant based on statistics
 
 ## Update Notes:
-As of 11-10-2022, all files were moved to the work directory mentioned below.
+As of 11-10-2022, all files were moved to the work directory mentioned below. 
+
 As of 10-7-2022, the data files used (the outputs of the groovy code) were also saved to the work directory.
+
 Saved here to prevent a loss of files while working on the volitile folder.
+
 Backup File location: /w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections
 
+
+## Updates from 11-14-2022:
+General Updates:
+* Moved back to the work directory (issue was fixed but code may not all be updated yet...)
 
 
 ## Updates from 11-10-2022:

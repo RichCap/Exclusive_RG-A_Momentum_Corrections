@@ -52,33 +52,10 @@ if("P1" in event_type):
 if("P2" in event_type):
     pass_version = "Spring 2019 - Pass 2"
     Beam_Energy = 10.1998
+if("C" in event_type):
+    pass_version = "".join([pass_version, " - Central Detector"])
     
-event_type = str((event_type.replace("P1", "")).replace("P2", ""))
-
-# if(datatype == "Outbending"):
-#     file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/shrestha/clas12momcorr/data/outbending/ePipX/", ""))
-#     file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/kenjo/ntuple_epippimp/inb/lvl1_eppimpip.skim4_00", ""))
-#     file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/trotta/wagon/RhoWagon/PyAnalysis/data/outb/epPipPim.outb.qa.nSidis_00", ""))
-#     file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/kenjo/", ""))
-#     file_name = str(file_name.replace(".hipo.epip.root", ""))
-#     file_name = str(file_name.replace(".hipo.root", ""))
-#     file_name = str(file_name.replace("/u/home/richcap/", ""))
-#     file_name = str(file_name.replace("qa.", ""))
-#     file_name = str(file_name.replace("exclusiveselection.root", "Ex_Select"))
-#     file_name = str(file_name.replace("/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/inbending/ePipX/epip.skim4_00", ""))
-                                      
-# if(datatype == "Inbending"):
-#     file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/shrestha/clas12momcorr/data/inbending/ePipX/epip.", ""))
-#     file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/kenjo/ntuple_epippimp/inb/lvl1_eppimpip.skim4_00", ""))
-#     file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/trotta/wagon/RhoWagon/PyAnalysis/data/inb/epPipPim.inb.qa.nSidis_00", ""))
-#     file_name = str(file_name.replace(".epippimp", ""))
-#     file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/kenjo/", ""))
-#     file_name = str(file_name.replace(".hipo.root", ""))
-#     file_name = str(file_name.replace(".root", ""))
-#     file_name = str(file_name.replace("/u/home/richcap/", ""))
-#     file_name = str(file_name.replace("qa.", ""))
-#     file_name = str(file_name.replace("exclusiveselection.root", "Ex_Select"))
-#     file_name = str(file_name.replace("/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/outbending/ePipX/skim4_00", ""))
+event_type = str(((event_type.replace("P1", "")).replace("P2", "")).replace("C", ""))
     
     
 file_name = str(file_name.replace("/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/inbending/ePipX/epip.skim4_00", ""))
@@ -122,6 +99,13 @@ file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/richcap/Mome
 
 file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass1/Inbending/ePip.pass1.inb.qa.MissingNeutron_00", ""))
 file_name = str(file_name.replace("/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass2/Inbending/ePip.pass2.inb.qa.MissingNeutron_00", ""))
+
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Double_Pion_Channel_eppippim/Inbending_skim4/epPipPim.inb.qa.skim4_00", ""))
+
+
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Central_Tracking/Pass1/Inbending/ePip.Central.pass1.inb.qa.nSidis_00", ""))
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Central_Tracking/Pass2/Inbending/ePip.Central.pass2.inb.qa.nSidis_00", ""))
+
 
     
 ROOT.gStyle.SetTitleOffset(1.3, 'y')
@@ -714,73 +698,104 @@ if(event_Name != "error"):
 
     
     
-    Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V9"
-    # Increased the number of bins used in the ∆Theta_Pro Histograms
-    # Added an additional exclusivity cut (CutChoice_2) based on ∆Theta Calculation (D_Angle_V1)
-    # Exclusivity Cuts now do not use linear or quadratic equations, but instead use the gaussian widths of the fitted histograms
-    # "Cut_Function" now supports a combination of all of these added cuts (names updated somewhat from V8 to differentiate between all of the cut options)
-    # Removed Phi binning from the Elastic Channel (option was not being used)
+#     Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V9"
+#     # Increased the number of bins used in the ∆Theta_Pro Histograms
+#     # Added an additional exclusivity cut (CutChoice_2) based on ∆Theta Calculation (D_Angle_V1)
+#     # Exclusivity Cuts now do not use linear or quadratic equations, but instead use the gaussian widths of the fitted histograms
+#     # "Cut_Function" now supports a combination of all of these added cuts (names updated somewhat from V8 to differentiate between all of the cut options)
+#     # Removed Phi binning from the Elastic Channel (option was not being used)
     
-    Extra_Part_of_Name = "_GitHub_Cut_Tests_V7"
-    # Made the basic Invariant Mass cut tighter (i.e., "Calculated_Exclusive_Cuts_V2" --> W < 0.7 GeV and W > 1.2 GeV)
-    # Decreased the range of the y-axis of the ∆P plots (decreased to ±1 GeV with the same sizes of binning --> the ideal may be even lower as all desirable events are between ±0.3 Gev but the range has been extended to see more when necessary)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Electron_Refinement_V1"
-    # Reintroduced the automatic baseline cut on Invariant Mass for elastic channels (W < 0.6 GeV and W > 1.3 GeV --- "Calculated_Exclusive_Cuts_V2" is not effected)
-    # Increased the bin sizes along the y-axis of the ∆P plots for the non-elastic channels (same bin ranges as before, but the bin sizes are now consistent with those from the elastic scattering channels)
-        # Other similar updates were also added so that these channels will produce plots which are consistent with the elastic scattering events
-    # Running with electron phi bins
-    # Phase space histograms now only create a plot for sector 0 (i.e., all sectors -- Optional condition that can be turned off -- does not affect other options)
-    # Only running electron kinematics and corrections (for elastic and single pion channels -- Pi+ corrections are included in the SP channel)
-    # Updated the default location of the SP files (compatible with current file names for the SP files made with the groovy script)
+#     Extra_Part_of_Name = "_GitHub_Cut_Tests_V7"
+#     # Made the basic Invariant Mass cut tighter (i.e., "Calculated_Exclusive_Cuts_V2" --> W < 0.7 GeV and W > 1.2 GeV)
+#     # Decreased the range of the y-axis of the ∆P plots (decreased to ±1 GeV with the same sizes of binning --> the ideal may be even lower as all desirable events are between ±0.3 Gev but the range has been extended to see more when necessary)
     
     
-    
-    Extra_Part_of_Name = "_GitHub_Electron_Refinement_V2"
-    # Minor update to histogram titles (related to the phi binning parts of titles)
-    # Updated SP files to take in files using skim4 data (files which did not have the W cuts applied)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Electron_Refinement_V3"
-    # Added new (extended) Electron Momentum Corrections (Kinematic Coverage is: 0.95-9.95 GeV)
-    # Not running Electron Only Correction (i.e., 'mmF') for the Single Pion Channel (may run it later during the refinement of the pion corrections)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Electron_Refinement_V4"
-    # Updated Missing Mass histograms so that their momentum ranges are always from p = 0-12 GeV (does not depend on the plotted particle anymore)
-    # Refined Electron Corrections based on Extra_Part_of_Name = "_GitHub_Electron_Refinement_V3"
-        # (Kinematic Coverage changed to: 1.45-9.95 GeV)
-    # Running the pi+ pion corrections again
+#     Extra_Part_of_Name = "_GitHub_Electron_Refinement_V1"
+#     # Reintroduced the automatic baseline cut on Invariant Mass for elastic channels (W < 0.6 GeV and W > 1.3 GeV --- "Calculated_Exclusive_Cuts_V2" is not effected)
+#     # Increased the bin sizes along the y-axis of the ∆P plots for the non-elastic channels (same bin ranges as before, but the bin sizes are now consistent with those from the elastic scattering channels)
+#         # Other similar updates were also added so that these channels will produce plots which are consistent with the elastic scattering events
+#     # Running with electron phi bins
+#     # Phase space histograms now only create a plot for sector 0 (i.e., all sectors -- Optional condition that can be turned off -- does not affect other options)
+#     # Only running electron kinematics and corrections (for elastic and single pion channels -- Pi+ corrections are included in the SP channel)
+#     # Updated the default location of the SP files (compatible with current file names for the SP files made with the groovy script)
     
     
-    Extra_Part_of_Name = "_GitHub_Electron_Refinement_V5"
-    # Doubled the number of bins in the ∆P plots (both in x and y binning for the electron corrections, just in the y binning for all others)
-        # Changed the range of the electron momentum plotted in the ∆P histograms from 0-12 GeV (with 120 bins total) to the new dimensions of 0.5-10.5 GeV with 400 bins total (bin size is 0.025 GeV/bin)
-    # Added the Correction options where only the electron is corrected to the SP channel
-    # No new corrections since "_GitHub_Electron_Refinement_V4"
+    
+#     Extra_Part_of_Name = "_GitHub_Electron_Refinement_V2"
+#     # Minor update to histogram titles (related to the phi binning parts of titles)
+#     # Updated SP files to take in files using skim4 data (files which did not have the W cuts applied)
     
     
-    Extra_Part_of_Name = "_GitHub_Electron_Refinement_V6"
-    # Refined the Electron Corrections based on the new fits of the uncorrected ∆P plots
+#     Extra_Part_of_Name = "_GitHub_Electron_Refinement_V3"
+#     # Added new (extended) Electron Momentum Corrections (Kinematic Coverage is: 0.95-9.95 GeV)
+#     # Not running Electron Only Correction (i.e., 'mmF') for the Single Pion Channel (may run it later during the refinement of the pion corrections)
+    
+    
+#     Extra_Part_of_Name = "_GitHub_Electron_Refinement_V4"
+#     # Updated Missing Mass histograms so that their momentum ranges are always from p = 0-12 GeV (does not depend on the plotted particle anymore)
+#     # Refined Electron Corrections based on Extra_Part_of_Name = "_GitHub_Electron_Refinement_V3"
+#         # (Kinematic Coverage changed to: 1.45-9.95 GeV)
+#     # Running the pi+ pion corrections again
+    
+    
+#     Extra_Part_of_Name = "_GitHub_Electron_Refinement_V5"
+#     # Doubled the number of bins in the ∆P plots (both in x and y binning for the electron corrections, just in the y binning for all others)
+#         # Changed the range of the electron momentum plotted in the ∆P histograms from 0-12 GeV (with 120 bins total) to the new dimensions of 0.5-10.5 GeV with 400 bins total (bin size is 0.025 GeV/bin)
+#     # Added the Correction options where only the electron is corrected to the SP channel
+#     # No new corrections since "_GitHub_Electron_Refinement_V4"
+    
+    
+#     Extra_Part_of_Name = "_GitHub_Electron_Refinement_V6"
+#     # Refined the Electron Corrections based on the new fits of the uncorrected ∆P plots
 
     
     
-    Extra_Part_of_Name = "_GitHub_Pion_Refinement_V1"
-    # Created new Pion Corrections using the new electron corrections (and fit methods)
-    # Minor issue noticed: there seems to be some print funtion which outputs empty lines during the running of this code - this should not effect the histograms, but is an oddity that I would like to fix (this was not noticed ever before)
+#     Extra_Part_of_Name = "_GitHub_Pion_Refinement_V1"
+#     # Created new Pion Corrections using the new electron corrections (and fit methods)
+#     # Minor issue noticed: there seems to be some print funtion which outputs empty lines during the running of this code - this should not effect the histograms, but is an oddity that I would like to fix (this was not noticed ever before)
     
-    Extra_Part_of_Name = "_GitHub_Pion_Refinement_V2"
-    # Refined the Pion Corrections from "GitHub_Pion_Refinement_V1"
-    # Fixed an issue with 'pass_version' being used with Fall2018 data (code check for pass_version != "NS" instead of pass_version != "NA")
+#     Extra_Part_of_Name = "_GitHub_Pion_Refinement_V2"
+#     # Refined the Pion Corrections from "GitHub_Pion_Refinement_V1"
+#     # Fixed an issue with 'pass_version' being used with Fall2018 data (code check for pass_version != "NS" instead of pass_version != "NA")
     
-    Extra_Part_of_Name = "_GitHub_Pion_Refinement_V3"
-    # Refined the Pion Corrections from "GitHub_Pion_Refinement_V1" ("GitHub_Pion_Refinement_V2" refinements were accidentally applied to the electron instead of the pion)
-    # Set the initial beam energies used throughout the code at the beginning (based on file input) to avoid issues when loading other (i.e., Spring 2019) datasets
-    # Fixed the minor note mentioned for "GitHub_Pion_Refinement_V1"
+#     Extra_Part_of_Name = "_GitHub_Pion_Refinement_V3"
+#     # Refined the Pion Corrections from "GitHub_Pion_Refinement_V1" ("GitHub_Pion_Refinement_V2" refinements were accidentally applied to the electron instead of the pion)
+#     # Set the initial beam energies used throughout the code at the beginning (based on file input) to avoid issues when loading other (i.e., Spring 2019) datasets
+#     # Fixed the minor note mentioned for "GitHub_Pion_Refinement_V1"
     
-    Extra_Part_of_Name = "_GitHub_Pion_Refinement_V4"
-    # Refined the Pion Corrections from "GitHub_Pion_Refinement_V3"
+#     Extra_Part_of_Name = "_GitHub_Pion_Refinement_V4"
+#     # Refined the Pion Corrections from "GitHub_Pion_Refinement_V3"
+    
+    
+#     Extra_Part_of_Name = "_GitHub_Proton_Refinement_V1"
+#     # Starting the proton corrections
+    
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V2"
+    # New proton corrections (compatible with Elastic Corrections) - Quadratic but not phi dependent 
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V3"
+    # New proton corrections added
+        # More complex correction uses 2 quadratic equation
+    # Ran more versions of the corrections which turned off the Energy Loss Corrections
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V4"
+    # New proton corrections added
+        # More complex correction uses a combination of a quadratic and then a linear equation
+            # The correction added used the Energy Loss corrections when being created
+            # These are the only proton (momentum) corrections that are applied in this file
+    # The (new) corrections from "_GitHub_Proton_Refinement_V3" were not run again (did not work well)
+    
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V5"
+    # New proton corrections added
+        # Modified/replaced existing corrections to check how the number/size of momentum bins effects the corrections (updated the 'complex' corrections as well as the 'regular' quadratic corrections)
+        
+        
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V6"
+    # Refined the Proton Corrections by limiting the contributions of the Pi0 channel
+    # No longer plotting Pi- histograms (only electron, proton, and Pi+)
+    
 
     
     if(event_type == "MC"):
@@ -799,6 +814,13 @@ if(event_Name != "error"):
         Extra_Part_of_Name = "".join(["_GitHub_Spring_2019_Pass_", "1" if("Pass 1" in pass_version) else "2", "_V3"])
         # Fixed initial beam energies (was still using energy from Fall 2018 instead of from Spring 2019)
         # File locations take events from MissingNeutron files instead of the nSidis files (want to switch back to nSidis)
+        
+    if("Central" in pass_version):
+        Extra_Part_of_Name = "".join(["_GitHub_Spring_2019_Pass_", "1" if("Pass 1" in pass_version) else "2", "_V3" if("Central" not in pass_version) else "_Central_V1"])
+        # No changes to regular Spring 2019 files (as of V3 above), but added the option to plot using only central detector pions
+        # Added option to include "C" in the 3rd arguement of this code's input in order to switch from the Forward dectector to the central detector
+        
+    
     
     
     if(event_type != "MC"):
@@ -887,6 +909,11 @@ if(event_Name != "error"):
                     # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/shrestha/clas12momcorr/outbending/ePipX/skim4_00*"
                     # running_code_with_these_files = "/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/outbending/ePipX/skim4_005*"
                     running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Single_Pion_Channel_epipN/Outbending/ePip.outb.qa.nSidis_005*"
+            elif("Central" in pass_version):
+                if("Pass 1" in pass_version):
+                    running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Central_Tracking/Pass1/Inbending/ePip.Central.pass1.inb.qa.nSidis_00*"
+                else:
+                    running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Central_Tracking/Pass2/Inbending/ePip.Central.pass2.inb.qa.nSidis_00*"
             else:
                 if("Pass 1" in pass_version):
                     running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass1/Inbending_nSidis/ePip.pass1.inb.qa.nSidis_00*"
@@ -897,11 +924,13 @@ if(event_Name != "error"):
                         
         if(event_type == "DP"):
             if(datatype == "Inbending"):
-                running_code_with_these_files = "/lustre19/expphy/volatile/clas12/trotta/wagon/RhoWagon/PyAnalysis/data/inb/epPipPim.inb.qa.nSidis_005*"
+                # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/trotta/wagon/RhoWagon/PyAnalysis/data/inb/epPipPim.inb.qa.nSidis_005*"
+                running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Double_Pion_Channel_eppippim/Inbending_skim4/epPipPim.inb.qa.skim4_00*"
             else:
-                running_code_with_these_files = "/lustre19/expphy/volatile/clas12/trotta/wagon/RhoWagon/PyAnalysis/data/outb/epPipPim.outb.qa.nSidis_005*"
+                # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/trotta/wagon/RhoWagon/PyAnalysis/data/outb/epPipPim.outb.qa.nSidis_005*"
+                running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Double_Pion_Channel_eppippim/Outbending_skim4/epPipPim.outb.qa.skim4_00*"
                 
-            running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Double_Pion_Channel_eppippim/", str(datatype), "/epPipPim.", "out" if("Out" in str(datatype)) else "in", "b.qa.nSidis_005*"])
+            # running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Double_Pion_Channel_eppippim/", str(datatype), "/epPipPim.", "out" if("Out" in str(datatype)) else "in", "b.qa.nSidis_005*"])
                 
         if(event_type == "P0"):
             if(datatype == "Inbending"):
@@ -1216,7 +1245,7 @@ if(event_Name != "error"):
     #####################################################################################################
 
     #############################################################
-    #----------#     Last updated on: 11-7-2022     #----------#
+    #----------#     Last updated on: 12-9-2022     #----------#
     #############################################################
 
     if(datatype == "Inbending"):
@@ -1735,6 +1764,232 @@ if(event_Name != "error"):
                     }
                 }
                 
+                
+                if(corPro == 2){ // Quadratic Momentum - No Phi Dependence - With Elastic
+                    if(sec == 1){
+                        // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 1][regall] is:
+                        // dp = ((2.4366e-03)*pp*pp + (-0.01419)*pp + (0.01118));
+                        
+                        // Using consistent momentum bins of 0.25 GeV per slice:
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 1][regall] is:
+                        dp = ((7.0897e-03)*pp*pp + (-0.03199)*pp + (0.02237));
+                        
+                        
+                        // Refined with a limited π0 Channel Contributions (up to Pro = 0.95 GeV - The double pion channel's range is from 0.45 to 3.1 GeV)
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_EF][Sector 1][regall] is:
+                        dp = dp + ((-0.0111)*pp*pp + (0.04398)*pp + (-0.0309));
+                        
+                        
+                    }
+                    if(sec == 2){
+                        // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 2][regall] is:
+                        // dp = ((4.4524e-03)*pp*pp + (-0.01943)*pp + (0.01409));
+                        
+                        // Using consistent momentum bins of 0.25 GeV per slice:
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 2][regall] is:
+                        dp = ((5.3849e-03)*pp*pp + (-0.02474)*pp + (0.01933));
+                        
+                        
+                        // Refined with a limited π0 Channel Contributions (up to Pro = 0.95 GeV - The double pion channel's range is from 0.45 to 3.1 GeV)
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_EF][Sector 2][regall] is:
+                        dp = dp + ((-8.3180e-03)*pp*pp + (0.03359)*pp + (-0.0251));
+                        
+                        
+                    }
+                    if(sec == 3){
+                        // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 3][regall] is:
+                        // dp = ((6.2503e-03)*pp*pp + (-0.02598)*pp + (0.0168));
+                        
+                        // Using consistent momentum bins of 0.25 GeV per slice:
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 3][regall] is:
+                        dp = ((0.01095)*pp*pp + (-0.04196)*pp + (0.02795));
+                        
+                        
+                        // Refined with a limited π0 Channel Contributions (up to Pro = 0.95 GeV - The double pion channel's range is from 0.45 to 3.1 GeV)
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_EF][Sector 3][regall] is:
+                        dp = dp + ((-0.01892)*pp*pp + (0.06574)*pp + (-0.04358));
+                        
+                        
+                    }
+                    if(sec == 4){
+                        // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 4][regall] is:
+                        // dp = ((2.4303e-03)*pp*pp + (-0.01241)*pp + (8.5029e-03));
+                        
+                        // Using consistent momentum bins of 0.25 GeV per slice:
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 4][regall] is:
+                        dp = ((0.01038)*pp*pp + (-0.04012)*pp + (0.02781));
+                        
+                        
+                        // Refined with a limited π0 Channel Contributions (up to Pro = 0.95 GeV - The double pion channel's range is from 0.45 to 3.1 GeV)
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_EF][Sector 4][regall] is:
+                        dp = dp + ((-0.0147)*pp*pp + (0.05475)*pp + (-0.03912));
+                        
+                        
+                    }
+                    if(sec == 5){
+                        // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 5][regall] is:
+                        // dp = ((4.4340e-03)*pp*pp + (-0.02506)*pp + (0.01697));
+                        
+                        // Using consistent momentum bins of 0.25 GeV per slice:
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 5][regall] is:
+                        dp = ((9.0227e-03)*pp*pp + (-0.04131)*pp + (0.02748));
+                        
+                        
+                        // Refined with a limited π0 Channel Contributions (up to Pro = 0.95 GeV - The double pion channel's range is from 0.45 to 3.1 GeV)
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_EF][Sector 5][regall] is:
+                        dp = dp + ((-0.01526)*pp*pp + (0.05599)*pp + (-0.03795));
+                        
+                        
+                    }
+                    if(sec == 6){
+                        // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 6][regall] is:
+                        // dp = ((5.5915e-03)*pp*pp + (-0.02814)*pp + (0.02144));
+                        
+                        // Using consistent momentum bins of 0.25 GeV per slice:
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 6][regall] is:
+                        dp = ((8.8531e-03)*pp*pp + (-0.03881)*pp + (0.0284));
+                        
+                        
+                        // Refined with a limited π0 Channel Contributions (up to Pro = 0.95 GeV - The double pion channel's range is from 0.45 to 3.1 GeV)
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_EF][Sector 6][regall] is:
+                        dp = dp + ((-0.01037)*pp*pp + (0.0386)*pp + (-0.0256));
+                        
+                        
+                    }
+                }
+                
+
+                if(corPro == 3){ // (Double) Quadratic Momentum - No Phi Dependence - With Elastic
+                    if(sec == 1){
+                        // Old (Prior to 12-8-2022)
+                        // dp = ((1 + TMath::Sign(1, -(pp - 1.25)))/2)*((-0.13955)*pp*pp + (0.258)*pp + (-0.11065)) + ((1 + TMath::Sign(1, (pp - 1.25)))/2)*((0.01803)*(pp - 1.25)*(pp - 1.25) + (-0.02696)*(pp - 1.25) + ((-0.13955)*1.25*1.25 + (0.258)*1.25 + (-0.13955)));
+                        
+                        // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
+                        dp = ((1 + TMath::Sign(1, -(pp - 1.25)))/2)*((-0.12067)*pp*pp + (0.21271)*pp + (-0.08588)) + ((1 + TMath::Sign(1, (pp - 1.25)))/2)*((7.9963e-03)*(pp - 1.25)*(pp - 1.25) + (-0.01387)*(pp - 1.25) + ((-0.12067)*1.25*1.25 + (0.21271)*1.25 + (-0.12067)));
+                        
+                    }
+                    if(sec == 2){
+                        // Old (Prior to 12-8-2022)
+                        // dp = ((1 + TMath::Sign(1, -(pp - 1.25)))/2)*((-0.06961)*pp*pp + (0.14423)*pp + (-0.06759)) + ((1 + TMath::Sign(1, (pp - 1.25)))/2)*((0.0222)*(pp - 1.25)*(pp - 1.25) + (-0.03833)*(pp - 1.25) + ((-0.06961)*1.25*1.25 + (0.14423)*1.25 + (-0.06961)));
+                        
+                        // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
+                        dp = ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.06114)*pp*pp + (0.12189)*pp + (-0.0527)) + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((0.01227)*(pp - 1.5)*(pp - 1.5) + (-0.01512)*(pp - 1.5) + ((-0.06114)*1.5*1.5 + (0.12189)*1.5 + (-0.06114)));
+                        
+                    }
+                    if(sec == 3){
+                        // Old (Prior to 12-8-2022)
+                        // dp = ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.13162)*pp*pp + (0.23795)*pp + (-0.10254)) + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((0.0134)*(pp - 1.15)*(pp - 1.15) + (-0.02383)*(pp - 1.15) + ((-0.13162)*1.15*1.15 + (0.23795)*1.15 + (-0.13162)));
+                        
+                        // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
+                        dp = ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.13942)*pp*pp + (0.24843)*pp + (-0.10285)) + ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((0.02055)*(pp - 1.05)*(pp - 1.05) + (-0.03995)*(pp - 1.05) + ((-0.13942)*1.05*1.05 + (0.24843)*1.05 + (-0.13942)));
+                        
+                    }
+                    if(sec == 4){
+                        // Old (Prior to 12-8-2022)
+                        // dp = ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.05954)*pp*pp + (0.1308)*pp + (-0.06482)) + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((0.03792)*(pp - 1.5)*(pp - 1.5) + (-0.04589)*(pp - 1.5) + ((-0.05954)*1.5*1.5 + (0.1308)*1.5 + (-0.05954)));
+                        
+                        // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
+                        dp = ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-0.05158)*pp*pp + (0.10222)*pp + (-0.04444)) + ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((0.0207)*(pp - 1.6)*(pp - 1.6) + (-0.01527)*(pp - 1.6) + ((-0.05158)*1.6*1.6 + (0.10222)*1.6 + (-0.05158)));
+                        
+                    }
+                    if(sec == 5){
+                        // Old (Prior to 12-8-2022)
+                        // dp = ((1 + TMath::Sign(1, -(pp - 1.25)))/2)*((-0.07311)*pp*pp + (0.14954)*pp + (-0.07117)) + ((1 + TMath::Sign(1, (pp - 1.25)))/2)*((0.02479)*(pp - 1.25)*(pp - 1.25) + (-0.05092)*(pp - 1.25) + ((-0.07311)*1.25*1.25 + (0.14954)*1.25 + (-0.07311)));
+                        
+                        // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
+                        dp = ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((-0.07976)*pp*pp + (0.1508)*pp + (-0.06657)) + ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((0.02241)*(pp - 1.3)*(pp - 1.3) + (-0.04077)*(pp - 1.3) + ((-0.07976)*1.3*1.3 + (0.1508)*1.3 + (-0.07976)));
+                        
+                    }
+                    if(sec == 6){
+                        // Old (Prior to 12-8-2022)
+                        // dp = ((1 + TMath::Sign(1, -(pp - 0.95)))/2)*((-0.22222)*pp*pp + (0.37189)*pp + (-0.14741)) + ((1 + TMath::Sign(1, (pp - 0.95)))/2)*((0.01798)*(pp - 0.95)*(pp - 0.95) + (-0.0408)*(pp - 0.95) + ((-0.22222)*0.95*0.95 + (0.37189)*0.95 + (-0.22222)));
+                        
+                        // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
+                        dp = ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.11795)*pp*pp + (0.2053)*pp + (-0.08071)) + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((0.01596)*(pp - 1.15)*(pp - 1.15) + (-0.03202)*(pp - 1.15) + ((-0.11795)*1.15*1.15 + (0.2053)*1.15 + (-0.11795)));
+                        
+                    }
+                }
+                
+                
+                if(corPro == 4){ // Linear + Quadratic Momentum - No Phi Dependence - With Elastic (Used modified slices - i.e., each momentum bin was not identically sized to increase precision where statistics allowed)
+                    if(sec == 1){
+                        // Sector 1 (Corrected (With (New) Pion - With Elastic - Energy Loss))
+                        dp = ((1 + TMath::Sign(1, (pp - 1.25)))/2)*((-3.0362e-03)*pp + (-6.5671e-03)) + ((1 + TMath::Sign(1, -(pp - 1.25)))/2)*((-0.14099)*(pp - 1.25)*(pp - 1.25) + (-0.1019)*(pp - 1.25) + ((-3.0362e-03)*1.25 + (-6.5671e-03)));
+                        
+                        // Refinement with 2 Pol2 functions (same switch points)
+                        dp = dp + ((1 + TMath::Sign(1, -(pp - 1.25)))/2)*((0.02098)*pp*pp + (-0.02601)*pp + (5.1761e-03)) + ((1 + TMath::Sign(1, (pp - 1.25)))/2)*((4.7641e-03)*(pp - 1.25)*(pp - 1.25) + (-9.7153e-03)*(pp - 1.25) + ((0.02098)*1.25*1.25 + (-0.02601)*1.25 + (0.02098)));
+                        
+                    }
+                    if(sec == 2){
+                        // Sector 2 (Corrected (With (New) Pion - With Elastic - Energy Loss))
+                        dp = ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((8.3701e-03)*pp + (-0.02682)) + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.08878)*(pp - 1.5)*(pp - 1.5) + (-0.08759)*(pp - 1.5) + ((8.3701e-03)*1.5 + (-0.02682)));
+                        
+                        // Refinement with 2 Pol2 functions (same switch points)
+                        dp = dp + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((0.04231)*pp*pp + (-0.07716)*pp + (0.03159)) + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((0.01828)*(pp - 1.5)*(pp - 1.5) + (-0.03411)*(pp - 1.5) + ((0.04231)*1.5*1.5 + (-0.07716)*1.5 + (0.04231)));
+                        
+                    }
+                    if(sec == 3){
+                        // Sector 3 (Corrected (With (New) Pion - With Elastic - Energy Loss))
+                        dp = ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((8.2240e-04)*pp + (-8.3388e-03)) + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.24261)*(pp - 1.05)*(pp - 1.05) + (-0.11187)*(pp - 1.05) + ((8.2240e-04)*1.05 + (-8.3388e-03)));
+                        
+                        // Refinement with 2 Pol2 functions (same switch points)
+                        dp = dp + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((0.09394)*pp*pp + (-0.12246)*pp + (0.03631)) + ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((0.01674)*(pp - 1.05)*(pp - 1.05) + (-0.0327)*(pp - 1.05) + ((0.09394)*1.05*1.05 + (-0.12246)*1.05 + (0.09394)));
+                        
+                    }
+                    if(sec == 4){
+                        // Sector 4 (Corrected (With (New) Pion - With Elastic - Energy Loss))
+                        dp = ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((6.8993e-03)*pp + (-0.02516)) + ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-0.06901)*(pp - 1.6)*(pp - 1.6) + (-0.07676)*(pp - 1.6) + ((6.8993e-03)*1.6 + (-0.02516)));
+                        
+                        // Refinement with 2 Pol2 functions (same switch points)
+                        dp = dp + ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((0.02797)*pp*pp + (-0.05176)*pp + (0.01932)) + ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((0.01218)*(pp - 1.6)*(pp - 1.6) + (-0.02261)*(pp - 1.6) + ((0.02797)*1.6*1.6 + (-0.05176)*1.6 + (0.02797)));
+                        
+                    }
+                    if(sec == 5){
+                        // Sector 5 (Corrected (With (New) Pion - With Elastic - Energy Loss))
+                        dp = ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((-7.3222e-03)*pp + (-3.5610e-03)) + ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((-0.14204)*(pp - 1.3)*(pp - 1.3) + (-0.10802)*(pp - 1.3) + ((-7.3222e-03)*1.3 + (-3.5610e-03)));
+                        
+                        // Refinement with 2 Pol2 functions (same switch points)
+                        dp = dp + ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((0.04913)*pp*pp + (-0.07504)*pp + (0.02442)) + ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((0.02033)*(pp - 1.3)*(pp - 1.3) + (-0.03401)*(pp - 1.3) + ((0.04913)*1.3*1.3 + (-0.07504)*1.3 + (0.04913)));
+                        
+                    }
+                    if(sec == 6){
+                        // Sector 6 (Corrected (With (New) Pion - With Elastic - Energy Loss))
+                        dp = ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((-3.0997e-04)*pp + (-0.01174)) + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.20315)*(pp - 1.15)*(pp - 1.15) + (-0.12957)*(pp - 1.15) + ((-3.0997e-04)*1.15 + (-0.01174)));
+                        
+                        // Refinement with 2 Pol2 functions (same switch points)
+                        dp = dp + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((0.07329)*pp*pp + (-0.10068)*pp + (0.03095)) + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((0.01672)*(pp - 1.15)*(pp - 1.15) + (-0.03341)*(pp - 1.15) + ((0.07329)*1.15*1.15 + (-0.10068)*1.15 + (0.07329)));
+                        
+                    }
+                }
+                
+                
+                if(corPro == 5){ // Quadratic Momentum - Limited π0 Channel Contributions (up to Pro = 0.95 GeV - The double pion channel's range is from 0.45 to 3.1 GeV)
+                    if(sec == 1){
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 1][regall] is:
+                        dp = ((-2.1037e-03)*pp*pp + (3.5083e-03)*pp + (-1.3908e-03));
+                    }
+                    if(sec == 2){
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 2][regall] is:
+                        dp = ((-6.5934e-03)*pp*pp + (0.02048)*pp + (-0.01364));
+                    }
+                    if(sec == 3){
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 3][regall] is:
+                        dp = ((-5.3729e-03)*pp*pp + (0.01467)*pp + (-9.8315e-03));
+                    }
+                    if(sec == 4){
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 4][regall] is:
+                        dp = ((-3.6196e-03)*pp*pp + (0.01099)*pp + (-7.5842e-03));
+                    }
+                    if(sec == 5){
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 5][regall] is:
+                        dp = ((-3.7810e-03)*pp*pp + (6.8081e-03)*pp + (-4.8397e-03));
+                    }
+                    if(sec == 6){
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 6][regall] is:
+                        dp = ((-1.0527e-03)*pp*pp + (-9.3997e-04)*pp + (1.3576e-03));
+                    }
+                }
+                
             }
 
 
@@ -2239,6 +2494,14 @@ if(event_Name != "error"):
         coutN = 0
         if("Pro" not in corPro):
             coutN = 0
+        elif("MMpro_EF" in corPro):
+            coutN = 2
+        elif("MMpro_QEF" in corPro):
+            coutN = 3
+        elif("MMpro_LEF" in corPro):
+            coutN = 4
+        elif("MMpro_REF" in corPro):
+            coutN = 5
         else:
             coutN = 1
         return coutN
@@ -3213,6 +3476,14 @@ if(event_Name != "error"):
                 CorrectionName4 = 'Pro Cor (Linear - No Phi)'
             if('MMpro_qNoPhi' in CorrectionNameIn or 'MMpro_F' in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Quad - No Phi)'
+            if('MMpro_EF' in CorrectionNameIn):
+                CorrectionName4 = 'Pro Cor (Quad - No Phi - With Elastic Cors)'
+            if('MMpro_REF' in CorrectionNameIn):
+                CorrectionName4 = 'Pro Cor (Quad - Refined - With Elastic Cors)'
+            if('MMpro_QEF' in CorrectionNameIn):
+                CorrectionName4 = 'Pro Cor (Double Quad - With Elastic Cors)'
+            if('MMpro_LEF' in CorrectionNameIn):
+                CorrectionName4 = 'Pro Cor (Quad+Linear - With Elastic Cors)'
             if('_NoELC' not in CorrectionNameIn):
                 CorrectionName4 = CorrectionName4.replace(")", " - Energy Loss Cor)")
 
@@ -3261,7 +3532,8 @@ if(event_Name != "error"):
             if("Energy Loss Cor" not in CorrectionName and '_NoELC' not in CorrectionNameIn):
                 CorrectionName = CorrectionName.replace('Pro Cor (Quad - Quad Phi)', 'Pro Cor (Quad - Quad Phi - Energy Loss Cor)')
                 
-
+        CorrectionName = CorrectionName.replace('- No Pi- Cor ', "")
+                
         if(CorrectionNameIn == "mm0" or CorrectionNameIn == "mm0_NoELC"):
             CorrectionName = "".join(["No Momentum Corrections", " (Energy Loss Cor)" if(event_type != "SP" and event_type != "MC" and "NoELC" not in CorrectionNameIn) else ""])
 
@@ -4886,9 +5158,9 @@ if(event_Name != "error"):
     if(event_type == "SP" or event_type == "MC"):
         if(datatype == "Inbending"):
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF']
-            Delta_P_histo_CorList = ['mm0', 'mmF_PipMMF', 'mmExF_PipMMF', 'mmEF_PipMMF']
-            Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmExF', 'mmF_PipMMF', 'mmExF_PipMMF', 'mmEF_PipMMF']
-            Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmF_PipMMF', 'mmEF_PipMMF']
+            # Delta_P_histo_CorList = ['mm0', 'mmF_PipMMF', 'mmExF_PipMMF', 'mmEF_PipMMF']
+            # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmExF', 'mmF_PipMMF', 'mmExF_PipMMF', 'mmEF_PipMMF']
+            # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmF_PipMMF', 'mmEF_PipMMF']
             Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmF_PipMMF', 'mmEF_PipMMF', 'mmEF_PipMMEF']
 
         if(datatype == "Outbending"):
@@ -4902,10 +5174,21 @@ if(event_Name != "error"):
             
     if(event_type == "DP"):
         if(datatype == "Inbending"):
-            Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F_NoELC', 'mm0', 'mmF_PipMMF_PimMMpim_qPhi', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F_NoELC', 'mm0', 'mmF_PipMMF_PimMMpim_qPhi', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mm0', 'mmF_PipMMF', 'mmF_PipMMF_ProMMpro_F', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_F']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mm0', 'mmF_PipMMF', 'mmF_PipMMF_ProMMpro_F', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_QEF']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_QEF']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_QEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_QEF', 'mmEF_PipMMEF_ProMMpro_LEF']
+            Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_REF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_REF']
             
         if(datatype == "Outbending"):
-            Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F_NoELC', 'mm0', 'mmF_PipMMF_PimMMpim_qPhi', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F_NoELC', 'mm0', 'mmF_PipMMF_PimMMpim_qPhi', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mm0', 'mmF_PipMMF', 'mmF_PipMMF_ProMMpro_F', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_F']
+            Delta_P_histo_CorList = ['mm0_NoELC', 'mm0', 'mmF_PipMMF', 'mmF_PipMMF_ProMMpro_F', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF']
+            
             
         # Select which comparisons you would like to see (i.e. which variables would you like to compare to the theoretical calculations)
         Delta_P_histo_CompareList = ['pro']
@@ -4913,10 +5196,20 @@ if(event_Name != "error"):
             
     if(event_type == "P0"):
         if(datatype == "Inbending"):
-            Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F', 'mmEF', 'mmEF_ProMMpro_F']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F', 'mmEF', 'mmEF_ProMMpro_EF']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_QEF']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_QEF']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_LEF']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_LEF']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_QEF_NoELC', 'mmEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_QEF', 'mmEF_ProMMpro_LEF']
+            Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_REF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_REF']
 
         if(datatype == "Outbending"):
-            Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F', 'mmEF', 'mmEF_ProMMpro_F']
+            Delta_P_histo_CorList = ['mm0_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F', 'mmEF', 'mmEF_ProMMpro_EF']
             
         # Select which comparisons you would like to see (i.e. which variables would you like to compare to the theoretical calculations)
         # Delta_P_histo_CompareList = ['pro', 'el']
@@ -4927,13 +5220,13 @@ if(event_Name != "error"):
         if(datatype == "Inbending"):
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F', 'mmEF_NoELC', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF_ProMMpro_F', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
-            Delta_P_histo_CorList = ['mm0_NoELC', 'mm0', 'mmF_ProMMpro_F']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mm0', 'mmF_ProMMpro_F']
             Delta_P_histo_CorList = ['mm0_NoELC', 'mmF']
             
         if(datatype == "Outbending"):
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F', 'mmEF_NoELC', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF_ProMMpro_F', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
-            Delta_P_histo_CorList = ['mm0_NoELC', 'mm0', 'mmF_ProMMpro_F']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mm0', 'mmF_ProMMpro_F']
             Delta_P_histo_CorList = ['mm0_NoELC', 'mmF']
             
             
@@ -4945,7 +5238,7 @@ if(event_Name != "error"):
         
     if(event_type == "EO"):
         if(datatype == "Inbending"):
-            Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmExF']
+            # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmExF']
             Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF']
         if(datatype == "Outbending"):
             Delta_P_histo_CorList = ['mm0', 'mmF']
@@ -4985,7 +5278,8 @@ if(event_Name != "error"):
 
 
     # Number of (π+/pro) phi bins
-    NumPhiBins = ['1', '3']
+    # NumPhiBins = ['1', '3']
+    NumPhiBins = ['1']
     
     if("E" in event_type or ("pi+" not in Delta_P_histo_CompareList and 'pro' not in Delta_P_histo_CompareList)):
         NumPhiBins = ['1']
@@ -5143,9 +5437,11 @@ if(event_Name != "error"):
         
         
     if(event_type == "DP"):
-        particleList = ['el', 'pip', 'pro', 'pim']
+        # particleList = ['el', 'pip', 'pro', 'pim']
+        particleList = ['el', 'pip', 'pro']
         
-        particle_plot_List = ['el', 'pip', 'pro', 'pim']
+        # particle_plot_List = ['el', 'pip', 'pro', 'pim']
+        particle_plot_List = ['el', 'pip', 'pro']
         
         
     if(event_type == "P0"):
@@ -5170,27 +5466,50 @@ if(event_Name != "error"):
     if(event_type == "SP" or event_type == "MC"):
         if(datatype == "Inbending"):
             # correctionList = ['mm0', 'mmF', 'mmF_PipMMF']
-            correctionList = ['mm0', 'mmF_PipMMF', 'mmExF_PipMMF', 'mmEF_PipMMF']
-            correctionList = ['mm0', 'mmF', 'mmEF', 'mmExF', 'mmF_PipMMF', 'mmExF_PipMMF', 'mmEF_PipMMF']
-            correctionList = ['mm0', 'mmF', 'mmEF', 'mmF_PipMMF', 'mmEF_PipMMF']
+            # correctionList = ['mm0', 'mmF_PipMMF', 'mmExF_PipMMF', 'mmEF_PipMMF']
+            # correctionList = ['mm0', 'mmF', 'mmEF', 'mmExF', 'mmF_PipMMF', 'mmExF_PipMMF', 'mmEF_PipMMF']
+            # correctionList = ['mm0', 'mmF', 'mmEF', 'mmF_PipMMF', 'mmEF_PipMMF']
             correctionList = ['mm0', 'mmF', 'mmEF', 'mmF_PipMMF', 'mmEF_PipMMF', 'mmEF_PipMMEF']
         if(datatype == "Outbending"):
             correctionList = ['mm0', 'mmF', 'mmF_PipMMF']
             
     if(event_type == "DP"):
         if(datatype == "Inbending"):
-            correctionList = ['mm0_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F_NoELC', 'mm0', 'mmF_PipMMF_PimMMpim_qPhi', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F']
+            # correctionList = ['mm0_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F_NoELC', 'mm0', 'mmF_PipMMF_PimMMpim_qPhi', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F']
+            # correctionList = ['mm0_NoELC', 'mm0', 'mmF_PipMMF', 'mmF_PipMMF_ProMMpro_F', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_F']
+            # correctionList = ['mm0_NoELC', 'mm0', 'mmF_PipMMF', 'mmF_PipMMF_ProMMpro_F', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF']
+            # correctionList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_QEF']
+            # correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_QEF']
+            # correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF']
+            # correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF']
+            # correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF']
+            # correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_QEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_QEF', 'mmEF_PipMMEF_ProMMpro_LEF']
+            correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_REF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_REF']
             
         if(datatype == "Outbending"):
-            correctionList = ['mm0_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F_NoELC', 'mm0', 'mmF_PipMMF_PimMMpim_qPhi', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F']
+            # correctionList = ['mm0_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F_NoELC', 'mm0', 'mmF_PipMMF_PimMMpim_qPhi', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F']
+            # correctionList = ['mm0_NoELC', 'mm0', 'mmF_PipMMF', 'mmF_PipMMF_ProMMpro_F', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_F']
+            # correctionList = ['mm0_NoELC', 'mm0', 'mmF_PipMMF', 'mmF_PipMMF_ProMMpro_F', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF']
+            correctionList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_LEF']
+            
             
             
     if(event_type == "P0"):
         if(datatype == "Inbending"):
-            correctionList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
+            # correctionList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
+            # correctionList = ['mm0_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F', 'mmEF', 'mmEF_ProMMpro_F']
+            # correctionList = ['mm0_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F', 'mmEF', 'mmEF_ProMMpro_EF']
+            # correctionList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_QEF']
+            # correctionList = ['mm0_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_QEF']
+            # correctionList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_QEF_NoELC', 'mmEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_QEF', 'mmEF_ProMMpro_LEF']
+            correctionList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_REF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_REF']
+
+            
             
         if(datatype == "Outbending"):
-            correctionList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
+            # correctionList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
+            # correctionList = ['mm0_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F', 'mmEF', 'mmEF_ProMMpro_F']
+            correctionList = ['mm0_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F', 'mmEF', 'mmEF_ProMMpro_EF']
             
             
     if(event_type == "ES"):
@@ -5214,7 +5533,7 @@ if(event_Name != "error"):
     if(event_type == "EO"):
         if(datatype == "Inbending"):
             # correctionList = ['mm0', 'mmF']
-            correctionList = ['mm0', 'mmF', 'mmEF', 'mmExF']
+            # correctionList = ['mm0', 'mmF', 'mmEF', 'mmExF']
             correctionList = ['mm0', 'mmF', 'mmEF']
         if(datatype == "Outbending"):
             correctionList = ['mm0', 'mmF']
