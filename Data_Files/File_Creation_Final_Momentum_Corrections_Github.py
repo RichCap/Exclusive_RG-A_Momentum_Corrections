@@ -115,43 +115,43 @@ ROOT.gStyle.SetPadGridY(1)
 
 
 class color:
-    PURPLE = '\033[95m'
-    CYAN = '\033[96m'
-    DARKCYAN = '\033[36m'
-    BLUE = '\033[94m'
-    GREEN = '\033[92m'
-    YELLOW = '\033[93m'
-    RED = '\033[91m'
-    BOLD = '\033[1m'
+    PURPLE    = '\033[95m'
+    CYAN      = '\033[96m'
+    DARKCYAN  = '\033[36m'
+    BLUE      = '\033[94m'
+    GREEN     = '\033[92m'
+    YELLOW    = '\033[93m'
+    RED       = '\033[91m'
+    BOLD      = '\033[1m'
     UNDERLINE = '\033[4m'
-    DELTA = '\u0394' # symbol
-    END = '\033[0m'
+    DELTA     = '\u0394' # symbol
+    END       = '\033[0m'
 
     
 class root_color:
     # Colors
-    Black = 0
-    Red = 2
-    Green = 3
-    Blue = 4
+    Black  = 0
+    Red    = 2
+    Green  = 3
+    Blue   = 4
     Yellow = 5
-    Pink = 6
-    Cyan = 7
+    Pink   = 6
+    Cyan   = 7
     DGreen = 8 # Dark Green
     Purple = 9
-    Grey = 13
-    Brown = 28
-    Gold = 41
-    Rust = 46
+    Grey   = 13
+    Brown  = 28
+    Gold   = 41
+    Rust   = 46
     
     # Fonts
-    Bold = '#font[22]'
+    Bold   = '#font[22]'
     Italic = '#font[12]'
     
     # Symbols
-    Delta = '#Delta'
-    Phi = '#phi'
-    π = '#pi'
+    Delta   = '#Delta'
+    Phi     = '#phi'
+    π       = '#pi'
     Degrees = '#circ'
     
     Line = '#splitline'
@@ -164,7 +164,7 @@ if(event_type == "E0"):
     event_type = "EO"
 
 
-if(event_type == "SP" or event_type == "MC"):
+if(event_type in ["SP", "MC"]):
     event_Name = "Single Pion Channel"
     MM_type = "epipX"
     
@@ -194,7 +194,10 @@ if(MM_type == "epippimX"):
 elif(MM_type == "epipX"):
     Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max = 200, 0.5, 1.2
 elif(event_type != "ES"):
-    Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max = 160, -0.5, 0.5
+    # Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max = 160, -0.5, 0.5
+    # Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max = 200, -0.5, 0.5
+    Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max = 310, -0.3175, 0.3025
+    Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max = 320, -0.3275, 0.3125
 else:
     Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max = 120, -0.1, 0.1
 
@@ -635,7 +638,7 @@ if(event_Name != "error"):
         Delta_Pel_histo_Q, Delta_Pip_histo_Q, Delta_Pim_histo_Q, Delta_Pro_histo_Q = 'n', 'n', 'n', 'n'
         
         
-    if(event_type == "SP" or event_type == "MC"):
+    if(event_type in ["SP", "MC"]):
         Delta_Pim_histo_Q, Delta_Pro_histo_Q = 'n', 'n'
     if(event_type == "DP"):
         Delta_Pel_histo_Q, Delta_Pip_histo_Q = 'n', 'n'
@@ -688,7 +691,7 @@ if(event_Name != "error"):
     SaveResultsQ = 'yes'
     # SaveResultsQ = 'no'
 
-    if(file_location == "Test" or file_location == "test" or file_location == "time"):
+    if(file_location in ["Test", "test", "time"]):
         SaveResultsQ = 'no'
 
     if(SaveResultsQ == 'no'):
@@ -796,14 +799,71 @@ if(event_Name != "error"):
     # Refined the Proton Corrections by limiting the contributions of the Pi0 channel
     # No longer plotting Pi- histograms (only electron, proton, and Pi+)
     
-
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V7"
+    # Refined the Proton Corrections (again)
+    
+    Extra_Part_of_Name = "_GitHub_Cut_Check_V1"
+    # Running Missing Mass histograms WITH exclusivities cuts (investigating why the corrections are not working)
+    
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V8"
+    # Refined the Proton Corrections (again)
+    # Reset the exclusivity cuts to only run for the proper histograms
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V9"
+    # Refined the Proton Corrections (again)
+        # No Pi0 Contributions to the proton corrections
+        
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V10"
+    # Refined the Proton Corrections (Just the Quad+Linear and 'refined' Quad)
+        # No Pi0 Contributions to the proton corrections
+    
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V11"
+    # Refined the Proton Corrections (All versions with 'REF' now including another double quadratic refinement)
+    
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V12"
+    # Refined the Proton Corrections (New/Refined corrections to replace/improve those from V11)
+    
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V13"
+    # Refined the Proton Corrections ("LEF" Corrections refined with normal quadratic OR linear corrections - depending on sector)
+    
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V14"
+    # New the Proton Corrections (New versions of "LEF" and "QEF" that use 0.05 GeV Momentum slices of ∆P below p = 1 GeV)
+    
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V15"
+    # Removed some corrections (all proton corrections that are not the quad+linear ones) but adds two new ones
+        # New proton corrections are:
+            # 1) A refinement of the quad+linear correction where the refinement uses the mean of each gaussian slice is used in their defined range instead of using a continuous function
+            # 2) A new proton correction entirely pased on the method described in the above refinement
+            
+            
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V16"
+    # Refined the sliced corrections
+    
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V17"
+    # Needed to fix the refinements from the last version
+    # Changed the binning of the Missing Mass Squared plots (from 160 to 200 in the range of -0.5 to 0.5)
+    
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V18"
+    # Changed the binning of the Missing Mass Squared plots (from 200 to 310 in the range of -0.3175 to 0.3025)
+    # Removed plots which use different particle momentums and sectors
+    # Checking Missing Mass Plots with exclusivity cuts
+    
     
     if(event_type == "MC"):
         Extra_Part_of_Name = "_GitHub_MC_Test_V1"
         # Testing the momentum corrections using Monte Carlo files (for use in SIDIS analysis)
         # Runs the same as event_type == "SP"
         
-    if(pass_version != "NA" and pass_version != ""):
+    if(pass_version not in ["NA", ""]):
         Extra_Part_of_Name = "".join(["_GitHub_Spring_2019_Pass_", "1" if("Pass 1" in pass_version) else "2", "_V1"])
         # Testing Spring 2019 data with pass 1 and pass 2 files
         
@@ -897,9 +957,9 @@ if(event_Name != "error"):
     # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/shrestha/clas12momcorr/data/outbending/ePipX/skim4_00*"
     running_code_with_these_files = "/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/outbending/ePipX/skim4_005*"
 
-    if(file_location == "All" or file_location == "Test" or file_location == "test" or file_location == "time"):
-        if(event_type == "SP" or event_type == "MC"):
-            if(pass_version == "NA" or pass_version == ""):
+    if(file_location in ["All", "Test", "test", "time"]):
+        if(event_type in ["SP", "MC"]):
+            if(pass_version in ["NA", ""]):
                 if(datatype == "Inbending"):
                     # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/shrestha/clas12momcorr/data/inbending/ePipX/epip.skim4_00*"
                     # running_code_with_these_files = "/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/inbending/ePipX/epip.skim4_005*"
@@ -985,7 +1045,7 @@ if(event_Name != "error"):
 
 
 
-    if(event_type != "SP" and event_type != "MC" and event_type != "EO"):
+    if(event_type not in ["SP", "MC", "EO"]):
         if("prox" not in rdf.GetColumnNames() and "px" in rdf.GetColumnNames()):
             rdf = rdf.Define("prox", "px")
         if("proy" not in rdf.GetColumnNames() and "py" in rdf.GetColumnNames()):
@@ -1011,7 +1071,7 @@ if(event_Name != "error"):
 
 
     ## Proton Energy Loss Corrections ##
-    if(event_type != "SP" and event_type != "MC" and event_type != "EO"):
+    if(event_type not in ["SP", "MC", "EO"]):
         
         Proton_Energy_Loss_Cor = ''.join(["""
         
@@ -1045,7 +1105,6 @@ if(event_Name != "error"):
 
     
     """])
-    
     
 
 
@@ -1082,7 +1141,7 @@ if(event_Name != "error"):
         #------------------------------------------#
         #---------------# Pi+ Pion #---------------#
         #------------------------------------------#
-        if(event_type != "P0" and event_type != "ES"):
+        if(event_type not in ["P0", "ES"]):
             try:
                 ##=====##    Momentum Magnitude    ##=====##
                 rdf = rdf.Define("pip", "sqrt(pipx*pipx+pipy*pipy+pipz*pipz)")
@@ -1132,7 +1191,7 @@ if(event_Name != "error"):
         #----------------------------------------#
         #---------------# Proton #---------------#
         #----------------------------------------#
-        if(event_type != "SP" and event_type != "MC"):
+        if(event_type not in ["SP", "MC"]):
             try:
                 ##=====##    Momentum Magnitude    ##=====##
                 rdf = rdf.Define("pro", "sqrt(prox*prox + proy*proy + proz*proz)")
@@ -1157,7 +1216,7 @@ if(event_Name != "error"):
         #-----------------------------------------------------------#
         #---------------# Proton (Energy Corrected) #---------------#
         #-----------------------------------------------------------#
-        if(event_type != "SP" and event_type != "MC"):
+        if(event_type not in ["SP", "MC"]):
             try:
                 ##=====##    (Energy Corrected) Momentum Coordinates    ##=====##
                 rdf = rdf.Define("prox_cor", "".join(["""
@@ -1245,10 +1304,696 @@ if(event_Name != "error"):
     #####################################################################################################
 
     #############################################################
-    #----------#     Last updated on: 12-9-2022     #----------#
+    #----------#     Last updated on: 12-11-2022     #----------#
     #############################################################
 
     if(datatype == "Inbending"):
+#         Correction_Code_Full_In = """
+#         auto dppC = [&](float Px, float Py, float Pz, int sec, int ivec, int corEl, int corPip, int corPim, int corPro){
+#             // ivec = 0 --> Electron Corrections
+#             // ivec = 1 --> Pi+ Corrections
+#             // ivec = 2 --> Pi- Corrections
+#             // ivec = 3 --> Proton Corrections
+#             // corEl ==> Gives the 'generation' of the electron correction
+#                 // corEl == 0 --> No Correction
+#                 // corEl == 1 --> Final Version of Corrections
+#                 // corEl == 2 --> Modified/Extended Correction (using the Elastic Events - based of existing corrections)
+#                 // corEl == 3 --> New Extended Correction (using the Elastic Events - created from uncorrected ∆P Plots)
+#             // corPip ==> Gives the 'generation' of the π+ Pion correction
+#                 // corPip == 0 --> No Correction
+#                 // corPip == 1 --> Old Version of Corrections
+#                 // corPip == 2 --> Final Version of Corrections
+#             // corPim ==> Gives the 'generation' of the π- Pion correction
+#                 // corPim == 0 --> No Correction
+#                 // corPim == 1 --> Nick's Quadratic Momentum, Quadratic Phi
+#             // corPro ==> Gives the 'generation' of the Proton correction
+#                 // corPro == 0 --> No Correction
+#                 // corPro == 1 --> Quad Momentum, Quad Phi
+#                 // corPro == 2 --> Quad Momentum, NO Phi
+#                 // corPro == 3 --> Linear Momentum, NO Phi
+#             // Momentum Magnitude
+#             double pp = sqrt(Px*Px + Py*Py + Pz*Pz);
+#             // Initializing the correction factor
+#             double dp = 0;
+#             // Defining Phi Angle
+#             double Phi = (180/3.1415926)*atan2(Py, Px);
+#             // (Initial) Shift of the Phi Angle (done to realign sectors whose data is separated when plotted from ±180˚)
+#             if(((sec == 4 || sec == 3) && Phi < 0) || (sec > 4 && Phi < 90)){
+#                 Phi += 360;
+#             }
+#             // Getting Local Phi Angle
+#             double PhiLocal = Phi - (sec - 1)*60;
+#             // Applying Shift Functions to Phi Angles (local shifted phi = phi)
+#             double phi = PhiLocal;
+#             // For Electron Shift
+#             if(ivec == 0){
+#                 phi = PhiLocal - 30/pp;
+#             }
+#             // For π+ Pion/Proton Shift
+#             if(ivec == 1 || ivec == 3){
+#                 phi = PhiLocal + (32/(pp-0.05));
+#             }
+#             // For π- Pion Shift
+#             if(ivec == 2){
+#                 phi = PhiLocal - (32/(pp-0.05));
+#             }
+#             ////////////////////////////////////////////////////////////////////////////////////////////////
+#             //===============//===============//     No Corrections     //===============//===============//
+#             ////////////////////////////////////////////////////////////////////////////////////////////////
+#             if(corEl == 0 && ivec == 0){ // No Electron Correction
+#                 dp = 0;
+#             }
+#             if(corPip == 0 && ivec == 1){ // No π+ Pion Correction
+#                 dp = 0;
+#             }
+#             if(corPim == 0 && ivec == 2){ // No π- Pion Correction
+#                 dp = 0;
+#             }
+#             if(corPro == 0 && ivec == 3){ // No Proton Correction
+#                 dp = 0;
+#             }
+#             //////////////////////////////////////////////////////////////////////////////////////////////////
+#             //==============//==============//     No Corrections (End)     //==============//==============//
+#             //////////////////////////////////////////////////////////////////////////////////////////////////
+#             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#             //==================================================================================================================================//
+#             //=======================//=======================//     Electron Corrections     //=======================//=======================//
+#             //==================================================================================================================================//
+#             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#             if(corEl != 0 && ivec == 0){
+#                 if(sec == 1){
+#                     dp = ((1.57e-06)*phi*phi + (5.021e-05)*phi + (-1.74089e-03))*pp*pp + ((-2.192e-05)*phi*phi + (-1.12528e-03)*phi + (0.0146476))*pp + ((8.504e-05)*phi*phi + (2.08012e-03)*phi + (-0.0122501));
+#                 }
+#                 if(sec == 2){
+#                     dp = ((-3.98e-06)*phi*phi + (1.66e-05)*phi + (-1.55918e-03))*pp*pp + ((2.136e-05)*phi*phi + (-5.7373e-04)*phi + (0.0143591))*pp + ((2.4e-06)*phi*phi + (1.6656e-03)*phi + (-0.0218711));
+#                 }
+#                 if(sec == 3){
+#                     dp = ((5.57e-06)*phi*phi + (2.3e-07)*phi + (-2.26999e-03))*pp*pp + ((-7.761e-05)*phi*phi + (4.1437e-04)*phi + (0.0152985))*pp + ((2.2542e-04)*phi*phi + (-9.442e-04)*phi + (-0.0231432));
+#                 }
+#                 if(sec == 4){
+#                     dp = ((3.48e-06)*phi*phi + (2.166e-05)*phi + (-2.29e-04))*pp*pp + ((-2.758e-05)*phi*phi + (7.226e-05)*phi + (-3.38e-03))*pp + ((3.166e-05)*phi*phi + (6.93e-05)*phi + (0.04767));
+#                 }
+#                 if(sec == 5){
+#                     dp = ((1.19e-06)*phi*phi + (-2.286e-05)*phi + (-1.6332e-04))*pp*pp + ((-1.05e-06)*phi*phi + (7.04e-05)*phi + (-5.0754e-03))*pp + ((-7.22e-06)*phi*phi + (4.1748e-04)*phi + (0.04441));
+#                 }
+#                 if(sec == 6){
+#                     dp = ((-5.97e-06)*phi*phi + (-3.689e-05)*phi + (5.782e-05))*pp*pp + ((6.573e-05)*phi*phi + (2.1376e-04)*phi + (-9.54576e-03))*pp + ((-1.7732e-04)*phi*phi + (-8.62e-04)*phi + (0.0618975));
+#                 }
+#                 // Extended Refinement of corEl == 1
+#                 if(corEl == 2){
+#                     if(sec == 1){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected][Sector 1] is:
+#                         dp = dp + ((-1.5543e-05)*phi*phi + (-6.1257e-05)*phi + (9.0385e-04))*pp*pp + ((1.8051e-04)*phi*phi + (9.0971e-04)*phi + (-0.010544))*pp + ((-4.7617e-04)*phi*phi + (-0.0029024)*phi + (0.02882));
+#                     }
+#                     if(sec == 2){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected][Sector 2] is:
+#                         dp = dp + ((-1.0753e-07)*phi*phi + (-4.3441e-05)*phi + (-2.4143e-04))*pp*pp + ((-9.1649e-06)*phi*phi + (5.5094e-04)*phi + (0.0046169))*pp + ((5.7005e-05)*phi*phi + (-0.0014851)*phi + (-0.017753));
+#                     }
+#                     if(sec == 3){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected][Sector 3] is:
+#                         dp = dp + ((-1.3656e-05)*phi*phi + (-6.3819e-06)*phi + (9.4242e-04))*pp*pp + ((1.5109e-04)*phi*phi + (-1.6847e-04)*phi + (-0.010423))*pp + ((-3.8962e-04)*phi*phi + (0.001198)*phi + (0.029035));
+#                     }
+#                     if(sec == 4){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected][Sector 4] is:
+#                         dp = dp + ((-7.7030e-06)*phi*phi + (-2.2183e-05)*phi + (-3.2310e-04))*pp*pp + ((9.1683e-05)*phi*phi + (1.8863e-04)*phi + (0.0025154))*pp + ((-2.3756e-04)*phi*phi + (-2.8317e-04)*phi + (-0.0046244));
+#                     }
+#                     if(sec == 5){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected][Sector 5] is:
+#                         dp = dp + ((-8.7306e-07)*phi*phi + (2.1699e-05)*phi + (-5.7166e-04))*pp*pp + ((7.4275e-06)*phi*phi + (-2.5637e-04)*phi + (0.0054676))*pp + ((-1.2134e-05)*phi*phi + (8.1743e-04)*phi + (-0.010263));
+#                     }
+#                     if(sec == 6){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected][Sector 6] is:
+#                         dp = dp + ((4.3560e-06)*phi*phi + (3.3573e-05)*phi + (-6.6964e-04))*pp*pp + ((-6.6393e-05)*phi*phi + (-3.0575e-04)*phi + (0.0084299))*pp + ((2.4042e-04)*phi*phi + (5.1189e-04)*phi + (-0.024095));
+#                     }
+#                     if(sec == 1){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Extended)][Sector 1] is:
+#                         dp = dp + ((7.9660e-06)*phi*phi + (5.1523e-05)*phi + (-2.1894e-04))*pp*pp + ((-1.2252e-04)*phi*phi + (-6.2769e-04)*phi + (0.0029742))*pp + ((4.1380e-04)*phi*phi + (0.0017672)*phi + (-0.0092031));
+#                     }
+#                     if(sec == 2){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Extended)][Sector 2] is:
+#                         dp = dp + ((-2.1372e-06)*phi*phi + (2.0673e-05)*phi + (-1.7416e-04))*pp*pp + ((2.0227e-05)*phi*phi + (-2.6449e-04)*phi + (0.0026238))*pp + ((-4.7051e-05)*phi*phi + (7.5652e-04)*phi + (-0.0086124));
+#                     }
+#                     if(sec == 3){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Extended)][Sector 3] is:
+#                         dp = dp + ((3.3352e-09)*phi*phi + (-2.7138e-05)*phi + (1.8147e-04))*pp*pp + ((-2.2826e-05)*phi*phi + (2.6561e-04)*phi + (-0.0021432))*pp + ((1.3156e-04)*phi*phi + (-6.2599e-04)*phi + (0.0056483));
+#                     }
+#                     if(sec == 4){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Extended)][Sector 4] is:
+#                         dp = dp + ((8.0009e-06)*phi*phi + (1.1847e-05)*phi + (-4.0825e-04))*pp*pp + ((-1.0793e-04)*phi*phi + (-1.8450e-04)*phi + (0.005087))*pp + ((3.2556e-04)*phi*phi + (5.9843e-04)*phi + (-0.014079));
+#                     }
+#                     if(sec == 5){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Extended)][Sector 5] is:
+#                         dp = dp + ((3.5908e-07)*phi*phi + (-1.2954e-06)*phi + (-4.4109e-05))*pp*pp + ((-9.7218e-07)*phi*phi + (1.4249e-05)*phi + (2.9679e-04))*pp + ((-9.7975e-06)*phi*phi + (-5.2075e-05)*phi + (8.0729e-05));
+#                     }
+#                     if(sec == 6){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Extended)][Sector 6] is:
+#                         dp = dp + ((-5.9006e-06)*phi*phi + (8.0310e-06)*phi + (2.0305e-04))*pp*pp + ((8.3625e-05)*phi*phi + (-4.1055e-05)*phi + (-0.0020693))*pp + ((-2.8471e-04)*phi*phi + (-6.3169e-05)*phi + (0.0046844));
+#                     }
+#                 }
+#                 // New Corrections created from corEl == 0 (wider kinematic range than what was used to create corEl == 1)
+#                 if(corEl == 3){
+#                     if(sec == 1){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Uncorrected][Sector 1] is:
+#                         dp = ((-4.3303e-06)*phi*phi + (1.1006e-04)*phi + (-5.7235e-04))*pp*pp + ((3.2555e-05)*phi*phi + (-0.0014559)*phi + (0.0014878))*pp + ((-1.9577e-05)*phi*phi + (0.0017996)*phi + (0.025963));
+#                     }
+#                     if(sec == 2){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Uncorrected][Sector 2] is:
+#                         dp = ((-9.8045e-07)*phi*phi + (6.7395e-05)*phi + (-4.6757e-05))*pp*pp + ((-1.4958e-05)*phi*phi + (-0.0011191)*phi + (-0.0025143))*pp + ((1.2699e-04)*phi*phi + (0.0033121)*phi + (0.020819));
+#                     }
+#                     if(sec == 3){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Uncorrected][Sector 3] is:
+#                         dp = ((-5.9459e-07)*phi*phi + (-2.8289e-05)*phi + (-4.3541e-04))*pp*pp + ((-1.5025e-05)*phi*phi + (5.7730e-04)*phi + (-0.0077582))*pp + ((7.3348e-05)*phi*phi + (-0.001102)*phi + (0.057052));
+#                     }
+#                     if(sec == 4){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Uncorrected][Sector 4] is:
+#                         dp = ((-2.2714e-06)*phi*phi + (-3.0360e-05)*phi + (-8.9322e-04))*pp*pp + ((2.9737e-05)*phi*phi + (5.1142e-04)*phi + (0.0045641))*pp + ((-1.0582e-04)*phi*phi + (-5.6852e-04)*phi + (0.027506));
+#                     }
+#                     if(sec == 5){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Uncorrected][Sector 5] is:
+#                         dp = ((-1.1490e-06)*phi*phi + (-6.2147e-06)*phi + (-4.7235e-04))*pp*pp + ((3.7039e-06)*phi*phi + (-1.5943e-04)*phi + (-8.5238e-04))*pp + ((4.4069e-05)*phi*phi + (0.0014152)*phi + (0.031933));
+#                     }
+#                     if(sec == 6){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Uncorrected][Sector 6] is:
+#                         dp = ((1.1076e-06)*phi*phi + (4.0156e-05)*phi + (-1.6341e-04))*pp*pp + ((-2.8613e-05)*phi*phi + (-5.1861e-04)*phi + (-0.0056437))*pp + ((1.2419e-04)*phi*phi + (4.9084e-04)*phi + (0.049976));
+#                     }
+#                 }
+#             }
+#             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#             //====================================================================================================================================//
+#             //======================//======================//     Electron Corrections (End)     //======================//======================//
+#             //====================================================================================================================================//
+#             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#             //========================================================================================================================================================//
+#             //==============================//==============================//     π+ Corrections     //==============================//==============================//
+#             //========================================================================================================================================================//
+#             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#             if(corPip != 0 && ivec == 1){
+#                 if(sec == 1){
+#                     dp = ((-5.2e-07)*phi*phi + (-1.383e-05)*phi + (4.7179e-04))*pp*pp + ((8.33e-06)*phi*phi + (3.8849e-04)*phi + (-6.81319e-03))*pp + ((-1.645e-05)*phi*phi + (-5.0057e-04)*phi + (1.9902e-02));
+#                 }
+#                 if(sec == 2){
+#                     dp = ((-1.88e-06)*phi*phi + (3.303e-05)*phi + (1.1331e-03))*pp*pp + ((1.569e-05)*phi*phi + (-3.974e-05)*phi + (-1.25869e-02))*pp + ((-2.903e-05)*phi*phi + (-1.0638e-04)*phi + (2.61529e-02));
+#                 }
+#                 if(sec == 3){
+#                     dp = ((2.4e-07)*phi*phi + (-1.04e-05)*phi + (7.0864e-04))*pp*pp + ((8.0e-06)*phi*phi + (-5.156e-05)*phi + (-8.12169e-03))*pp  + ((-2.42e-05)*phi*phi + (8.928e-05)*phi + (2.13223e-02));
+#                 }
+#                 if(sec == 4){
+#                     dp = ((-4.0e-08)*phi*phi + (-3.59e-05)*phi + (1.32146e-03))*pp*pp + ((1.023e-05)*phi*phi + (2.2199e-04)*phi + (-1.33043e-02))*pp + ((-2.801e-05)*phi*phi + (-1.576e-04)*phi + (3.27995e-02));
+#                 }
+#                 if(sec == 5){
+#                     dp = ((2.7e-06)*phi*phi + (5.03e-06)*phi + (1.59668e-03))*pp*pp + ((-1.28e-05)*phi*phi + (-1.99e-06)*phi + (-1.71578e-02))*pp + ((2.091e-05)*phi*phi + (-4.14e-05)*phi + (3.25434e-02));
+#                 }
+#                 if(sec == 6){
+#                     dp = ((2.13e-06)*phi*phi + (-7.49e-05)*phi + (1.75565e-03))*pp*pp + ((-7.37e-06)*phi*phi + (5.8222e-04)*phi + (-1.27969e-02))*pp + ((4.9e-07)*phi*phi + (-7.2253e-04)*phi + (3.11499e-02));
+#                 }
+#                 if(corPip == 2){
+#                     if(sec == 1){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion - With Elastic)][Sector 1] is:
+#                         dp = ((-5.4904e-07)*phi*phi + (-1.4436e-05)*phi + (3.1534e-04))*pp*pp + ((3.8231e-06)*phi*phi + (3.6582e-04)*phi + (-0.0046759))*pp + ((-5.4913e-06)*phi*phi + (-4.0157e-04)*phi + (0.010767));
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (With (New) Pion - With Elastic)][Sector 1] is:
+#                         dp = dp + ((6.1103e-07)*phi*phi + (5.5291e-06)*phi + (-1.9120e-04))*pp*pp + ((-3.2300e-06)*phi*phi + (1.5377e-05)*phi + (7.5279e-04))*pp + ((2.1434e-06)*phi*phi + (-6.9572e-06)*phi + (-7.9333e-05));
+#                         dp = dp + ((-1.3049e-06)*phi*phi + (1.1295e-05)*phi + (4.5797e-04))*pp*pp + ((9.3122e-06)*phi*phi + (-5.1074e-05)*phi + (-0.0030757))*pp + ((-1.3102e-05)*phi*phi + (2.2153e-05)*phi + (0.0040938));
+#                     }
+#                     if(sec == 2){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion - With Elastic)][Sector 2] is:
+#                         dp = ((-1.0087e-06)*phi*phi + (2.1319e-05)*phi + (7.8641e-04))*pp*pp + ((6.7485e-06)*phi*phi + (7.3716e-05)*phi + (-0.0094591))*pp + ((-1.1820e-05)*phi*phi + (-3.8103e-04)*phi + (0.018936));
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (With (New) Pion - With Elastic)][Sector 2] is:
+#                         dp = dp + ((8.8155e-07)*phi*phi + (-2.8257e-06)*phi + (-2.6729e-04))*pp*pp + ((-5.4499e-06)*phi*phi + (3.8397e-05)*phi + (0.0015914))*pp + ((6.8926e-06)*phi*phi + (-5.9386e-05)*phi + (-0.0021749));
+#                         dp = dp + ((-2.0147e-07)*phi*phi + (1.1061e-05)*phi + (3.8827e-04))*pp*pp + ((4.9294e-07)*phi*phi + (-6.0257e-05)*phi + (-0.0022087))*pp + ((9.8548e-07)*phi*phi + (5.9047e-05)*phi + (0.0022905));
+#                     }
+#                     if(sec == 3){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion - With Elastic)][Sector 3] is:
+#                         dp = ((8.6722e-08)*phi*phi + (-1.7975e-05)*phi + (4.8118e-05))*pp*pp + ((2.6273e-06)*phi*phi + (3.1453e-05)*phi + (-0.0015943))*pp + ((-6.4463e-06)*phi*phi + (-5.8990e-05)*phi + (0.0041703));
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (With (New) Pion - With Elastic)][Sector 3] is:
+#                         dp = dp + ((9.6317e-07)*phi*phi + (-1.7659e-06)*phi + (-8.8318e-05))*pp*pp + ((-5.1346e-06)*phi*phi + (8.3318e-06)*phi + (3.7723e-04))*pp + ((3.9548e-06)*phi*phi + (-6.9614e-05)*phi + (2.1393e-04));
+#                         dp = dp + ((5.6438e-07)*phi*phi + (8.1678e-06)*phi + (-9.4406e-05))*pp*pp + ((-3.9074e-06)*phi*phi + (-6.5174e-05)*phi + (5.4218e-04))*pp + ((6.3198e-06)*phi*phi + (1.0611e-04)*phi + (-4.5749e-04));
+#                     }
+#                     if(sec == 4){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion - With Elastic)][Sector 4] is:
+#                         dp = ((4.3406e-07)*phi*phi + (-4.9036e-06)*phi + (2.3064e-04))*pp*pp + ((1.3624e-06)*phi*phi + (3.2907e-05)*phi + (-0.0034872))*pp + ((-5.1017e-06)*phi*phi + (2.4593e-05)*phi + (0.0092479));
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (With (New) Pion - With Elastic)][Sector 4] is:
+#                         dp = dp + ((6.0218e-07)*phi*phi + (-1.4383e-05)*phi + (-3.1999e-05))*pp*pp + ((-1.1243e-06)*phi*phi + (9.3884e-05)*phi + (-4.1985e-04))*pp + ((-1.8808e-06)*phi*phi + (-1.2222e-04)*phi + (0.0014037));
+#                         dp = dp + ((-2.5490e-07)*phi*phi + (-8.5120e-07)*phi + (7.9109e-05))*pp*pp + ((2.5879e-06)*phi*phi + (8.6108e-06)*phi + (-5.1533e-04))*pp + ((-4.4521e-06)*phi*phi + (-1.7012e-05)*phi + (7.4848e-04));
+#                     }
+#                     if(sec == 5){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion - With Elastic)][Sector 5] is:
+#                         dp = ((2.4292e-07)*phi*phi + (8.8741e-06)*phi + (2.9482e-04))*pp*pp + ((3.7229e-06)*phi*phi + (7.3215e-06)*phi + (-0.0050685))*pp + ((-1.1974e-05)*phi*phi + (-1.3043e-04)*phi + (0.0078836));
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (With (New) Pion - With Elastic)][Sector 5] is:
+#                         dp = dp + ((1.0867e-06)*phi*phi + (-7.7630e-07)*phi + (-4.4930e-05))*pp*pp + ((-5.6564e-06)*phi*phi + (-1.3417e-05)*phi + (2.5224e-04))*pp + ((6.8460e-06)*phi*phi + (9.0495e-05)*phi + (-4.6587e-04));
+#                         dp = dp + ((8.5720e-07)*phi*phi + (-6.7464e-06)*phi + (-4.0944e-05))*pp*pp + ((-4.7370e-06)*phi*phi + (5.8808e-05)*phi + (1.9047e-04))*pp + ((5.7404e-06)*phi*phi + (-1.1105e-04)*phi + (-1.9392e-04));
+#                     }
+#                     if(sec == 6){
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion - With Elastic)][Sector 6] is:
+#                         dp = ((2.1191e-06)*phi*phi + (-3.3710e-05)*phi + (2.5741e-04))*pp*pp + ((-1.2915e-05)*phi*phi + (2.3753e-04)*phi + (-2.6882e-04))*pp + ((2.2676e-05)*phi*phi + (-2.3115e-04)*phi + (-0.001283));
+#                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (With (New) Pion - With Elastic)][Sector 6] is:
+#                         dp = dp + ((6.0270e-07)*phi*phi + (-6.8200e-06)*phi + (1.3103e-04))*pp*pp + ((-1.8745e-06)*phi*phi + (3.8646e-05)*phi + (-8.8056e-04))*pp + ((2.0885e-06)*phi*phi + (-3.4932e-05)*phi + (4.5895e-04));
+#                         dp = dp + ((4.7349e-08)*phi*phi + (-5.7528e-06)*phi + (-3.4097e-06))*pp*pp + ((1.7731e-06)*phi*phi + (3.5865e-05)*phi + (-5.7881e-04))*pp + ((-9.7008e-06)*phi*phi + (-4.1836e-05)*phi + (0.0035403));
+#                     }
+#                 }
+#             }
+#             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#             //==============================================================================================================================================================//
+#             //==============================//==============================//     π+ Corrections (End)     //==============================//==============================//
+#             //==============================================================================================================================================================//
+#             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#             //========================================================================================================================================================//
+#             //==============================//==============================//     π- Corrections     //==============================//==============================//
+#             //========================================================================================================================================================//
+#             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#             if(corPim != 0 && ivec == 2){
+#                 if(sec == 1){
+#                     dp = ((-4.0192658422317425e-06)*phi*phi - (2.660222128967742e-05)*phi + 0.004774434682983547)*pp*pp;
+#                     dp = dp + ((1.9549520962477972e-05)*phi*phi - 0.0002456062756770577*phi - 0.03787692408323466)*pp; 
+#                     dp = dp + (-2.128953094937459e-05)*phi*phi + 0.0002461708852239913*phi + 0.08060704449822174 - 0.01;
+#                 }
+#                 if(sec == 2){
+#                     dp = ((1.193010521758372e-05)*phi*phi - (5.996221756031922e-05)*phi + 0.0009093437955814359)*pp*pp;
+#                     dp = dp + ((-4.89113824430594e-05)*phi*phi + 0.00021676479488147118*phi - 0.01861892053916726)*pp;  
+#                     dp = dp + (4.446394152208071e-05)*phi*phi - (3.6592784167335244e-05)*phi + 0.05498710249944096 - 0.01;
+#                 }
+#                 if(sec == 3){
+#                     dp = ((-1.6596664895992133e-07)*phi*phi + (6.317189710683516e-05)*phi + 0.0016364212312654086)*pp*pp;
+#                     dp = dp + ((-2.898409777520318e-07)*phi*phi - 0.00014531513577533802*phi - 0.025456145839203827)*pp;  
+#                     dp = dp + (2.6432552410603506e-06)*phi*phi + 0.00018447151306275443*phi + 0.06442602664627255 - 0.01;
+#                 }
+#                 if(sec == 4){
+#                     dp = ((2.4035259647558634e-07)*phi*phi - (8.649647351491232e-06)*phi + 0.004558993439848128)*pp*pp;
+#                     dp = dp + ((-5.981498144060984e-06)*phi*phi + 0.00010582131454222416*phi - 0.033572004651981686)*pp;  
+#                     dp = dp + (8.70140266889548e-06)*phi*phi - 0.00020137414379966883*phi + 0.07258774523336173 - 0.01;   
+#                 }
+#                 if(sec == 5){
+#                     dp = ((2.5817024702834863e-06)*phi*phi + 0.00010132810066914441*phi + 0.003397314538804711)*pp*pp;
+#                     dp = dp + ((-1.5116941263931812e-05)*phi*phi - 0.00040679799541839254*phi - 0.028144285760769876)*pp;  
+#                     dp = dp + (1.4701931057951464e-05)*phi*phi + 0.0002426350390593454*phi + 0.06781682510174941 - 0.01;
+#                 }
+#                 if(sec == 6){
+#                     dp = ((-8.196823669099362e-07)*phi*phi - (5.280412421933636e-05)*phi + 0.0018457238328451137)*pp*pp;
+#                     dp = dp + ((5.2675062282094536e-06)*phi*phi + 0.0001515803461044587*phi - 0.02294371578470564)*pp;  
+#                     dp = dp + (-9.459454671739747e-06)*phi*phi - 0.0002389523716779765*phi + 0.06428970810739926 - 0.01;
+#                 }
+#             }
+#             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#             //==============================================================================================================================================================//
+#             //==============================//==============================//     π- Corrections (End)     //==============================//==============================//
+#             //==============================================================================================================================================================//
+#             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#             //================================================================================================================================================================//
+#             //==============================//==============================//     All Proton Corrections     //==============================//==============================//
+#             //================================================================================================================================================================//
+#             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#             if(corPro != 0 && ivec == 3){
+#                 if(corPro == 1){ // Quadratic Momentum - No Phi Dependence
+#                     if(sec == 1){
+#                         dp = (5.415e-04)*pp*pp + (-1.0262e-02)*pp + (7.78075e-03);
+#                         // From GitHub_F_Pro for GitHub_F2_Pro:
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 1][All Pro Phi Bins] is:
+#                         dp = dp + ((1.2129e-04)*pp*pp + (1.5373e-04)*pp + (-2.7084e-04));
+#                     }
+#                     if(sec == 2){
+#                         dp = (-9.5439e-04)*pp*pp + (-2.86273e-03)*pp + (3.38149e-03);
+#                         // From GitHub_F_Pro for GitHub_F2_Pro:
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 2][All Pro Phi Bins] is:
+#                         dp = dp + ((-1.6890e-03)*pp*pp + (4.3744e-03)*pp + (-2.1218e-03));
+#                     }
+#                     if(sec == 3){
+#                         dp = (-5.5541e-04)*pp*pp + (-7.69739e-03)*pp + (5.7692e-03);
+#                         // From GitHub_F_Pro for GitHub_F2_Pro:
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 3][All Pro Phi Bins] is:
+#                         dp = dp + ((7.6422e-04)*pp*pp + (-1.5425e-03)*pp + (5.4255e-04));
+#                     }
+#                     if(sec == 4){
+#                         dp = (-1.944e-04)*pp*pp + (-5.77104e-03)*pp + (3.42399e-03);
+#                         // From GitHub_F_Pro for GitHub_F2_Pro:
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 4][All Pro Phi Bins] is:
+#                         dp = dp + ((1.1174e-03)*pp*pp + (-3.2747e-03)*pp + (2.3687e-03));
+#                     }
+#                     if(sec == 5){
+#                         dp = (1.54009e-03)*pp*pp + (-1.69437e-02)*pp + (1.04656e-02);
+#                         // From GitHub_F_Pro for GitHub_F2_Pro:
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 5][All Pro Phi Bins] is:
+#                         dp = dp + ((-2.1067e-04)*pp*pp + (1.2266e-03)*pp + (-1.0553e-03));
+#                     }
+#                     if(sec == 6){
+#                         dp = (2.38182e-03)*pp*pp + (-2.07301e-02)*pp + (1.72325e-02);
+#                         // From GitHub_F_Pro for GitHub_F2_Pro:
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = El/Pi+ Cor - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 6][All Pro Phi Bins] is:
+#                         dp = dp + ((-3.6002e-04)*pp*pp + (8.9582e-04)*pp + (-1.0093e-03));
+#                     }
+#                 }
+#                 if(corPro == 2){ // Quadratic Momentum - No Phi Dependence - With Elastic
+#                     if(sec == 1){
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 1][regall] is:
+#                         // dp = ((2.4366e-03)*pp*pp + (-0.01419)*pp + (0.01118));
+#                         // Using consistent momentum bins of 0.25 GeV per slice:
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 1][regall] is:
+#                         dp = ((7.0897e-03)*pp*pp + (-0.03199)*pp + (0.02237));
+#                         // Refined with a limited π0 Channel Contributions (up to Pro = 0.95 GeV - The double pion channel's range is from 0.45 to 3.1 GeV)
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_EF][Sector 1][regall] is:
+#                         dp = dp + ((-0.0111)*pp*pp + (0.04398)*pp + (-0.0309));
+#                     }
+#                     if(sec == 2){
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 2][regall] is:
+#                         // dp = ((4.4524e-03)*pp*pp + (-0.01943)*pp + (0.01409));
+#                         // Using consistent momentum bins of 0.25 GeV per slice:
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 2][regall] is:
+#                         dp = ((5.3849e-03)*pp*pp + (-0.02474)*pp + (0.01933));
+#                         // Refined with a limited π0 Channel Contributions (up to Pro = 0.95 GeV - The double pion channel's range is from 0.45 to 3.1 GeV)
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_EF][Sector 2][regall] is:
+#                         dp = dp + ((-8.3180e-03)*pp*pp + (0.03359)*pp + (-0.0251));
+#                     }
+#                     if(sec == 3){
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 3][regall] is:
+#                         // dp = ((6.2503e-03)*pp*pp + (-0.02598)*pp + (0.0168));
+#                         // Using consistent momentum bins of 0.25 GeV per slice:
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 3][regall] is:
+#                         dp = ((0.01095)*pp*pp + (-0.04196)*pp + (0.02795));
+#                         // Refined with a limited π0 Channel Contributions (up to Pro = 0.95 GeV - The double pion channel's range is from 0.45 to 3.1 GeV)
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_EF][Sector 3][regall] is:
+#                         dp = dp + ((-0.01892)*pp*pp + (0.06574)*pp + (-0.04358));
+#                     }
+#                     if(sec == 4){
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 4][regall] is:
+#                         // dp = ((2.4303e-03)*pp*pp + (-0.01241)*pp + (8.5029e-03));
+#                         // Using consistent momentum bins of 0.25 GeV per slice:
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 4][regall] is:
+#                         dp = ((0.01038)*pp*pp + (-0.04012)*pp + (0.02781));
+#                         // Refined with a limited π0 Channel Contributions (up to Pro = 0.95 GeV - The double pion channel's range is from 0.45 to 3.1 GeV)
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_EF][Sector 4][regall] is:
+#                         dp = dp + ((-0.0147)*pp*pp + (0.05475)*pp + (-0.03912));
+#                     }
+#                     if(sec == 5){
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 5][regall] is:
+#                         // dp = ((4.4340e-03)*pp*pp + (-0.02506)*pp + (0.01697));
+#                         // Using consistent momentum bins of 0.25 GeV per slice:
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 5][regall] is:
+#                         dp = ((9.0227e-03)*pp*pp + (-0.04131)*pp + (0.02748));
+#                         // Refined with a limited π0 Channel Contributions (up to Pro = 0.95 GeV - The double pion channel's range is from 0.45 to 3.1 GeV)
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_EF][Sector 5][regall] is:
+#                         dp = dp + ((-0.01526)*pp*pp + (0.05599)*pp + (-0.03795));
+#                     }
+#                     if(sec == 6){
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 6][regall] is:
+#                         // dp = ((5.5915e-03)*pp*pp + (-0.02814)*pp + (0.02144));
+#                         // Using consistent momentum bins of 0.25 GeV per slice:
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = Corrected - New][Sector 6][regall] is:
+#                         dp = ((8.8531e-03)*pp*pp + (-0.03881)*pp + (0.0284));
+#                         // Refined with a limited π0 Channel Contributions (up to Pro = 0.95 GeV - The double pion channel's range is from 0.45 to 3.1 GeV)
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_EF][Sector 6][regall] is:
+#                         dp = dp + ((-0.01037)*pp*pp + (0.0386)*pp + (-0.0256));
+#                     }
+#                 }
+#                 if(corPro == 3){ // (Double) Quadratic Momentum - No Phi Dependence - With Elastic
+#                     if(sec == 1){
+#                         // Old (Prior to 12-8-2022)
+#                         // dp = ((1 + TMath::Sign(1, -(pp - 1.25)))/2)*((-0.13955)*pp*pp + (0.258)*pp + (-0.11065)) + ((1 + TMath::Sign(1, (pp - 1.25)))/2)*((0.01803)*(pp - 1.25)*(pp - 1.25) + (-0.02696)*(pp - 1.25) + ((-0.13955)*1.25*1.25 + (0.258)*1.25 + (-0.13955)));
+#                         // // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
+#                         // dp = ((1 + TMath::Sign(1, -(pp - 1.25)))/2)*((-0.12067)*pp*pp + (0.21271)*pp + (-0.08588)) + ((1 + TMath::Sign(1, (pp - 1.25)))/2)*((7.9963e-03)*(pp - 1.25)*(pp - 1.25) + (-0.01387)*(pp - 1.25) + ((-0.12067)*1.25*1.25 + (0.21271)*1.25 + (-0.12067)));
+#                         // dp =  ((1 + TMath::Sign(1, -(pp - 1.275)))/2)*((-0.05809)*pp*pp + (0.12507)*pp + (-0.05941)) + ((1 + TMath::Sign(1, (pp - 1.275)))/2)*((0.01563)*(pp - 1.275)*(pp - 1.275) + (-0.02861)*(pp - 1.275) + ((-0.05809)*1.275*1.275 + (0.12507)*1.275 + (-0.05809)));
+#                         // No Pi0 Channel (As of 12-11-2022)
+#                         dp = ((1 + TMath::Sign(1, -(pp - 1.275)))/2)*((-0.0551)*pp*pp + (0.12492)*pp + (-0.06216)) + ((1 + TMath::Sign(1, (pp - 1.275)))/2)*((0.019)*(pp - 1.275)*(pp - 1.275) + (-0.03421)*(pp - 1.275) + ((-0.0551)*1.275*1.275 + (0.12492)*1.275 + (-0.0551)));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.275)))/2)*((-0.04162)*pp*pp + (0.06032)*pp + (-0.02019)) + ((1 + TMath::Sign(1, (pp - 1.275)))/2)*((-3.4800e-03)*(pp - 1.275)*(pp - 1.275) + (7.0842e-03)*(pp - 1.275) + ((-0.04162)*1.275*1.275 + (0.06032)*1.275 + (-0.04162)));
+#                         // Refined for V12 (on 12-17-2022 from V10)
+#                         dp = dp + ((1 + TMath::Sign(1, (pp - 1.275)))/2)*((6.4389e-03)*pp + (-0.01886)) + ((1 + TMath::Sign(1, -(pp - 1.275)))/2)*((-0.04971)*(pp - 1.275)*(pp - 1.275) + (-0.05009)*(pp - 1.275) + ((6.4389e-03)*1.275 + (-0.01886)));
+#                     }
+#                     if(sec == 2){
+#                         // Old (Prior to 12-8-2022)
+#                         // dp = ((1 + TMath::Sign(1, -(pp - 1.25)))/2)*((-0.06961)*pp*pp + (0.14423)*pp + (-0.06759)) + ((1 + TMath::Sign(1, (pp - 1.25)))/2)*((0.0222)*(pp - 1.25)*(pp - 1.25) + (-0.03833)*(pp - 1.25) + ((-0.06961)*1.25*1.25 + (0.14423)*1.25 + (-0.06961)));
+#                         // // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
+#                         // dp = ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.06114)*pp*pp + (0.12189)*pp + (-0.0527)) + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((0.01227)*(pp - 1.5)*(pp - 1.5) + (-0.01512)*(pp - 1.5) + ((-0.06114)*1.5*1.5 + (0.12189)*1.5 + (-0.06114)));
+#                         // dp =  ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.02971)*pp*pp + (0.06646)*pp + (-0.03145)) + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((0.01572)*(pp - 1.5)*(pp - 1.5) + (-0.01867)*(pp - 1.5) + ((-0.02971)*1.5*1.5 + (0.06646)*1.5 + (-0.02971)));
+#                         // No Pi0 Channel (As of 12-11-2022)
+#                         dp = ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.01881)*pp*pp + (0.04627)*pp + (-0.0249)) + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((0.01775)*(pp - 1.5)*(pp - 1.5) + (-0.02151)*(pp - 1.5) + ((-0.01881)*1.5*1.5 + (0.04627)*1.5 + (-0.01881)));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-9.1559e-03)*pp*pp + (0.01765)*pp + (-0.01181)) + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((-2.6433e-03)*(pp - 1.5)*(pp - 1.5) + (4.2943e-04)*(pp - 1.5) + ((-9.1559e-03)*1.5*1.5 + (0.01765)*1.5 + (-9.1559e-03)));
+#                         // Refined for V12 (on 12-17-2022 from V10)
+#                         dp = dp + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((-5.5372e-03)*pp + (3.4049e-03)) + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.02225)*(pp - 1.5)*(pp - 1.5) + (-0.0257)*(pp - 1.5) + ((-5.5372e-03)*1.5 + (3.4049e-03)));
+#                     }
+#                     if(sec == 3){
+#                         // Old (Prior to 12-8-2022)
+#                         // dp = ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.13162)*pp*pp + (0.23795)*pp + (-0.10254)) + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((0.0134)*(pp - 1.15)*(pp - 1.15) + (-0.02383)*(pp - 1.15) + ((-0.13162)*1.15*1.15 + (0.23795)*1.15 + (-0.13162)));
+#                         // // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
+#                         // dp = ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.13942)*pp*pp + (0.24843)*pp + (-0.10285)) + ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((0.02055)*(pp - 1.05)*(pp - 1.05) + (-0.03995)*(pp - 1.05) + ((-0.13942)*1.05*1.05 + (0.24843)*1.05 + (-0.13942)));
+#                         // dp =  ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.08796)*pp*pp + (0.18028)*pp + (-0.08423)) + ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((0.01286)*(pp - 1.05)*(pp - 1.05) + (-0.02798)*(pp - 1.05) + ((-0.08796)*1.05*1.05 + (0.18028)*1.05 + (-0.08796)));
+#                         // No Pi0 Channel (As of 12-11-2022)
+#                         dp = ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.06508)*pp*pp + (0.14792)*pp + (-0.07466)) + ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((0.01399)*(pp - 1.05)*(pp - 1.05) + (-0.03012)*(pp - 1.05) + ((-0.06508)*1.05*1.05 + (0.14792)*1.05 + (-0.06508)));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.07684)*pp*pp + (0.10445)*pp + (-0.03909)) + ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((-7.3305e-03)*(pp - 1.05)*(pp - 1.05) + (0.01471)*(pp - 1.05) + ((-0.07684)*1.05*1.05 + (0.10445)*1.05 + (-0.07684)));
+#                         // Refined for V12 (on 12-17-2022 from V10)
+#                         dp = dp + ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((2.6324e-03)*pp + (-0.01618)) + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.10914)*(pp - 1.05)*(pp - 1.05) + (-0.0818)*(pp - 1.05) + ((2.6324e-03)*1.05 + (-0.01618)));
+#                     }
+#                     if(sec == 4){
+#                         // Old (Prior to 12-8-2022)
+#                         // dp = ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.05954)*pp*pp + (0.1308)*pp + (-0.06482)) + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((0.03792)*(pp - 1.5)*(pp - 1.5) + (-0.04589)*(pp - 1.5) + ((-0.05954)*1.5*1.5 + (0.1308)*1.5 + (-0.05954)));
+#                         // // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
+#                         // dp = ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-0.05158)*pp*pp + (0.10222)*pp + (-0.04444)) + ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((0.0207)*(pp - 1.6)*(pp - 1.6) + (-0.01527)*(pp - 1.6) + ((-0.05158)*1.6*1.6 + (0.10222)*1.6 + (-0.05158)));
+#                         // dp =  ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-0.03445)*pp*pp + (0.07903)*pp + (-0.04104)) + ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((-1.8329e-03)*(pp - 1.6)*(pp - 1.6) + (-2.6033e-03)*(pp - 1.6) + ((-0.03445)*1.6*1.6 + (0.07903)*1.6 + (-0.03445)));
+#                         // No Pi0 Channel (As of 12-11-2022)
+#                         dp = ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-0.03495)*pp*pp + (0.08261)*pp + (-0.04511)) + ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((-5.8865e-04)*(pp - 1.6)*(pp - 1.6) + (-4.1526e-03)*(pp - 1.6) + ((-0.03495)*1.6*1.6 + (0.08261)*1.6 + (-0.03495)));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-0.01922)*pp*pp + (0.03918)*pp + (-0.01571)) + ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((0.01231)*(pp - 1.6)*(pp - 1.6) + (-0.02031)*(pp - 1.6) + ((-0.01922)*1.6*1.6 + (0.03918)*1.6 + (-0.01922)));
+#                         // Refined for V12 (on 12-17-2022 from V10)
+#                         dp = dp + ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((1.1814e-03)*pp + (-9.3058e-03)) + ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-0.02217)*(pp - 1.6)*(pp - 1.6) + (-0.02783)*(pp - 1.6) + ((1.1814e-03)*1.6 + (-9.3058e-03)));
+#                     }
+#                     if(sec == 5){
+#                         // Old (Prior to 12-8-2022)
+#                         // dp = ((1 + TMath::Sign(1, -(pp - 1.25)))/2)*((-0.07311)*pp*pp + (0.14954)*pp + (-0.07117)) + ((1 + TMath::Sign(1, (pp - 1.25)))/2)*((0.02479)*(pp - 1.25)*(pp - 1.25) + (-0.05092)*(pp - 1.25) + ((-0.07311)*1.25*1.25 + (0.14954)*1.25 + (-0.07311)));
+#                         // // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
+#                         // dp = ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((-0.07976)*pp*pp + (0.1508)*pp + (-0.06657)) + ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((0.02241)*(pp - 1.3)*(pp - 1.3) + (-0.04077)*(pp - 1.3) + ((-0.07976)*1.3*1.3 + (0.1508)*1.3 + (-0.07976)));
+#                         // dp =  ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((-0.06606)*pp*pp + (0.13218)*pp + (-0.06263)) + ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((6.0261e-03)*(pp - 1.3)*(pp - 1.3) + (-0.01608)*(pp - 1.3) + ((-0.06606)*1.3*1.3 + (0.13218)*1.3 + (-0.06606)));
+#                         // No Pi0 Channel (As of 12-11-2022)
+#                         dp = ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((-0.05866)*pp*pp + (0.12128)*pp + (-0.06053)) + ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((6.8137e-03)*(pp - 1.3)*(pp - 1.3) + (-0.01737)*(pp - 1.3) + ((-0.05866)*1.3*1.3 + (0.12128)*1.3 + (-0.05866)));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((-0.0434)*pp*pp + (0.07455)*pp + (-0.02785)) + ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((1.3396e-03)*(pp - 1.3)*(pp - 1.3) + (-2.1780e-03)*(pp - 1.3) + ((-0.0434)*1.3*1.3 + (0.07455)*1.3 + (-0.0434)));
+#                         // Refined for V12 (on 12-17-2022 from V10)
+#                         dp = dp + ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((-1.0211e-03)*pp + (4.4851e-04)) + ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((-4.3924e-03)*(pp - 1.3)*(pp - 1.3) + (-4.3982e-03)*(pp - 1.3) + ((-1.0211e-03)*1.3 + (4.4851e-04)));
+#                     }
+#                     if(sec == 6){
+#                         // Old (Prior to 12-8-2022)
+#                         // dp = ((1 + TMath::Sign(1, -(pp - 0.95)))/2)*((-0.22222)*pp*pp + (0.37189)*pp + (-0.14741)) + ((1 + TMath::Sign(1, (pp - 0.95)))/2)*((0.01798)*(pp - 0.95)*(pp - 0.95) + (-0.0408)*(pp - 0.95) + ((-0.22222)*0.95*0.95 + (0.37189)*0.95 + (-0.22222)));
+#                         // // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
+#                         // dp = ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.11795)*pp*pp + (0.2053)*pp + (-0.08071)) + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((0.01596)*(pp - 1.15)*(pp - 1.15) + (-0.03202)*(pp - 1.15) + ((-0.11795)*1.15*1.15 + (0.2053)*1.15 + (-0.11795)));
+#                         // dp =  ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.08839)*pp*pp + (0.16222)*pp + (-0.06785)) + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((3.3097e-03)*(pp - 1.15)*(pp - 1.15) + (-0.0121)*(pp - 1.15) + ((-0.08839)*1.15*1.15 + (0.16222)*1.15 + (-0.08839)));
+#                         // No Pi0 Channel (As of 12-11-2022)
+#                         dp = ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.08311)*pp*pp + (0.15357)*pp + (-0.06607)) + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((1.5336e-03)*(pp - 1.15)*(pp - 1.15) + (-8.9020e-03)*(pp - 1.15) + ((-0.08311)*1.15*1.15 + (0.15357)*1.15 + (-0.08311)));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((0.03578)*pp*pp + (-0.04865)*pp + (0.01548)) + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((-0.01833)*(pp - 1.15)*(pp - 1.15) + (0.03001)*(pp - 1.15) + ((0.03578)*1.15*1.15 + (-0.04865)*1.15 + (0.03578)));
+#                         // Refined for V12 (on 12-17-2022 from V10)
+#                         dp = dp + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((5.0005e-03)*pp + (6.5876e-03)) + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((0.04952)*(pp - 1.15)*(pp - 1.15) + (0.0556)*(pp - 1.15) + ((5.0005e-03)*1.15 + (6.5876e-03)));
+#                     }
+#                 }
+#                 if(corPro == 4){ // Linear + Quadratic Momentum - No Phi Dependence - With Elastic (Used modified slices - i.e., each momentum bin was not identically sized to increase precision where statistics allowed)
+#                     if(sec == 1){
+#                         // // Limited Pi0 Contributions
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.275)))/2)*((-1.6357e-03)*pp + (-2.2741e-03)) + ((1 + TMath::Sign(1, -(pp - 1.275)))/2)*((-0.10807)*(pp - 1.275)*(pp - 1.275) + (-0.07393)*(pp - 1.275) + ((-1.6357e-03)*1.275 + (-2.2741e-03)));
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.275)))/2)*((-7.7781e-03)*pp + (0.0113)) + ((1 + TMath::Sign(1, -(pp - 1.275)))/2)*((-0.07876)*(pp - 1.275)*(pp - 1.275) + (-0.04327)*(pp - 1.275) + ((-7.7781e-03)*1.275 + (0.0113)));
+#                         // // No Pi0 Channel (As of 12-11-2022)
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.275)))/2)*((-8.6761e-03)*pp + (0.01323)) + ((1 + TMath::Sign(1, -(pp - 1.275)))/2)*((-0.07949)*(pp - 1.275)*(pp - 1.275) + (-0.04026)*(pp - 1.275) + ((-8.6761e-03)*1.275 + (0.01323)));
+#                         // // Refined for V10 (on 12-11-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, (pp - 1.275)))/2)*((2.2293e-03)*pp + (-5.1823e-03)) + ((1 + TMath::Sign(1, -(pp - 1.275)))/2)*((-7.8363e-03)*(pp - 1.275)*(pp - 1.275) + (-6.1694e-03)*(pp - 1.275) + ((2.2293e-03)*1.275 + (-5.1823e-03)));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, (pp - 1.275)))/2)*((3.0710e-04)*pp + (-1.4879e-03)) + ((1 + TMath::Sign(1, -(pp - 1.275)))/2)*((-0.01063)*(pp - 1.275)*(pp - 1.275) + (-9.6597e-03)*(pp - 1.275) + ((3.0710e-04)*1.275 + (-1.4879e-03)));
+#                         // Created for V12 (Not a refinement but came from V10 as of 12-17-2022)
+#                         dp = ((1 + TMath::Sign(1, (pp - 1.4)))/2)*((7.1549e-03)*pp + (-0.01676)) + ((1 + TMath::Sign(1, -(pp - 1.4)))/2)*((-0.13101)*(pp - 1.4)*(pp - 1.4) + (-0.10988)*(pp - 1.4) + ((7.1549e-03)*1.4 + (-0.01676)));
+#                         // Sector 1 (mmEF_PipMMEF)
+#                         dp = ((1 + TMath::Sign(1, (pp - 1.4)))/2)*((2.0795e-03)*pp + (-5.7567e-03)) + ((1 + TMath::Sign(1, -(pp - 1.4)))/2)*((-0.13406)*(pp - 1.4)*(pp - 1.4) + (-0.10359)*(pp - 1.4) + ((2.0795e-03)*1.4 + (-5.7567e-03)));
+#                         // // Refined for V13 (As of 12-18-2022 - Not as good)
+#                         // dp = dp + ((-6.7365e-03)*pp*pp + (0.0217)*pp + (-0.01641));
+#                     }
+#                     if(sec == 2){
+#                         // // Limited Pi0 Contributions
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((-5.0028e-03)*pp + (7.4894e-03)) + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.05264)*(pp - 1.5)*(pp - 1.5) + (-0.03999)*(pp - 1.5) + ((-5.0028e-03)*1.5 + (7.4894e-03)));
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((-1.4217e-03)*pp + (8.9638e-04)) + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.03631)*(pp - 1.5)*(pp - 1.5) + (-0.03149)*(pp - 1.5) + ((-1.4217e-03)*1.5 + (8.9638e-04)));
+#                         // // No Pi0 Channel (As of 12-11-2022)
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((-2.0880e-03)*pp + (2.3984e-03)) + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.02633)*(pp - 1.5)*(pp - 1.5) + (-0.02015)*(pp - 1.5) + ((-2.0880e-03)*1.5 + (2.3984e-03)));
+#                         // // Refined for V10 (on 12-11-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((-1.5485e-03)*pp + (5.7910e-05)) + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.0194)*(pp - 1.5)*(pp - 1.5) + (-0.01631)*(pp - 1.5) + ((-1.5485e-03)*1.5 + (5.7910e-05)));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((-3.0725e-03)*pp + (9.0143e-03)) + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((0.02683)*(pp - 1.5)*(pp - 1.5) + (0.02941)*(pp - 1.5) + ((-3.0725e-03)*1.5 + (9.0143e-03)));
+#                         // Created for V12 (Not a refinement but came from V10 as of 12-17-2022)
+#                         dp = ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((-1.8045e-03)*pp + (-6.1883e-04)) + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.06692)*(pp - 1.5)*(pp - 1.5) + (-0.06165)*(pp - 1.5) + ((-1.8045e-03)*1.5 + (-6.1883e-04)));
+#                         // Refined for V13 (As of 12-18-2022)
+#                         dp = dp + ((-2.1848e-03)*pp*pp + (6.4452e-03)*pp + (-3.8500e-03));
+#                     }
+#                     if(sec == 3){
+#                         // // Limited Pi0 Contributions
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((-8.0446e-03)*pp + (0.01212)) + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.134)*(pp - 1.05)*(pp - 1.05) + (-0.03719)*(pp - 1.05) + ((-8.0446e-03)*1.05 + (0.01212)));
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((-9.8059e-03)*pp + (0.01538)) + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.11788)*(pp - 1.05)*(pp - 1.05) + (-0.02501)*(pp - 1.05) + ((-9.8059e-03)*1.05 + (0.01538)));
+#                         // // No Pi0 Channel (As of 12-11-2022)
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((-8.9776e-03)*pp + (0.01365)) + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.11448)*(pp - 1.05)*(pp - 1.05) + (-0.02247)*(pp - 1.05) + ((-8.9776e-03)*1.05 + (0.01365)));
+#                         // // Refined for V10 (on 12-11-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((2.7985e-03)*pp + (-5.9780e-03)) + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.02966)*(pp - 1.05)*(pp - 1.05) + (-0.02091)*(pp - 1.05) + ((2.7985e-03)*1.05 + (-5.9780e-03)));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((7.2930e-03)*pp + (-0.01322)) + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-5.4908e-03)*(pp - 1.05)*(pp - 1.05) + (-3.8724e-03)*(pp - 1.05) + ((7.2930e-03)*1.05 + (-0.01322)));
+#                         // Created for V12 (Not a refinement but came from V10 as of 12-17-2022)
+#                         dp = ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((-9.1530e-03)*pp + (0.01321)) + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.14416)*(pp - 1.05)*(pp - 1.05) + (-0.04263)*(pp - 1.05) + ((-9.1530e-03)*1.05 + (0.01321)));
+#                         // Refined for V13 (As of 12-18-2022 - Linear)
+#                         dp = dp + ((4.3502e-03)*pp + (-8.7609e-03));
+#                     }
+#                     if(sec == 4){
+#                         // // Limited Pi0 Contributions
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((1.7735e-03)*pp + (-8.3609e-03)) + ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-0.05405)*(pp - 1.6)*(pp - 1.6) + (-0.05341)*(pp - 1.6) + ((1.7735e-03)*1.6 + (-8.3609e-03)));
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((-4.4083e-03)*pp + (4.5020e-03)) + ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-0.03398)*(pp - 1.6)*(pp - 1.6) + (-0.03052)*(pp - 1.6) + ((-4.4083e-03)*1.6 + (4.5020e-03)));
+#                         // // No Pi0 Channel (As of 12-11-2022)
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((-4.7326e-03)*pp + (5.2470e-03)) + ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-0.03479)*(pp - 1.6)*(pp - 1.6) + (-0.02899)*(pp - 1.6) + ((-4.7326e-03)*1.6 + (5.2470e-03)));
+#                         // // Refined for V10 (on 12-11-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((7.1153e-03)*pp + (-0.01238)) + ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-8.7206e-03)*(pp - 1.6)*(pp - 1.6) + (-8.0822e-03)*(pp - 1.6) + ((7.1153e-03)*1.6 + (-0.01238)));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((-8.0971e-03)*pp + (0.01695)) + ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-6.1053e-03)*(pp - 1.6)*(pp - 1.6) + (-3.0968e-03)*(pp - 1.6) + ((-8.0971e-03)*1.6 + (0.01695)));
+#                         // Created for V12 (Not a refinement but came from V10 as of 12-17-2022)
+#                         dp = ((1 + TMath::Sign(1, (pp - 1.4)))/2)*((-1.4632e-03)*pp + (5.9780e-04)) + ((1 + TMath::Sign(1, -(pp - 1.4)))/2)*((-0.08698)*(pp - 1.4)*(pp - 1.4) + (-0.06322)*(pp - 1.4) + ((-1.4632e-03)*1.4 + (5.9780e-04)));
+#                         // Refined for V13 (As of 12-18-2022 - Linear)
+#                         dp = dp + ((3.1385e-03)*pp + (-4.9601e-03));
+#                     }
+#                     if(sec == 5){
+#                         // // Limited Pi0 Contributions
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((-5.9723e-03)*pp + (2.5053e-03)) + ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((-0.10593)*(pp - 1.3)*(pp - 1.3) + (-0.07212)*(pp - 1.3) + ((-5.9723e-03)*1.3 + (2.5053e-03)));
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((-8.2072e-03)*pp + (6.6709e-03)) + ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((-0.07289)*(pp - 1.3)*(pp - 1.3) + (-0.04657)*(pp - 1.3) + ((-8.2072e-03)*1.3 + (6.6709e-03)));
+#                         // // No Pi0 Channel (As of 12-11-2022)
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((-8.4025e-03)*pp + (7.0958e-03)) + ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((-0.0662)*(pp - 1.3)*(pp - 1.3) + (-0.03919)*(pp - 1.3) + ((-8.4025e-03)*1.3 + (7.0958e-03)));
+#                         // // Refined for V10 (on 12-11-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((-1.9360e-03)*pp + (3.8917e-03)) + ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((9.2924e-04)*(pp - 1.3)*(pp - 1.3) + (2.7070e-03)*(pp - 1.3) + ((-1.9360e-03)*1.3 + (3.8917e-03)));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((1.4429e-04)*pp + (-1.0834e-03)) + ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((-0.02431)*(pp - 1.3)*(pp - 1.3) + (-0.01722)*(pp - 1.3) + ((1.4429e-04)*1.3 + (-1.0834e-03)));
+#                         // Created for V12 (Not a refinement but came from V10 as of 12-17-2022)
+#                         dp = ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((5.2396e-03)*pp + (-0.02372)) + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.10822)*(pp - 1.5)*(pp - 1.5) + (-0.10736)*(pp - 1.5) + ((5.2396e-03)*1.5 + (-0.02372)));
+#                         // Refined for V13 (As of 12-18-2022)
+#                         dp = dp + ((-7.4096e-03)*pp*pp + (0.02566)*pp + (-0.02118));
+#                     }
+#                     if(sec == 6){
+#                         // // Limited Pi0 Contributions
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((-3.1171e-03)*pp + (-3.0440e-05)) + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.15426)*(pp - 1.15)*(pp - 1.15) + (-0.08696)*(pp - 1.15) + ((-3.1171e-03)*1.15 + (-3.0440e-05)));
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((-7.5386e-03)*pp + (9.6255e-03)) + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.09439)*(pp - 1.15)*(pp - 1.15) + (-0.04596)*(pp - 1.15) + ((-7.5386e-03)*1.15 + (9.6255e-03)));
+#                         // // No Pi0 Channel (As of 12-11-2022)
+#                         // dp = ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((-6.7651e-03)*pp + (7.9839e-03)) + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.0857)*(pp - 1.15)*(pp - 1.15) + (-0.03981)*(pp - 1.15) + ((-6.7651e-03)*1.15 + (7.9839e-03)));
+#                         // // Refined for V10 (on 12-11-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((2.6908e-03)*pp + (-4.7083e-03)) + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.03637)*(pp - 1.15)*(pp - 1.15) + (-0.01886)*(pp - 1.15) + ((2.6908e-03)*1.15 + (-4.7083e-03)));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((-3.4367e-03)*pp + (6.2224e-03)) + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((6.9261e-03)*(pp - 1.15)*(pp - 1.15) + (8.8750e-03)*(pp - 1.15) + ((-3.4367e-03)*1.15 + (6.2224e-03)));
+#                         // Created for V12 (Not a refinement but came from V10 as of 12-17-2022)
+#                         dp = ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((-7.5813e-03)*pp + (7.1798e-03)) + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.11408)*(pp - 1.15)*(pp - 1.15) + (-0.06441)*(pp - 1.15) + ((-7.5813e-03)*1.15 + (7.1798e-03)));
+#                         // Refined for V13 (As of 12-18-2022 - Linear)
+#                         dp = dp + ((4.1287e-03)*pp + (-3.4076e-03));
+#                     }
+#                 }
+#                 if(corPro == 5){ // Quadratic Momentum - Limited π0 Channel Contributions (up to Pro = 0.95 GeV - The double pion channel's range is from 0.45 to 3.1 GeV)
+#                     if(sec == 1){
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 1][regall] is:
+#                         // dp = ((-2.1037e-03)*pp*pp + (3.5083e-03)*pp + (-1.3908e-03));
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 1][regall] is:
+#                         // dp = ((-2.5598e-03)*pp*pp + (4.8450e-03)*pp + (-1.7655e-03));
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 1][regall] is:
+#                         // dp = ((-0.01494)*pp*pp + (0.03947)*pp + (-0.02103));
+#                         // No Pi0 Channel
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 1][regall] is:
+#                         dp = ((-0.016)*pp*pp + (0.04367)*pp + (-0.02515));
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_REF][Sector 1][regall] is:
+#                         dp = dp + ((5.1479e-03)*pp*pp + (-0.01511)*pp + (7.8694e-03));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.275)))/2)*((-0.0672)*pp*pp + (0.12527)*pp + (-0.05132)) + ((1 + TMath::Sign(1, (pp - 1.275)))/2)*((0.02389)*(pp - 1.275)*(pp - 1.275) + (-0.02468)*(pp - 1.275) + ((-0.0672)*1.275*1.275 + (0.12527)*1.275 + (-0.0672)));
+#                         // Refined for V12 (on 12-17-2022 from V10)
+#                         dp = dp + ((1 + TMath::Sign(1, (pp - 1.275)))/2)*((8.5400e-03)*pp + (-0.01927)) + ((1 + TMath::Sign(1, -(pp - 1.275)))/2)*((-0.09972)*(pp - 1.275)*(pp - 1.275) + (-0.07965)*(pp - 1.275) + ((8.5400e-03)*1.275 + (-0.01927)));
+#                     }
+#                     if(sec == 2){
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 2][regall] is:
+#                         // dp = ((-6.5934e-03)*pp*pp + (0.02048)*pp + (-0.01364));
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 2][regall] is:
+#                         // dp = ((-7.4332e-03)*pp*pp + (0.02294)*pp + (-0.01435));
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 2][regall] is:
+#                         // dp = ((-7.0803e-03)*pp*pp + (0.01914)*pp + (-9.5535e-03));
+#                         // No Pi0 Channel
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 2][regall] is:
+#                         dp = ((-5.4403e-03)*pp*pp + (0.0159)*pp + (-0.01021));
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_REF][Sector 2][regall] is:
+#                         dp = dp + ((-2.2364e-03)*pp*pp + (7.1578e-03)*pp + (-5.6010e-03));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.04061)*pp*pp + (0.08923)*pp + (-0.04188)) + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((0.03201)*(pp - 1.5)*(pp - 1.5) + (-0.0294)*(pp - 1.5) + ((-0.04061)*1.5*1.5 + (0.08923)*1.5 + (-0.04061)));
+#                         // Refined for V12 (on 12-17-2022 from V10)
+#                         dp = dp + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((6.9186e-03)*pp + (-0.01614)) + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.05739)*(pp - 1.5)*(pp - 1.5) + (-0.05469)*(pp - 1.5) + ((6.9186e-03)*1.5 + (-0.01614)));
+#                     }
+#                     if(sec == 3){
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 3][regall] is:
+#                         // dp = ((-5.3729e-03)*pp*pp + (0.01467)*pp + (-9.8315e-03));
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 3][regall] is:
+#                         // dp = ((-6.0918e-03)*pp*pp + (0.01678)*pp + (-0.01043));
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 3][regall] is:
+#                         // dp = ((-0.01552)*pp*pp + (0.04207)*pp + (-0.02405));
+#                         // No Pi0 Channel
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 3][regall] is:
+#                         dp = ((-0.0145)*pp*pp + (0.04082)*pp + (-0.02562));
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_REF][Sector 3][regall] is:
+#                         dp = dp + ((4.1488e-03)*pp*pp + (-0.01091)*pp + (5.3172e-03));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.13676)*pp*pp + (0.23057)*pp + (-0.09126)) + ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((0.01506)*(pp - 1.05)*(pp - 1.05) + (-0.01978)*(pp - 1.05) + ((-0.13676)*1.05*1.05 + (0.23057)*1.05 + (-0.13676)));
+#                         // Refined for V12 (on 12-17-2022 from V10)
+#                         dp = dp + ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((3.3854e-03)*pp + (-8.8397e-03)) + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.19272)*(pp - 1.05)*(pp - 1.05) + (-0.09488)*(pp - 1.05) + ((3.3854e-03)*1.05 + (-8.8397e-03)));
+#                     }
+#                     if(sec == 4){
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 4][regall] is:
+#                         // dp = ((-3.6196e-03)*pp*pp + (0.01099)*pp + (-7.5842e-03));
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 4][regall] is:
+#                         // dp = ((-4.0774e-03)*pp*pp + (0.01233)*pp + (-7.9722e-03));
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 4][regall] is:
+#                         // dp = ((-0.01071)*pp*pp + (0.02998)*pp + (-0.01844));
+#                         // No Pi0 Channel
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 4][regall] is:
+#                         dp = ((-0.01124)*pp*pp + (0.03298)*pp + (-0.02235));
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_REF][Sector 4][regall] is:
+#                         dp = dp + ((-2.9293e-04)*pp*pp + (3.6047e-03)*pp + (-3.3081e-03));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-0.02931)*pp*pp + (0.06137)*pp + (-0.0254)) + ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((0.03319)*(pp - 1.6)*(pp - 1.6) + (-0.02383)*(pp - 1.6) + ((-0.02931)*1.6*1.6 + (0.06137)*1.6 + (-0.02931)));
+#                         // Refined for V12 (on 12-17-2022 from V10)
+#                         dp = dp + ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((9.4470e-03)*pp + (-0.02198)) + ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-0.03889)*(pp - 1.6)*(pp - 1.6) + (-0.04655)*(pp - 1.6) + ((9.4470e-03)*1.6 + (-0.02198)));
+#                     }
+#                     if(sec == 5){
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 5][regall] is:
+#                         // dp = ((-3.7810e-03)*pp*pp + (6.8081e-03)*pp + (-4.8397e-03));
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 5][regall] is:
+#                         // dp = ((-4.4288e-03)*pp*pp + (8.7103e-03)*pp + (-5.3957e-03));
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 5][regall] is:
+#                         // dp = ((-0.01148)*pp*pp + (0.02806)*pp + (-0.01722));
+#                         // No Pi0 Channel
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 5][regall] is:
+#                         dp = ((-0.01092)*pp*pp + (0.02808)*pp + (-0.0197));
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_REF][Sector 5][regall] is:
+#                         dp = dp + ((1.4513e-03)*pp*pp + (-6.5134e-03)*pp + (4.6868e-03));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((-0.04212)*pp*pp + (0.09356)*pp + (-0.04422)) + ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((0.02924)*(pp - 1.3)*(pp - 1.3) + (-0.03753)*(pp - 1.3) + ((-0.04212)*1.3*1.3 + (0.09356)*1.3 + (-0.04212)));
+#                         // Refined for V12 (on 12-17-2022 from V10)
+#                         dp = dp + ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((8.3686e-04)*pp + (-2.4123e-03)) + ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((-0.07312)*(pp - 1.3)*(pp - 1.3) + (-0.04876)*(pp - 1.3) + ((8.3686e-04)*1.3 + (-2.4123e-03)));
+#                     }
+#                     if(sec == 6){
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 6][regall] is:
+#                         // dp = ((-1.0527e-03)*pp*pp + (-9.3997e-04)*pp + (1.3576e-03));
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 6][regall] is:
+#                         // dp = ((-1.9024e-03)*pp*pp + (1.5476e-03)*pp + (6.6814e-04));
+#                         // // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 6][regall] is:
+#                         // dp = ((-8.9351e-03)*pp*pp + (0.02091)*pp + (-9.4739e-03));
+#                         // No Pi0 Channel
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 6][regall] is:
+#                         dp = ((-8.2723e-03)*pp*pp + (0.02055)*pp + (-0.01167));
+#                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_REF][Sector 6][regall] is:
+#                         dp = dp + ((-1.6250e-03)*pp*pp + (5.6738e-03)*pp + (-3.8019e-03));
+#                         // // Refined for V11 (on 12-16-2022)
+#                         // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.10524)*pp*pp + (0.17545)*pp + (-0.06634)) + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((0.01179)*(pp - 1.15)*(pp - 1.15) + (-0.01127)*(pp - 1.15) + ((-0.10524)*1.15*1.15 + (0.17545)*1.15 + (-0.10524)));
+#                         // Refined for V12 (on 12-17-2022 from V10)
+#                         dp = dp + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((5.3711e-03)*pp + (-0.01317)) + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.12512)*(pp - 1.15)*(pp - 1.15) + (-0.08387)*(pp - 1.15) + ((5.3711e-03)*1.15 + (-0.01317)));
+#                     }
+#                 }
+#             }
+#             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#             //===================================================================================================================================================================//
+#             //==============================//==============================//     End of Proton Corrections     //==============================//==============================//
+#             //===================================================================================================================================================================//
+#             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#             return dp/pp;
+#         };"""
+        
+        
+        
         Correction_Code_Full_In = """
         
         auto dppC = [&](float Px, float Py, float Pz, int sec, int ivec, int corEl, int corPip, int corPim, int corPro){
@@ -1348,70 +2093,24 @@ if(event_Name != "error"):
 
 
             if(corEl != 0 && ivec == 0){
-
                 if(sec == 1){
-
                     dp = ((1.57e-06)*phi*phi + (5.021e-05)*phi + (-1.74089e-03))*pp*pp + ((-2.192e-05)*phi*phi + (-1.12528e-03)*phi + (0.0146476))*pp + ((8.504e-05)*phi*phi + (2.08012e-03)*phi + (-0.0122501));
-
                 }
-
                 if(sec == 2){
-
                     dp = ((-3.98e-06)*phi*phi + (1.66e-05)*phi + (-1.55918e-03))*pp*pp + ((2.136e-05)*phi*phi + (-5.7373e-04)*phi + (0.0143591))*pp + ((2.4e-06)*phi*phi + (1.6656e-03)*phi + (-0.0218711));
-
                 }
-
                 if(sec == 3){
-
                     dp = ((5.57e-06)*phi*phi + (2.3e-07)*phi + (-2.26999e-03))*pp*pp + ((-7.761e-05)*phi*phi + (4.1437e-04)*phi + (0.0152985))*pp + ((2.2542e-04)*phi*phi + (-9.442e-04)*phi + (-0.0231432));
-
                 }
-
                 if(sec == 4){
-
                     dp = ((3.48e-06)*phi*phi + (2.166e-05)*phi + (-2.29e-04))*pp*pp + ((-2.758e-05)*phi*phi + (7.226e-05)*phi + (-3.38e-03))*pp + ((3.166e-05)*phi*phi + (6.93e-05)*phi + (0.04767));
-
                 }
-
                 if(sec == 5){
-
                     dp = ((1.19e-06)*phi*phi + (-2.286e-05)*phi + (-1.6332e-04))*pp*pp + ((-1.05e-06)*phi*phi + (7.04e-05)*phi + (-5.0754e-03))*pp + ((-7.22e-06)*phi*phi + (4.1748e-04)*phi + (0.04441));
-
                 }
-
                 if(sec == 6){
-
                     dp = ((-5.97e-06)*phi*phi + (-3.689e-05)*phi + (5.782e-05))*pp*pp + ((6.573e-05)*phi*phi + (2.1376e-04)*phi + (-9.54576e-03))*pp + ((-1.7732e-04)*phi*phi + (-8.62e-04)*phi + (0.0618975));
-
                 }
-                
-                // Old Corrections entirely based on elastic scattering channel (will be removing)
-                // if(corEl == 2){
-                //     if(sec == 1){
-                //         // The QUADRATIC function predicted for Δp_{el} for [Inbending][Cor = El Cor (Quad - Quad Phi) - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 1] is:
-                //         dp = dp + ((7.8940e-05)*pp*pp + (-2.6436e-03)*pp + (0.06115));
-                //     }
-                //     if(sec == 2){
-                //         // The QUADRATIC function predicted for Δp_{el} for [Inbending][Cor = El Cor (Quad - Quad Phi) - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 2] is:
-                //         dp = dp + ((7.8694e-04)*pp*pp + (-2.0503e-03)*pp + (-0.01185));
-                //     }
-                //     if(sec == 3){
-                //         // The QUADRATIC function predicted for Δp_{el} for [Inbending][Cor = El Cor (Quad - Quad Phi) - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 3] is:
-                //         dp = dp + ((4.7172e-03)*pp*pp + (-0.04838)*pp + (0.10936));
-                //     }
-                //     if(sec == 4){
-                //         // The QUADRATIC function predicted for Δp_{el} for [Inbending][Cor = El Cor (Quad - Quad Phi) - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 4] is:
-                //         dp = dp + ((2.5303e-03)*pp*pp + (-0.02057)*pp + (0.01269));
-                //     }
-                //     if(sec == 5){
-                //         // The QUADRATIC function predicted for Δp_{el} for [Inbending][Cor = El Cor (Quad - Quad Phi) - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 5] is:
-                //         dp = dp + ((1.9005e-03)*pp*pp + (-0.02135)*pp + (0.05793));
-                //     }
-                //     if(sec == 6){
-                //         // The QUADRATIC function predicted for Δp_{el} for [Inbending][Cor = El Cor (Quad - Quad Phi) - Pro Cor (Quad - No Phi - Energy Loss Cor)][Sector 6] is:
-                //         dp = dp + ((1.6142e-04)*pp*pp + (8.2249e-03)*pp + (-0.05631));
-                //     }
-                // }
                 
                 // Extended Refinement of corEl == 1
                 if(corEl == 2){
@@ -1419,27 +2118,22 @@ if(event_Name != "error"):
                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected][Sector 1] is:
                         dp = dp + ((-1.5543e-05)*phi*phi + (-6.1257e-05)*phi + (9.0385e-04))*pp*pp + ((1.8051e-04)*phi*phi + (9.0971e-04)*phi + (-0.010544))*pp + ((-4.7617e-04)*phi*phi + (-0.0029024)*phi + (0.02882));
                     }
-
                     if(sec == 2){
                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected][Sector 2] is:
                         dp = dp + ((-1.0753e-07)*phi*phi + (-4.3441e-05)*phi + (-2.4143e-04))*pp*pp + ((-9.1649e-06)*phi*phi + (5.5094e-04)*phi + (0.0046169))*pp + ((5.7005e-05)*phi*phi + (-0.0014851)*phi + (-0.017753));
                     }
-
                     if(sec == 3){
                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected][Sector 3] is:
                         dp = dp + ((-1.3656e-05)*phi*phi + (-6.3819e-06)*phi + (9.4242e-04))*pp*pp + ((1.5109e-04)*phi*phi + (-1.6847e-04)*phi + (-0.010423))*pp + ((-3.8962e-04)*phi*phi + (0.001198)*phi + (0.029035));
                     }
-
                     if(sec == 4){
                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected][Sector 4] is:
                         dp = dp + ((-7.7030e-06)*phi*phi + (-2.2183e-05)*phi + (-3.2310e-04))*pp*pp + ((9.1683e-05)*phi*phi + (1.8863e-04)*phi + (0.0025154))*pp + ((-2.3756e-04)*phi*phi + (-2.8317e-04)*phi + (-0.0046244));
                     }
-
                     if(sec == 5){
                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected][Sector 5] is:
                         dp = dp + ((-8.7306e-07)*phi*phi + (2.1699e-05)*phi + (-5.7166e-04))*pp*pp + ((7.4275e-06)*phi*phi + (-2.5637e-04)*phi + (0.0054676))*pp + ((-1.2134e-05)*phi*phi + (8.1743e-04)*phi + (-0.010263));
                     }
-
                     if(sec == 6){
                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected][Sector 6] is:
                         dp = dp + ((4.3560e-06)*phi*phi + (3.3573e-05)*phi + (-6.6964e-04))*pp*pp + ((-6.6393e-05)*phi*phi + (-3.0575e-04)*phi + (0.0084299))*pp + ((2.4042e-04)*phi*phi + (5.1189e-04)*phi + (-0.024095));
@@ -1496,58 +2190,7 @@ if(event_Name != "error"):
                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Uncorrected][Sector 6] is:
                         dp = ((1.1076e-06)*phi*phi + (4.0156e-05)*phi + (-1.6341e-04))*pp*pp + ((-2.8613e-05)*phi*phi + (-5.1861e-04)*phi + (-0.0056437))*pp + ((1.2419e-04)*phi*phi + (4.9084e-04)*phi + (0.049976));
                     }
-
-                    
-                    // if(sec == 1){
-                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Uncorrected][Sector 1] is:
-                    //     dp = ((-1.5040e-05)*phi*phi + (8.3658e-05)*phi + (1.4496e-04))*pp*pp + ((1.6822e-04)*phi*phi + (-0.0011009)*phi + (-0.0078315))*pp + ((-4.0600e-04)*phi*phi + (7.6757e-04)*phi + (0.053669));
-                    // }
-                    // if(sec == 2){
-                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Uncorrected][Sector 2] is:
-                    //     dp = ((2.0865e-06)*phi*phi + (7.6463e-05)*phi + (-1.9364e-04))*pp*pp + ((-6.4367e-05)*phi*phi + (-0.0012176)*phi + (-2.0869e-04))*pp + ((2.9486e-04)*phi*phi + (0.0035628)*phi + (0.013104));
-                    // }
-                    // if(sec == 3){
-                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Uncorrected][Sector 3] is:
-                    //     dp = ((-8.0439e-06)*phi*phi + (-6.3139e-05)*phi + (-1.4770e-04))*pp*pp + ((7.6303e-05)*phi*phi + (8.5855e-04)*phi + (-0.01198))*pp + ((-4.5784e-04)*phi*phi + (9.0790e-05)*phi + (0.05692));
-                    // }
-                    // if(sec == 4){
-                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Uncorrected][Sector 4] is:
-                    //     dp = ((-5.1666e-07)*phi*phi + (-2.5345e-05)*phi + (-7.3173e-04))*pp*pp + ((1.3366e-05)*phi*phi + (4.2536e-04)*phi + (0.0021657))*pp + ((-6.8748e-05)*phi*phi + (-2.7581e-04)*phi + (0.035071));
-                    // }
-                    // if(sec == 5){
-                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Uncorrected][Sector 5] is:
-                    //     dp = ((2.5181e-06)*phi*phi + (1.5033e-06)*phi + (-5.6908e-04))*pp*pp + ((-2.4592e-05)*phi*phi + (-2.5214e-04)*phi + (-0.0011469))*pp + ((7.9875e-05)*phi*phi + (0.0016725)*phi + (0.037426));
-                    // }
-                    // if(sec == 6){
-                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Uncorrected][Sector 6] is:
-                    //     dp = ((-4.0243e-08)*phi*phi + (2.4060e-05)*phi + (-1.6018e-04))*pp*pp + ((-5.7111e-06)*phi*phi + (-2.7682e-04)*phi + (-0.0061331))*pp + ((3.6547e-05)*phi*phi + (-3.0023e-04)*phi + (0.052959));
-                    // }
-                    // if(sec == 1){
-                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (With Elastic)][Sector 1] is:
-                    //     dp = dp + ((9.6348e-06)*phi*phi + (-2.9662e-05)*phi + (-0.0011628))*pp*pp + ((-1.3411e-04)*phi*phi + (1.7261e-04)*phi + (0.013894))*pp + ((4.1564e-04)*phi*phi + (2.4278e-04)*phi + (-0.04171));
-                    // }
-                    // if(sec == 2){
-                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (With Elastic)][Sector 2] is:
-                    //     dp = dp + ((-1.0253e-05)*phi*phi + (-7.6131e-05)*phi + (-0.0017463))*pp*pp + ((1.3863e-04)*phi*phi + (9.8369e-04)*phi + (0.021323))*pp + ((-4.6105e-04)*phi*phi + (-0.0031777)*phi + (-0.059681));
-                    // }
-                    // if(sec == 3){
-                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (With Elastic)][Sector 3] is:
-                    //     dp = dp + ((-1.4004e-07)*phi*phi + (3.7348e-05)*phi + (-9.6247e-04))*pp*pp + ((-6.4665e-05)*phi*phi + (-3.8349e-04)*phi + (0.013947))*pp + ((6.6942e-04)*phi*phi + (-5.0403e-04)*phi + (-0.039777));
-                    // }
-                    // if(sec == 4){
-                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (With Elastic)][Sector 4] is:
-                    //     dp = dp + ((1.3652e-06)*phi*phi + (2.9192e-05)*phi + (-1.2088e-04))*pp*pp + ((-2.7445e-05)*phi*phi + (-2.9267e-04)*phi + (0.0012004))*pp + ((1.2175e-04)*phi*phi + (5.7987e-04)*phi + (-0.0049904));
-                    // }
-                    // if(sec == 5){
-                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (With Elastic)][Sector 5] is:
-                    //     dp = dp + ((-4.6155e-06)*phi*phi + (-1.7015e-06)*phi + (-1.3798e-04))*pp*pp + ((6.2077e-05)*phi*phi + (5.5936e-05)*phi + (0.0011478))*pp + ((-1.9562e-04)*phi*phi + (-4.4017e-04)*phi + (-0.0019506));
-                    // }
-                    // if(sec == 6){
-                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (With Elastic)][Sector 6] is:
-                    //     dp = dp + ((-6.6556e-06)*phi*phi + (-2.0135e-07)*phi + (-2.2521e-04))*pp*pp + ((7.5260e-05)*phi*phi + (-3.0161e-05)*phi + (0.002675))*pp + ((-2.0305e-04)*phi*phi + (2.5782e-04)*phi + (-0.0098316));
-                    // }
                 }
-
             }
 
 
@@ -1861,135 +2504,1133 @@ if(event_Name != "error"):
 
                 if(corPro == 3){ // (Double) Quadratic Momentum - No Phi Dependence - With Elastic
                     if(sec == 1){
-                        // Old (Prior to 12-8-2022)
-                        // dp = ((1 + TMath::Sign(1, -(pp - 1.25)))/2)*((-0.13955)*pp*pp + (0.258)*pp + (-0.11065)) + ((1 + TMath::Sign(1, (pp - 1.25)))/2)*((0.01803)*(pp - 1.25)*(pp - 1.25) + (-0.02696)*(pp - 1.25) + ((-0.13955)*1.25*1.25 + (0.258)*1.25 + (-0.13955)));
-                        
-                        // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
-                        dp = ((1 + TMath::Sign(1, -(pp - 1.25)))/2)*((-0.12067)*pp*pp + (0.21271)*pp + (-0.08588)) + ((1 + TMath::Sign(1, (pp - 1.25)))/2)*((7.9963e-03)*(pp - 1.25)*(pp - 1.25) + (-0.01387)*(pp - 1.25) + ((-0.12067)*1.25*1.25 + (0.21271)*1.25 + (-0.12067)));
-                        
+                        dp = ((1 + TMath::Sign(1, -(pp - 1.4)))/2)*((-0.0959)*pp*pp + (0.18948)*pp + (-0.08328)) + ((1 + TMath::Sign(1, (pp - 1.4)))/2)*((0.01991)*(pp - 1.4)*(pp - 1.4) + (-0.01963)*(pp - 1.4) + ((-0.0959)*1.4*1.4 + (0.18948)*1.4 + (-0.0959)));
                     }
                     if(sec == 2){
-                        // Old (Prior to 12-8-2022)
-                        // dp = ((1 + TMath::Sign(1, -(pp - 1.25)))/2)*((-0.06961)*pp*pp + (0.14423)*pp + (-0.06759)) + ((1 + TMath::Sign(1, (pp - 1.25)))/2)*((0.0222)*(pp - 1.25)*(pp - 1.25) + (-0.03833)*(pp - 1.25) + ((-0.06961)*1.25*1.25 + (0.14423)*1.25 + (-0.06961)));
-                        
-                        // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
-                        dp = ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.06114)*pp*pp + (0.12189)*pp + (-0.0527)) + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((0.01227)*(pp - 1.5)*(pp - 1.5) + (-0.01512)*(pp - 1.5) + ((-0.06114)*1.5*1.5 + (0.12189)*1.5 + (-0.06114)));
-                        
+                        dp = ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.06642)*pp*pp + (0.14583)*pp + (-0.06885)) + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((0.07575)*(pp - 1.5)*(pp - 1.5) + (-0.07001)*(pp - 1.5) + ((-0.06642)*1.5*1.5 + (0.14583)*1.5 + (-0.06642)));
                     }
                     if(sec == 3){
-                        // Old (Prior to 12-8-2022)
-                        // dp = ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.13162)*pp*pp + (0.23795)*pp + (-0.10254)) + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((0.0134)*(pp - 1.15)*(pp - 1.15) + (-0.02383)*(pp - 1.15) + ((-0.13162)*1.15*1.15 + (0.23795)*1.15 + (-0.13162)));
-                        
-                        // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
-                        dp = ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.13942)*pp*pp + (0.24843)*pp + (-0.10285)) + ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((0.02055)*(pp - 1.05)*(pp - 1.05) + (-0.03995)*(pp - 1.05) + ((-0.13942)*1.05*1.05 + (0.24843)*1.05 + (-0.13942)));
-                        
+                        dp = ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.14588)*pp*pp + (0.26771)*pp + (-0.11513)) + ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((0.03042)*(pp - 1.05)*(pp - 1.05) + (-0.04788)*(pp - 1.05) + ((-0.14588)*1.05*1.05 + (0.26771)*1.05 + (-0.14588)));
                     }
                     if(sec == 4){
-                        // Old (Prior to 12-8-2022)
-                        // dp = ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.05954)*pp*pp + (0.1308)*pp + (-0.06482)) + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((0.03792)*(pp - 1.5)*(pp - 1.5) + (-0.04589)*(pp - 1.5) + ((-0.05954)*1.5*1.5 + (0.1308)*1.5 + (-0.05954)));
-                        
-                        // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
-                        dp = ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-0.05158)*pp*pp + (0.10222)*pp + (-0.04444)) + ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((0.0207)*(pp - 1.6)*(pp - 1.6) + (-0.01527)*(pp - 1.6) + ((-0.05158)*1.6*1.6 + (0.10222)*1.6 + (-0.05158)));
-                        
+                        dp = ((1 + TMath::Sign(1, -(pp - 1.4)))/2)*((-0.09563)*pp*pp + (0.19039)*pp + (-0.08607)) + ((1 + TMath::Sign(1, (pp - 1.4)))/2)*((-7.7622e-03)*(pp - 1.4)*(pp - 1.4) + (7.6980e-03)*(pp - 1.4) + ((-0.09563)*1.4*1.4 + (0.19039)*1.4 + (-0.09563)));
                     }
                     if(sec == 5){
-                        // Old (Prior to 12-8-2022)
-                        // dp = ((1 + TMath::Sign(1, -(pp - 1.25)))/2)*((-0.07311)*pp*pp + (0.14954)*pp + (-0.07117)) + ((1 + TMath::Sign(1, (pp - 1.25)))/2)*((0.02479)*(pp - 1.25)*(pp - 1.25) + (-0.05092)*(pp - 1.25) + ((-0.07311)*1.25*1.25 + (0.14954)*1.25 + (-0.07311)));
-                        
-                        // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
-                        dp = ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((-0.07976)*pp*pp + (0.1508)*pp + (-0.06657)) + ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((0.02241)*(pp - 1.3)*(pp - 1.3) + (-0.04077)*(pp - 1.3) + ((-0.07976)*1.3*1.3 + (0.1508)*1.3 + (-0.07976)));
-                        
+                        dp = ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.09331)*pp*pp + (0.19028)*pp + (-0.08766)) + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((5.7742e-03)*(pp - 1.5)*(pp - 1.5) + (1.2433e-03)*(pp - 1.5) + ((-0.09331)*1.5*1.5 + (0.19028)*1.5 + (-0.09331)));
                     }
                     if(sec == 6){
-                        // Old (Prior to 12-8-2022)
-                        // dp = ((1 + TMath::Sign(1, -(pp - 0.95)))/2)*((-0.22222)*pp*pp + (0.37189)*pp + (-0.14741)) + ((1 + TMath::Sign(1, (pp - 0.95)))/2)*((0.01798)*(pp - 0.95)*(pp - 0.95) + (-0.0408)*(pp - 0.95) + ((-0.22222)*0.95*0.95 + (0.37189)*0.95 + (-0.22222)));
-                        
-                        // Used consistent binning of 0.25 GeV per momentum slice for the ∆P histograms
-                        dp = ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.11795)*pp*pp + (0.2053)*pp + (-0.08071)) + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((0.01596)*(pp - 1.15)*(pp - 1.15) + (-0.03202)*(pp - 1.15) + ((-0.11795)*1.15*1.15 + (0.2053)*1.15 + (-0.11795)));
-                        
+                        dp = ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.12326)*pp*pp + (0.22076)*pp + (-0.09082)) + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((2.7284e-03)*(pp - 1.15)*(pp - 1.15) + (-0.01129)*(pp - 1.15) + ((-0.12326)*1.15*1.15 + (0.22076)*1.15 + (-0.12326)));
                     }
                 }
                 
                 
-                if(corPro == 4){ // Linear + Quadratic Momentum - No Phi Dependence - With Elastic (Used modified slices - i.e., each momentum bin was not identically sized to increase precision where statistics allowed)
+                if(corPro == 4 || corPro == 6){ // Linear + Quadratic Momentum - No Phi Dependence - With Elastic (Used modified slices - i.e., each momentum bin was not identically sized to increase precision where statistics allowed)
                     if(sec == 1){
-                        // Sector 1 (Corrected (With (New) Pion - With Elastic - Energy Loss))
-                        dp = ((1 + TMath::Sign(1, (pp - 1.25)))/2)*((-3.0362e-03)*pp + (-6.5671e-03)) + ((1 + TMath::Sign(1, -(pp - 1.25)))/2)*((-0.14099)*(pp - 1.25)*(pp - 1.25) + (-0.1019)*(pp - 1.25) + ((-3.0362e-03)*1.25 + (-6.5671e-03)));
+                        // // Created for V12 (Not a refinement but came from V10 as of 12-17-2022)
+                        // dp = ((1 + TMath::Sign(1, (pp - 1.4)))/2)*((7.1549e-03)*pp + (-0.01676)) + ((1 + TMath::Sign(1, -(pp - 1.4)))/2)*((-0.13101)*(pp - 1.4)*(pp - 1.4) + (-0.10988)*(pp - 1.4) + ((7.1549e-03)*1.4 + (-0.01676)));
                         
-                        // Refinement with 2 Pol2 functions (same switch points)
-                        dp = dp + ((1 + TMath::Sign(1, -(pp - 1.25)))/2)*((0.02098)*pp*pp + (-0.02601)*pp + (5.1761e-03)) + ((1 + TMath::Sign(1, (pp - 1.25)))/2)*((4.7641e-03)*(pp - 1.25)*(pp - 1.25) + (-9.7153e-03)*(pp - 1.25) + ((0.02098)*1.25*1.25 + (-0.02601)*1.25 + (0.02098)));
+                        // Created for V14 (As of 12-20-2022)
+                        dp = ((1 + TMath::Sign(1, (pp - 1.4)))/2)*((4.4034e-03)*pp + (-0.01703)) + ((1 + TMath::Sign(1, -(pp - 1.4)))/2)*((-0.10898)*(pp - 1.4)*(pp - 1.4) + (-0.09574)*(pp - 1.4) + ((4.4034e-03)*1.4 + (-0.01703)));
                         
                     }
                     if(sec == 2){
-                        // Sector 2 (Corrected (With (New) Pion - With Elastic - Energy Loss))
-                        dp = ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((8.3701e-03)*pp + (-0.02682)) + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.08878)*(pp - 1.5)*(pp - 1.5) + (-0.08759)*(pp - 1.5) + ((8.3701e-03)*1.5 + (-0.02682)));
+                        // // Created for V12 (Not a refinement but came from V10 as of 12-17-2022)
+                        // dp = ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((-1.8045e-03)*pp + (-6.1883e-04)) + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.06692)*(pp - 1.5)*(pp - 1.5) + (-0.06165)*(pp - 1.5) + ((-1.8045e-03)*1.5 + (-6.1883e-04)));
                         
-                        // Refinement with 2 Pol2 functions (same switch points)
-                        dp = dp + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((0.04231)*pp*pp + (-0.07716)*pp + (0.03159)) + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((0.01828)*(pp - 1.5)*(pp - 1.5) + (-0.03411)*(pp - 1.5) + ((0.04231)*1.5*1.5 + (-0.07716)*1.5 + (0.04231)));
-                        
+                        // Created for V14 (As of 12-20-2022)
+                        dp = ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((0.01318)*pp + (-0.03403)) + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.09829)*(pp - 1.5)*(pp - 1.5) + (-0.0986)*(pp - 1.5) + ((0.01318)*1.5 + (-0.03403)));
+
                     }
                     if(sec == 3){
-                        // Sector 3 (Corrected (With (New) Pion - With Elastic - Energy Loss))
-                        dp = ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((8.2240e-04)*pp + (-8.3388e-03)) + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.24261)*(pp - 1.05)*(pp - 1.05) + (-0.11187)*(pp - 1.05) + ((8.2240e-04)*1.05 + (-8.3388e-03)));
+                        // // Created for V12 (Not a refinement but came from V10 as of 12-17-2022)
+                        // dp = ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((-9.1530e-03)*pp + (0.01321)) + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.14416)*(pp - 1.05)*(pp - 1.05) + (-0.04263)*(pp - 1.05) + ((-9.1530e-03)*1.05 + (0.01321)));
                         
-                        // Refinement with 2 Pol2 functions (same switch points)
-                        dp = dp + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((0.09394)*pp*pp + (-0.12246)*pp + (0.03631)) + ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((0.01674)*(pp - 1.05)*(pp - 1.05) + (-0.0327)*(pp - 1.05) + ((0.09394)*1.05*1.05 + (-0.12246)*1.05 + (0.09394)));
-                        
+                        // Created for V14 (As of 12-20-2022)
+                        dp = ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((-4.7052e-03)*pp + (1.2410e-03)) + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.22721)*(pp - 1.05)*(pp - 1.05) + (-0.09702)*(pp - 1.05) + ((-4.7052e-03)*1.05 + (1.2410e-03)));
+
                     }
                     if(sec == 4){
-                        // Sector 4 (Corrected (With (New) Pion - With Elastic - Energy Loss))
-                        dp = ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((6.8993e-03)*pp + (-0.02516)) + ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-0.06901)*(pp - 1.6)*(pp - 1.6) + (-0.07676)*(pp - 1.6) + ((6.8993e-03)*1.6 + (-0.02516)));
+                        // // Created for V12 (Not a refinement but came from V10 as of 12-17-2022)
+                        // dp = ((1 + TMath::Sign(1, (pp - 1.4)))/2)*((-1.4632e-03)*pp + (5.9780e-04)) + ((1 + TMath::Sign(1, -(pp - 1.4)))/2)*((-0.08698)*(pp - 1.4)*(pp - 1.4) + (-0.06322)*(pp - 1.4) + ((-1.4632e-03)*1.4 + (5.9780e-04)));
                         
-                        // Refinement with 2 Pol2 functions (same switch points)
-                        dp = dp + ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((0.02797)*pp*pp + (-0.05176)*pp + (0.01932)) + ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((0.01218)*(pp - 1.6)*(pp - 1.6) + (-0.02261)*(pp - 1.6) + ((0.02797)*1.6*1.6 + (-0.05176)*1.6 + (0.02797)));
-                        
+                        // Created for V14 (As of 12-20-2022)
+                        dp = ((1 + TMath::Sign(1, (pp - 1.4)))/2)*((-1.0900e-03)*pp + (-4.0573e-03)) + ((1 + TMath::Sign(1, -(pp - 1.4)))/2)*((-0.09236)*(pp - 1.4)*(pp - 1.4) + (-0.073)*(pp - 1.4) + ((-1.0900e-03)*1.4 + (-4.0573e-03)));
+
                     }
                     if(sec == 5){
-                        // Sector 5 (Corrected (With (New) Pion - With Elastic - Energy Loss))
-                        dp = ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((-7.3222e-03)*pp + (-3.5610e-03)) + ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((-0.14204)*(pp - 1.3)*(pp - 1.3) + (-0.10802)*(pp - 1.3) + ((-7.3222e-03)*1.3 + (-3.5610e-03)));
+                        // // Created for V12 (Not a refinement but came from V10 as of 12-17-2022)
+                        // dp = ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((5.2396e-03)*pp + (-0.02372)) + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.10822)*(pp - 1.5)*(pp - 1.5) + (-0.10736)*(pp - 1.5) + ((5.2396e-03)*1.5 + (-0.02372)));
                         
-                        // Refinement with 2 Pol2 functions (same switch points)
-                        dp = dp + ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((0.04913)*pp*pp + (-0.07504)*pp + (0.02442)) + ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((0.02033)*(pp - 1.3)*(pp - 1.3) + (-0.03401)*(pp - 1.3) + ((0.04913)*1.3*1.3 + (-0.07504)*1.3 + (0.04913)));
-                        
+                        // Created for V14 (As of 12-20-2022)
+                        dp = ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((7.3965e-03)*pp + (-0.02428)) + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.09539)*(pp - 1.5)*(pp - 1.5) + (-0.09263)*(pp - 1.5) + ((7.3965e-03)*1.5 + (-0.02428)));
+
                     }
                     if(sec == 6){
-                        // Sector 6 (Corrected (With (New) Pion - With Elastic - Energy Loss))
-                        dp = ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((-3.0997e-04)*pp + (-0.01174)) + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.20315)*(pp - 1.15)*(pp - 1.15) + (-0.12957)*(pp - 1.15) + ((-3.0997e-04)*1.15 + (-0.01174)));
+                        // // Created for V12 (Not a refinement but came from V10 as of 12-17-2022)
+                        // dp = ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((-7.5813e-03)*pp + (7.1798e-03)) + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.11408)*(pp - 1.15)*(pp - 1.15) + (-0.06441)*(pp - 1.15) + ((-7.5813e-03)*1.15 + (7.1798e-03)));
                         
-                        // Refinement with 2 Pol2 functions (same switch points)
-                        dp = dp + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((0.07329)*pp*pp + (-0.10068)*pp + (0.03095)) + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((0.01672)*(pp - 1.15)*(pp - 1.15) + (-0.03341)*(pp - 1.15) + ((0.07329)*1.15*1.15 + (-0.10068)*1.15 + (0.07329)));
-                        
+                        // Created for V14 (As of 12-20-2022)
+                        dp = ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((-7.6214e-03)*pp + (8.1014e-03)) + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.12718)*(pp - 1.15)*(pp - 1.15) + (-0.06626)*(pp - 1.15) + ((-7.6214e-03)*1.15 + (8.1014e-03)));
+
                     }
+                    
+                    if(corPro == 6){
+                        if(sec == 1){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.01209);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.0011625);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (0.0020235);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (1.3822e-10);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (6.1986e-12);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (0.001171);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (0.0029328);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-6.9294e-11);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-9.5240e-04);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-0.0098873);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-0.0038452);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (0.01);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (0.0032361);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (4.7611e-04);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (0.005);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (0.0032169);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (0.01);
+                            }
+                        }
+                        if(sec == 2){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.0073511);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.0020223);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (0.0021045);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (1.0004e-10);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (1.6017e-11);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (1.6347e-04);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-0.0020222);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-0.0087368);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.0010099);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-1.9094e-09);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-2.0578e-09);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-0.01);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (0.01);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (0.0045736);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (0.005);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (-0.0034818);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (0.006159);
+                            }
+                        }
+                        if(sec == 3){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.0026713);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.0025998);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-0.0035644);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.0055165);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.0062494);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-0.0045474);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-0.0010856);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (9.7786e-04);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (0.0073733);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (0.01);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (0.019838);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-0.0019305);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (3.0760e-12);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (0.0099999);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (0.005);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (0.01);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (0.0099999);
+                            }
+                        }
+                        if(sec == 4){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-5.9369e-11);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.0026745);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-0.0025888);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (5.6656e-13);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.0034908);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-0.0016047);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-0.0015552);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-0.0010852);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-1.1536e-10);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (0.0043639);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-2.0560e-10);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-2.4232e-11);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (-0.0028999);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (-0.01);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (0.011888);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (0.01);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (1.3244e-10);
+                            }
+                        }
+                        if(sec == 5){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.0014647);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-8.9216e-04);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (9.5401e-12);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (1.7695e-13);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.0018382);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-0.0019182);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-0.0045879);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-2.4413e-13);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (0.0072663);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-4.5738e-09);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-0.0097207);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-4.8651e-12);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (0.0013099);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (-0.0042066);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (0.005);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (-9.6964e-11);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (-0.0053576);
+                            }
+                        }
+                        if(sec == 6){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.0067183);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (0.0010457);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (0.0019828);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (0.0015115);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (3.2544e-04);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (2.6222e-10);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (3.4673e-05);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-0.0064244);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.0060716);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (1.9671e-08);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (8.6804e-04);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-0.0039438);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (3.1952e-10);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (0.0074829);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (0.012681);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (-0.01);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (8.9608e-12);
+                            }
+                        }
+                    }
+                    
                 }
                 
                 
                 if(corPro == 5){ // Quadratic Momentum - Limited π0 Channel Contributions (up to Pro = 0.95 GeV - The double pion channel's range is from 0.45 to 3.1 GeV)
-                    if(sec == 1){
+                    if(sec == 1){                        
+                        // No Pi0 Channel
                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 1][regall] is:
-                        dp = ((-2.1037e-03)*pp*pp + (3.5083e-03)*pp + (-1.3908e-03));
+                        dp = ((-0.016)*pp*pp + (0.04367)*pp + (-0.02515));
+                        
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_REF][Sector 1][regall] is:
+                        dp = dp + ((5.1479e-03)*pp*pp + (-0.01511)*pp + (7.8694e-03));
+                        
+                        // // Refined for V11 (on 12-16-2022)
+                        // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.275)))/2)*((-0.0672)*pp*pp + (0.12527)*pp + (-0.05132)) + ((1 + TMath::Sign(1, (pp - 1.275)))/2)*((0.02389)*(pp - 1.275)*(pp - 1.275) + (-0.02468)*(pp - 1.275) + ((-0.0672)*1.275*1.275 + (0.12527)*1.275 + (-0.0672)));
+                        
+                        // Refined for V12 (on 12-17-2022 from V10)
+                        dp = dp + ((1 + TMath::Sign(1, (pp - 1.275)))/2)*((8.5400e-03)*pp + (-0.01927)) + ((1 + TMath::Sign(1, -(pp - 1.275)))/2)*((-0.09972)*(pp - 1.275)*(pp - 1.275) + (-0.07965)*(pp - 1.275) + ((8.5400e-03)*1.275 + (-0.01927)));
+                        
                     }
                     if(sec == 2){
+                        // No Pi0 Channel
                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 2][regall] is:
-                        dp = ((-6.5934e-03)*pp*pp + (0.02048)*pp + (-0.01364));
+                        dp = ((-5.4403e-03)*pp*pp + (0.0159)*pp + (-0.01021));
+                        
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_REF][Sector 2][regall] is:
+                        dp = dp + ((-2.2364e-03)*pp*pp + (7.1578e-03)*pp + (-5.6010e-03));
+                        
+                        // // Refined for V11 (on 12-16-2022)
+                        // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.04061)*pp*pp + (0.08923)*pp + (-0.04188)) + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((0.03201)*(pp - 1.5)*(pp - 1.5) + (-0.0294)*(pp - 1.5) + ((-0.04061)*1.5*1.5 + (0.08923)*1.5 + (-0.04061)));
+                        
+                        // Refined for V12 (on 12-17-2022 from V10)
+                        dp = dp + ((1 + TMath::Sign(1, (pp - 1.5)))/2)*((6.9186e-03)*pp + (-0.01614)) + ((1 + TMath::Sign(1, -(pp - 1.5)))/2)*((-0.05739)*(pp - 1.5)*(pp - 1.5) + (-0.05469)*(pp - 1.5) + ((6.9186e-03)*1.5 + (-0.01614)));
+                        
                     }
                     if(sec == 3){
+                        // No Pi0 Channel
                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 3][regall] is:
-                        dp = ((-5.3729e-03)*pp*pp + (0.01467)*pp + (-9.8315e-03));
+                        dp = ((-0.0145)*pp*pp + (0.04082)*pp + (-0.02562));
+                        
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_REF][Sector 3][regall] is:
+                        dp = dp + ((4.1488e-03)*pp*pp + (-0.01091)*pp + (5.3172e-03));
+                        
+                        // // Refined for V11 (on 12-16-2022)
+                        // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.13676)*pp*pp + (0.23057)*pp + (-0.09126)) + ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((0.01506)*(pp - 1.05)*(pp - 1.05) + (-0.01978)*(pp - 1.05) + ((-0.13676)*1.05*1.05 + (0.23057)*1.05 + (-0.13676)));
+                        
+                        // Refined for V12 (on 12-17-2022 from V10)
+                        dp = dp + ((1 + TMath::Sign(1, (pp - 1.05)))/2)*((3.3854e-03)*pp + (-8.8397e-03)) + ((1 + TMath::Sign(1, -(pp - 1.05)))/2)*((-0.19272)*(pp - 1.05)*(pp - 1.05) + (-0.09488)*(pp - 1.05) + ((3.3854e-03)*1.05 + (-8.8397e-03)));
+                        
                     }
                     if(sec == 4){
+                        // No Pi0 Channel
                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 4][regall] is:
-                        dp = ((-3.6196e-03)*pp*pp + (0.01099)*pp + (-7.5842e-03));
+                        dp = ((-0.01124)*pp*pp + (0.03298)*pp + (-0.02235));
+                        
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_REF][Sector 4][regall] is:
+                        dp = dp + ((-2.9293e-04)*pp*pp + (3.6047e-03)*pp + (-3.3081e-03));
+                        
+                        // // Refined for V11 (on 12-16-2022)
+                        // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-0.02931)*pp*pp + (0.06137)*pp + (-0.0254)) + ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((0.03319)*(pp - 1.6)*(pp - 1.6) + (-0.02383)*(pp - 1.6) + ((-0.02931)*1.6*1.6 + (0.06137)*1.6 + (-0.02931)));
+                        
+                        // Refined for V12 (on 12-17-2022 from V10)
+                        dp = dp + ((1 + TMath::Sign(1, (pp - 1.6)))/2)*((9.4470e-03)*pp + (-0.02198)) + ((1 + TMath::Sign(1, -(pp - 1.6)))/2)*((-0.03889)*(pp - 1.6)*(pp - 1.6) + (-0.04655)*(pp - 1.6) + ((9.4470e-03)*1.6 + (-0.02198)));
+                        
                     }
                     if(sec == 5){
+                        // No Pi0 Channel
                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 5][regall] is:
-                        dp = ((-3.7810e-03)*pp*pp + (6.8081e-03)*pp + (-4.8397e-03));
+                        dp = ((-0.01092)*pp*pp + (0.02808)*pp + (-0.0197));
+                        
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_REF][Sector 5][regall] is:
+                        dp = dp + ((1.4513e-03)*pp*pp + (-6.5134e-03)*pp + (4.6868e-03));
+                        
+                        // // Refined for V11 (on 12-16-2022)
+                        // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((-0.04212)*pp*pp + (0.09356)*pp + (-0.04422)) + ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((0.02924)*(pp - 1.3)*(pp - 1.3) + (-0.03753)*(pp - 1.3) + ((-0.04212)*1.3*1.3 + (0.09356)*1.3 + (-0.04212)));
+                        
+                        // Refined for V12 (on 12-17-2022 from V10)
+                        dp = dp + ((1 + TMath::Sign(1, (pp - 1.3)))/2)*((8.3686e-04)*pp + (-2.4123e-03)) + ((1 + TMath::Sign(1, -(pp - 1.3)))/2)*((-0.07312)*(pp - 1.3)*(pp - 1.3) + (-0.04876)*(pp - 1.3) + ((8.3686e-04)*1.3 + (-2.4123e-03)));
+                        
                     }
                     if(sec == 6){
+                        // No Pi0 Channel
                         // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF][Sector 6][regall] is:
-                        dp = ((-1.0527e-03)*pp*pp + (-9.3997e-04)*pp + (1.3576e-03));
+                        dp = ((-8.2723e-03)*pp*pp + (0.02055)*pp + (-0.01167));
+                        
+                        // The QUADRATIC function predicted for Δp_{pro} for [Inbending][Cor = mmEF_PipMMEF_ProMMpro_REF][Sector 6][regall] is:
+                        dp = dp + ((-1.6250e-03)*pp*pp + (5.6738e-03)*pp + (-3.8019e-03));
+                        
+                        // // Refined for V11 (on 12-16-2022)
+                        // dp = dp + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.10524)*pp*pp + (0.17545)*pp + (-0.06634)) + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((0.01179)*(pp - 1.15)*(pp - 1.15) + (-0.01127)*(pp - 1.15) + ((-0.10524)*1.15*1.15 + (0.17545)*1.15 + (-0.10524)));
+                        
+                        // Refined for V12 (on 12-17-2022 from V10)
+                        dp = dp + ((1 + TMath::Sign(1, (pp - 1.15)))/2)*((5.3711e-03)*pp + (-0.01317)) + ((1 + TMath::Sign(1, -(pp - 1.15)))/2)*((-0.12512)*(pp - 1.15)*(pp - 1.15) + (-0.08387)*(pp - 1.15) + ((5.3711e-03)*1.15 + (-0.01317)));
+                        
                     }
                 }
                 
+                
+                if(corPro == 7){ // Correction based on each momentum slice
+                    if(sec == 1){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (-0.021819);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (-0.0093479);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (-0.0021986);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (-6.9048e-10);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (0.0020348);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (0.0053929);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.01);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (0.01);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.0095658);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (1.8395e-07);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (0.0074868);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (0.01);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (1.4167e-10);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (-0.0090363);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (-0.014638);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (-0.0038945);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (0.0093729);
+                        }
+                    }
+                    if(sec == 2){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (-0.019298);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (-0.01);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (-0.0037632);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (7.2271e-12);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (1.8242e-12);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (0.003169);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.0040409);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (4.5497e-05);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.0098463);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.01);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (0.01);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (0.0085684);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (0.0095119);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (-0.0091352);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (-0.015);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (-0.013501);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (6.0009e-04);
+                        }
+                    }
+                    if(sec == 3){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (-0.019429);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (-0.012631);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (-0.0089295);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (-0.0074301);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (-0.0040745);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (2.8793e-11);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.0024547);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (0.0069585);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.01);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.013924);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (0.010148);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (-0.0064441);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (-0.01);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (-0.01);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (-0.015);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (1.3172e-10);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (-0.0054761);
+                        }
+                    }
+                    if(sec == 4){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (-0.014202);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (-0.012726);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (-0.0085499);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (-0.004222);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (-0.0027015);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (2.6980e-08);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.0012598);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (0.0035453);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.0089578);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.01);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (0.01);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (0.01);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (-0.01);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (-0.0026096);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (-0.0074676);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (2.3952e-09);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (-0.0047979);
+                        }
+                    }
+                    if(sec == 5){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (-0.017364);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (-0.012949);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (-0.0092785);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (-0.0065438);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (-0.0028204);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (-6.4951e-05);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.0026037);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (0.0099247);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.01);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.0099625);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (0.0025209);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (0.01);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (7.9251e-10);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (-0.011977);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (-0.015);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (-0.01);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (-0.013272);
+                        }
+                    }
+                    if(sec == 6){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (-0.02);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (-0.0046567);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (-9.2643e-04);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (0.001573);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (0.0016599);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (0.0027488);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.0077023);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (0.003881);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.0030017);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.01);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (0.01);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (-5.4120e-10);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (-0.0036718);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (-1.0769e-09);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (-0.005);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (-0.02);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (-0.01);
+                        }
+                    }
+                    // =======================================     Refinements     ======================================= //
+                    if(sec == 1){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (-0.011303);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (-0.0044224);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (-4.5442e-04);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (-0.0010117);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (1.0040e-11);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (3.6941e-11);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (-1.5646e-10);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (-2.4947e-12);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (0.0017482);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (0.0046418);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (-2.3315e-08);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (0.01);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (1.1194e-08);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (7.9079e-11);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (0.0050276);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (-0.0072997);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (-0.0026774);
+                        }
+                    }
+                    if(sec == 2){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (-0.0057038);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (-0.0040769);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (6.2003e-14);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (7.2271e-12);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (1.7567e-11);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (3.1891e-04);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (0.0020065);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (-0.0036864);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (-5.6157e-08);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (-3.1879e-11);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (-0.01);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (-0.0081166);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (-8.1586e-05);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (9.6112e-10);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (0.0054416);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (-0.0026217);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (9.3476e-08);
+                        }
+                    }
+                    if(sec == 3){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (-0.004816);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (-0.0026276);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (1.3363e-12);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (2.2468e-11);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (2.1101e-12);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (4.1322e-12);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (-1.8556e-04);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (-2.2785e-12);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (-7.5973e-09);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (7.9404e-11);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (0.009469);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (-3.9013e-10);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (5.5080e-09);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (5.3885e-11);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (0.005);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (-0.01);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (2.8086e-10);
+                        }
+                    }
+                    if(sec == 4){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (-3.7370e-10);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (-0.0015416);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (-0.0022765);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (2.3736e-12);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (9.1573e-12);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (4.7601e-09);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (-2.1201e-11);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (-0.003609);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (-5.6674e-04);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (-6.0882e-12);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (-4.2169e-11);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (-3.4033e-09);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (5.2086e-09);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (-0.01);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (0.014995);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (1.5830e-09);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (9.3421e-09);
+                        }
+                    }
+                    if(sec == 5){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (-0.0021403);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (-0.0012417);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (8.4554e-14);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (2.6724e-12);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (-0.0012886);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (-1.3706e-04);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (-0.0035262);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (-4.9661e-04);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (-7.8030e-11);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (0.0047555);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (-0.0064624);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (-3.3666e-14);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (6.9266e-11);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (-0.0021577);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (0.005);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (2.8252e-09);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (0.0022419);
+                        }
+                    }
+                    if(sec == 6){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (-0.01);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (-0.0019688);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (-0.001408);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (-0.0024985);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (6.6324e-04);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (4.5377e-10);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (0.0016273);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (-1.5775e-09);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (-1.7147e-09);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (7.7408e-10);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (0.0028554);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (4.8094e-04);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (6.1673e-09);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (-2.4257e-10);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (0.014998);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (3.3257e-11);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (9.8751e-10);
+                        }
+                    }
+                }
             }
 
 
@@ -2502,6 +4143,10 @@ if(event_Name != "error"):
             coutN = 4
         elif("MMpro_REF" in corPro):
             coutN = 5
+        elif("MMpro_S_LEF" in corPro):
+            coutN = 6
+        elif("MMpro_SEF" in corPro):
+            coutN = 7
         else:
             coutN = 1
         return coutN
@@ -2527,7 +4172,7 @@ if(event_Name != "error"):
         Full_Correction_Output = ""
 
         # Correction Numbers (for code - translating the input string into integers for C++):
-        corEl_Num = str(NameElCor(Correction, Data_Type))
+        corEl_Num  = str(NameElCor(Correction, Data_Type))
         corPip_Num = str(NamePipCor(Correction, Data_Type))
         corPim_Num = str(NamePimCor(Correction, Data_Type))
         corPro_Num = str(NameProCor(Correction, Data_Type))
@@ -2597,7 +4242,7 @@ if(event_Name != "error"):
 
     auto Output_Vectors = beam + targ - eleC;
 
-    auto Final_Output = Output_Vectors.M""", "2" if Out_Type == "WM2" else "","""();
+    auto Final_Output = Output_Vectors.M""", "2" if(Out_Type == "WM2") else "","""();
 
             """])
 
@@ -2664,27 +4309,17 @@ if(event_Name != "error"):
 
                 """
 
-            ##===============================##
-            ##=====##   Pi0 Channel   ##=====##
-            ##===============================##
-            if('eppi0X' == MM_Type or Channel_Type == "P0"):
+            ##==================================================##
+            ##=====##   Pi0/Elastic Scattering Channel   ##=====##
+            ##==================================================##
+            if(MM_Type in ['eppi0X', 'epX'] or Channel_Type in ["P0", "ES"]):
                 Calculation_Code_Choice = """
     auto Output_Vectors = beam + targ - eleC - proC;
 
     auto Final_Output = Output_Vectors.M2();
 
                 """
-                
-            ##======================================##
-            ##=====##   Elastic Scattering   ##=====##
-            ##======================================##
-            if('epX' == MM_Type or Channel_Type == "ES"):
-                Calculation_Code_Choice = """
-    auto Output_Vectors = beam + targ - eleC - proC;
 
-    auto Final_Output = Output_Vectors.M2();
-
-                """
 
         ##========================================================##
         ##===============||----------------------||===============##
@@ -2698,7 +4333,7 @@ if(event_Name != "error"):
             ##===============||    Single Pion Channel    ||===============##
             ##===============||---------------------------||===============##
             ##=============================================================##
-            if(Channel_Type == "SP" or Channel_Type == "MC"):
+            if(Channel_Type in ["SP", "MC"]):
                 Calculation_Code_Choice = """
     double neutronM2 = 0.9396*0.9396;
                 """
@@ -2806,14 +4441,102 @@ if(event_Name != "error"):
     if(abs(proC.P() - pro_CalculateP) <= abs(proC.P() - pro_CalculateM)){
         pro_Calculate = pro_CalculateP;
     }
-
     else{
         pro_Calculate = pro_CalculateM;
     }
 
 
     auto Final_Output = pro_Calculate - proC.P();
+    
+    // auto beam_test      = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
+    // auto targ_test      = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+    //
+    // auto cor_Factor     = ((Final_Output)/proC.P());
+    // auto cor_FactorM    = ((pro_CalculateM - proC.P())/proC.P());
+    // auto cor_FactorP    = ((pro_CalculateP - proC.P())/proC.P());
+    // 
+    // // auto cor_Factor     = ((pro_Calculate  - pro_cor)/pro_cor);
+    // // auto cor_FactorM    = ((pro_CalculateM - pro_cor)/pro_cor);
+    // // auto cor_FactorP    = ((pro_CalculateP - pro_cor)/pro_cor);
+    // 
+    // auto pro_OG         = ROOT::Math::PxPyPzMVector(prox_cor, proy_cor, proz_cor, 0.938);
+    // // auto proC_Calc      = ROOT::Math::PxPyPzMVector(prox_cor*cor_Factor,  proy_cor*cor_Factor,  proz_cor*cor_Factor,  0.938);
+    // // auto proC_Calc_M    = ROOT::Math::PxPyPzMVector(prox_cor*cor_FactorM, proy_cor*cor_FactorM, proz_cor*cor_FactorM, 0.938);
+    // // auto proC_Calc_P    = ROOT::Math::PxPyPzMVector(prox_cor*cor_FactorP, proy_cor*cor_FactorP, proz_cor*cor_FactorP, 0.938);
+    // 
+    // auto proC_Calc      = ROOT::Math::PxPyPzMVector(proC.Px()*cor_Factor,  proC.Py()*cor_Factor,  proC.Pz()*cor_Factor,  0.938);
+    // auto proC_Calc_M    = ROOT::Math::PxPyPzMVector(proC.Px()*cor_FactorM, proC.Py()*cor_FactorM, proC.Pz()*cor_FactorM, 0.938);
+    // auto proC_Calc_P    = ROOT::Math::PxPyPzMVector(proC.Px()*cor_FactorP, proC.Py()*cor_FactorP, proC.Pz()*cor_FactorP, 0.938);
+    // 
+    // auto MM2_Vec_OG     = beam_test + targ_test - eleC - pipC - pro_OG;
+    // auto MM2_Vector     = beam_test + targ_test - eleC - pipC - proC;
+    // auto MM2_Vec_Calc   = beam_test + targ_test - eleC - pipC - proC_Calc;
+    // auto MM2_Vec_Cal_M  = beam_test + targ_test - eleC - pipC - proC_Calc_M;
+    // auto MM2_Vec_Cal_P  = beam_test + targ_test - eleC - pipC - proC_Calc_P;
+    // 
+    // auto MM2_Test_OG    = MM2_Vec_OG.M2();
+    // auto MM2_Test       = MM2_Vector.M2();
+    // auto MM2_Test_Calc  = MM2_Vec_Calc.M2();
+    // auto MM2_Test_Cal_M = MM2_Vec_Cal_M.M2();
+    // auto MM2_Test_Cal_P = MM2_Vec_Cal_P.M2();
+    // 
+    // if(MM2_Test < 0.02){
+    //     std::cout<<"Sector = "<<prosec<<std::endl;
+    //     std::cout<<"Missing Mass Ideal                   = "<<(0.13957039*0.13957039)<<std::endl;
+    //     std::cout<<"MM2_Test_OG (Measured)               = "<<MM2_Test_OG<<std::endl;
+    //     std::cout<<"MM2_Test (Measured - Corrected)      = "<<MM2_Test<<std::endl;
+    //     std::cout<<"MM2_Test_Calc (Corrected - New)      = "<<MM2_Test_Calc<<std::endl;
+    //     std::cout<<"MM2_Test_Cal_M (Corrected - New - M) = "<<MM2_Test_Cal_M<<std::endl;
+    //     std::cout<<"MM2_Test_Cal_P (Corrected - New - P) = "<<MM2_Test_Cal_P<<std::endl;
+    //     std::cout<<std::endl;
+    // 
+    //     std::cout<<"Delta P = "<<Final_Output<<std::endl;
+    //     std::cout<<"Momentum (Measured) = "<<proC.P()<<std::endl;
+    //     std::cout<<"Momentum (Calculated) = "<<pro_Calculate<<std::endl<<std::endl;
+    //     
+    //     std::cout<<"==========================================================================================================================================================================================="<<std::endl<<std::endl;
+    // }
+    
+                        """
+                    
+                if("D_p_L_pro" in Out_Type):
+                    ##========================================================================================================================##
+                    ##=====================##         ∆P (Double Pion - Pro) Calculations - Larger ∆P Calc Value         ##===================##
+                    ##========================================================================================================================##
+                    Calculation_Code_Choice = """
 
+
+    // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pip+pim) based on the assumption that the proton angle and electron/π+ reconstruction were measured by the detector correctly for exclusive events in the ep->epπ+π- channel 
+    // (π- is used as a "missing" particle)
+
+    auto termA1 = pipC.E() + eleC.P() - Beam_Energy - (0.938);
+    // termA1 = "π+ Energy" + "Electron Momentum" - "Initial Beam Energy" - "Proton Mass"
+
+    auto termB1 = Beam_Energy*cos(proC.Theta()) - eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC)) - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, proC));
+    // termB1 = "Initial Beam Energy"*cos("Proton Theta Angle") - "Electron Momentum" * cos("Angle between the Proton and Electron") - "π+ Momentum" * cos("Angle between the Proton and π+")
+
+    auto termC1 = (0.938)*(Beam_Energy - eleC.P() - pipC.E() + (0.938)) - Beam_Energy*(eleC.P()*(1 - cos(eleC.Theta())) + (pipC.E() - pipC.P()*cos(pipC.Theta()))) + eleC.P()*(pipC.E() - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, eleC)));
+    // termC1 = "Proton Mass"*("Initial Beam Energy" - "Electron Momentum" - "π+ Energy" + "Proton Mass") - "Initial Beam Energy" * ("Electron Momentum" * (1 - cos("Electron Angle")) + ("π+ Energy" - "π+ Momentum" * cos("π+ Angle"))) + "Electron Momentum" * ("π+ Energy" - "π+ Momentum" * cos("Angle between the π+ and Electron"))
+
+    auto termA2 = (termA1*termA1 - termB1*termB1);
+    auto termB2 = -2*termB1*termC1;
+    auto termC2 = termA1*termA1*(0.938)*(0.938) - termC1*termC1;
+
+    auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
+    auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
+
+    auto pro_Calculate = pro_CalculateP;
+
+    if(abs(proC.P() - pro_CalculateP) <= abs(proC.P() - pro_CalculateM)){
+        pro_Calculate = pro_CalculateM;
+    }
+    else{
+        pro_Calculate = pro_CalculateP;
+    }
+
+    auto Final_Output = pro_Calculate - proC.P();
+    
+    
                         """
 
 
@@ -3152,7 +4875,7 @@ if(event_Name != "error"):
         if("Mom" in Out_Type):
             Calculation_Code_Choice = "".join(["""
 
-    auto Final_Output = """, "ele" if "p" not in Out_Type else str(Out_Type.replace("Mom_", "")), """C.P();
+    auto Final_Output = """, "ele" if("p" not in Out_Type) else str(Out_Type.replace("Mom_", "")), """C.P();
 
             """])
 
@@ -3181,11 +4904,15 @@ if(event_Name != "error"):
         if("MM" not in Out_Type):
             Output_Title = "".join([str(Out_Type.replace("Mom_", "")), "_", Output_Title])
 
-
+        if("""cout<<"Sector = "<<prosec<<endl;""" in Calculation_Code_Choice):
+            print(Calculation_Code_Choice)
+            Output_test = Data_Frame.Define(str(Output_Title), str(Full_Correction_Output))
+            Output_test.Count()
+            
         try:
             Output = Data_Frame.Define(str(Output_Title), str(Full_Correction_Output))
             # print("".join([color.BOLD, "Correction Code: \n", color.END, str(Full_Correction_Output)]) if("D_Angle" in Out_Type) else "")
-            if(Extra_Cut != "none" and Extra_Cut != ""):
+            if(Extra_Cut not in ["none", ""]):
                 Output = Output.Filter(Extra_Cut)
                 if("D_Angle" in Out_Type):
                     print("".join([color.BOLD, "\n\n\nCut Code: \n", color.END, str(Extra_Cut)]))
@@ -3403,7 +5130,7 @@ if(event_Name != "error"):
         if('mmPhi' in CorrectionNameIn):
             CorrectionName1 = 'El Cor (Linear - Linear Phi)'
         if('mmPhi_R1' in CorrectionNameIn):
-            CorrectionName1 = 'El Cor (Quad - Linear Phi - Refined 1)'.replace('Linear', 'Linear' if "In" in datatype else 'Quad')
+            CorrectionName1 = 'El Cor (Quad - Linear Phi - Refined 1)'.replace('Linear', 'Linear' if("In" in datatype) else 'Quad')
         if('mmPhi_R2' in CorrectionNameIn):
             CorrectionName1 = 'El Cor (Quad - Quad Phi - Refined 2)'
         if('mmPhi_R3' in CorrectionNameIn):
@@ -3427,7 +5154,7 @@ if(event_Name != "error"):
             return CorrectionName
 
         if('Pip' not in CorrectionNameIn):
-            CorrectionName2 = 'No Pi+ Cor' if event_type != "P0" else ""
+            CorrectionName2 = 'No Pi+ Cor' if(event_type != "P0") else ""
         if('Pip' in CorrectionNameIn):
             if('MMQ' in CorrectionNameIn):
                 CorrectionName2 = 'Pi+ Cor (Quad - No Phi)'
@@ -3449,7 +5176,7 @@ if(event_Name != "error"):
                 CorrectionName2 = 'Pi+ Cor (Quad - Quad Phi - With Elastic Cors)'
 
         if('Pim' not in CorrectionNameIn):
-            CorrectionName3 = 'No Pi- Cor' if event_type == "DP" else ""
+            CorrectionName3 = 'No Pi- Cor' if(event_type == "DP") else ""
         if('Pim' in CorrectionNameIn):
             if('MMpimPhi' in CorrectionNameIn):
                 CorrectionName3 = 'Pi- Cor (Linear - Linear Phi)'
@@ -3459,7 +5186,7 @@ if(event_Name != "error"):
                 CorrectionName3 = 'Pi- Cor (Quad - Quad Phi - Rounded)'
 
         if('Pro' not in CorrectionNameIn):
-            CorrectionName4 = 'No Pro Cor' if(event_type != "SP" and event_type != "MC") else ""
+            CorrectionName4 = 'No Pro Cor' if(event_type not in ["SP", "MC"]) else ""
             # if(('_NoELC' not in CorrectionNameIn and event_type == "DP") or (event_type == "P0")):
             if('_NoELC' not in CorrectionNameIn):
                 CorrectionName4 = ''.join([CorrectionName4, " (Energy Loss Cor)"])
@@ -3484,6 +5211,10 @@ if(event_Name != "error"):
                 CorrectionName4 = 'Pro Cor (Double Quad - With Elastic Cors)'
             if('MMpro_LEF' in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Quad+Linear - With Elastic Cors)'
+            if('MMpro_S_LEF' in CorrectionNameIn):
+                CorrectionName4 = 'Pro Cor (Quad+Linear+Slices - With Elastic Cors)'
+            if('MMpro_SEF' in CorrectionNameIn):
+                CorrectionName4 = 'Pro Cor (Sliced - With Elastic Cors)'
             if('_NoELC' not in CorrectionNameIn):
                 CorrectionName4 = CorrectionName4.replace(")", " - Energy Loss Cor)")
 
@@ -3491,30 +5222,30 @@ if(event_Name != "error"):
             print("".join(["Error with the Electron Correction in CorrectionNameInput = ", str(CorrectionNameIn)]))
             CorrectionName1 = "El Cor (ERROR)"
 
-        if(CorrectionName2 == 'Error' and event_type != "P0" and event_type != "ES"):
+        if(CorrectionName2 == 'Error' and event_type not in ["P0", "ES"]):
             print("".join(["Error with the Pi+ Pion Correction in CorrectionNameInput = ", str(CorrectionNameIn)]))
             CorrectionName2 = "Pi+ Cor (ERROR)"
 
-        if(CorrectionName3 == 'Error' and event_type != "P0" and event_type != "SP" and event_type != "MC" and event_type != "ES"):
+        if(CorrectionName3 == 'Error' and event_type not in ["SP", "MC", "P0", "ES"]):
             print("".join(["Error with the Pi- Pion Correction in CorrectionNameInput = ", str(CorrectionNameIn)]))
             CorrectionName3 = "Pi- Cor (ERROR)"
 
-        if(CorrectionName4 == 'Error' and event_type != "SP" and event_type != "MC"):
+        if(CorrectionName4 == 'Error' and event_type not in ["SP", "MC"]):
             print("".join(["Error with the Proton Correction in CorrectionNameInput = ", str(CorrectionNameIn)]))
             CorrectionName4 = "Pro Cor (ERROR)"
 
-        CorrectionName = "".join([CorrectionName1, " - " if CorrectionName2 != "" else "", CorrectionName2, " - " if CorrectionName3 != "" else "", CorrectionName3, " - " if CorrectionName4 != "" else "", CorrectionName4])
+        CorrectionName = "".join([CorrectionName1, " - " if(CorrectionName2 != "") else "", CorrectionName2, " - " if(CorrectionName3 != "") else "", CorrectionName3, " - " if(CorrectionName4 != "") else "", CorrectionName4])
         
-        if(event_type == "SP" or event_type == "MC"):
-            CorrectionName = "".join([CorrectionName1, " - " if CorrectionName2 != "" else "", CorrectionName2])
+        if(event_type in ["SP", "MC"]):
+            CorrectionName = "".join([CorrectionName1, " - " if(CorrectionName2 != "") else "", CorrectionName2])
         elif(event_type != "ES"):
-            CorrectionName = "".join([CorrectionName1, " - " if CorrectionName2 != "" else "", CorrectionName2, " - " if CorrectionName3 != "" else "", CorrectionName3, " - " if CorrectionName4 != "" else "", CorrectionName4])
+            CorrectionName = "".join([CorrectionName1, " - " if(CorrectionName2 != "") else "", CorrectionName2, " - " if(CorrectionName3 != "") else "", CorrectionName3, " - " if(CorrectionName4 != "") else "", CorrectionName4])
         else:
-            CorrectionName = "".join([CorrectionName1, " - " if CorrectionName4 != "" else "", CorrectionName4])
+            CorrectionName = "".join([CorrectionName1, " - " if(CorrectionName4 != "") else "", CorrectionName4])
 
 
         if(CorrectionName1 == 'El Cor (Quad - Quad Phi)' and CorrectionName2 == 'Pi+ Cor (Quad - Quad Phi)'):
-            if(event_type == "SP" or event_type == "MC"):
+            if(event_type in ["SP", "MC"]):
                 CorrectionName = 'El/Pi+ Cor (Quad - Quad Phi)'
             else:
                 if(CorrectionName3 == 'Pi- Cor (Quad - Quad Phi)'):
@@ -3528,13 +5259,13 @@ if(event_Name != "error"):
                     else:
                         CorrectionName = "".join(["El/Pi+ Cor (Quad - Quad Phi) - ", CorrectionName3, " - ", CorrectionName4])
 
-        if(event_type != "SP" and event_type != "MC"):
+        if(event_type not in ["SP", "MC"]):
             if("Energy Loss Cor" not in CorrectionName and '_NoELC' not in CorrectionNameIn):
                 CorrectionName = CorrectionName.replace('Pro Cor (Quad - Quad Phi)', 'Pro Cor (Quad - Quad Phi - Energy Loss Cor)')
                 
         CorrectionName = CorrectionName.replace('- No Pi- Cor ', "")
                 
-        if(CorrectionNameIn == "mm0" or CorrectionNameIn == "mm0_NoELC"):
+        if(CorrectionNameIn in ["mm0", "mm0_NoELC"]):
             CorrectionName = "".join(["No Momentum Corrections", " (Energy Loss Cor)" if(event_type != "SP" and event_type != "MC" and "NoELC" not in CorrectionNameIn) else ""])
 
         
@@ -3575,7 +5306,7 @@ if(event_Name != "error"):
 
     
     def regFilter(Bank, Binning, Sector, Region, Shift, Extra_Cut, Particle):
-        if(Extra_Cut == "" or Extra_Cut == "none" or Extra_Cut == "Both" or Extra_Cut == "Both_2" or Extra_Cut == "Both_3" or Extra_Cut == "All"):
+        if(Extra_Cut in ["", "none", "Both", "Both_2", "Both_3", "All"]):
             Bank1 = Bank
         else:
             Bank1 = Bank.Filter(str(Extra_Cut))
@@ -3746,7 +5477,7 @@ if(event_Name != "error"):
                
 
         start_title = "".join(["#splitline{", str(datatype), " Invariant Mass}"])
-        if(pass_version != "NA" and pass_version != ""):
+        if(pass_version not in ["NA", ""]):
             start_title = "".join(["#splitline{", str(start_title), "{", str(pass_version), "}}"])
         
         output_title = "".join([str(start_title), "{", str(CorrrectionName), " -- ", SecName, "}; p_{", Particle_Plot_Formatting, "} [GeV]; W [GeV]"])
@@ -4952,9 +6683,9 @@ if(event_Name != "error"):
         CutChoice, CutChoice_2 = "none", "none"
     
     
-    if(CutChoice == '' or CutChoice == 'none'):
+    if(CutChoice in ['', 'none']):
         kinematicCuts = ["", Calculated_Exclusive_Cuts]
-    elif(CutChoice_2 != "" and CutChoice_2 != "none"):
+    elif(CutChoice_2 not in ["", "none"]):
         kinematicCuts = ["", Calculated_Exclusive_Cuts, CutChoice, CutChoice_2, "Both", "Both_2", "Both_3", "All"]
     else:
         kinematicCuts = ["", Calculated_Exclusive_Cuts, CutChoice, "Both"]
@@ -4979,7 +6710,7 @@ if(event_Name != "error"):
             Cut_Title = "Calculated Exclusivity Cuts (Based on Both Angles)"
         if(str(Input_Cut) == str(CutChoice)):
             Cut_Title = "Azimuthal Kinematic Cut"
-        if(CutChoice_2 != "" and CutChoice_2 != "none" and str(Input_Cut) == str(CutChoice_2)):
+        if(CutChoice_2 not in ["", "none"] and str(Input_Cut) == str(CutChoice_2)):
             Cut_Title = "Calculated Polar Kinematic Cut"
         if(str(Input_Cut) == "Both"):
             Cut_Title = "Invariant Mass and Azimuthal Angle Cuts"
@@ -4994,7 +6725,7 @@ if(event_Name != "error"):
             return Cut_Title
 
         Cut_Data_Frame = Data_Frame
-        if(Input_Cut != "" and Input_Cut != "none"):
+        if(Input_Cut not in ["", "none"]):
             try:
                 if("Both" == Input_Cut and CutChoice != "none"):
                     Cut_Data_Frame = Cut_Data_Frame.Filter(Calculated_Exclusive_Cuts)
@@ -5002,10 +6733,10 @@ if(event_Name != "error"):
                 elif("Both_2" == Input_Cut and CutChoice_2 != "" and CutChoice_2 != "none"):
                     Cut_Data_Frame = Cut_Data_Frame.Filter(Calculated_Exclusive_Cuts)
                     Cut_Data_Frame = Cut_Data_Frame.Filter(CutChoice_2)
-                elif("Both_3" == Input_Cut and CutChoice != "none" and CutChoice_2 != "" and CutChoice_2 != "none"):
+                elif("Both_3" == Input_Cut and CutChoice != "none" and CutChoice_2 not in ["", "none"]):
                     Cut_Data_Frame = Cut_Data_Frame.Filter(CutChoice)
                     Cut_Data_Frame = Cut_Data_Frame.Filter(CutChoice_2)
-                elif("All" == Input_Cut and CutChoice != "none" and CutChoice_2 != "" and CutChoice_2 != "none"):
+                elif("All" == Input_Cut and CutChoice != "none" and CutChoice_2 not in ["", "none"]):
                     Cut_Data_Frame = Cut_Data_Frame.Filter(Calculated_Exclusive_Cuts)
                     Cut_Data_Frame = Cut_Data_Frame.Filter(CutChoice)
                     Cut_Data_Frame = Cut_Data_Frame.Filter(CutChoice_2)
@@ -5155,7 +6886,7 @@ if(event_Name != "error"):
 
     
     
-    if(event_type == "SP" or event_type == "MC"):
+    if(event_type in ["SP", "MC"]):
         if(datatype == "Inbending"):
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF']
             # Delta_P_histo_CorList = ['mm0', 'mmF_PipMMF', 'mmExF_PipMMF', 'mmEF_PipMMF']
@@ -5182,8 +6913,11 @@ if(event_Name != "error"):
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF']
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF']
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_QEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_QEF', 'mmEF_PipMMEF_ProMMpro_LEF']
-            Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_REF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_REF']
-            
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_REF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_REF']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_REF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_REF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_QEF']
+            Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_S_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_S_LEF', 'mmEF_PipMMEF_ProMMpro_SEF']
+#             Delta_P_histo_CorList = ['mmEF_PipMMEF_ProMMpro_SEF']
+#             Delta_P_histo_CorList = ['mm0']
         if(datatype == "Outbending"):
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F_NoELC', 'mm0', 'mmF_PipMMF_PimMMpim_qPhi', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F']
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mm0', 'mmF_PipMMF', 'mmF_PipMMF_ProMMpro_F', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_F']
@@ -5204,7 +6938,8 @@ if(event_Name != "error"):
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_LEF']
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_LEF']
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_QEF_NoELC', 'mmEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_QEF', 'mmEF_ProMMpro_LEF']
-            Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_REF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_REF']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_REF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_REF']
+            Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_REF_NoELC', 'mmEF_ProMMpro_LEF_NoELC', 'mmEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_REF', 'mmEF_ProMMpro_LEF', 'mmEF_ProMMpro_QEF']
 
         if(datatype == "Outbending"):
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F']
@@ -5275,6 +7010,12 @@ if(event_Name != "error"):
     # For using ShowBackground() with the slices of the extra 2D histograms
     # SBehQ = 'yes'
     SBehQ = 'no'
+    
+    
+    if('pro' in Delta_P_histo_CompareList):
+        extra_Dp_calc = ["D_p", "D_p_L"]
+    else:
+        extra_Dp_calc = ["D_p"]
 
 
     # Number of (π+/pro) phi bins
@@ -5314,11 +7055,11 @@ if(event_Name != "error"):
             cor_num += 1
         # if(event_type != "EO" and ("pi+" in Delta_P_histo_CompareList or 'pro' in Delta_P_histo_CompareList)):
         if(event_type != "EO"):
-            print("".join(["The ", "Pi+" if(event_type == "SP" or event_type == "MC") else "proton", " sectors being run are: ", str(Delta_Pip_histo_SecList)]))
+            print("".join(["The ", "Pi+" if(event_type in ["SP", "MC"]) else "proton", " sectors being run are: ", str(Delta_Pip_histo_SecList)]))
         print("".join(["The electron sectors being run are: ", str(ExtraElectronSecListFilter)]))
         # if(event_type != "EO" and ("pi+" in Delta_P_histo_CompareList or 'pro' in Delta_P_histo_CompareList)):
         if(event_type != "EO"):
-            print("".join(["The list of (", "Pi+" if(event_type == "SP" or event_type == "MC") else "Proton", ") phi bins that will be run is: ", str(NumPhiBins)]))
+            print("".join(["The list of (", "Pi+" if(event_type in ["SP", "MC"]) else "Proton", ") phi bins that will be run is: ", str(NumPhiBins)]))
         print("".join(["The list of (Electron) phi bins that will be run is: ", str(NumPhiBinsEL)]))
 
         if(str(SBehQ) != 'no'):
@@ -5355,36 +7096,37 @@ if(event_Name != "error"):
     if(Delta_P_histo_Q == 'y'):
 
         for Cuts in kinematicCuts:
-            for correction in Delta_P_histo_CorList:
-                for sec in Delta_Pip_histo_SecList:
-                    for secEL in ExtraElectronSecListFilter:
-                        for binning in NumPhiBins:
-                            reglist = regList_Call(binning, 'pip' if(event_type == "SP" or event_type == "MC") else "pro", 1)
-                            for binningEL in NumPhiBinsEL:
+            for calc_option in extra_Dp_calc:
+                for correction in Delta_P_histo_CorList:
+                    for sec in Delta_Pip_histo_SecList:
+                        for secEL in ExtraElectronSecListFilter:
+                            for binning in NumPhiBins:
+                                reglist = regList_Call(binning, 'pip' if(event_type in ["SP", "MC"]) else "pro", 1)
+                                for binningEL in NumPhiBinsEL:
 
-                                if(Combine_el_pip_filters_Q != "yes"):
-                                    if(binning == '3' and binningEL != "1"):
-                                        continue
-                                    if(binningEL == '3' and binning != "1"):
-                                        continue
-                                    if(sec != 'all' and secEL != 'all'):
-                                        continue
+                                    if(Combine_el_pip_filters_Q != "yes"):
+                                        if(binning == '3' and binningEL != "1"):
+                                            continue
+                                        if(binningEL == '3' and binning != "1"):
+                                            continue
+                                        if(sec != 'all' and secEL != 'all'):
+                                            continue
 
-                                reglistEL = regList_Call(binningEL, 'el', 1)
+                                    reglistEL = regList_Call(binningEL, 'el', 1)
 
-                                # Pi+/Proton Regions
-                                for region in reglist:
-                                    # El Regions
-                                    for regionEL in reglistEL:
+                                    # Pi+/Proton Regions
+                                    for region in reglist:
+                                        # El Regions
+                                        for regionEL in reglistEL:
 
-                                        if('pi+' in Delta_P_histo_CompareList and Delta_Pip_histo_Q == 'y'):
-                                            Delta_P_histo_Count += 1
+                                            if('pi+' in Delta_P_histo_CompareList and Delta_Pip_histo_Q == 'y'):
+                                                Delta_P_histo_Count += 1
 
-                                        if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
-                                            Delta_P_histo_Count += 1
+                                            if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
+                                                Delta_P_histo_Count += 1
 
-                                        if('el' in Delta_P_histo_CompareList and Delta_Pel_histo_Q == 'y'):
-                                            Delta_P_histo_Count += 1
+                                            if('el' in Delta_P_histo_CompareList and Delta_Pel_histo_Q == 'y'):
+                                                Delta_P_histo_Count += 1
 
                                             
     if(event_type == "ES"):
@@ -5426,10 +7168,9 @@ if(event_Name != "error"):
     ###########################################################################################
 
 
-    particleList = []
-    particle_plot_List = []
+    particleList, particle_plot_List = [], []
     
-    if(event_type == "SP" or event_type == "MC"):
+    if(event_type in ["SP", "MC"]):
         particleList = ['el', 'pip']
         particle_plot_List = ['el', 'pip']
         # particleList = ['el']
@@ -5463,7 +7204,7 @@ if(event_Name != "error"):
     correctionList = ['mm0']
     
     
-    if(event_type == "SP" or event_type == "MC"):
+    if(event_type in ["SP", "MC"]):
         if(datatype == "Inbending"):
             # correctionList = ['mm0', 'mmF', 'mmF_PipMMF']
             # correctionList = ['mm0', 'mmF_PipMMF', 'mmExF_PipMMF', 'mmEF_PipMMF']
@@ -5484,7 +7225,11 @@ if(event_Name != "error"):
             # correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF']
             # correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF']
             # correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_QEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_QEF', 'mmEF_PipMMEF_ProMMpro_LEF']
-            correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_REF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_REF']
+            # correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_REF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_REF']
+            # correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_REF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_REF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_QEF']
+            correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_S_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_S_LEF', 'mmEF_PipMMEF_ProMMpro_SEF']
+#             correctionList = ['mmEF_PipMMEF_ProMMpro_SEF']
+#             correctionList = ['mm0']
             
         if(datatype == "Outbending"):
             # correctionList = ['mm0_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_NoELC', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F_NoELC', 'mm0', 'mmF_PipMMF_PimMMpim_qPhi', 'mmF_PipMMF_PimMMpim_qPhi_ProMMpro_F']
@@ -5502,7 +7247,8 @@ if(event_Name != "error"):
             # correctionList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_QEF']
             # correctionList = ['mm0_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_QEF']
             # correctionList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_QEF_NoELC', 'mmEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_QEF', 'mmEF_ProMMpro_LEF']
-            correctionList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_REF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_REF']
+            # correctionList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_REF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_REF']
+            correctionList = ['mm0_NoELC', 'mmEF_NoELC', 'mmEF_ProMMpro_EF_NoELC', 'mmEF_ProMMpro_REF_NoELC', 'mmEF_ProMMpro_LEF_NoELC', 'mmEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF', 'mmEF_ProMMpro_EF', 'mmEF_ProMMpro_REF', 'mmEF_ProMMpro_LEF', 'mmEF_ProMMpro_QEF']
 
             
             
@@ -5584,6 +7330,10 @@ if(event_Name != "error"):
     # This list is for the extra phase space histograms which can be run with or without shifts      
     shiftList = ['', 'S', 'NS']
     shiftList = ['', 'S']
+    
+    
+    same_particle_P_and_Sec_MM = False  # Will allow for different particle momentum/sector to be plotted in the same histogram (mixes particles)
+    same_particle_P_and_Sec_MM = True   # The particle momentum and sector will always be the same with this option
 
 
     
@@ -5661,13 +7411,15 @@ if(event_Name != "error"):
 
     if(Run_Missing_Mass_Histos == "yes"):
         for Cuts in kinematicCuts:
-            if(Cuts in [Calculated_Exclusive_Cuts if("E" not in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, "Both", "Both_2", "All"]):
-                continue
+            # if(Cuts in [Calculated_Exclusive_Cuts if("E" not in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, "Both", "Both_2", "All"]):
+            #     continue
             for particle in particle_plot_List:
                 for sector in SecRangeAll:
                     for correction in correctionList:
                         for binning in binningList:
                             for particle_filter in particleList:
+                                if(same_particle_P_and_Sec_MM and particle != particle_filter):
+                                    continue
                                 regionList = regList_Call(binning, particle_filter, 1)
                                 for region in regionList:
                                     if(Print_Names_Of_Histos_To_Be_Made_Q == 'yes'):
@@ -5692,7 +7444,7 @@ if(event_Name != "error"):
                                     countHisto += 1
                                     if("" == shift and "" == local_Q):
                                         countHisto += 1
-                                    if('mm0' == correction):
+                                    if('mm0' in correction):
                                         countHisto += 1
                                 
     if(Run_Invariant_Mass_Histos == 'yes'): 
@@ -5701,6 +7453,8 @@ if(event_Name != "error"):
                 continue
             for particle in particle_plot_List:
                 for particle_filter in particleList:
+                    if(same_particle_P_and_Sec_MM and particle != particle_filter):
+                        continue
                     for correction in correctionList:
                         for sector in SecRangeAll:
                             for binning in binningList:
@@ -5780,7 +7534,7 @@ if(event_Name != "error"):
     ##============================================================================================================================================================##
     ################################################################################################################################################################
 
-    print(color.BOLD + color.BLUE + "\nMaking Histograms now..." + color.END)
+    print("".join([color.BOLD, color.BLUE, "\nMaking Histograms now...", color.END]))
 
 
     #############################################################################################################
@@ -5795,122 +7549,130 @@ if(event_Name != "error"):
         for Cuts in kinematicCuts:
 
             Cut_rdf, Cut_Title = Cut_Function(rdf, Cuts)
+            
+            for calc_option in extra_Dp_calc:
 
-            for correction in Delta_P_histo_CorList:
+                for correction in Delta_P_histo_CorList:
 
-                correctionNAME = corNameTitles(correction)
-                Erdf = Cut_rdf
-                if('pi+' in Delta_P_histo_CompareList and Delta_Pip_histo_Q == 'y'):
-                    Erdf = CorDpp(Erdf, correction, "D_pip", event_type, MM_type, datatype, Cuts if(Cuts == Calculated_Exclusive_Cuts or Cuts == CutChoice) else "")
-                if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
-                    Erdf = CorDpp(Erdf, correction, "D_pro", event_type, MM_type, datatype, Cuts if(Cuts == Calculated_Exclusive_Cuts or Cuts == CutChoice) else "")
-                if('el' in Delta_P_histo_CompareList and Delta_Pel_histo_Q == 'y'):
-                    Erdf = CorDpp(Erdf, correction, "D_pel", event_type, MM_type, datatype, Cuts if(Cuts == Calculated_Exclusive_Cuts or Cuts == CutChoice) else "")
+                    correctionNAME = corNameTitles(correction)
+                    Erdf = Cut_rdf
+                    if('pi+' in Delta_P_histo_CompareList and Delta_Pip_histo_Q == 'y'):
+                        Erdf = CorDpp(Erdf, correction, "D_pip", event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
+                    if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
+                        if("L" not in calc_option):
+                            Erdf = CorDpp(Erdf, correction, "D_pro", event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
+                        else:
+                            Erdf = CorDpp(Erdf, correction, "D_p_L_pro", event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
+                            
+                    if('el' in Delta_P_histo_CompareList and Delta_Pel_histo_Q == 'y'):
+                        Erdf = CorDpp(Erdf, correction, "D_pel", event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
 
-                for sec in Delta_Pip_histo_SecList:
+                    for sec in Delta_Pip_histo_SecList:
 
-                    SecName = "".join(["Pi+" if(event_type == "SP" or event_type == "MC") else "Pro", " Sector ", str(sec)]) if(sec != "all" and sec != 0) else ""
+                        SecName = "".join(["Pi+" if(event_type in ["SP", "MC"]) else "Pro", " Sector ", str(sec)]) if(sec not in ["all", 0]) else ""
 
-                    for secEL in ExtraElectronSecListFilter:
+                        for secEL in ExtraElectronSecListFilter:
 
-                        if(secEL != "all" and secEL != 0):
-                            if(sec != "all" and sec != 0):
-                                SecName = ''.join(["Pi+" if(event_type == "SP" or event_type == "MC") else "Pro", " Sector ", str(sec), " and El Sector ", str(secEL)])
-                            else:
-                                SecName = ''.join(['El Sector ', str(secEL)])
-                                
-                        if(SecName == ""):
-                            SecName = "All Sectors"
-
-                        for binning in NumPhiBins:
-
-                            reglist = regList_Call(binning, 'pip' if(event_type == "SP" or event_type == "MC") else 'pro', 2)
-
-                            # Pi+/Pro Regions
-                            for regionListName in reglist:
-                                if(len(regionListName) != 1):
-                                    region, regionName = regionListName[1], regionListName[0]
+                            if(secEL != "all" and secEL != 0):
+                                if(sec not in ["all", 0]):
+                                    SecName = ''.join(["Pi+" if(event_type in ["SP", "MC"]) else "Pro", " Sector ", str(sec), " and El Sector ", str(secEL)])
                                 else:
-                                    region = regionListName
+                                    SecName = ''.join(['El Sector ', str(secEL)])
+
+                            if(SecName == ""):
+                                SecName = "All Sectors"
+
+                            for binning in NumPhiBins:
+
+                                reglist = regList_Call(binning, 'pip' if(event_type in ["SP", "MC"]) else 'pro', 2)
+
+                                # Pi+/Pro Regions
+                                for regionListName in reglist:
+                                    if(len(regionListName) != 1):
+                                        region, regionName = regionListName[1], regionListName[0]
+                                    else:
+                                        region = regionListName
 
 
-                                for binningEL in NumPhiBinsEL:
+                                    for binningEL in NumPhiBinsEL:
 
 
-                                    if(Combine_el_pip_filters_Q != "yes"):
-                                        if(binning == '3' and binningEL != "1"):
-                                            continue
-                                        if(binningEL == '3' and binning != "1"):
-                                            continue
-                                        if(sec != 'all' and secEL != 'all'):
-                                            continue
+                                        if(Combine_el_pip_filters_Q != "yes"):
+                                            if(binning == '3' and binningEL != "1"):
+                                                continue
+                                            if(binningEL == '3' and binning != "1"):
+                                                continue
+                                            if(sec != 'all' and secEL != 'all'):
+                                                continue
 
-                                    reglistEL = regList_Call(binningEL, 'el', 2)
+                                        reglistEL = regList_Call(binningEL, 'el', 2)
 
-                                    # EL Regions
-                                    for regionListNameEL in reglistEL:
-                                        if(len(regionListNameEL) != 1):
-                                            regionEL, regionNameEL = regionListNameEL[1], regionListNameEL[0]
-                                        else:
-                                            regionEL = regionListNameEL
+                                        # EL Regions
+                                        for regionListNameEL in reglistEL:
+                                            if(len(regionListNameEL) != 1):
+                                                regionEL, regionNameEL = regionListNameEL[1], regionListNameEL[0]
+                                            else:
+                                                regionEL = regionListNameEL
 
-                                        if(sec != "all" and sec != 0):
-                                            sdf = regFilter(Erdf.Filter("".join(["pip" if(event_type == "SP" or event_type == "MC") else "pro", "sec == ", str(sec)])), binning, sec, region, 'S', Cuts if(Cuts == Calculated_Exclusive_Cuts or Cuts == CutChoice) else "", 'pip' if(event_type == "SP" or event_type == "MC") else 'pro')
-                                        else:
-                                            sdf = regFilter(Erdf, binning, sec, region, 'S', Cuts if(Cuts == Calculated_Exclusive_Cuts or Cuts == CutChoice) else "", 'pip' if(event_type == "SP" or event_type == "MC") else 'pro')
+                                            if(sec not in ["all", 0]):
+                                                sdf = regFilter(Erdf.Filter("".join(["pip" if(event_type in ["SP", "MC"]) else "pro", "sec == ", str(sec)])), binning, sec, region, 'S', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", 'pip' if(event_type in ["SP", "MC"]) else 'pro')
+                                            else:
+                                                sdf = regFilter(Erdf, binning, sec, region, 'S', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", 'pip' if(event_type in ["SP", "MC"]) else 'pro')
 
-                                        if(secEL != "all" and secEL != 0):
-                                            sdf = sdf.Filter("".join(["esec == ", str(secEL)]))
-
-
-                                        if(binningEL != '1'):
-                                            sdf = regFilter(sdf, binningEL, secEL, regionEL, 'S', Cuts if(Cuts == Calculated_Exclusive_Cuts or Cuts == CutChoice) else "", 'el')
-                                            histoName = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title)
-                                        else:
-                                            histoName = (correction, '', SecName, binning, region, Cut_Title)
-                                            
-                                            
-                                        Title_Line_1 = "".join(["(", str(datatype), ") #Delta p_{Particle} vs p_{Particle}"])
-                                        if(pass_version != "NA" and pass_version != ""):
-                                            Title_Line_1 = "".join(["#splitline{", str(pass_version), "}{", str(Title_Line_1), "}"])
-                                        Title_Line_2 = ((("".join(["Correction: ", str(root_color.Bold), "{", correctionNAME, "}"]).replace("Pi+", "#pi^{+}")).replace("Pi-", "#pi^{-}")).replace("Phi", "#phi"))
-                                        Title_Line_3 = "".join([str(SecName), "".join([" -- #phi_{", "#pi^{+} " if(event_type == "SP" or event_type == "MC") else "Pro", "} Bin: ", str(regionName)]) if(str(regionName) != "" and "No Phi Bins" not in regionName) else "", "".join([" -- #phi_{El} Bin: ", str(regionNameEL)]) if(str(regionNameEL) != "" and "No Phi Bins" not in regionNameEL) else ""])
-                                        Title_Line_4 = "".join(["Cut Applied: ", str(Cut_Title) if(str(Cut_Title) != "") else "No Additional Cuts"])
-                                        Title_Axis = "".join(["; p_{Particle}; #Delta p_{Particle}"])
-
-                                        Title = "".join(["#splitline{#splitline{", str(Title_Line_1), "}{", str(Title_Line_2), "}}{#splitline{", str(Title_Line_3), "}{", str(Title_Line_4), "}}", Title_Axis])
+                                            if(secEL not in ["all", 0]):
+                                                sdf = sdf.Filter("".join(["esec == ", str(secEL)]))
 
 
-                                        if('pi+' in Delta_P_histo_CompareList and Delta_Pip_histo_Q == 'y'):
-                                            Dmom_pip_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pip_Histo", str(histoName)]), Title.replace("Particle", "#pi^{+}"), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pip', ''.join(['D_pip_', str(correction)]))
-                                            # if(binningEL == '1'):
-                                            #     Dmom_pip_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pip_Histo", str(histoName)]), "".join(["#splitline{" if(Cut_Title != "") else "", "(", str(datatype), ") #Delta p_{pip} vs p_{pip} ", str(SecName), " ", str(correctionNAME), " " , str(regionName), "".join(["}{Cut Applied: ", str(Cut_Title), "}"]) if(Cut_Title != "") else "", "; p_{pip}; #Delta p_{pip}"]), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pip', ''.join(['D_pip_', str(correction)]))
-                                            # else:
-                                            #     Dmom_pip_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pip_Histo", str(histoName)]), "".join(["#splitline{" if(Cut_Title != "") else "", "#splitline{#splitline{(", datatype,") #Delta p_{pip} vs p_{pip} -- ", str(SecName), "}{Correction: ", str(correctionNAME), "}}{Pi+: ", str(regionName) + " -- El: ", str(regionNameEL), "".join(["}{Cut Applied: ", str(Cut_Title)]) if(Cut_Title != "") else "", "}; p_{pip}; #Delta p_{pip}"]), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pip', ''.join(['D_pip_', str(correction)]))
-
-                                            Delta_P_histo_Count += 1
+                                            if(binningEL != '1'):
+                                                sdf = regFilter(sdf, binningEL, secEL, regionEL, 'S', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", 'el')
+                                                histoName = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title)
+                                            else:
+                                                histoName = (correction, '', SecName, binning, region, Cut_Title)
 
 
-                                        if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
-                                            Dmom_pro_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pro_Histo", str(histoName)]), Title.replace("Particle", "Pro"), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pro' if("_NoELC" in correction) else "pro_cor", ''.join(['D_pro_', str(correction)]))
-                                            # if(binningEL == '1'):
-                                            #     Dmom_pro_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pro_Histo", str(histoName)]), "".join(["#splitline{" if(Cut_Title != "") else "", "(", str(datatype), ") #Delta p_{pro} vs p_{pro} ", str(SecName), " ", str(correctionNAME), " " ,str(regionName), "".join(["}{Cut Applied: ", str(Cut_Title), "}"]) if(Cut_Title != "") else "", "; ", "p_{pro}" if("_NoELC" in correction) else "Corrected p_{pro}", "; #Delta p_{pro}"]), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pro' if("_NoELC" in correction) else "pro_cor", ''.join(['D_pro_', str(correction)]))
-                                            # else:
-                                            #     Dmom_pro_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pro_Histo", str(histoName)]), "".join(["#splitline{" if(Cut_Title != "") else "", "#splitline{#splitline{#Delta p_{pro} vs p_{pro} -- ", str(SecName), "}{Correction: ", str(correctionNAME), "}}{Pro: ", str(regionName) + " -- El: ", str(regionNameEL), "".join(["}{Cut Applied: ", str(Cut_Title)]) if(Cut_Title != "") else "", "}; ", "p_{pro}" if("_NoELC" in correction) else "Corrected p_{pro}", "; #Delta p_{pro}"]), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pro' if("_NoELC" in correction) else "pro_cor", ''.join(['D_pro_', str(correction)]))
+                                            Title_Line_1 = "".join(["(", str(datatype), ") #Delta p_{Particle} vs p_{Particle}"])
+                                            if("L" in calc_option):
+                                                Title_Line_1 = "".join(["(", str(datatype), ") Larger #Delta p_{Particle} vs p_{Particle}"])
+                                            if(pass_version not in ["NA", ""]):
+                                                Title_Line_1 = "".join(["#splitline{", str(pass_version), "}{", str(Title_Line_1), "}"])
+                                            Title_Line_2 = ((("".join(["Correction: ", str(root_color.Bold), "{", correctionNAME, "}"]).replace("Pi+", "#pi^{+}")).replace("Pi-", "#pi^{-}")).replace("Phi", "#phi"))
+                                            Title_Line_3 = "".join([str(SecName), "".join([" -- #phi_{", "#pi^{+} " if(event_type in ["SP", "MC"]) else "Pro", "} Bin: ", str(regionName)]) if(str(regionName) != "" and "No Phi Bins" not in regionName) else "", "".join([" -- #phi_{El} Bin: ", str(regionNameEL)]) if(str(regionNameEL) != "" and "No Phi Bins" not in regionNameEL) else ""])
+                                            Title_Line_4 = "".join(["Cut Applied: ", str(Cut_Title) if(str(Cut_Title) != "") else "No Additional Cuts"])
+                                            Title_Axis = "".join(["; p_{Particle}; #Delta p_{Particle}"])
 
-                                            Delta_P_histo_Count += 1
+                                            Title = "".join(["#splitline{#splitline{", str(Title_Line_1), "}{", str(Title_Line_2), "}}{#splitline{", str(Title_Line_3), "}{", str(Title_Line_4), "}}", Title_Axis])
 
 
-                                        if('el' in Delta_P_histo_CompareList and Delta_Pel_histo_Q == 'y'):
-                                            # Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), Title.replace("Particle", "El"), 120, 0, 12, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
-                                            Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), Title.replace("Particle", "El"), 400, 0.5, 10.5, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
-                                            # Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), Title.replace("Particle", "El"), 240 if("E" not in event_type) else 120, 0, 12, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
-                                            # if(binningEL == '1'):
-                                            #     Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), "".join(["#splitline{" if(Cut_Title != "") else "", "(", str(datatype), ") #Delta p_{el} vs p_{el} ", str(SecName), " ", str(correctionNAME), " ", str(regionName), "".join(["}{Cut Applied: ", str(Cut_Title), "}"]) if(Cut_Title != "") else "", "; p_{el}; #Delta p_{el}"]), 240 if(event_type != "ES") else 120, 0, 12, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
-                                            # else:
-                                            #     Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), "".join(["#splitline{" if(Cut_Title != "") else "", "#splitline{#splitline{(", datatype,") #Delta p_{el} vs p_{el} -- ", str(SecName), "}{Correction: ", str(correctionNAME), "}}{Pi+: ", str(regionName), " -- El: ", str(regionNameEL), "".join(["}{Cut Applied: ", str(Cut_Title)]) if(Cut_Title != "") else "", "}; p_{el}; #Delta p_{el}"]), 240 if(event_type != "ES") else 120, 0, 20 if(event_type != "ES") else 12, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
+                                            if('pi+' in Delta_P_histo_CompareList and Delta_Pip_histo_Q == 'y'):
+                                                Dmom_pip_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pip_Histo", str(histoName)]), Title.replace("Particle", "#pi^{+}"), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pip', ''.join(['D_pip_', str(correction)]))
+                                                # if(binningEL == '1'):
+                                                #     Dmom_pip_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pip_Histo", str(histoName)]), "".join(["#splitline{" if(Cut_Title != "") else "", "(", str(datatype), ") #Delta p_{pip} vs p_{pip} ", str(SecName), " ", str(correctionNAME), " " , str(regionName), "".join(["}{Cut Applied: ", str(Cut_Title), "}"]) if(Cut_Title != "") else "", "; p_{pip}; #Delta p_{pip}"]), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pip', ''.join(['D_pip_', str(correction)]))
+                                                # else:
+                                                #     Dmom_pip_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pip_Histo", str(histoName)]), "".join(["#splitline{" if(Cut_Title != "") else "", "#splitline{#splitline{(", datatype,") #Delta p_{pip} vs p_{pip} -- ", str(SecName), "}{Correction: ", str(correctionNAME), "}}{Pi+: ", str(regionName) + " -- El: ", str(regionNameEL), "".join(["}{Cut Applied: ", str(Cut_Title)]) if(Cut_Title != "") else "", "}; p_{pip}; #Delta p_{pip}"]), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pip', ''.join(['D_pip_', str(correction)]))
 
-                                            Delta_P_histo_Count += 1
+                                                Delta_P_histo_Count += 1
+
+
+                                            if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
+                                                Dmom_pro_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pro_Histo", str(histoName)]), Title.replace("Particle", "Pro"), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pro' if("_NoELC" in correction) else "pro_cor", ''.join(['D_pro_', str(correction)]))
+                                                # if(binningEL == '1'):
+                                                #     Dmom_pro_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pro_Histo", str(histoName)]), "".join(["#splitline{" if(Cut_Title != "") else "", "(", str(datatype), ") #Delta p_{pro} vs p_{pro} ", str(SecName), " ", str(correctionNAME), " " ,str(regionName), "".join(["}{Cut Applied: ", str(Cut_Title), "}"]) if(Cut_Title != "") else "", "; ", "p_{pro}" if("_NoELC" in correction) else "Corrected p_{pro}", "; #Delta p_{pro}"]), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pro' if("_NoELC" in correction) else "pro_cor", ''.join(['D_pro_', str(correction)]))
+                                                # else:
+                                                #     Dmom_pro_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pro_Histo", str(histoName)]), "".join(["#splitline{" if(Cut_Title != "") else "", "#splitline{#splitline{#Delta p_{pro} vs p_{pro} -- ", str(SecName), "}{Correction: ", str(correctionNAME), "}}{Pro: ", str(regionName) + " -- El: ", str(regionNameEL), "".join(["}{Cut Applied: ", str(Cut_Title)]) if(Cut_Title != "") else "", "}; ", "p_{pro}" if("_NoELC" in correction) else "Corrected p_{pro}", "; #Delta p_{pro}"]), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pro' if("_NoELC" in correction) else "pro_cor", ''.join(['D_pro_', str(correction)]))
+
+                                                Delta_P_histo_Count += 1
+
+
+                                            if('el' in Delta_P_histo_CompareList and Delta_Pel_histo_Q == 'y'):
+                                                # Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), Title.replace("Particle", "El"), 120, 0, 12, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
+                                                Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), Title.replace("Particle", "El"), 400, 0.5, 10.5, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
+                                                # Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), Title.replace("Particle", "El"), 240 if("E" not in event_type) else 120, 0, 12, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
+                                                # if(binningEL == '1'):
+                                                #     Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), "".join(["#splitline{" if(Cut_Title != "") else "", "(", str(datatype), ") #Delta p_{el} vs p_{el} ", str(SecName), " ", str(correctionNAME), " ", str(regionName), "".join(["}{Cut Applied: ", str(Cut_Title), "}"]) if(Cut_Title != "") else "", "; p_{el}; #Delta p_{el}"]), 240 if(event_type != "ES") else 120, 0, 12, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
+                                                # else:
+                                                #     Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), "".join(["#splitline{" if(Cut_Title != "") else "", "#splitline{#splitline{(", datatype,") #Delta p_{el} vs p_{el} -- ", str(SecName), "}{Correction: ", str(correctionNAME), "}}{Pi+: ", str(regionName), " -- El: ", str(regionNameEL), "".join(["}{Cut Applied: ", str(Cut_Title)]) if(Cut_Title != "") else "", "}; p_{el}; #Delta p_{el}"]), 240 if(event_type != "ES") else 120, 0, 20 if(event_type != "ES") else 12, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
+
+                                                Delta_P_histo_Count += 1
 
 
         print("".join(["Number of ∆P Histograms made: ", str(Delta_P_histo_Count)]))
@@ -5958,21 +7720,21 @@ if(event_Name != "error"):
                     correctionNAME = corNameTitles(correction)
                     
                     Erdf = Cut_rdf
-                    Erdf = CorDpp(Erdf, correction, Calc_Version, event_type, MM_type, datatype, Cuts if(Cuts == Calculated_Exclusive_Cuts or Cuts == CutChoice) else "")
+                    Erdf = CorDpp(Erdf, correction, Calc_Version, event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
 
                     for sec in [0, 1, 2, 3, 4, 5, 6]:
 
                         SecName = "".join(["El Sector ", str(sec)]) if(sec != 0) else "All Sectors"
 
                         if(sec != 0):
-                            sdf = regFilter(Erdf.Filter("".join(["esec == ", str(sec)])), '1', sec, 'regall', 'S', Cuts if(Cuts == Calculated_Exclusive_Cuts or Cuts == CutChoice) else "", 'el')
+                            sdf = regFilter(Erdf.Filter("".join(["esec == ", str(sec)])), '1', sec, 'regall', 'S', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", 'el')
                         else:
-                            sdf = regFilter(Erdf, '1', sec, 'regall', 'S', Cuts if(Cuts == Calculated_Exclusive_Cuts or Cuts == CutChoice) else "", 'el')
+                            sdf = regFilter(Erdf, '1', sec, 'regall', 'S', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", 'el')
                             
                         histoName = (correction, '', SecName, binning, region, Cut_Title, str(Calc_Version))
 
                         Min_Delta_Angle = -50 if("V3" not in Calc_Version) else 155
-                        Max_Delta_Angle = 50 if("V3" not in Calc_Version) else 205
+                        Max_Delta_Angle =  50 if("V3" not in Calc_Version) else 205
 
                         Title_Line_1 = "".join(["(", str(datatype), ") #Delta ", "".join(["#theta_{Pro} (Version ", "1" if("V1" in Calc_Version) else "2" if("V2" in Calc_Version) else "3", ")"]) if("V3" not in Calc_Version) else "#phi_{|El-Pro|}", " vs p_{El} "])
                         Title_Line_2 = ((("".join(["Correction: ", str(root_color.Bold), "{", correctionNAME, "}"]).replace("Pi+", "#pi^{+}")).replace("Pi-", "#pi^{-}")).replace("Phi", "#phi"))
@@ -6017,19 +7779,22 @@ if(event_Name != "error"):
     
     if(Run_Missing_Mass_Histos == "yes"):
         for Cuts in kinematicCuts:
-            if(Cuts in [Calculated_Exclusive_Cuts if("E" not in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, "Both", "Both_2", "All"]):
-                continue
-                # Do not plot variables with cuts applied to them that are based on themselves
+            # if(Cuts in [Calculated_Exclusive_Cuts if("E" not in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, "Both", "Both_2", "All"]):
+            #     continue
+            #     # Do not plot variables with cuts applied to them that are based on themselves
             Cut_rdf, Cut_Title = Cut_Function(rdf, Cuts)
             for particle in particle_plot_List:
                 for sector in SecRangeAll:
 
                     for correction in correctionList:
-                        sdf1 = CorDpp(Cut_rdf, correction, "MM", event_type, MM_type, datatype, Cuts if(Cuts == Calculated_Exclusive_Cuts or Cuts == CutChoice) else "")
+                        sdf1 = CorDpp(Cut_rdf, correction, "MM", event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
 
                         for binning in binningList:
                             for particle_filter in particleList:
                                 secfilter = 'esec' if(particle_filter == 'el') else 'pipsec' if(particle_filter == 'pip') else 'pimsec' if(particle_filter == 'pim') else 'prosec' if(particle_filter == 'pro') else 'error'
+                                
+                                if(same_particle_P_and_Sec_MM and particle != particle_filter):
+                                    continue
 
                                 if(secfilter == "error"):
                                     print("\nERROR IN SECTOR DEFINITION (Missing Mass)\n")
@@ -6045,7 +7810,7 @@ if(event_Name != "error"):
 
                                     name = (correction, sector, '', binning, region, particle, particle_filter, Cut_Title)
 
-                                    hmmCPARTall[name] = Missing_Mass_Histo_Maker(regFilter(sdf, binning, sector, region, '', Cuts if(Cuts == Calculated_Exclusive_Cuts or Cuts == CutChoice) else "", particle_filter), correction, sector, region, '', binning, particle, particle_filter, Cut_Title)
+                                    hmmCPARTall[name] = Missing_Mass_Histo_Maker(regFilter(sdf, binning, sector, region, '', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", particle_filter), correction, sector, region, '', binning, particle, particle_filter, Cut_Title)
                                     count += 1
 
 
@@ -6082,10 +7847,14 @@ if(event_Name != "error"):
                 # Do not plot variables with cuts applied to them that are based on themselves
             Cut_rdf, Cut_Title = Cut_Function(rdf, Cuts)
             for correction in correctionList:
-                sdf1 = CorDpp(Cut_rdf, correction, "WM", event_type, MM_type, datatype, Cuts if(Cuts == Calculated_Exclusive_Cuts or Cuts == CutChoice) else "")
+                sdf1 = CorDpp(Cut_rdf, correction, "WM", event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
                 for sector in SecRangeAll:
                     for particle in particle_plot_List:
                         for particle_filter in particleList:
+
+                            if(same_particle_P_and_Sec_MM and particle != particle_filter):
+                                continue
+                                
                             secfilter = 'esec' if(particle_filter == 'el') else "pipsec" if(particle_filter == 'pip') else 'pimsec' if(particle_filter == 'pim') else "prosec" if(particle_filter == 'pro') else 'error'
                             if(secfilter == "error"):
                                 print("\nERROR IN SECTOR DEFINITION (Invariant Mass)\n")
@@ -6097,7 +7866,7 @@ if(event_Name != "error"):
                                 regionList = regList_Call(binning, particle_filter, 1)
                                 for region in regionList:
                                     name = (correction, sector, binning, region, particle, particle_filter, Cut_Title)
-                                    HWC_Histo_All[name] = histoMaker_HWC_Histo_All(regFilter(sdf, binning, sector, region, "", Cuts if(Cuts == Calculated_Exclusive_Cuts or Cuts == CutChoice) else "", particle_filter), correction, sector, region, binning, particle, particle_filter, Cut_Title)
+                                    HWC_Histo_All[name] = histoMaker_HWC_Histo_All(regFilter(sdf, binning, sector, region, "", Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", particle_filter), correction, sector, region, binning, particle, particle_filter, Cut_Title)
 
                                     count += 1
                                     count_WM += 1
@@ -6170,7 +7939,7 @@ if(event_Name != "error"):
                                 Title_Mom_Phi_Line_1 = "".join(["(", str(datatype), ") p_{", str(particle_title), "} vs #phi_{", str(particle_title), "}", str(shiftTitle(shift))])
                                 Title_The_Phi_Line_1 = "".join(["(", str(datatype), ") #theta_{", str(particle_title), "} vs ", str(local_Q), "#phi_{", str(particle_title), "}", str(shiftTitle(shift))])
                 
-                                if(pass_version != "NA" and pass_version != ""):
+                                if(pass_version not in ["NA", ""]):
                                     Title_Mom_The_Line_1 = "".join(["#splitline{", str(pass_version), "}{", str(Title_Mom_The_Line_1), "}"])
                                     Title_Mom_Phi_Line_1 = "".join(["#splitline{", str(pass_version), "}{", str(Title_Mom_Phi_Line_1), "}"])
                                     Title_The_Phi_Line_1 = "".join(["#splitline{", str(pass_version), "}{", str(Title_The_Phi_Line_1), "}"])
@@ -6200,9 +7969,9 @@ if(event_Name != "error"):
                                 Histo_The_Phi_ref_title = "".join(["Histo_Th_v_Phi_", str(ref)])
 
                                 if(sector == 0):
-                                    sdf = CorDpp(rdf, correction, "".join(["Mom_", particle]), event_type, MM_type, datatype, Cuts if(Cuts == Calculated_Exclusive_Cuts or Cuts == CutChoice) else "")
+                                    sdf = CorDpp(rdf, correction, "".join(["Mom_", particle]), event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
                                 else:
-                                    sdf = CorDpp(rdf.Filter("".join([particle.replace("l", ""), "sec", " == ", str(sector)])), correction, "".join(["Mom_", particle]), event_type, MM_type, datatype, Cuts if(Cuts == Calculated_Exclusive_Cuts or Cuts == CutChoice) else "")
+                                    sdf = CorDpp(rdf.Filter("".join([particle.replace("l", ""), "sec", " == ", str(sector)])), correction, "".join(["Mom_", particle]), event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
 
                                 Histo_P_v_Phi[ref] = sdf.Histo2D((Histo_Mom_Phi_ref_title, Title_Mom_Phi, 110, 0, 11, 720, -260, 460), "".join([particle, "_", correction]), "".join([local_Q.replace(" ", ""), particle, "Phi", shift]))
                                 count += 1
@@ -6210,7 +7979,7 @@ if(event_Name != "error"):
                                 if("" == shift and "" == local_Q):
                                     Histo_P_v_Th[ref] = sdf.Histo2D((Histo_Mom_The_ref_title, Title_Mom_The, 110, 0, 11, 150, 0, 40), "".join([particle, "_", correction]), "".join([particle, "th"]))
                                     count += 1
-                                if('mm0' == correction):
+                                if('mm0' in correction):
                                     Histo_Th_v_Phi[ref] = sdf.Histo2D((Histo_The_Phi_ref_title, Title_The_Phi, 720, -260, 460, 150, 0, 40), "".join([local_Q.replace(" ", ""), particle, "Phi", shift]), "".join([particle, "th"]))
                                     count += 1
 
