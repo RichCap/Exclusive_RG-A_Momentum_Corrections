@@ -638,7 +638,7 @@ if(event_Name != "error"):
         Delta_Pel_histo_Q, Delta_Pip_histo_Q, Delta_Pim_histo_Q, Delta_Pro_histo_Q = 'n', 'n', 'n', 'n'
         
         
-    if(event_type in ["SP", "MC"]):
+    if(event_type in ["SP", "SP_P1", "SP_P2", "MC"]):
         Delta_Pim_histo_Q, Delta_Pro_histo_Q = 'n', 'n'
     if(event_type == "DP"):
         Delta_Pel_histo_Q, Delta_Pip_histo_Q = 'n', 'n'
@@ -861,6 +861,28 @@ if(event_Name != "error"):
     Extra_Part_of_Name = "_GitHub_Proton_Refinement_V19"
     # Changed the binning of the Missing Mass Squared plots (from 310 to 320 in the range of -0.3275 to 0.3125 - Same size but the range is increased to make the bins easier to change while fitting)
     # Added alternative calculation of ∆P histograms
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V20"
+    # Removed the alternative calculation of ∆P histograms but added the ∆P vs uncorrected proton momentum (i.e., without the energy loss correction - will be incompatible with current order that the proton corrections are applied)
+    
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V21"
+    # New Proton Correction Refinement (Sliced)
+    # Added Integrated Sector ∆P histograms
+    
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V22"
+    # New Proton Correction that uses slices WITHOUT the Energy Loss corrections
+    # Updated the corNameTitles function so that histograms are made with the corrections already in multiple lines for each particle
+    
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V23"
+    # Added new type of exclusivity cut (simple cut on the MM2 < 0.2 and MM2 > -0.2)
+        # Past cuts were too tight/baised higher missing mass at low momentum
+    # No longer running invariant mass histograms (was not using them)
+    # Removed the Proton Correction that used slices WITHOUT the Energy Loss corrections (i.e., the one added in the previous version)
+        # Was not necessary (the problem with the corrections was not the order of the Energy Loss/Momentum corrections were applied)
+    
     
     
     if(event_type == "MC"):
@@ -2312,7 +2334,7 @@ if(event_Name != "error"):
                 }
                 
                 
-                if(corPro == 7){ // Correction based on each momentum slice
+                if(corPro == 7 || corPro == 9){ // Correction based on each momentum slice (and the refinement based on different Missing Mass cuts)
                     if(sec == 1){
                         if(0.45 < pp && pp < 0.5){
                             dp = (-0.021819);
@@ -2950,6 +2972,967 @@ if(event_Name != "error"):
                             dp = dp + (9.8751e-10);
                         }
                     }
+                    // =======================================     Refinements V2     ======================================= //
+                    if(sec == 1){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (-0.00674);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (-0.0021521);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (-1.0711e-12);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (-3.2767e-04);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (1.0040e-11);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (3.6941e-11);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (-1.5646e-10);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (-2.0569e-11);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (-1.1507e-11);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (-4.5915e-04);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (-0.01);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (-6.4942e-11);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (1.1194e-08);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (1.1223e-04);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (0.005);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (1.1763e-09);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (-0.0027527);
+                        }
+                    }
+                    if(sec == 2){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (-9.2425e-04);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (-0.0017666);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (6.2003e-14);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (7.2271e-12);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (2.3803e-15);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (3.4029e-11);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (0.0023854);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (5.8243e-12);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (-5.6157e-08);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (-3.9773e-11);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (-1.1691e-09);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (-0.0062381);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (-2.5359e-10);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (9.4728e-10);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (0.011524);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (0.0049111);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (9.3476e-08);
+                        }
+                    }
+                    if(sec == 3){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (-0.0020058);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (1.2070e-12);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (1.3363e-12);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (2.2468e-11);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (2.1101e-12);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (3.3193e-14);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (-3.3475e-04);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (-2.2785e-12);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (-7.5973e-09);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (-6.5245e-12);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (-1.4439e-10);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (-3.9013e-10);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (5.5080e-09);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (1.6712e-09);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (0.005);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (0.01);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (2.8086e-10);
+                        }
+                    }
+                    if(sec == 4){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (0.0011084);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (3.3935e-12);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (2.4527e-11);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (2.3736e-12);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (9.1573e-12);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (4.7601e-09);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (9.3275e-04);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (-1.5001e-10);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (-1.5133e-10);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (-6.0882e-12);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (-4.2169e-11);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (-3.4033e-09);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (4.5969e-09);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (8.7796e-11);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (-0.0079479);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (1.5830e-09);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (9.3421e-09);
+                        }
+                    }
+                    if(sec == 5){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (-2.5100e-04);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (3.8222e-13);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (8.4554e-14);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (1.5883e-10);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (-8.6649e-11);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (-0.0010283);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (-0.0040928);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (-0.0011459);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (-6.6704e-12);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (-8.2846e-10);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (3.6619e-10);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (-3.3666e-14);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (4.9719e-08);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (8.0961e-11);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (0.005);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (1.0333e-09);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (-4.9458e-10);
+                        }
+                    }
+                    if(sec == 6){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (-0.0082436);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (-5.9226e-04);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (0.0011147);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (0.0014713);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (4.6906e-04);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (2.6198e-10);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (2.2429e-10);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (-1.5775e-09);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (-1.7147e-09);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (4.4781e-10);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (1.3319e-10);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (-1.1409e-10);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (6.1673e-09);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (-4.3664e-09);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (-0.005);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (3.3257e-11);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (9.8751e-10);
+                        }
+                    }
+//==================//=======================================     Refinements Based on New Exclusivity Cuts     =======================================//
+                    if(corPro == 9){
+                        if(sec == 1){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (0.02);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (0.016883);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (0.016182);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (0.01);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (0.01);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (0.01);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (0.01);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-1.7619e-11);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-2.9013e-11);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-5.9897e-10);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-0.01);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-1.7249e-11);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (1.0511e-10);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (0.01);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (0.005);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (6.7706e-11);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (0.01);
+                            }
+                        }
+                        if(sec == 2){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (0.027684);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (0.02);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (0.015868);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (0.01);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (0.01);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (0.01);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (0.01);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (8.6624e-11);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-2.8453e-12);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-1.8781e-12);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-2.3874e-10);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (0.01);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (-1.6146e-10);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (6.3840e-11);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (0.005);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (-0.0014661);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (3.1120e-09);
+                            }
+                        }
+                        if(sec == 3){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (0.025976);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (0.02);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (0.014662);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (0.01);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (0.01);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (0.0055924);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (0.0038916);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-5.3770e-11);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-7.4755e-12);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-3.2957e-10);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-4.3949e-11);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-2.1512e-10);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (0.01);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (7.5114e-11);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (0.005);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (8.0087e-11);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (3.9947e-10);
+                            }
+                        }
+                        if(sec == 4){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (0.019243);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (0.018771);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (0.01);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (0.01);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (0.0057702);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (0.0059918);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (0.0092294);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-1.2730e-12);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-3.1387e-10);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-3.9105e-10);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-2.0599e-11);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-3.1564e-10);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (3.0837e-12);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (8.5209e-10);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (0.0092159);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (4.1911e-11);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (5.4589e-11);
+                            }
+                        }
+                        if(sec == 5){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (0.02);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (0.016807);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (0.013753);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (0.014285);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (0.01);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (0.01);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-3.4999e-11);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-3.7870e-11);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-3.4511e-11);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-4.1769e-12);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-2.9406e-10);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-3.3963e-12);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (1.3165e-10);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (6.1992e-10);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (0.005);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (3.3053e-11);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (0.0013973);
+                            }
+                        }
+                        if(sec == 6){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (0.02);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (0.017859);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (0.01);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (0.01);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (0.01);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (0.018843);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (0.0096899);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-2.9812e-12);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-2.2143e-10);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (4.1613e-11);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (4.7149e-04);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-1.0888e-10);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (1.6797e-09);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (-5.3988e-12);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (0.005);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (3.2226e-11);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (9.8497e-11);
+                            }
+                        }
+                    }
+                }
+                
+                if(corPro == 8){ // Correction based on each momentum slice (without energy loss corrections)
+                    if(sec == 1){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (0.01123);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (0.013562);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (0.013624);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (0.014539);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (0.02);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (0.02);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.012263);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (0.014836);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.02);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.02);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (0.02);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (0.02);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (0.0015552);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (3.5744e-04);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (-0.005);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (-0.0038939);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (0.01);
+                        }
+                    }
+                    if(sec == 2){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (0.012351);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (0.013734);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (0.015132);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (0.013902);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (0.01307);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (0.012338);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.01);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (0.010163);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.01);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.0040067);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (0.01);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (0.0029197);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (0.010893);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (-0.0020681);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (0.005);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (-0.012299);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (0.01);
+                        }
+                    }
+                    if(sec == 3){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (0.011883);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (0.012983);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (0.012554);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (0.01);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (0.01);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (0.010972);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.014404);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (0.017351);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.017659);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.017966);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (0.01);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (0.0083356);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (0.006261);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (0.01);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (0.005);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (0.01);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (4.1173e-09);
+                        }
+                    }
+                    if(sec == 4){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (0.012693);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (0.010836);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (0.01);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (0.01);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (0.010733);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (0.012659);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.014119);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (0.02);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.02);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.02);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (0.02);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (0.02);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (-7.4841e-09);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (-0.0095873);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (0.0084045);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (0.01);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (9.6902e-09);
+                        }
+                    }
+                    if(sec == 5){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (0.011873);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (0.011523);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (0.01254);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (0.013227);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (0.011882);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (0.010248);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.012743);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (0.02);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.02);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.01);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (0.01);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (0.01);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (2.0017e-04);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (-0.0038707);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (-0.0075556);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (-0.0051937);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (-0.0070312);
+                        }
+                    }
+                    if(sec == 6){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (0.01265);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (0.014984);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (0.015205);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (0.014542);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (0.01474);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (0.016186);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.013448);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (0.011864);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.017077);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.02);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (0.017459);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (0.0083508);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (1.3371e-07);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (0.0087474);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (0.005);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (-0.02);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (-0.0068833);
+                        }
+                    }
                 }
             }
 
@@ -3467,6 +4450,8 @@ if(event_Name != "error"):
             coutN = 6
         elif("MMpro_SEF" in corPro):
             coutN = 7
+        elif("MMpro_SE_NoELC" in corPro):
+            coutN = 8
         else:
             coutN = 1
         return coutN
@@ -3733,7 +4718,7 @@ if(event_Name != "error"):
                     ##=================================================================================================##
                     ##=====================##         ∆P (Double Pion - Pro) Calculations         ##===================##
                     ##=================================================================================================##
-                    Calculation_Code_Choice = """
+                    Calculation_Code_Choice = "".join(["""
 
     // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pip+pim) based on the assumption that the proton angle and electron/π+ reconstruction were measured by the detector correctly for exclusive events in the ep->epπ+π- channel 
     // (π- is used as a "missing" particle)
@@ -3768,19 +4753,16 @@ if(event_Name != "error"):
     
     // auto beam_test      = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
     // auto targ_test      = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-    //
-    // auto cor_Factor     = ((Final_Output)/proC.P());
-    // auto cor_FactorM    = ((pro_CalculateM - proC.P())/proC.P());
-    // auto cor_FactorP    = ((pro_CalculateP - proC.P())/proC.P());
+    // 
+    // auto cor_Factor     = ((Final_Output)/proC.P()) + 1;
+    // auto cor_FactorM    = ((pro_CalculateM - proC.P())/proC.P()) + 1;
+    // auto cor_FactorP    = ((pro_CalculateP - proC.P())/proC.P()) + 1;
     // 
     // // auto cor_Factor     = ((pro_Calculate  - pro_cor)/pro_cor);
     // // auto cor_FactorM    = ((pro_CalculateM - pro_cor)/pro_cor);
     // // auto cor_FactorP    = ((pro_CalculateP - pro_cor)/pro_cor);
     // 
     // auto pro_OG         = ROOT::Math::PxPyPzMVector(prox_cor, proy_cor, proz_cor, 0.938);
-    // // auto proC_Calc      = ROOT::Math::PxPyPzMVector(prox_cor*cor_Factor,  proy_cor*cor_Factor,  proz_cor*cor_Factor,  0.938);
-    // // auto proC_Calc_M    = ROOT::Math::PxPyPzMVector(prox_cor*cor_FactorM, proy_cor*cor_FactorM, proz_cor*cor_FactorM, 0.938);
-    // // auto proC_Calc_P    = ROOT::Math::PxPyPzMVector(prox_cor*cor_FactorP, proy_cor*cor_FactorP, proz_cor*cor_FactorP, 0.938);
     // 
     // auto proC_Calc      = ROOT::Math::PxPyPzMVector(proC.Px()*cor_Factor,  proC.Py()*cor_Factor,  proC.Pz()*cor_Factor,  0.938);
     // auto proC_Calc_M    = ROOT::Math::PxPyPzMVector(proC.Px()*cor_FactorM, proC.Py()*cor_FactorM, proC.Pz()*cor_FactorM, 0.938);
@@ -3798,16 +4780,39 @@ if(event_Name != "error"):
     // auto MM2_Test_Cal_M = MM2_Vec_Cal_M.M2();
     // auto MM2_Test_Cal_P = MM2_Vec_Cal_P.M2();
     // 
-    // if(MM2_Test < 0.02){
+    // if(MM2_Test < 0.02 && MM2_Test > -0.1){
+    //     
+    //     // auto Cor_Name = "None";
+    //     // if(2 == corPro_Num){
+    //     //     Cor_Name = "MMpro_EF";
+    //     // }
+    //     // if(3 == corPro_Num){
+    //     //     Cor_Name = "MMpro_QEF";
+    //     // }
+    //     // if(4 == corPro_Num){
+    //     //     Cor_Name = "MMpro_LEF";
+    //     // }
+    //     // if(5 == corPro_Num){
+    //     //     Cor_Name = "MMpro_REF";
+    //     // }
+    //     // if(6 == corPro_Num){
+    //     //     Cor_Name = "MMpro_S_LEF";
+    //     // }
+    //     // if(7 == corPro_Num){
+    //     //     Cor_Name = "MMpro_SEF";
+    //     // }
+    //     // std::cout<<"Proton Correction = "<<Cor_Name<<std::endl;
+    //     
+    //     std::cout<<"Proton Correction = """, str(Correction), """"<<std::endl;
     //     std::cout<<"Sector = "<<prosec<<std::endl;
     //     std::cout<<"Missing Mass Ideal                   = "<<(0.13957039*0.13957039)<<std::endl;
     //     std::cout<<"MM2_Test_OG (Measured)               = "<<MM2_Test_OG<<std::endl;
-    //     std::cout<<"MM2_Test (Measured - Corrected)      = "<<MM2_Test<<std::endl;
-    //     std::cout<<"MM2_Test_Calc (Corrected - New)      = "<<MM2_Test_Calc<<std::endl;
+    //     std::cout<<"MM2_Test    (Measured - Corrected)   = "<<MM2_Test<<std::endl;
+    //     std::cout<<"MM2_Test_Calc  (Corrected - New)     = "<<MM2_Test_Calc<<std::endl;
     //     std::cout<<"MM2_Test_Cal_M (Corrected - New - M) = "<<MM2_Test_Cal_M<<std::endl;
     //     std::cout<<"MM2_Test_Cal_P (Corrected - New - P) = "<<MM2_Test_Cal_P<<std::endl;
     //     std::cout<<std::endl;
-    // 
+    //     
     //     std::cout<<"Delta P = "<<Final_Output<<std::endl;
     //     std::cout<<"Momentum (Measured) = "<<proC.P()<<std::endl;
     //     std::cout<<"Momentum (Calculated) = "<<pro_Calculate<<std::endl<<std::endl;
@@ -3815,7 +4820,7 @@ if(event_Name != "error"):
     //     std::cout<<"==========================================================================================================================================================================================="<<std::endl<<std::endl;
     // }
     
-                        """
+                        """])
                     
                 if("D_p_L_pro" in Out_Type):
                     # print("".join([color.BOLD, "TEST LARGER ∆P", color.END]))
@@ -4435,7 +5440,7 @@ if(event_Name != "error"):
     ##==========##==========##     Function for Correction Title Names      ##==========##==========##
     ##==============================================================================================##
 
-    def corNameTitles(CorrectionNameIn):
+    def corNameTitles(CorrectionNameIn, Form="Default"):
         CorrectionName1, CorrectionName2, CorrectionName3, CorrectionName4 = 'Error', 'Error', 'Error', 'Error'
 
         if(CorrectionNameIn == "No correction"):
@@ -4464,7 +5469,7 @@ if(event_Name != "error"):
         if('mmExF' in CorrectionNameIn):
             CorrectionName1 = 'El Cor (Quad - Quad Phi - Extended)'
             
-        if(event_type == "EO"):
+        if(event_type in ["EO"]):
             if(CorrectionNameIn == "mm0"):
                 CorrectionName = "No Momentum Corrections"
             else:
@@ -4472,7 +5477,7 @@ if(event_Name != "error"):
             return CorrectionName
 
         if('Pip' not in CorrectionNameIn):
-            CorrectionName2 = 'No Pi+ Cor' if(event_type != "P0") else ""
+            CorrectionName2 = 'No Pi+ Cor' if(event_type not in ["P0"]) else ""
         if('Pip' in CorrectionNameIn):
             if('MMQ' in CorrectionNameIn):
                 CorrectionName2 = 'Pi+ Cor (Quad - No Phi)'
@@ -4494,7 +5499,7 @@ if(event_Name != "error"):
                 CorrectionName2 = 'Pi+ Cor (Quad - Quad Phi - With Elastic Cors)'
 
         if('Pim' not in CorrectionNameIn):
-            CorrectionName3 = 'No Pi- Cor' if(event_type == "DP") else ""
+            CorrectionName3 = 'No Pi- Cor' if(event_type in ["DP"]) else ""
         if('Pim' in CorrectionNameIn):
             if('MMpimPhi' in CorrectionNameIn):
                 CorrectionName3 = 'Pi- Cor (Linear - Linear Phi)'
@@ -4506,7 +5511,7 @@ if(event_Name != "error"):
         if('Pro' not in CorrectionNameIn):
             CorrectionName4 = 'No Pro Cor' if(event_type not in ["SP", "MC"]) else ""
             # if(('_NoELC' not in CorrectionNameIn and event_type == "DP") or (event_type == "P0")):
-            if('_NoELC' not in CorrectionNameIn):
+            if('_NoELC' not in CorrectionNameIn and CorrectionName4 != ""):
                 CorrectionName4 = ''.join([CorrectionName4, " (Energy Loss Cor)"])
         if('Pro' in CorrectionNameIn):
             if('MMproPhi' in CorrectionNameIn):
@@ -4533,6 +5538,8 @@ if(event_Name != "error"):
                 CorrectionName4 = 'Pro Cor (Quad+Linear+Slices - With Elastic Cors)'
             if('MMpro_SEF' in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Sliced - With Elastic Cors)'
+            if('MMpro_SE_NoELC' in CorrectionNameIn):
+                CorrectionName4 = 'Pro Cor (Sliced - With Elastic Cors - Before Energy Loss)'
             if('_NoELC' not in CorrectionNameIn):
                 CorrectionName4 = CorrectionName4.replace(")", " - Energy Loss Cor)")
 
@@ -4586,7 +5593,20 @@ if(event_Name != "error"):
         if(CorrectionNameIn in ["mm0", "mm0_NoELC"]):
             CorrectionName = "".join(["No Momentum Corrections", " (Energy Loss Cor)" if(event_type not in ["SP", "MC"] and "NoELC" not in CorrectionNameIn) else ""])
 
-        
+        if(Form != "Default"):
+            if("No Momentum Corrections" not in CorrectionName and CorrectionName != 'El/Pi+ Cor (Quad - Quad Phi)'):
+                if(event_type in ["SP", "MC"]):
+                    CorrectionName = "".join(["#splitline{", str(CorrectionName1), "}{", str(CorrectionName2), "}"])
+                if("E" in event_type or event_type == "P0"):
+                    CorrectionName = "".join(["#splitline{", str(CorrectionName1), "}{", str(CorrectionName4), "}"])
+                if(event_type == "DP"):
+                    CorrectionName = "".join(["#splitline{#splitline{", str(CorrectionName1), "}{", str(CorrectionName2), "}}{", "".join(["#splitline{", str(CorrectionName3), "}{", str(CorrectionName4), "}"]) if(str(CorrectionName3) not in ["No Pi- Cor", "", "Error"]) else str(CorrectionName4), "}"])
+                    if(CorrectionName1 == 'El Cor (Quad - Quad Phi)' and CorrectionName2 == 'Pi+ Cor (Quad - Quad Phi)'):
+                        CorrectionName = "".join(["#splitline{El/Pi+ Cor (Quad - Quad Phi)}{", "".join(["#splitline{", str(CorrectionName3), "}{", str(CorrectionName4), "}"]) if(str(CorrectionName3) not in ["No Pi- Cor", "", "Error"]) else str(CorrectionName4), "}"])
+                    if(CorrectionName1 == 'El Cor (Quad - Quad Phi - Energy Loss Cor)' and CorrectionName2 == 'Pi+ Cor (Quad - Quad Phi - Energy Loss Cor)'):
+                        CorrectionName = "".join(["#splitline{El/Pi+ Cor (Quad - Quad Phi - Energy Loss Cor)}{", "".join(["#splitline{", str(CorrectionName3), "}{", str(CorrectionName4), "}"]) if(str(CorrectionName3) not in ["No Pi- Cor", "", "Error"]) else str(CorrectionName4), "}"])
+                    
+                  
 
         return CorrectionName
 
@@ -4789,7 +5809,7 @@ if(event_Name != "error"):
 
         SecName = 'All Sectors' if(Sector == 0) else ''.join([str(Particle_Formatting), ' Sector ', str(Sector)])
 
-        CorrrectionName = corNameTitles(Correction)
+        CorrrectionName = corNameTitles(Correction, Form="splitline")
 
         name = (Correction, Sector, Binning, Region, Particle_Plot, Particle, Extra_Cut)
                
@@ -4808,7 +5828,7 @@ if(event_Name != "error"):
             
         WC_out = "".join(["WM_", Correction])
 
-        output = Bank.Histo2D(("".join(["HWC_Histo_All_", str(name)]), str(output_title), 200, 2 if 'el' in Particle_Plot else 0, 12 if 'el' in Particle_Plot else 10, 200, 0, 5), Particle_Plot, WC_out)
+        output = Bank.Histo2D(("".join(["HWC_Histo_All_", str(name)]), str(output_title), 200, 2 if('el' in Particle_Plot) else 0, 12 if('el' in Particle_Plot) else 10, 200, 0, 5), Particle_Plot, WC_out)
 
         return output
 
@@ -4861,13 +5881,13 @@ if(event_Name != "error"):
             
         SecName = 'All Sectors' if(Sector == 0) else ''.join([str(Particle_Formatting) , ' Sector ', str(Sector)])
 
-        CorrrectionName = corNameTitles(Correction)
+        CorrrectionName = corNameTitles(Correction, Form="splitline")
 
         name = (Correction, Sector, '', Binning, Region, Particle_Plot, Particle, Extra_Cut)
 
                 
         start_title = "".join(["#splitline{(", str(datatype), ") MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "} ", str(SecName), "}"])
-        if(pass_version != "NA" and pass_version != ""):
+        if(pass_version not in ["NA", ""]):
             start_title = "".join(["#splitline{", str(start_title), "{", str(pass_version), "}}"])
                 
         output_title = "".join([str(start_title), "{Correction:", str(CorrrectionName), "};p_{", str(Particle_Plot_Formatting), "} [GeV];MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}"])
@@ -4912,7 +5932,7 @@ if(event_Name != "error"):
     ############################################################################################################################################
 
     Calculated_Exclusive_Cuts = "esec != -2" # This statement is always true (avoids failure of calculated cuts if MM_type not defined properly)
-    Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3 = "esec != -2", "esec != -2"
+    Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4 = "esec != -2", "esec != -2", "esec != -2"
 
 
 
@@ -5376,162 +6396,113 @@ if(event_Name != "error"):
     if(MM_type == "eppipX"):
 
         if("In" in datatype):
-            Calculated_Exclusive_Cuts = "".join(["""
-
+            Calculated_Exclusive_Cuts_V4 = "".join(["""
                 auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
                 auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
                 auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
                 auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
                 auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
-
                 auto MM_Vector = beam + targ - ele - pip0 - pro0;
-
                 auto cut_up = 0.2;
                 auto cut_down = -0.2;
-
+                return (MM_Vector.M2() < cut_up && MM_Vector.M2() > cut_down);
+            
+            """])
+            Calculated_Exclusive_Cuts = "".join(["""
+                auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
+                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+                auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+                auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
+                auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
+                auto MM_Vector = beam + targ - ele - pip0 - pro0;
+                auto cut_up = 0.2;
+                auto cut_down = -0.2;
                 if(esec == 1){
-
                     // Upper Cut
                     cut_up = (-0.007753)*el + (0.156477);
-
                     // Lower Cut
                     cut_down = (0.000549)*el + (-0.07865);
-
                 }
-
                 if(esec == 2){
-
                     // Upper Cut
                     cut_up = (-0.005691)*el + (0.128535);
-
                     // Lower Cut
                     cut_down = (-0.000459)*el + (-0.07017);
-
                 }
-
                 if(esec == 3){
-
                     // Upper Cut
                     cut_up = (-0.008299)*el + (0.141537);
-
                     // Lower Cut
                     cut_down = (-0.000401)*el + (-0.093103);
-
                 }
 
                 if(esec == 4){
-
                     // Upper Cut
                     cut_up = (-0.003421)*el + (0.127147);
-
                     // Lower Cut
                     cut_down = (0.001045)*el + (-0.073916);
-
                 }
-
                 if(esec == 5){
-
                     // Upper Cut
                     cut_up = (-0.010646)*el + (0.166571);
-
                     // Lower Cut
                     cut_down = (0.004321)*el + (-0.085768);
-
                 }
-
                 if(esec == 6){
-
                     // Upper Cut
                     cut_up = (-0.007125)*el + (0.143694);
-
                     // Lower Cut
                     cut_down = (-0.000127)*el + (-0.066184);
-
                 }
-
                 return (MM_Vector.M2() < cut_up && MM_Vector.M2() > cut_down);
-
             """])
             
-
-
-            
         if("Out" in datatype):
-            
-
             Calculated_Exclusive_Cuts = "".join(["""
-
                 auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
                 auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
                 auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
                 auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
                 auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
-
                 auto MM_Vector = beam + targ - ele - pip0 - pro0;
-
                 auto cut_up = 0.2;
                 auto cut_down = -0.2;
-
                 if(esec == 1){
-
                     // Upper Cut
                     cut_up = (-0.00174)*el + (0.114841);
-
                     // Lower Cut
                     cut_down = (0.002693)*el + (-0.052275);
-
                 }
-
                 if(esec == 2){
-
                     // Upper Cut
                     cut_up = (0.000284)*el + (0.097696);
-
                     // Lower Cut
                     cut_down = (0.001777)*el + (-0.048444);
-
                 }
-
                 if(esec == 3){
-
                     // Upper Cut
                     cut_up = (-0.002927)*el + (0.123553);
-
                     // Lower Cut
                     cut_down = (0.003879)*el + (-0.060533);
-
                 }
-
                 if(esec == 4){
-
                     // Upper Cut
                     cut_up = (-0.001737)*el + (0.111652);
-
                     // Lower Cut
                     cut_down = (0.002936)*el + (-0.054787);
-
                 }
-
                 if(esec == 5){
-
                     // Upper Cut
                     cut_up = (-0.002577)*el + (0.118104);
-
                     // Lower Cut
                     cut_down = (0.003074)*el + (-0.057185);
-
                 }
-
                 if(esec == 6){
-
                     // Upper Cut
                     cut_up = (0.005977)*el + (0.072379);
-
                     // Lower Cut
                     cut_down = (0.004878)*el + (-0.056216);
-
                 }
-
 
                 return (MM_Vector.M2() < cut_up && MM_Vector.M2() > cut_down);
 
@@ -6015,6 +6986,8 @@ if(event_Name != "error"):
         kinematicCuts.append(Calculated_Exclusive_Cuts_V2)
     if(Calculated_Exclusive_Cuts_V3 != "esec != -2"):
         kinematicCuts.append(Calculated_Exclusive_Cuts_V3)
+    if(Calculated_Exclusive_Cuts_V4 != "esec != -2"):
+        kinematicCuts.append(Calculated_Exclusive_Cuts_V4)
         
         
     def Cut_Function(Data_Frame, Input_Cut, Output_Type="Default"):
@@ -6026,6 +6999,8 @@ if(event_Name != "error"):
             Cut_Title = "Calculated Exclusivity Cuts (Basic)"
         if(str(Input_Cut) == str(Calculated_Exclusive_Cuts_V3)):
             Cut_Title = "Calculated Exclusivity Cuts (Based on Both Angles)"
+        if(str(Input_Cut) == str(Calculated_Exclusive_Cuts_V4)):
+            Cut_Title = "Missing Mass Squared Cut"
         if(str(Input_Cut) == str(CutChoice)):
             Cut_Title = "Azimuthal Kinematic Cut"
         if(CutChoice_2 not in ["", "none"] and str(Input_Cut) == str(CutChoice_2)):
@@ -6038,6 +7013,7 @@ if(event_Name != "error"):
             Cut_Title = "Azimuthal and Polar Angle Cuts"
         if(str(Input_Cut) == "All"):
             Cut_Title = "All Additional Cuts"
+
             
         if(Output_Type == "Title"):
             return Cut_Title
@@ -6181,7 +7157,7 @@ if(event_Name != "error"):
     
     
     if(event_type != "SP" and "E" not in event_type):
-        Delta_Pip_histo_SecList = [1, 2, 3, 4, 5, 6] # Only the proton correction is available for the double pion channel (Turned off π0 channel as well)
+        Delta_Pip_histo_SecList = ['all', 1, 2, 3, 4, 5, 6] # Only the proton correction is available for the double pion channel (Turned off π0 channel as well)
         ExtraElectronSecListFilterOn = 'no'
     
 
@@ -6233,6 +7209,7 @@ if(event_Name != "error"):
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_QEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_QEF', 'mmEF_PipMMEF_ProMMpro_LEF']
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_REF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_REF']
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_REF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_REF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_QEF']
+            # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_S_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SE_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_S_LEF', 'mmEF_PipMMEF_ProMMpro_SEF']
             Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_S_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_S_LEF', 'mmEF_PipMMEF_ProMMpro_SEF']
 #             Delta_P_histo_CorList = ['mmEF_PipMMEF_ProMMpro_SEF']
 #             Delta_P_histo_CorList = ['mm0']
@@ -6331,7 +7308,8 @@ if(event_Name != "error"):
     
     
     if('pro' in Delta_P_histo_CompareList):
-        extra_Dp_calc = ["D_p", "D_p_L"]
+        # extra_Dp_calc = ["D_p", "D_p_L"]
+        extra_Dp_calc = ["D_p", "D_p_No_C"]
     else:
         extra_Dp_calc = ["D_p"]
 
@@ -6546,6 +7524,7 @@ if(event_Name != "error"):
             # correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_REF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_REF']
             # correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_REF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_REF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_QEF']
             correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_S_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_S_LEF', 'mmEF_PipMMEF_ProMMpro_SEF']
+#             correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_S_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SE_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_S_LEF', 'mmEF_PipMMEF_ProMMpro_SEF']
 #             correctionList = ['mmEF_PipMMEF_ProMMpro_SEF']
 #             correctionList = ['mm0']
             
@@ -6650,15 +7629,15 @@ if(event_Name != "error"):
     shiftList = ['', 'S']
     
     
-    same_particle_P_and_Sec_MM = False  # Will allow for different particle momentum/sector to be plotted in the same histogram (mixes particles)
+    # same_particle_P_and_Sec_MM = False  # Will allow for different particle momentum/sector to be plotted in the same histogram (mixes particles)
     same_particle_P_and_Sec_MM = True   # The particle momentum and sector will always be the same with this option
 
 
     
     # Run with the Invariant Mass histograms?
     # Letting Run_Invariant_Mass_Histos = 'yes' causes the code to also create histograms for Invariant Mass versus the particle momentum
-    Run_Invariant_Mass_Histos = 'yes'
-    # Run_Invariant_Mass_Histos = 'no'
+    # Run_Invariant_Mass_Histos = 'yes'
+    Run_Invariant_Mass_Histos = 'no'
 
     ##-------------------------------------------------------------##
     ##=====##=====##     Histogram Options (End)     ##=====##=====##
@@ -6729,7 +7708,7 @@ if(event_Name != "error"):
 
     if(Run_Missing_Mass_Histos == "yes"):
         for Cuts in kinematicCuts:
-            # if(Cuts in [Calculated_Exclusive_Cuts if("E" not in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, "Both", "Both_2", "All"]):
+            # if(Cuts in [Calculated_Exclusive_Cuts if("E" not in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, "Both", "Both_2", "All"]):
             #     continue
             for particle in particle_plot_List:
                 for sector in SecRangeAll:
@@ -6767,7 +7746,7 @@ if(event_Name != "error"):
                                 
     if(Run_Invariant_Mass_Histos == 'yes'): 
         for Cuts in kinematicCuts:
-            if(Cuts in [Calculated_Exclusive_Cuts if("E" in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, "Both", "Both_2", "All"]):
+            if(Cuts in [Calculated_Exclusive_Cuts if("E" in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, "Both", "Both_2", "All"]):
                 continue
             for particle in particle_plot_List:
                 for particle_filter in particleList:
@@ -6872,7 +7851,7 @@ if(event_Name != "error"):
 
                 for correction in Delta_P_histo_CorList:
 
-                    correctionNAME = corNameTitles(correction)
+                    correctionNAME = corNameTitles(correction, Form="splitline")
                     Erdf = Cut_rdf
                     if('pi+' in Delta_P_histo_CompareList and Delta_Pip_histo_Q == 'y'):
                         Erdf = CorDpp(Erdf, correction, "D_pip", event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
@@ -6896,7 +7875,7 @@ if(event_Name != "error"):
 
                         for secEL in ExtraElectronSecListFilter:
 
-                            if(secEL != "all" and secEL != 0):
+                            if(secEL not in ["all", 0]):
                                 if(sec not in ["all", 0]):
                                     SecName = ''.join(["Pi+" if(event_type in ["SP", "MC"]) else "Pro", " Sector ", str(sec), " and El Sector ", str(secEL)])
                                 else:
@@ -6949,6 +7928,10 @@ if(event_Name != "error"):
                                             if(binningEL != '1'):
                                                 sdf = regFilter(sdf, binningEL, secEL, regionEL, 'S', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", 'el')
                                                 histoName = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title)
+                                            elif("L" in calc_option):
+                                                histoName = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp")
+                                            elif("No_C" in calc_option):
+                                                histoName = (correction, '', SecName, binning, region, Cut_Title, "No_C")
                                             else:
                                                 histoName = (correction, '', SecName, binning, region, Cut_Title)
 
@@ -6956,9 +7939,12 @@ if(event_Name != "error"):
                                             Title_Line_1 = "".join(["(", str(datatype), ") #Delta p_{Particle} vs p_{Particle}"])
                                             if("L" in calc_option):
                                                 Title_Line_1 = "".join(["(", str(datatype), ") Larger #Delta p_{Particle} vs p_{Particle}"])
+                                            if("No_C" in calc_option):
+                                                Title_Line_1 = "".join(["(", str(datatype), ") #Delta p_{Particle} vs (Uncorrected) p_{Particle}"])
+                                                
                                             if(pass_version not in ["NA", ""]):
                                                 Title_Line_1 = "".join(["#splitline{", str(pass_version), "}{", str(Title_Line_1), "}"])
-                                            Title_Line_2 = ((("".join(["Correction: ", str(root_color.Bold), "{", correctionNAME, "}"]).replace("Pi+", "#pi^{+}")).replace("Pi-", "#pi^{-}")).replace("Phi", "#phi"))
+                                            Title_Line_2 = ((("".join(["Correction: ", str(root_color.Bold), "{", str(correctionNAME), "}"]).replace("Pi+", "#pi^{+}")).replace("Pi-", "#pi^{-}")).replace("Phi", "#phi"))
                                             Title_Line_3 = "".join([str(SecName), "".join([" -- #phi_{", "#pi^{+} " if(event_type in ["SP", "MC"]) else "Pro", "} Bin: ", str(regionName)]) if(str(regionName) != "" and "No Phi Bins" not in regionName) else "", "".join([" -- #phi_{El} Bin: ", str(regionNameEL)]) if(str(regionNameEL) != "" and "No Phi Bins" not in regionNameEL) else ""])
                                             Title_Line_4 = "".join(["Cut Applied: ", str(Cut_Title) if(str(Cut_Title) != "") else "No Additional Cuts"])
                                             Title_Axis = "".join(["; p_{Particle}; #Delta p_{Particle}"])
@@ -6977,7 +7963,7 @@ if(event_Name != "error"):
 
 
                                             if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
-                                                Dmom_pro_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pro_Histo", str(histoName)]), Title.replace("Particle", "Pro"), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pro' if("_NoELC" in correction) else "pro_cor", ''.join(['D_pro_' if("L" not in calc_option) else 'D_p_L_pro_', str(correction)]))
+                                                Dmom_pro_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pro_Histo", str(histoName)]), Title.replace("Particle", "Pro"), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pro' if("_NoELC" in correction or "No_C" in calc_option) else "pro_cor", ''.join(['D_pro_' if("L" not in calc_option) else 'D_p_L_pro_', str(correction)]))
                                                 # if(binningEL == '1'):
                                                 #     Dmom_pro_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pro_Histo", str(histoName)]), "".join(["#splitline{" if(Cut_Title != "") else "", "(", str(datatype), ") #Delta p_{pro} vs p_{pro} ", str(SecName), " ", str(correctionNAME), " " ,str(regionName), "".join(["}{Cut Applied: ", str(Cut_Title), "}"]) if(Cut_Title != "") else "", "; ", "p_{pro}" if("_NoELC" in correction) else "Corrected p_{pro}", "; #Delta p_{pro}"]), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pro' if("_NoELC" in correction) else "pro_cor", ''.join(['D_pro_', str(correction)]))
                                                 # else:
@@ -7040,7 +8026,7 @@ if(event_Name != "error"):
                     # Do not plot variables with cuts applied to them that are based on themselves
                 for correction in Delta_P_histo_CorList:
 
-                    correctionNAME = corNameTitles(correction)
+                    correctionNAME = corNameTitles(correction, Form="splitline")
                     
                     Erdf = Cut_rdf
                     Erdf = CorDpp(Erdf, correction, Calc_Version, event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
@@ -7102,7 +8088,7 @@ if(event_Name != "error"):
     
     if(Run_Missing_Mass_Histos == "yes"):
         for Cuts in kinematicCuts:
-            # if(Cuts in [Calculated_Exclusive_Cuts if("E" not in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, "Both", "Both_2", "All"]):
+            # if(Cuts in [Calculated_Exclusive_Cuts if("E" not in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, "Both", "Both_2", "All"]):
             #     continue
             #     # Do not plot variables with cuts applied to them that are based on themselves
             Cut_rdf, Cut_Title = Cut_Function(rdf, Cuts)
@@ -7165,7 +8151,7 @@ if(event_Name != "error"):
     
     if(Run_Invariant_Mass_Histos == 'yes'):
         for Cuts in kinematicCuts:
-            if(Cuts in [Calculated_Exclusive_Cuts if("E" in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, "Both", "Both_2", "All"]):
+            if(Cuts in [Calculated_Exclusive_Cuts if("E" in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, "Both", "Both_2", "All"]):
                 continue
                 # Do not plot variables with cuts applied to them that are based on themselves
             Cut_rdf, Cut_Title = Cut_Function(rdf, Cuts)
@@ -7241,7 +8227,7 @@ if(event_Name != "error"):
         for Cuts in kinematicCuts:
             Cut_rdf, Cut_Title = Cut_Function(rdf, Cuts)
             for correction in correctionList:
-                correctionNAME = corNameTitles(correction)
+                correctionNAME = corNameTitles(correction, Form="splitline")
                 for particle in particleList:
                     for shift in shiftList:
                         for local_Q in ["", "local "]:
@@ -7267,7 +8253,7 @@ if(event_Name != "error"):
                                     Title_Mom_Phi_Line_1 = "".join(["#splitline{", str(pass_version), "}{", str(Title_Mom_Phi_Line_1), "}"])
                                     Title_The_Phi_Line_1 = "".join(["#splitline{", str(pass_version), "}{", str(Title_The_Phi_Line_1), "}"])
                                 
-                                Title_Line_2 = ((("".join(["Correction: ", str(root_color.Bold), "{", correctionNAME, "}"]).replace("Pi+", "#pi^{+}")).replace("Pi-", "#pi^{-}")).replace("Phi", "#phi"))
+                                Title_Line_2 = ((("".join(["Correction: ", str(root_color.Bold), "{", str(correctionNAME), "}"]).replace("Pi+", "#pi^{+}")).replace("Pi-", "#pi^{-}")).replace("Phi", "#phi"))
                                 Title_Line_3 = "".join(["Cut Applied: ", str(Cut_Title) if(str(Cut_Title) != "") else "No Additional Cuts"])
                                 
                                 Title_Mom_The_Axis = "".join(["; p_{", str(particle_title), "}; #theta_{", str(particle_title), "}"])
