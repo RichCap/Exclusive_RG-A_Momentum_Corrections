@@ -882,7 +882,36 @@ if(event_Name != "error"):
     # No longer running invariant mass histograms (was not using them)
     # Removed the Proton Correction that used slices WITHOUT the Energy Loss corrections (i.e., the one added in the previous version)
         # Was not necessary (the problem with the corrections was not the order of the Energy Loss/Momentum corrections were applied)
+        
+        
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V24"
+    # Added another new type of exclusivity cut (cut on the MM2 < 0.15 and MM2 > -0.2)
+    # Rewrote the Proton Correction that used slices WITHOUT the Energy Loss corrections (Now is a unique slice correction using the new exclusivity cut from 'Extra_Part_of_Name = "_GitHub_Proton_Refinement_V23"')
+    # Refined the Sliced Proton correction from prior files using the new cut (seperated the refinement from the original versions)
+    # Removed the phi binning histograms (was not using)
     
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V25"
+    # The tighter MM2 cut from the last file was not needed
+    # Refined the 'SERC' proton correction 
+    
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V26"
+    # Refined the sliced proton corrections and added a new one (using the original, calculated, cuts)
+    # Removed a few unused corrections
+    
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V27"
+    # Combined a refined version of the sliced proton corrections and added a new one (using the original, calculated, cuts)
+    
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V28"
+    # Refined the new sliced proton correction (from V27, i.e., corPro == 10) using ∆P fits without exclusivity cuts
+    
+    
+    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V29"
+    # Added new exclusivity cut which includes the energy loss corrections before cutting on the Missing Mass Squared (cut still on |MM2| < 0.2)
+    # Created a new correction from a refinement of the sliced proton correction from V28 (i.e., corPro == 10 refined into the new correction corPro == 11)
     
     
     if(event_type == "MC"):
@@ -3611,58 +3640,1015 @@ if(event_Name != "error"):
                                 dp = dp + (9.8497e-11);
                             }
                         }
+                        // =======================================     Refinements with New Cuts V2     ======================================= //
+                        if(sec == 1){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.0075);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.0025);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-0.0025);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.0025);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.0025);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-0.0025);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (0.0075);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (0.0075);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (0.0125);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (0.0125);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (0.0075673);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-0.0025);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (0.0125);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (0.0125);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (0.0075);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (0.0075);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (0.0075);
+                            }
+                        }
+                        if(sec == 2){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (0.0075);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (0.0034762);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (0.0032147);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.0025);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (0.0025);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (0.0025);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (0.0025);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-0.0025);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.0075);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-0.0075);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-0.0075);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (0.0125);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (-0.0025);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (0.0025);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (0.005);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (0.005);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (0.0075);
+                            }
+                        }
+                        if(sec == 3){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (0.0075);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (0.0025);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (0.0025);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.0025);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (0.0025);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (0.0025);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (0.0028321);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (0.0035503);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.0075);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (0.009763);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-0.0075);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-0.0025);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (-0.0075);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (0.0025);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (0.005);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (0.005);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (0.0073797);
+                            }
+                        }
+                        if(sec == 4){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.0075);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.0075);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (0.0125);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.0025);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.0025);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (0.0025);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-0.0125);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-0.0075);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (0.0075);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-0.0075);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-0.0075);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-0.0125);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (-0.0025);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (-0.0075);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (-0.0090977);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (0.0075);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (0.0075);
+                            }
+                        }
+                        if(sec == 5){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.0075);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.0025);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (0.0025);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.0025);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.0025);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-1.9599e-08);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (0.0075);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-0.0025);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.0075);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-0.0075);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-0.005);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-0.0125);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (0.0021607);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (0.0025);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (0.005);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (-0.0075);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (-0.012064);
+                            }
+                        }
+                        if(sec == 6){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.0075);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (0.0075);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-0.0025);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.0025);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.0025);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (0.0025);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (0.0075);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (0.0059837);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.0075);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (0.0075);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (0.0075);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (0.0070873);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (4.3578e-09);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (-0.0025);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (-0.0075);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (0.0075);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (0.0075);
+                            }
+                        }
+                        // =======================================     Refinements with Old Cuts     ======================================= //
+                        if(sec == 1){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.01279);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.018525);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-0.016369);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-0.02);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-0.018655);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.015);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-0.0092379);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-0.0058995);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-0.01);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (-0.015953);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (-0.014454);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (-0.012616);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (-0.0072444);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (-0.025);
+                            }
+                        }
+                        if(sec == 2){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.026494);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.025555);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-0.018981);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.019474);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-0.02);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-0.0096482);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (1.8500e-10);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.005);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (0.0055748);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (0.005);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-0.013046);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (-0.0024152);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (0.00349);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (-0.0084552);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (-0.005);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (-0.0075361);
+                            }
+                        }
+                        if(sec == 3){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.027385);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.02);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-0.015027);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.014524);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (2.8544e-12);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.010999);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-0.015);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (0.005);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (0.0084148);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (0.01);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (0.0055991);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (-0.010668);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (-0.010227);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (-0.0064019);
+                            }
+                        }
+                        if(sec == 4){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.012915);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.015);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-0.015);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.0084149);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.0091235);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-0.0070069);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (0.0011843);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-0.005);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.0088171);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-0.0052478);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (0.005);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (0.0040997);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (0.01);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (0.015);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (-0.0057669);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (-0.0098353);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (-0.0069987);
+                            }
+                        }
+                        if(sec == 5){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.015);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.017453);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-0.015598);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-0.009637);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-0.0061192);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-0.0042108);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.005);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (0.005);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (0.005);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (0.0048165);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (2.7391e-10);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (-3.3162e-12);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (-0.0077807);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (0.0056473);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (0.0094693);
+                            }
+                        }
+                        if(sec == 6){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.025);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.015);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.018783);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-0.02);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-0.0017191);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.006928);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-0.015);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-0.011629);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-0.0061836);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (0.0028732);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (1.1382e-11);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (-0.005);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (0.0066681);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (-0.005);
+                            }
+                        }
+                        // =======================================     Refinements with Old Cuts V2     ======================================= //
+                        if(sec == 1){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.01279);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.018525);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-0.016369);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-0.02);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-0.018655);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.015);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-0.0092379);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-0.0058995);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-0.01);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (-0.015953);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (-0.014454);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (-0.012616);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (-0.0072444);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (-0.025);
+                            }
+                        }
+                        if(sec == 2){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.026494);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.025555);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-0.018981);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.019474);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-0.02);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-0.0096482);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (1.8500e-10);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.005);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (0.0055748);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (0.005);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-0.013046);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (-0.0024152);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (0.00349);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (-0.0084552);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (-0.005);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (-0.0075361);
+                            }
+                        }
+                        if(sec == 3){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.027385);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.02);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-0.015027);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.014524);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (2.8544e-12);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.010999);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-0.015);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (0.005);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (0.0084148);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (0.01);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (0.0055991);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (-0.010668);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (-0.010227);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (-0.0064019);
+                            }
+                        }
+                        if(sec == 4){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.012915);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.015);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-0.015);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.0084149);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.0091235);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-0.0070069);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (0.0011843);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-0.005);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.0088171);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-0.0052478);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (0.005);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (0.0040997);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (0.01);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (0.015);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (-0.0057669);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (-0.0098353);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (-0.0069987);
+                            }
+                        }
+                        if(sec == 5){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.015);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.017453);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-0.015598);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-0.009637);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-0.0061192);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-0.0042108);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.005);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (0.005);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (0.005);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (0.0048165);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (2.7391e-10);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (-3.3162e-12);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (-0.0077807);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (0.0056473);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (0.0094693);
+                            }
+                        }
+                        if(sec == 6){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (-0.025);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.015);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.018783);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-0.02);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-0.01);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-0.0017191);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.006928);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-0.015);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-0.011629);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-0.0061836);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (0.0028732);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (1.1382e-11);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (-0.005);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (0.0066681);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (-0.005);
+                            }
+                        }
                     }
                 }
                 
-                if(corPro == 8){ // Correction based on each momentum slice (without energy loss corrections)
+                if(corPro == 8){ // Correction based on each momentum slice (with new exclusive cut (|MM2| < 0.2))
                     if(sec == 1){
                         if(0.45 < pp && pp < 0.5){
-                            dp = (0.01123);
+                            dp = (-7.4312e-11);
                         }
                         if(0.5 < pp && pp < 0.55){
-                            dp = (0.013562);
+                            dp = (0.01);
                         }
                         if(0.55 < pp && pp < 0.6){
-                            dp = (0.013624);
+                            dp = (0.01);
                         }
                         if(0.6 < pp && pp < 0.65){
-                            dp = (0.014539);
+                            dp = (0.01);
                         }
                         if(0.65 < pp && pp < 0.7){
-                            dp = (0.02);
+                            dp = (0.016996);
                         }
                         if(0.7 < pp && pp < 0.75){
-                            dp = (0.02);
+                            dp = (0.018437);
                         }
                         if(0.75 < pp && pp < 0.8){
-                            dp = (0.012263);
+                            dp = (0.01);
                         }
                         if(0.8 < pp && pp < 0.85){
-                            dp = (0.014836);
+                            dp = (0.01);
                         }
                         if(0.85 < pp && pp < 0.9){
-                            dp = (0.02);
+                            dp = (0.01);
                         }
                         if(0.9 < pp && pp < 0.95){
-                            dp = (0.02);
+                            dp = (0.0052936);
                         }
                         if(0.95 < pp && pp < 1.0){
-                            dp = (0.02);
+                            dp = (0.01);
                         }
                         if(1.0 < pp && pp < 1.25){
                             dp = (0.02);
                         }
                         if(1.25 < pp && pp < 1.5){
-                            dp = (0.0015552);
+                            dp = (1.9562e-10);
                         }
                         if(1.5 < pp && pp < 1.75){
-                            dp = (3.5744e-04);
+                            dp = (4.6509e-11);
                         }
                         if(1.75 < pp && pp < 2.0){
-                            dp = (-0.005);
+                            dp = (-0.010629);
                         }
                         if(2.0 < pp && pp < 2.25){
-                            dp = (-0.0038939);
+                            dp = (-2.3723e-10);
                         }
                         if(2.25 < pp && pp < 2.75){
                             dp = (0.01);
@@ -3670,187 +4656,187 @@ if(event_Name != "error"):
                     }
                     if(sec == 2){
                         if(0.45 < pp && pp < 0.5){
-                            dp = (0.012351);
+                            dp = (0.01);
                         }
                         if(0.5 < pp && pp < 0.55){
-                            dp = (0.013734);
+                            dp = (0.012049);
                         }
                         if(0.55 < pp && pp < 0.6){
-                            dp = (0.015132);
+                            dp = (0.014356);
                         }
                         if(0.6 < pp && pp < 0.65){
-                            dp = (0.013902);
+                            dp = (0.01);
                         }
                         if(0.65 < pp && pp < 0.7){
-                            dp = (0.01307);
+                            dp = (0.012726);
                         }
                         if(0.7 < pp && pp < 0.75){
-                            dp = (0.012338);
+                            dp = (0.01);
                         }
                         if(0.75 < pp && pp < 0.8){
                             dp = (0.01);
                         }
                         if(0.8 < pp && pp < 0.85){
-                            dp = (0.010163);
+                            dp = (0.0036561);
                         }
                         if(0.85 < pp && pp < 0.9){
                             dp = (0.01);
                         }
                         if(0.9 < pp && pp < 0.95){
-                            dp = (0.0040067);
+                            dp = (-2.8366e-14);
                         }
                         if(0.95 < pp && pp < 1.0){
-                            dp = (0.01);
+                            dp = (-1.0070e-10);
                         }
                         if(1.0 < pp && pp < 1.25){
-                            dp = (0.0029197);
+                            dp = (0.01);
                         }
                         if(1.25 < pp && pp < 1.5){
-                            dp = (0.010893);
+                            dp = (0.01);
                         }
                         if(1.5 < pp && pp < 1.75){
-                            dp = (-0.0020681);
+                            dp = (-0.01);
                         }
                         if(1.75 < pp && pp < 2.0){
                             dp = (0.005);
                         }
                         if(2.0 < pp && pp < 2.25){
-                            dp = (-0.012299);
+                            dp = (-0.01);
                         }
                         if(2.25 < pp && pp < 2.75){
-                            dp = (0.01);
+                            dp = (3.3980e-10);
                         }
                     }
                     if(sec == 3){
                         if(0.45 < pp && pp < 0.5){
-                            dp = (0.011883);
+                            dp = (0.0085381);
                         }
                         if(0.5 < pp && pp < 0.55){
-                            dp = (0.012983);
+                            dp = (0.0090808);
                         }
                         if(0.55 < pp && pp < 0.6){
-                            dp = (0.012554);
+                            dp = (0.0060518);
                         }
                         if(0.6 < pp && pp < 0.65){
-                            dp = (0.01);
+                            dp = (0.0059923);
                         }
                         if(0.65 < pp && pp < 0.7){
-                            dp = (0.01);
+                            dp = (0.0084798);
                         }
                         if(0.7 < pp && pp < 0.75){
-                            dp = (0.010972);
+                            dp = (0.0076231);
                         }
                         if(0.75 < pp && pp < 0.8){
-                            dp = (0.014404);
+                            dp = (0.01);
                         }
                         if(0.8 < pp && pp < 0.85){
-                            dp = (0.017351);
+                            dp = (0.01);
                         }
                         if(0.85 < pp && pp < 0.9){
-                            dp = (0.017659);
+                            dp = (0.01);
                         }
                         if(0.9 < pp && pp < 0.95){
-                            dp = (0.017966);
+                            dp = (0.02);
                         }
                         if(0.95 < pp && pp < 1.0){
-                            dp = (0.01);
+                            dp = (-0.01);
                         }
                         if(1.0 < pp && pp < 1.25){
-                            dp = (0.0083356);
+                            dp = (-0.01);
                         }
                         if(1.25 < pp && pp < 1.5){
-                            dp = (0.006261);
+                            dp = (6.8759e-08);
                         }
                         if(1.5 < pp && pp < 1.75){
-                            dp = (0.01);
+                            dp = (-0.01);
                         }
                         if(1.75 < pp && pp < 2.0){
                             dp = (0.005);
                         }
                         if(2.0 < pp && pp < 2.25){
-                            dp = (0.01);
+                            dp = (8.7633e-11);
                         }
                         if(2.25 < pp && pp < 2.75){
-                            dp = (4.1173e-09);
+                            dp = (5.1931e-12);
                         }
                     }
                     if(sec == 4){
                         if(0.45 < pp && pp < 0.5){
-                            dp = (0.012693);
+                            dp = (0.0056357);
                         }
                         if(0.5 < pp && pp < 0.55){
-                            dp = (0.010836);
+                            dp = (0.0058428);
                         }
                         if(0.55 < pp && pp < 0.6){
-                            dp = (0.01);
+                            dp = (0.0081993);
                         }
                         if(0.6 < pp && pp < 0.65){
-                            dp = (0.01);
+                            dp = (0.0089556);
                         }
                         if(0.65 < pp && pp < 0.7){
-                            dp = (0.010733);
+                            dp = (0.0046634);
                         }
                         if(0.7 < pp && pp < 0.75){
-                            dp = (0.012659);
+                            dp = (0.0055047);
                         }
                         if(0.75 < pp && pp < 0.8){
-                            dp = (0.014119);
+                            dp = (0.0093798);
                         }
                         if(0.8 < pp && pp < 0.85){
-                            dp = (0.02);
-                        }
-                        if(0.85 < pp && pp < 0.9){
-                            dp = (0.02);
-                        }
-                        if(0.9 < pp && pp < 0.95){
-                            dp = (0.02);
-                        }
-                        if(0.95 < pp && pp < 1.0){
-                            dp = (0.02);
-                        }
-                        if(1.0 < pp && pp < 1.25){
-                            dp = (0.02);
-                        }
-                        if(1.25 < pp && pp < 1.5){
-                            dp = (-7.4841e-09);
-                        }
-                        if(1.5 < pp && pp < 1.75){
-                            dp = (-0.0095873);
-                        }
-                        if(1.75 < pp && pp < 2.0){
-                            dp = (0.0084045);
-                        }
-                        if(2.0 < pp && pp < 2.25){
                             dp = (0.01);
                         }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.01);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.01);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (0.01);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (0.01);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (-0.01);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (-0.02);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (0.012419);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (2.9119e-12);
+                        }
                         if(2.25 < pp && pp < 2.75){
-                            dp = (9.6902e-09);
+                            dp = (-0.01);
                         }
                     }
                     if(sec == 5){
                         if(0.45 < pp && pp < 0.5){
-                            dp = (0.011873);
+                            dp = (-2.6028e-10);
                         }
                         if(0.5 < pp && pp < 0.55){
-                            dp = (0.011523);
+                            dp = (0.0049117);
                         }
                         if(0.55 < pp && pp < 0.6){
-                            dp = (0.01254);
+                            dp = (0.0073274);
                         }
                         if(0.6 < pp && pp < 0.65){
-                            dp = (0.013227);
+                            dp = (0.0083419);
                         }
                         if(0.65 < pp && pp < 0.7){
-                            dp = (0.011882);
+                            dp = (0.01);
                         }
                         if(0.7 < pp && pp < 0.75){
-                            dp = (0.010248);
+                            dp = (-6.3270e-13);
                         }
                         if(0.75 < pp && pp < 0.8){
-                            dp = (0.012743);
+                            dp = (0.01);
                         }
                         if(0.8 < pp && pp < 0.85){
-                            dp = (0.02);
+                            dp = (0.01);
                         }
                         if(0.85 < pp && pp < 0.9){
                             dp = (0.02);
@@ -3859,69 +4845,69 @@ if(event_Name != "error"):
                             dp = (0.01);
                         }
                         if(0.95 < pp && pp < 1.0){
-                            dp = (0.01);
+                            dp = (-3.0080e-11);
                         }
                         if(1.0 < pp && pp < 1.25){
                             dp = (0.01);
                         }
                         if(1.25 < pp && pp < 1.5){
-                            dp = (2.0017e-04);
+                            dp = (9.6874e-10);
                         }
                         if(1.5 < pp && pp < 1.75){
-                            dp = (-0.0038707);
+                            dp = (-0.019089);
                         }
                         if(1.75 < pp && pp < 2.0){
-                            dp = (-0.0075556);
+                            dp = (-0.015);
                         }
                         if(2.0 < pp && pp < 2.25){
-                            dp = (-0.0051937);
+                            dp = (-0.01);
                         }
                         if(2.25 < pp && pp < 2.75){
-                            dp = (-0.0070312);
+                            dp = (-0.018318);
                         }
                     }
                     if(sec == 6){
                         if(0.45 < pp && pp < 0.5){
-                            dp = (0.01265);
+                            dp = (-1.2613e-11);
                         }
                         if(0.5 < pp && pp < 0.55){
-                            dp = (0.014984);
+                            dp = (0.014062);
                         }
                         if(0.55 < pp && pp < 0.6){
-                            dp = (0.015205);
+                            dp = (0.01511);
                         }
                         if(0.6 < pp && pp < 0.65){
-                            dp = (0.014542);
+                            dp = (0.01);
                         }
                         if(0.65 < pp && pp < 0.7){
-                            dp = (0.01474);
+                            dp = (0.01);
                         }
                         if(0.7 < pp && pp < 0.75){
-                            dp = (0.016186);
+                            dp = (0.019064);
                         }
                         if(0.75 < pp && pp < 0.8){
-                            dp = (0.013448);
-                        }
-                        if(0.8 < pp && pp < 0.85){
-                            dp = (0.011864);
-                        }
-                        if(0.85 < pp && pp < 0.9){
-                            dp = (0.017077);
-                        }
-                        if(0.9 < pp && pp < 0.95){
                             dp = (0.02);
                         }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (0.01);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.01);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.018395);
+                        }
                         if(0.95 < pp && pp < 1.0){
-                            dp = (0.017459);
+                            dp = (0.010096);
                         }
                         if(1.0 < pp && pp < 1.25){
-                            dp = (0.0083508);
+                            dp = (-5.3104e-12);
                         }
                         if(1.25 < pp && pp < 1.5){
-                            dp = (1.3371e-07);
+                            dp = (1.6519e-09);
                         }
                         if(1.5 < pp && pp < 1.75){
-                            dp = (0.0087474);
+                            dp = (7.3725e-04);
                         }
                         if(1.75 < pp && pp < 2.0){
                             dp = (0.005);
@@ -3930,7 +4916,1151 @@ if(event_Name != "error"):
                             dp = (-0.02);
                         }
                         if(2.25 < pp && pp < 2.75){
-                            dp = (-0.0068833);
+                            dp = (-0.01);
+                        }
+                    }
+                    // =======================================     Refinements with Old Cuts     ======================================= //
+                    if(sec == 1){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (-0.027942);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (-0.02);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (-0.017727);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (-0.018227);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (-0.019137);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (-0.01);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (-0.0085849);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (-0.0083214);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (-0.0076428);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (-0.0083065);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (-0.013988);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (-0.01);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (6.4422e-12);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (-8.1260e-05);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (0.005);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (-0.0096005);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (-0.01316);
+                        }
+                    }
+                    if(sec == 2){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (-0.029984);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (-0.026625);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (-0.019963);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (-0.017848);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (-0.01);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (-0.01);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (-0.0086173);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (-0.0091684);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (-0.0058583);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (0.005);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (-0.005);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (-0.0060876);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (-0.0051109);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (0.00735);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (-0.005);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (0.0066393);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (0.005);
+                        }
+                    }
+                    if(sec == 3){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (-0.029155);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (-0.02);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (-0.016941);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (-0.016379);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (-0.01);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (-0.01);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (-0.01);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (-0.01);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (-0.014068);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (-0.005);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (0.0089903);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (0.0085133);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (-2.3560e-11);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (0.0075731);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (-0.0094564);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (-0.0058177);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (-0.0052369);
+                        }
+                    }
+                    if(sec == 4){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (-0.015);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (-0.025);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (-0.015);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (-0.01);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (-0.0097275);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (-0.01);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (-0.012622);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (-0.01081);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (-0.0091726);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (-0.011661);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (-0.014094);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (-0.0082875);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (0.01);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (0.015);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (-0.013673);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (0.005);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (0.005);
+                        }
+                    }
+                    if(sec == 5){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (-0.025);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (-0.02);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (-0.017404);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (-0.016382);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (-0.01);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (-0.0092589);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (-0.01);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (-0.01);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (-0.012515);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (-0.005);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (-0.006036);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (-0.0056029);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (0.0029782);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (0.01);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (0.0076877);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (-0.005);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (0.0055403);
+                        }
+                    }
+                    if(sec == 6){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (-0.029184);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (-0.025);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (-0.016657);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (-0.01);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (-0.016229);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (-0.018756);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (-0.01);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (-0.0082998);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (-0.01382);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (-0.014116);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (-0.005);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (-8.2321e-10);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (-1.2420e-11);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (-0.0047283);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (-0.005);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = dp + (0.012833);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = dp + (0.005);
+                        }
+                    }
+                }
+                if(corPro == 10 || corPro == 11){ // Correction based on each momentum slice (Version 2)
+                    if(sec == 1){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (-7.4312e-11);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (0.01);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (0.01);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (0.01);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (0.016996);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (0.0028929);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.0075);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (-0.001155);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.008814);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.0074449);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (-0.010845);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (-0.0025);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (-0.019406);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (-0.015332);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (-0.017342);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (-0.018183);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (-0.028557);
+                        }
+                    }
+                    if(sec == 2){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (0.01);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (-0.017922);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (-0.0036615);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (-0.0025);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (-0.006974);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (-0.0040121);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.011285);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (-0.0061409);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (-0.0026538);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.0080748);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (-0.0025);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (-0.0093783);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (0.0020999);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (3.4480e-04);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (-0.0049448);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (-0.012678);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (-0.0069719);
+                        }
+                    }
+                    if(sec == 3){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (0.0085381);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (0.0090808);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (0.0060518);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (0.0059923);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (0.0084798);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (0.0076231);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.01);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (0.01);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.01);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (-0.006313);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (0.022117);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (0.0078855);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (0.0125);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (0.0036982);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (-0.016336);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (8.7633e-11);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (-0.0109);
+                        }
+                    }
+                    if(sec == 4){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (0.0056357);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (0.0058428);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (0.0081993);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (0.0089556);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (0.0046634);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (0.0055047);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.0093798);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (0.01);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.01);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.01);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (0.01);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (0.0056994);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (0.0075);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (0.0098904);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (-0.0060692);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (0.005);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (-0.011295);
+                        }
+                    }
+                    if(sec == 5){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (-2.6028e-10);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (0.0049117);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (0.0073274);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (0.0083419);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (0.01);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (-6.3270e-13);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.01);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (0.01);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.02);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.01);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (-3.0080e-11);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (0.01);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (9.6874e-10);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (-0.019089);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (-0.015);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (-0.01);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (-0.018318);
+                        }
+                    }
+                    if(sec == 6){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = (-1.2613e-11);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = (0.014062);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = (0.01511);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = (0.01);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = (0.01);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = (0.019064);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = (0.02);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = (0.01);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = (0.01);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = (0.018395);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = (0.010096);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = (-8.4664e-12);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = (0.0064037);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = (0.0056894);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = (0.0096238);
+                        }
+                        if(2.0 < pp && pp < 2.25){
+                            dp = (-0.02);
+                        }
+                        if(2.25 < pp && pp < 2.75){
+                            dp = (-0.0125);
+                        }
+                    }
+                    
+                    // =======================================     Refinements without cuts     ======================================= //
+                    
+                    if(sec == 1){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (0.0084315);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (0.0050019);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (0.0057869);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (0.0046812);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (0.0071708);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (0.011709);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (0.012436);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (0.014368);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (0.007452);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (0.012436);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (0.012436);
+                        }
+                    }
+                    if(sec == 2){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (0.030631);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (0.025994);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (0.017748);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (0.014691);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (0.017752);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (0.0082397);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (0.0046455);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (0.0046455);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (0.0046455);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (0.0046455);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (0.0046455);
+                        }
+                    }
+                    if(sec == 3){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (0.0051397);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (0.0035474);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (0.0034197);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (0.0029979);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (0.0028054);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (0.0029933);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (0.0013555);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (0.0014152);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (0.007457);
+                        }
+                    }
+                    if(sec == 4){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (0.0078426);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (0.0052728);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (8.4034e-04);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (0.0017963);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (0.0019293);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (0.0020944);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (0.001689);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (0.0014401);
+                        }
+                    }
+                    if(sec == 5){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (0.0075001);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (0.0050126);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (0.0036773);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (0.0016987);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (0.0036964);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (0.0030682);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (0.0030682);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (0.0030682);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (0.0018697);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (0.0018697);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (0.0018697);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (0.0036964);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (0.0036964);
+                        }
+                    }
+                    if(sec == 6){
+                        if(0.45 < pp && pp < 0.5){
+                            dp = dp + (0.01116);
+                        }
+                        if(0.5 < pp && pp < 0.55){
+                            dp = dp + (0.01116);
+                        }
+                        if(0.55 < pp && pp < 0.6){
+                            dp = dp + (0.01116);
+                        }
+                        if(0.6 < pp && pp < 0.65){
+                            dp = dp + (0.0062951);
+                        }
+                        if(0.65 < pp && pp < 0.7){
+                            dp = dp + (0.0051388);
+                        }
+                        if(0.7 < pp && pp < 0.75){
+                            dp = dp + (0.0051388);
+                        }
+                        if(0.75 < pp && pp < 0.8){
+                            dp = dp + (0.0051388);
+                        }
+                        if(0.8 < pp && pp < 0.85){
+                            dp = dp + (0.0051388);
+                        }
+                        if(0.85 < pp && pp < 0.9){
+                            dp = dp + (0.0051388);
+                        }
+                        if(0.9 < pp && pp < 0.95){
+                            dp = dp + (0.0051388);
+                        }
+                        if(0.95 < pp && pp < 1.0){
+                            dp = dp + (0.0062951);
+                        }
+                        if(1.0 < pp && pp < 1.25){
+                            dp = dp + (0.0062951);
+                        }
+                        if(1.25 < pp && pp < 1.5){
+                            dp = dp + (0.0062951);
+                        }
+                        if(1.5 < pp && pp < 1.75){
+                            dp = dp + (0.0062951);
+                        }
+                        if(1.75 < pp && pp < 2.0){
+                            dp = dp + (0.0062951);
+                        }
+                    }
+                    
+//==================//=======================================     Refinements For Final Correction     =======================================//
+                    if(corPro == 11){
+                        if(sec == 1){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (0.0032238);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-2.0784e-04);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (0.0010965);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (-0.0012269);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-0.0015037);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (0.0015141);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (0.0015309);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (0.0043368);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (0.0022633);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (0.0046164);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (0.015204);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (0.0083456);
+                            }
+                        }
+                        if(sec == 2){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (0.0059567);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (0.006196);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (0.0017573);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (0.0011075);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (0.0053651);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (0.0029749);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (0.0037233);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (0.010133);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (0.0083556);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (0.0039278);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (0.010051);
+                            }
+                        }
+                        if(sec == 3){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (6.9670e-04);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (5.4424e-04);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (4.3451e-04);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (2.8968e-04);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (-6.6300e-04);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-7.3205e-05);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (2.8984e-04);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (6.3692e-04);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (0.0058949);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (0.0053996);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (-5.8068e-04);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-0.0015021);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (-0.0054621);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (0.001449);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (0.0070565);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (-0.0035413);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (0.0055068);
+                            }
+                        }
+                        if(sec == 4){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (0.0033399);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (0.0022257);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-2.6303e-04);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (2.2120e-04);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (4.0717e-04);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (1.8582e-04);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-9.0982e-04);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (0.0011315);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (0.0036228);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (0.0023682);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (0.0060595);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (0.005713);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (0.0024642);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (0.001497);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (-0.001317);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (-0.0015231);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (0.0047541);
+                            }
+                        }
+                        if(sec == 5){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (0.0016535);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (4.6649e-04);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (0.0012979);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (2.7825e-05);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (0.0012245);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (2.9172e-05);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-0.0032516);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-8.4837e-04);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (0.0022281);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (0.0038184);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (7.9725e-04);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-4.1466e-04);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (0.0033156);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (0.0037279);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (4.4757e-04);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (0.0023994);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (0.0023994);
+                            }
+                        }
+                        if(sec == 6){
+                            if(0.45 < pp && pp < 0.5){
+                                dp = dp + (0.0036862);
+                            }
+                            if(0.5 < pp && pp < 0.55){
+                                dp = dp + (-0.0045317);
+                            }
+                            if(0.55 < pp && pp < 0.6){
+                                dp = dp + (-0.001431);
+                            }
+                            if(0.6 < pp && pp < 0.65){
+                                dp = dp + (0.0023042);
+                            }
+                            if(0.65 < pp && pp < 0.7){
+                                dp = dp + (8.4403e-04);
+                            }
+                            if(0.7 < pp && pp < 0.75){
+                                dp = dp + (-0.0045579);
+                            }
+                            if(0.75 < pp && pp < 0.8){
+                                dp = dp + (-0.0016706);
+                            }
+                            if(0.8 < pp && pp < 0.85){
+                                dp = dp + (-0.0017198);
+                            }
+                            if(0.85 < pp && pp < 0.9){
+                                dp = dp + (-0.0086078);
+                            }
+                            if(0.9 < pp && pp < 0.95){
+                                dp = dp + (-7.8749e-04);
+                            }
+                            if(0.95 < pp && pp < 1.0){
+                                dp = dp + (0.0057313);
+                            }
+                            if(1.0 < pp && pp < 1.25){
+                                dp = dp + (-0.001211);
+                            }
+                            if(1.25 < pp && pp < 1.5){
+                                dp = dp + (-0.004281);
+                            }
+                            if(1.5 < pp && pp < 1.75){
+                                dp = dp + (-0.0090585);
+                            }
+                            if(1.75 < pp && pp < 2.0){
+                                dp = dp + (-0.0083043);
+                            }
+                            if(2.0 < pp && pp < 2.25){
+                                dp = dp + (0.015975);
+                            }
+                            if(2.25 < pp && pp < 2.75){
+                                dp = dp + (0.0096651);
+                            }
                         }
                     }
                 }
@@ -4450,8 +6580,14 @@ if(event_Name != "error"):
             coutN = 6
         elif("MMpro_SEF" in corPro):
             coutN = 7
-        elif("MMpro_SE_NoELC" in corPro):
+        elif("MMpro_SEC" in corPro):
             coutN = 8
+        elif("MMpro_SERC" in corPro):
+            coutN = 9
+        elif("MMpro_SRE" in corPro):
+            coutN = 10
+        elif("MMpro_SFRE" in corPro):
+            coutN = 11
         else:
             coutN = 1
         return coutN
@@ -5539,7 +7675,15 @@ if(event_Name != "error"):
             if('MMpro_SEF' in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Sliced - With Elastic Cors)'
             if('MMpro_SE_NoELC' in CorrectionNameIn):
-                CorrectionName4 = 'Pro Cor (Sliced - With Elastic Cors - Before Energy Loss)'
+                CorrectionName4 = 'Pro Cor (Sliced - With Elastic Cors - Before Energy Loss)' # Removed
+            if('MMpro_SEC' in CorrectionNameIn):
+                CorrectionName4 = 'Pro Cor (Sliced - With Elastic Cors - New Cut)'
+            if('MMpro_SERC' in CorrectionNameIn):
+                CorrectionName4 = 'Pro Cor (Sliced - With Elastic Cors and New Refined Cut)'
+            if('MMpro_SRE' in CorrectionNameIn):
+                CorrectionName4 = 'Pro Cor (Sliced - With Elastic Cors - Refined)'
+            if('MMpro_SFRE' in CorrectionNameIn):
+                CorrectionName4 = 'Pro Cor (Sliced - Elastic Cors - Refined - Final)'
             if('_NoELC' not in CorrectionNameIn):
                 CorrectionName4 = CorrectionName4.replace(")", " - Energy Loss Cor)")
 
@@ -5932,7 +8076,7 @@ if(event_Name != "error"):
     ############################################################################################################################################
 
     Calculated_Exclusive_Cuts = "esec != -2" # This statement is always true (avoids failure of calculated cuts if MM_type not defined properly)
-    Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4 = "esec != -2", "esec != -2", "esec != -2"
+    Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, Calculated_Exclusive_Cuts_V5, Calculated_Exclusive_Cuts_V6 = "esec != -2", "esec != -2", "esec != -2", "esec != -2", "esec != -2"
 
 
 
@@ -6402,6 +8546,30 @@ if(event_Name != "error"):
                 auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
                 auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
                 auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
+                auto MM_Vector = beam + targ - ele - pip0 - pro0;
+                auto cut_up = 0.2;
+                auto cut_down = -0.2;
+                return (MM_Vector.M2() < cut_up && MM_Vector.M2() > cut_down);
+            
+            """])
+            Calculated_Exclusive_Cuts_V5 = "".join(["""
+                auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
+                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+                auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+                auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
+                auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
+                auto MM_Vector = beam + targ - ele - pip0 - pro0;
+                auto cut_up = 0.15;
+                auto cut_down = -0.2;
+                return (MM_Vector.M2() < cut_up && MM_Vector.M2() > cut_down);
+            
+            """])
+            Calculated_Exclusive_Cuts_V6 = "".join(["""
+                auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
+                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+                auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+                auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
+                auto pro0 = ROOT::Math::PxPyPzMVector(prox_cor, proy_cor, proz_cor, 0.938);
                 auto MM_Vector = beam + targ - ele - pip0 - pro0;
                 auto cut_up = 0.2;
                 auto cut_down = -0.2;
@@ -6988,6 +9156,12 @@ if(event_Name != "error"):
         kinematicCuts.append(Calculated_Exclusive_Cuts_V3)
     if(Calculated_Exclusive_Cuts_V4 != "esec != -2"):
         kinematicCuts.append(Calculated_Exclusive_Cuts_V4)
+#     if(Calculated_Exclusive_Cuts_V5 != "esec != -2"):
+#         kinematicCuts.append(Calculated_Exclusive_Cuts_V5)
+    if(Calculated_Exclusive_Cuts_V6 != "esec != -2"):
+        kinematicCuts.append(Calculated_Exclusive_Cuts_V6)
+
+    
         
         
     def Cut_Function(Data_Frame, Input_Cut, Output_Type="Default"):
@@ -7001,6 +9175,10 @@ if(event_Name != "error"):
             Cut_Title = "Calculated Exclusivity Cuts (Based on Both Angles)"
         if(str(Input_Cut) == str(Calculated_Exclusive_Cuts_V4)):
             Cut_Title = "Missing Mass Squared Cut"
+        if(str(Input_Cut) == str(Calculated_Exclusive_Cuts_V5)):
+            Cut_Title = "Tighter Missing Mass Squared Cut"
+        if(str(Input_Cut) == str(Calculated_Exclusive_Cuts_V6)):
+            Cut_Title = "Corrected (EL) Missing Mass Squared Cut"
         if(str(Input_Cut) == str(CutChoice)):
             Cut_Title = "Azimuthal Kinematic Cut"
         if(CutChoice_2 not in ["", "none"] and str(Input_Cut) == str(CutChoice_2)):
@@ -7210,7 +9388,11 @@ if(event_Name != "error"):
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_REF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_REF']
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_REF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_REF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_QEF']
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_S_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SE_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_S_LEF', 'mmEF_PipMMEF_ProMMpro_SEF']
-            Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_S_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_S_LEF', 'mmEF_PipMMEF_ProMMpro_SEF']
+#             Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_S_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_S_LEF', 'mmEF_PipMMEF_ProMMpro_SEF']
+            Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_S_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEC_NoELC', 'mmEF_PipMMEF_ProMMpro_SERC_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_S_LEF', 'mmEF_PipMMEF_ProMMpro_SEF', 'mmEF_PipMMEF_ProMMpro_SEC', 'mmEF_PipMMEF_ProMMpro_SERC']
+            Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEC_NoELC', 'mmEF_PipMMEF_ProMMpro_SERC_NoELC', 'mmEF_PipMMEF_ProMMpro_SRE_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_SEF', 'mmEF_PipMMEF_ProMMpro_SEC', 'mmEF_PipMMEF_ProMMpro_SERC', 'mmEF_PipMMEF_ProMMpro_SRE']
+            Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEC_NoELC', 'mmEF_PipMMEF_ProMMpro_SERC_NoELC', 'mmEF_PipMMEF_ProMMpro_SRE_NoELC', 'mmEF_PipMMEF_ProMMpro_SFRE_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_SEF', 'mmEF_PipMMEF_ProMMpro_SEC', 'mmEF_PipMMEF_ProMMpro_SERC', 'mmEF_PipMMEF_ProMMpro_SRE', 'mmEF_PipMMEF_ProMMpro_SFRE']
+        
 #             Delta_P_histo_CorList = ['mmEF_PipMMEF_ProMMpro_SEF']
 #             Delta_P_histo_CorList = ['mm0']
         if(datatype == "Outbending"):
@@ -7523,8 +9705,10 @@ if(event_Name != "error"):
             # correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_QEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_QEF', 'mmEF_PipMMEF_ProMMpro_LEF']
             # correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_REF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_REF']
             # correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_EF_NoELC', 'mmEF_PipMMEF_ProMMpro_REF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_QEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_EF', 'mmEF_PipMMEF_ProMMpro_REF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_QEF']
-            correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_S_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_S_LEF', 'mmEF_PipMMEF_ProMMpro_SEF']
-#             correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_S_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SE_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_S_LEF', 'mmEF_PipMMEF_ProMMpro_SEF']
+            # correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_S_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_S_LEF', 'mmEF_PipMMEF_ProMMpro_SEF']
+            correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_S_LEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEC_NoELC', 'mmEF_PipMMEF_ProMMpro_SERC_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_LEF', 'mmEF_PipMMEF_ProMMpro_S_LEF', 'mmEF_PipMMEF_ProMMpro_SEF', 'mmEF_PipMMEF_ProMMpro_SEC', 'mmEF_PipMMEF_ProMMpro_SERC']
+            correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEC_NoELC', 'mmEF_PipMMEF_ProMMpro_SERC_NoELC', 'mmEF_PipMMEF_ProMMpro_SRE_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_SEF', 'mmEF_PipMMEF_ProMMpro_SEC', 'mmEF_PipMMEF_ProMMpro_SERC', 'mmEF_PipMMEF_ProMMpro_SRE']
+            correctionList = ['mm0_NoELC', 'mmEF_PipMMEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEF_NoELC', 'mmEF_PipMMEF_ProMMpro_SEC_NoELC', 'mmEF_PipMMEF_ProMMpro_SERC_NoELC', 'mmEF_PipMMEF_ProMMpro_SRE_NoELC', 'mmEF_PipMMEF_ProMMpro_SFRE_NoELC', 'mm0', 'mmEF_PipMMEF', 'mmEF_PipMMEF_ProMMpro_SEF', 'mmEF_PipMMEF_ProMMpro_SEC', 'mmEF_PipMMEF_ProMMpro_SERC', 'mmEF_PipMMEF_ProMMpro_SRE', 'mmEF_PipMMEF_ProMMpro_SFRE']
 #             correctionList = ['mmEF_PipMMEF_ProMMpro_SEF']
 #             correctionList = ['mm0']
             
@@ -7583,9 +9767,9 @@ if(event_Name != "error"):
 
 
 
-
+    binningList = ['1']
     # binningList = ['1','3','5']
-    binningList = ['1', '3']
+#     binningList = ['1', '3']
     # binningList = ['3']
     
     # if("E" in event_type):
@@ -7708,7 +9892,7 @@ if(event_Name != "error"):
 
     if(Run_Missing_Mass_Histos == "yes"):
         for Cuts in kinematicCuts:
-            # if(Cuts in [Calculated_Exclusive_Cuts if("E" not in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, "Both", "Both_2", "All"]):
+            # if(Cuts in [Calculated_Exclusive_Cuts if("E" not in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, Calculated_Exclusive_Cuts_V5, Calculated_Exclusive_Cuts_V6, "Both", "Both_2", "All"]):
             #     continue
             for particle in particle_plot_List:
                 for sector in SecRangeAll:
@@ -7746,7 +9930,7 @@ if(event_Name != "error"):
                                 
     if(Run_Invariant_Mass_Histos == 'yes'): 
         for Cuts in kinematicCuts:
-            if(Cuts in [Calculated_Exclusive_Cuts if("E" in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, "Both", "Both_2", "All"]):
+            if(Cuts in [Calculated_Exclusive_Cuts if("E" in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, Calculated_Exclusive_Cuts_V5, Calculated_Exclusive_Cuts_V6, "Both", "Both_2", "All"]):
                 continue
             for particle in particle_plot_List:
                 for particle_filter in particleList:
@@ -8088,7 +10272,7 @@ if(event_Name != "error"):
     
     if(Run_Missing_Mass_Histos == "yes"):
         for Cuts in kinematicCuts:
-            # if(Cuts in [Calculated_Exclusive_Cuts if("E" not in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, "Both", "Both_2", "All"]):
+            # if(Cuts in [Calculated_Exclusive_Cuts if("E" not in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, Calculated_Exclusive_Cuts_V5, Calculated_Exclusive_Cuts_V6, "Both", "Both_2", "All"]):
             #     continue
             #     # Do not plot variables with cuts applied to them that are based on themselves
             Cut_rdf, Cut_Title = Cut_Function(rdf, Cuts)
@@ -8151,7 +10335,7 @@ if(event_Name != "error"):
     
     if(Run_Invariant_Mass_Histos == 'yes'):
         for Cuts in kinematicCuts:
-            if(Cuts in [Calculated_Exclusive_Cuts if("E" in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, "Both", "Both_2", "All"]):
+            if(Cuts in [Calculated_Exclusive_Cuts if("E" in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, Calculated_Exclusive_Cuts_V5, Calculated_Exclusive_Cuts_V6, "Both", "Both_2", "All"]):
                 continue
                 # Do not plot variables with cuts applied to them that are based on themselves
             Cut_rdf, Cut_Title = Cut_Function(rdf, Cuts)
