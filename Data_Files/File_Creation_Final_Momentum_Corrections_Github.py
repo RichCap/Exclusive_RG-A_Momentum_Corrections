@@ -65,16 +65,24 @@ if("_MC" not in event_type):
 # Normal values used (rounded)
 Particle_Mass_Neutron = 0.9396
 Particle_Mass_Proton  = 0.938
-Particle_Mass_Pip     = 0.13957
-Particle_Mass_Pim     = 0.13957
+Particle_Mass_PiC     = 0.13957    # Mass of Charged Pions (same for pi+ and pi-)
 Particle_Mass_Pi0     = 0.13498
 
-# # Exact values used by PDGParticle (see: https://github.com/JeffersonLab/clas12-offline-software/blob/516f47374b25c86d4e65cbeb1009c3422906949a/common-tools/clas-physics/src/main/java/org/jlab/clas/pdg/PDGDatabase.java#L31)
-# Particle_Mass_Neutron = 0.939565379
-# Particle_Mass_Proton  = 0.938272046
-# Particle_Mass_Pip     = 0.13957018
-# Particle_Mass_Pim     = 0.13957018
-# Particle_Mass_Pi0     = 0.1349766
+if("_MC" in event_type):
+    # # Exact values used by PDGParticle (see: https://github.com/JeffersonLab/clas12-offline-software/blob/516f47374b25c86d4e65cbeb1009c3422906949a/common-tools/clas-physics/src/main/java/org/jlab/clas/pdg/PDGDatabase.java#L31)
+    Particle_Mass_Neutron = 0.9396
+    Particle_Mass_Neutron = 0.939565379
+
+    Particle_Mass_Proton  = 0.938
+    # Particle_Mass_Proton  = 0.938272046
+
+    Particle_Mass_PiC     = 0.13957    # Mass of Charged Pions (same for pi+ and pi-)
+    Particle_Mass_PiC     = 0.13957018 # Mass of Charged Pions (same for pi+ and pi-)
+
+    Particle_Mass_Pi0     = 0.13498
+    Particle_Mass_Pi0     = 0.1349766
+    print("".join(["Setting Masses as:\nParticle_Mass_Neutron = ", str(Particle_Mass_Neutron), "\nParticle_Mass_Proton  = ", str(Particle_Mass_Proton), "\nParticle_Mass_PiC     = ", str(Particle_Mass_PiC), "\nParticle_Mass_Pi0     = ", str(Particle_Mass_Pi0)]))
+
 
     
     
@@ -191,7 +199,7 @@ class root_color:
 event_Name = "error"
 
 if(event_type == "E0"):
-    print(color.RED + "ERROR: E0 is not the correct input type..." + color.END + "\n\tSetting to event_type = EO")
+    print("".join([color.RED, "ERROR: E0 is not the correct input type...", color.END, "\n\tSetting to event_type = EO"]))
     event_type = "EO"
 
 
@@ -210,7 +218,7 @@ if(event_type == "DP"):
 if("P0" in event_type):
     event_Name = "Pi0 Channel"
     if("MC" in event_type):
-        event_Name = "".join(["(MC) Pi0 Channel", " (+20 MeV)" if("MC_P" in event_type) else " (-20 MeV)" if("MC_M" in event_type) else ""])
+        event_Name = "".join(["(MC) Pi0 Channel", " (+20 MeV)" if("MC_P" in event_type) else " (-20 MeV)" if("MC_M" in event_type) else " (GEN)" if("_Gen" in event_type) else ""])
         event_type = "P0"
         Beam_Energy = 10.6 # MC Beam Energy
 
@@ -1074,6 +1082,23 @@ if(event_Name != "error"):
             
             Version_MC = "_VTesting_Delete"
             
+            Version_MC = "_VTesting_Delete_New"
+            # Updating the mass sig figs
+            
+            
+            Version_MC = "_V12"
+            # Plotting all terms in ∆P calculation
+            # Turning off exclusivity cuts
+            
+#             Version_MC = "_V13"
+#             # Using full sig figs all particles except electron
+
+            Version_MC = "_V14"
+            # Using reconstructed kinematics (not using full sig figs for proton)
+            # Changed binning for the square root term histograms
+            # Added cut on the square root term (instead of ∆P - cut is for less than 0.05)
+            
+            
             Extra_Part_of_Name = "".join(["_MC_Testing_Normal", str(Version_MC)])
             
             if("+20 MeV" in event_Name):
@@ -1105,6 +1130,21 @@ if(event_Name != "error"):
                 # Plotting the larger ∆P instead of the flipped choices
                 
                 Extra_Part_of_Name = "".join(["_MC_Testing_Minus", str(Version_MC)])
+                
+                
+                
+            if("(GEN)" in event_Name):
+                Version_MC = "_V1"
+                # First version to give the option to switch back-and-forth between the generated and reconstructed simulated events
+                # Made after "_V12"/"_V13" from above notes (ran just before "_V14")
+                # Last reconstructed version was "_V6" so all notes after that correspond to this group going forward
+                # Changed binning for the square root term histograms
+                
+                Version_MC = "_V2"
+                # Added cut on the square root term (instead of ∆P - cut is for less than 0.05)
+                # Ran with "_V14" for REC
+                
+                Extra_Part_of_Name = "".join(["_MC_GEN_Test", str(Version_MC)])
                 
     
     
@@ -1316,7 +1356,16 @@ if(event_Name != "error"):
 
 
     if(event_type not in ["SP", "MC", "EO"]):
-        if("MC" not in event_Name):
+#         if("MC" not in event_Name):
+#             if("prox" not in rdf.GetColumnNames() and "px" in rdf.GetColumnNames()):
+#                 rdf = rdf.Define("prox", "px")
+#             if("proy" not in rdf.GetColumnNames() and "py" in rdf.GetColumnNames()):
+#                 rdf = rdf.Define("proy", "py")
+#             if("proz" not in rdf.GetColumnNames() and "pz" in rdf.GetColumnNames()):
+#                 rdf = rdf.Define("proz", "pz")
+#             if("prosec" not in rdf.GetColumnNames() and "psec" in rdf.GetColumnNames()):
+#                 rdf = rdf.Define("prosec", "psec")
+        if("(GEN)" not in event_Name):
             if("prox" not in rdf.GetColumnNames() and "px" in rdf.GetColumnNames()):
                 rdf = rdf.Define("prox", "px")
             if("proy" not in rdf.GetColumnNames() and "py" in rdf.GetColumnNames()):
@@ -1326,6 +1375,7 @@ if(event_Name != "error"):
             if("prosec" not in rdf.GetColumnNames() and "psec" in rdf.GetColumnNames()):
                 rdf = rdf.Define("prosec", "psec")
         else:
+            print("".join([color.BOLD, color.RED, "\n\nPro is generated", color.END]))
             if("prox" not in rdf.GetColumnNames() and "px0" in rdf.GetColumnNames()):
                 rdf = rdf.Define("prox", "px0")
             if("proy" not in rdf.GetColumnNames() and "py0" in rdf.GetColumnNames()):
@@ -1399,7 +1449,8 @@ if(event_Name != "error"):
     #---------------# Electron #---------------#
     #------------------------------------------#
     try:
-        if("MC" not in event_Name):
+#         if("MC" not in event_Name):
+        if("(GEN)" not in event_Name):
             ##=====##    Momentum Magnitude    ##=====##
             rdf = rdf.Define("el", "sqrt(ex*ex + ey*ey + ez*ez)")
             ##=====##       Polar Angles       ##=====##
@@ -1417,7 +1468,7 @@ if(event_Name != "error"):
             rdf = rdf.Define("elPhiS", "elPhi - (30/el)")
             rdf = rdf.Define("elPhiNS", "(180/3.1415926)*atan2(ey, ex)") # 'NS' ==> No shifts (distribution will be from ±180˚)
         else:
-            # print("".join([color.BOLD, color.RED, "\n\nEl is generated\n\n", color.END]))
+            print("".join([color.BOLD, color.RED, "El is generated\n\n", color.END]))
             ##=====##    Momentum Magnitude    ##=====##
             rdf = rdf.Define("el", "sqrt(ex0*ex0 + ey0*ey0 + ez0*ez0)")
             ##=====##       Polar Angles       ##=====##
@@ -1624,11 +1675,13 @@ if(event_Name != "error"):
                 // corEl == 1 --> Final Version of Corrections
                 // corEl == 2 --> Modified/Extended Correction (using the Elastic Events - based of existing corrections)
                 // corEl == 3 --> New Extended Correction (using the Elastic Events - created from uncorrected ∆P Plots)
+                // corEl == 4 --> New Pass2 Corrections (Incomplete)
                 
             // corPip ==> Gives the 'generation' of the π+ Pion correction
                 // corPip == 0 --> No Correction
                 // corPip == 1 --> Old Version of Corrections
                 // corPip == 2 --> Final Version of Corrections
+                // corPip == 3 --> New Pass2 Corrections (Incomplete)
 
             // corPim ==> Gives the 'generation' of the π- Pion correction
                 // corPim == 0 --> No Correction
@@ -1808,7 +1861,7 @@ if(event_Name != "error"):
                     }
                 }
                 
-                if(corEl == 4){ // Pass 2 Corrections
+                if(corEl == 4){ // Pass 2 Corrections (i.e., 'mmP2')
                     if(sec == 1){
                         dp = (-4.3927e-04)*pp*pp + (5.8658e-04)*pp + (0.02801);
                     }
@@ -7306,6 +7359,7 @@ if(event_Name != "error"):
     #     // corEl == 1 --> Quad Momentum - Quad Phi (Final Version)
     #     // corEl == 2 --> Modified Electron Correction with extended range (Created using exsisting corrections (i.e., this is a refinement of those corrections) -- Quad Mom - Quad Phi -- Kinematic Coverage is from 0.95-9.95 GeV using both SP and EO channels)
     #     // corEl == 3 --> New Electron Correction with extended range (Created from Uncorrected Particles -- Quad Mom - Quad Phi -- Kinematic Coverage is from 0.95-9.95 GeV using both SP and EO channels)
+    #     // corEl == 4 --> New Electron Correction with pass2 data (Created from Uncorrected Particles -- Quad Mom -- does not use EO channels)
     def NameElCor(corEl, datatype):
         coutN = 0
         if('mm0' in corEl):
@@ -7325,13 +7379,16 @@ if(event_Name != "error"):
     #     // corPip == 0 --> No Correction
     #     // corPip == 1 --> Quad Momentum, Quad Phi (Old Version)
     #     // corPip == 2 --> Quad Momentum, Quad Phi (Final Version)
+    #     // corPip == 3 --> New Proton Correction with pass2 data (Created from Uncorrected Particles -- Quad Mom -- does not use EO channels)
     def NamePipCor(corPip, datatype):
         coutN = 0
         if("Pip" not in corPip):
             coutN = 0
         else:
             if("PipMMEF" in corPip):
-                coutN = 2                
+                coutN = 2
+            elif("PipMMP2" in corPip):
+                coutN = 3
             else:
                 coutN = 1
         return coutN
@@ -7437,21 +7494,26 @@ if(event_Name != "error"):
         Particles_for_Correction = "".join(["""
     auto fe = dppC(ex, ey, ez, esec, 0, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
     auto eleC = ROOT::Math::PxPyPzMVector(ex*fe, ey*fe, ez*fe, 0);
-        """]) if("MC" not in event_Name) else "".join(["""
+        """]) if("(GEN)" not in event_Name) else "".join(["""
     auto fe = dppC(ex0, ey0, ez0, esec, 0, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
     auto eleC = ROOT::Math::PxPyPzMVector(ex0*fe, ey0*fe, ez0*fe, 0);
         """])
+        
+#         if("MC" not in event_Name) else "".join(["""
+#     auto fe = dppC(ex0, ey0, ez0, esec, 0, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
+#     auto eleC = ROOT::Math::PxPyPzMVector(ex0*fe, ey0*fe, ez0*fe, 0);
+#         """])
 
         if("P0" not in Channel_Type and "E" not in Channel_Type and ("Mom_el" not in Out_Type and "Mom_pim" not in Out_Type and "Mom_pro" not in Out_Type)):
             Particles_for_Correction = "".join([Particles_for_Correction, """
     auto fpip = dppC(pipx, pipy, pipz, pipsec, 1, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
-    auto pipC = ROOT::Math::PxPyPzMVector(pipx*fpip, pipy*fpip, pipz*fpip, 0.13957);
+    auto pipC = ROOT::Math::PxPyPzMVector(pipx*fpip, pipy*fpip, pipz*fpip, """, str(Particle_Mass_PiC), """);//0.13957);
         """])
 
         if("DP" in Channel_Type and "E" not in Channel_Type and ("Mom_el" not in Out_Type and "Mom_pip" not in Out_Type and "Mom_pro" not in Out_Type)):
             Particles_for_Correction = "".join([Particles_for_Correction, """
     auto fpim = dppC(pimx, pimy, pimz, pimsec, 2, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
-    auto pimC = ROOT::Math::PxPyPzMVector(pimx*fpim, pimy*fpim, pimz*fpim, 0.13957);
+    auto pimC = ROOT::Math::PxPyPzMVector(pimx*fpim, pimy*fpim, pimz*fpim, """, str(Particle_Mass_PiC), """);//0.13957);
         """])
 
 
@@ -7576,20 +7638,20 @@ if(event_Name != "error"):
                     ##=====================##         ∆P (Single Pion - π+) Calculations         ##===================##
                     ##================================================================================================##
                     Calculation_Code_Choice = "".join([Calculation_Code_Choice, """
-                    
     double Proton_M  = """, str(Particle_Mass_Proton), """;
+    double Pion_C_M  = """, str(Particle_Mass_PiC), """;
     
     // Below are the kinematic calculations of the π+ momentum (from el+pro->el+Pip+N) based on the assumption that the π+ angle and electron reconstruction were measured by the detector correctly for exclusive events in the epipX channel
     // (The neutron is used as the "missing" particle)
 
-    auto termA = (neutronM2 - (Proton_M*Proton_M) - (0.13957*0.13957))/2;
+    auto termA = (neutronM2 - (Proton_M*Proton_M) - (Pion_C_M*Pion_C_M))/2;
     auto termB = Proton_M*(Beam_Energy - eleC.P()) - Beam_Energy*eleC.P()*(1 - cos(eleC.Theta()));
     auto termC = ((eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, pipC))) - (Beam_Energy*cos(pipC.Theta())));
 
-    auto sqrtTerm = ((termA - termB)*(termA - termB)) + (0.13957*0.13957)*((termC*termC) - ((0.938 + Beam_Energy - eleC.P())*(0.938 + Beam_Energy - eleC.P())));
-    auto denominator = ((0.938 + Beam_Energy - eleC.P()) + termC)*((0.938 + Beam_Energy - eleC.P()) - termC);
-    auto numeratorP = (termA - termB)*termC + (0.938 + Beam_Energy - eleC.P())*sqrt(sqrtTerm);
-    auto numeratorM = (termA - termB)*termC - (0.938 + Beam_Energy - eleC.P())*sqrt(sqrtTerm);
+    auto sqrtTerm = ((termA - termB)*(termA - termB)) + (Pion_C_M*Pion_C_M)*((termC*termC) - ((Proton_M + Beam_Energy - eleC.P())*(Proton_M + Beam_Energy - eleC.P())));
+    auto denominator = ((Proton_M + Beam_Energy - eleC.P()) + termC)*((Proton_M + Beam_Energy - eleC.P()) - termC);
+    auto numeratorP = (termA - termB)*termC + (Proton_M + Beam_Energy - eleC.P())*sqrt(sqrtTerm);
+    auto numeratorM = (termA - termB)*termC - (Proton_M + Beam_Energy - eleC.P())*sqrt(sqrtTerm);
 
     auto pip_CalculateP = numeratorP/denominator;
     auto pip_CalculateM = numeratorM/denominator;
@@ -7612,17 +7674,19 @@ if(event_Name != "error"):
                     ##=====================##         ∆P (Single Pion - Electron) Calculations         ##===================##
                     ##======================================================================================================##
                     Calculation_Code_Choice = "".join([Calculation_Code_Choice, """
-
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
+    double Pion_C_M  = """, str(Particle_Mass_PiC), """;
+    
     // Below are the kinematic calculations of the electron momentum (from el+pro->el+Pip+N) based on the assumption that the electron angle and π+ reconstruction were measured by the detector correctly for exclusive events in the epipX channel
     // (The neutron is used as the "missing" particle)
 
-    auto termA = ((neutronM2 - (0.938*0.938) - (0.13957*0.13957))/2) - 0.938*Beam_Energy;
+    auto termA = ((neutronM2 - (Proton_M*Proton_M) - (Pion_C_M*Pion_C_M))/2) - Proton_M*Beam_Energy;
         // termA --> (("Neutron Mass Squared" - "Proton Mass Squared" - "π+ Mass Squared")/2) - "Proton Mass"*"Initial Electron Beam Energy"
 
-    auto termB = pipC.E() - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, pipC)) - Beam_Energy*(1 - cos(eleC.Theta())) - 0.938;
+    auto termB = pipC.E() - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, pipC)) - Beam_Energy*(1 - cos(eleC.Theta())) - Proton_M;
         // termB --> "π+ Energy" - "π+ Momentum"*cos("Angle between Electron and π+") - "Initial Electron Beam Energy"*(1 - cos("Electron Theta")) - "Proton Mass"
 
-    auto termC = Beam_Energy*(pipC.E() - pipC.P()*cos(pipC.Theta())) + 0.938*pipC.E();
+    auto termC = Beam_Energy*(pipC.E() - pipC.P()*cos(pipC.Theta())) + Proton_M*pipC.E();
         // termC --> "Initial Electron Beam Energy"*("π+ Energy" - "π+ Momentum"*cos("π+ Theta")) + "Proton Mass"*"π+ Energy"
 
     auto pel_Calculated = (termA + termC)/termB;
@@ -7650,22 +7714,23 @@ if(event_Name != "error"):
                     ##=====================##         ∆P (Double Pion - Pro) Calculations         ##===================##
                     ##=================================================================================================##
                     Calculation_Code_Choice = "".join(["""
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
 
     // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pip+pim) based on the assumption that the proton angle and electron/π+ reconstruction were measured by the detector correctly for exclusive events in the ep->epπ+π- channel 
     // (π- is used as a "missing" particle)
 
-    auto termA1 = pipC.E() + eleC.P() - Beam_Energy - (0.938);
+    auto termA1 = pipC.E() + eleC.P() - Beam_Energy - Proton_M;
     // termA1 = "π+ Energy" + "Electron Momentum" - "Initial Beam Energy" - "Proton Mass"
 
     auto termB1 = Beam_Energy*cos(proC.Theta()) - eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC)) - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, proC));
     // termB1 = "Initial Beam Energy"*cos("Proton Theta Angle") - "Electron Momentum" * cos("Angle between the Proton and Electron") - "π+ Momentum" * cos("Angle between the Proton and π+")
 
-    auto termC1 = (0.938)*(Beam_Energy - eleC.P() - pipC.E() + (0.938)) - Beam_Energy*(eleC.P()*(1 - cos(eleC.Theta())) + (pipC.E() - pipC.P()*cos(pipC.Theta()))) + eleC.P()*(pipC.E() - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, eleC)));
+    auto termC1 = (Proton_M)*(Beam_Energy - eleC.P() - pipC.E() + (Proton_M)) - Beam_Energy*(eleC.P()*(1 - cos(eleC.Theta())) + (pipC.E() - pipC.P()*cos(pipC.Theta()))) + eleC.P()*(pipC.E() - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, eleC)));
     // termC1 = "Proton Mass"*("Initial Beam Energy" - "Electron Momentum" - "π+ Energy" + "Proton Mass") - "Initial Beam Energy" * ("Electron Momentum" * (1 - cos("Electron Angle")) + ("π+ Energy" - "π+ Momentum" * cos("π+ Angle"))) + "Electron Momentum" * ("π+ Energy" - "π+ Momentum" * cos("Angle between the π+ and Electron"))
 
     auto termA2 = (termA1*termA1 - termB1*termB1);
     auto termB2 = -2*termB1*termC1;
-    auto termC2 = termA1*termA1*(0.938)*(0.938) - termC1*termC1;
+    auto termC2 = termA1*termA1*(Proton_M)*(Proton_M) - termC1*termC1;
 
     auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
     auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
@@ -7690,7 +7755,7 @@ if(event_Name != "error"):
     auto Final_Output = pro_Calculate - proC.P();
     
     // auto beam_test      = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
-    // auto targ_test      = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+    // auto targ_test      = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_M);
     // 
     // auto cor_Factor     = ((Final_Output)/proC.P()) + 1;
     // auto cor_FactorM    = ((pro_CalculateM - proC.P())/proC.P()) + 1;
@@ -7700,11 +7765,11 @@ if(event_Name != "error"):
     // // auto cor_FactorM    = ((pro_CalculateM - pro_cor)/pro_cor);
     // // auto cor_FactorP    = ((pro_CalculateP - pro_cor)/pro_cor);
     // 
-    // auto pro_OG         = ROOT::Math::PxPyPzMVector(prox_cor, proy_cor, proz_cor, 0.938);
+    // auto pro_OG         = ROOT::Math::PxPyPzMVector(prox_cor, proy_cor, proz_cor, Proton_M);
     // 
-    // auto proC_Calc      = ROOT::Math::PxPyPzMVector(proC.Px()*cor_Factor,  proC.Py()*cor_Factor,  proC.Pz()*cor_Factor,  0.938);
-    // auto proC_Calc_M    = ROOT::Math::PxPyPzMVector(proC.Px()*cor_FactorM, proC.Py()*cor_FactorM, proC.Pz()*cor_FactorM, 0.938);
-    // auto proC_Calc_P    = ROOT::Math::PxPyPzMVector(proC.Px()*cor_FactorP, proC.Py()*cor_FactorP, proC.Pz()*cor_FactorP, 0.938);
+    // auto proC_Calc      = ROOT::Math::PxPyPzMVector(proC.Px()*cor_Factor,  proC.Py()*cor_Factor,  proC.Pz()*cor_Factor,  Proton_M);
+    // auto proC_Calc_M    = ROOT::Math::PxPyPzMVector(proC.Px()*cor_FactorM, proC.Py()*cor_FactorM, proC.Pz()*cor_FactorM, Proton_M);
+    // auto proC_Calc_P    = ROOT::Math::PxPyPzMVector(proC.Px()*cor_FactorP, proC.Py()*cor_FactorP, proC.Pz()*cor_FactorP, Proton_M);
     // 
     // auto MM2_Vec_OG     = beam_test + targ_test - eleC - pipC - pro_OG;
     // auto MM2_Vector     = beam_test + targ_test - eleC - pipC - proC;
@@ -7741,9 +7806,10 @@ if(event_Name != "error"):
     //     // }
     //     // std::cout<<"Proton Correction = "<<Cor_Name<<std::endl;
     //     
+    //     double Pion_C_M  = """, str(Particle_Mass_PiC), """;
     //     std::cout<<"Proton Correction = """, str(Correction), """"<<std::endl;
     //     std::cout<<"Sector = "<<prosec<<std::endl;
-    //     std::cout<<"Missing Mass Ideal                   = "<<(0.13957039*0.13957039)<<std::endl;
+    //     std::cout<<"Missing Mass Ideal                   = "<<(Pion_C_M*Pion_C_M)<<std::endl;
     //     std::cout<<"MM2_Test_OG (Measured)               = "<<MM2_Test_OG<<std::endl;
     //     std::cout<<"MM2_Test    (Measured - Corrected)   = "<<MM2_Test<<std::endl;
     //     std::cout<<"MM2_Test_Calc  (Corrected - New)     = "<<MM2_Test_Calc<<std::endl;
@@ -7765,23 +7831,24 @@ if(event_Name != "error"):
                     ##========================================================================================================================##
                     ##=====================##         ∆P (Double Pion - Pro) Calculations - Larger ∆P Calc Value         ##===================##
                     ##========================================================================================================================##
-                    Calculation_Code_Choice = """
-
+                    Calculation_Code_Choice = "".join(["""
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
+    
     // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pip+pim) based on the assumption that the proton angle and electron/π+ reconstruction were measured by the detector correctly for exclusive events in the ep->epπ+π- channel 
     // (π- is used as a "missing" particle)
 
-    auto termA1 = pipC.E() + eleC.P() - Beam_Energy - (0.938);
+    auto termA1 = pipC.E() + eleC.P() - Beam_Energy - Proton_M;
     // termA1 = "π+ Energy" + "Electron Momentum" - "Initial Beam Energy" - "Proton Mass"
 
     auto termB1 = Beam_Energy*cos(proC.Theta()) - eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC)) - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, proC));
     // termB1 = "Initial Beam Energy"*cos("Proton Theta Angle") - "Electron Momentum" * cos("Angle between the Proton and Electron") - "π+ Momentum" * cos("Angle between the Proton and π+")
 
-    auto termC1 = (0.938)*(Beam_Energy - eleC.P() - pipC.E() + (0.938)) - Beam_Energy*(eleC.P()*(1 - cos(eleC.Theta())) + (pipC.E() - pipC.P()*cos(pipC.Theta()))) + eleC.P()*(pipC.E() - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, eleC)));
+    auto termC1 = (Proton_M)*(Beam_Energy - eleC.P() - pipC.E() + (Proton_M)) - Beam_Energy*(eleC.P()*(1 - cos(eleC.Theta())) + (pipC.E() - pipC.P()*cos(pipC.Theta()))) + eleC.P()*(pipC.E() - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, eleC)));
     // termC1 = "Proton Mass"*("Initial Beam Energy" - "Electron Momentum" - "π+ Energy" + "Proton Mass") - "Initial Beam Energy" * ("Electron Momentum" * (1 - cos("Electron Angle")) + ("π+ Energy" - "π+ Momentum" * cos("π+ Angle"))) + "Electron Momentum" * ("π+ Energy" - "π+ Momentum" * cos("Angle between the π+ and Electron"))
 
     auto termA2 = (termA1*termA1 - termB1*termB1);
     auto termB2 = -2*termB1*termC1;
-    auto termC2 = termA1*termA1*(0.938)*(0.938) - termC1*termC1;
+    auto termC2 = termA1*termA1*(Proton_M)*(Proton_M) - termC1*termC1;
 
     auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
     auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
@@ -7805,7 +7872,7 @@ if(event_Name != "error"):
     auto Final_Output = pro_Calculate - proC.P();
     
     
-                        """
+                        """])
                     
                 if("D_p_S_pro" in Out_Type):
                     # print("".join([color.BOLD, "TEST SET ∆P", color.END]))
@@ -7813,23 +7880,24 @@ if(event_Name != "error"):
                     ##=====================##          ∆P (Double Pion - Pro) Calculations - Set ∆P Calc Value          ##===================##
                     ##=======================================================================================================================##
                     Calculation_Code_Choice = "".join(["""
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
 
     // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pip+pim) based on the assumption that the proton angle and electron/π+ reconstruction were measured by the detector correctly for exclusive events in the ep->epπ+π- channel 
     // (π- is used as a "missing" particle)
     // Uses condition which tries to use the Missing Mass value of each event to help select the ∆P value used
 
-    auto termA1 = pipC.E() + eleC.P() - Beam_Energy - (0.938);
+    auto termA1 = pipC.E() + eleC.P() - Beam_Energy - (Proton_M);
     // termA1 = "π+ Energy" + "Electron Momentum" - "Initial Beam Energy" - "Proton Mass"
 
     auto termB1 = Beam_Energy*cos(proC.Theta()) - eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC)) - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, proC));
     // termB1 = "Initial Beam Energy"*cos("Proton Theta Angle") - "Electron Momentum" * cos("Angle between the Proton and Electron") - "π+ Momentum" * cos("Angle between the Proton and π+")
 
-    auto termC1 = (0.938)*(Beam_Energy - eleC.P() - pipC.E() + (0.938)) - Beam_Energy*(eleC.P()*(1 - cos(eleC.Theta())) + (pipC.E() - pipC.P()*cos(pipC.Theta()))) + eleC.P()*(pipC.E() - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, eleC)));
+    auto termC1 = (Proton_M)*(Beam_Energy - eleC.P() - pipC.E() + (Proton_M)) - Beam_Energy*(eleC.P()*(1 - cos(eleC.Theta())) + (pipC.E() - pipC.P()*cos(pipC.Theta()))) + eleC.P()*(pipC.E() - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, eleC)));
     // termC1 = "Proton Mass"*("Initial Beam Energy" - "Electron Momentum" - "π+ Energy" + "Proton Mass") - "Initial Beam Energy" * ("Electron Momentum" * (1 - cos("Electron Angle")) + ("π+ Energy" - "π+ Momentum" * cos("π+ Angle"))) + "Electron Momentum" * ("π+ Energy" - "π+ Momentum" * cos("Angle between the π+ and Electron"))
 
     auto termA2 = (termA1*termA1 - termB1*termB1);
     auto termB2 = -2*termB1*termC1;
-    auto termC2 = termA1*termA1*(0.938)*(0.938) - termC1*termC1;
+    auto termC2 = termA1*termA1*(Proton_M)*(Proton_M) - termC1*termC1;
 
     auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
     auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
@@ -7850,11 +7918,12 @@ if(event_Name != "error"):
         // The above condition checks to see if the 2 possible values of ∆P will have the same sign (the signs would cancel to be positive if they are the same)
         // The following conditions would not matter if both values of ∆P would have the same sign
         auto beam_test = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
-        auto targ_test = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+        auto targ_test = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_M);
         auto MM2_Vec = beam_test + targ_test - eleC - pipC - proC;
         auto MM2_Val = MM2_Vec.M2();
-        // auto MM2_Tru = (0.13957*0.13957);
-        auto MM2_Dif = (0.13957*0.13957) - MM2_Val;
+        auto Pion_C_M  = """, str(Particle_Mass_PiC), """;
+        // auto MM2_Tru = (Pion_C_M*Pion_C_M);
+        auto MM2_Dif = (Pion_C_M*Pion_C_M) - MM2_Val;
         if((MM2_Dif < 0)){ // If the Measured Missing Mass is GREATER than the Ideal Missing Mass...
             if((pro_CalculateP - proC.P()) > 0){ // ∆P should be negative if MM2_Dif is also negative
                 pro_Calculate = pro_CalculateM;
@@ -7876,7 +7945,7 @@ if(event_Name != "error"):
         std::cout<<"====================================================================================================="<<std::endl;
         std::cout<<"(D_p_S_pro) Proton Correction = """, str(Correction), """"<<std::endl;
         std::cout<<"Sector = "<<prosec<<std::endl;
-        std::cout<<"MM2 (Ideal)              = "<<(0.13957*0.13957)<<std::endl;
+        std::cout<<"MM2 (Ideal)              = "<<(Pion_C_M*Pion_C_M)<<std::endl;
         std::cout<<"MM2 (Corrected)          = "<<MM2_Val<<std::endl;
         std::cout<<""<<std::endl;
         std::cout<<"proC.P()                 = "<<proC.P()<<std::endl;
@@ -7914,23 +7983,25 @@ if(event_Name != "error"):
                     ##=====================##          ∆P (Double Pion - Pro) Calculations - Flip ∆P Calc Value          ##===================##
                     ##========================================================================================================================##
                     Calculation_Code_Choice = "".join(["""
-
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
+    double Pion_C_M  = """, str(Particle_Mass_PiC), """;
+    
     // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pip+pim) based on the assumption that the proton angle and electron/π+ reconstruction were measured by the detector correctly for exclusive events in the ep->epπ+π- channel 
     // (π- is used as a "missing" particle)
     // Uses condition which tries to use the Missing Mass value of each event to help select the ∆P value used (Flips after a certian value of momentum)
 
-    auto termA1 = pipC.E() + eleC.P() - Beam_Energy - (0.938);
+    auto termA1 = pipC.E() + eleC.P() - Beam_Energy - (Proton_M);
     // termA1 = "π+ Energy" + "Electron Momentum" - "Initial Beam Energy" - "Proton Mass"
 
     auto termB1 = Beam_Energy*cos(proC.Theta()) - eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC)) - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, proC));
     // termB1 = "Initial Beam Energy"*cos("Proton Theta Angle") - "Electron Momentum" * cos("Angle between the Proton and Electron") - "π+ Momentum" * cos("Angle between the Proton and π+")
 
-    auto termC1 = (0.938)*(Beam_Energy - eleC.P() - pipC.E() + (0.938)) - Beam_Energy*(eleC.P()*(1 - cos(eleC.Theta())) + (pipC.E() - pipC.P()*cos(pipC.Theta()))) + eleC.P()*(pipC.E() - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, eleC)));
+    auto termC1 = (Proton_M)*(Beam_Energy - eleC.P() - pipC.E() + (Proton_M)) - Beam_Energy*(eleC.P()*(1 - cos(eleC.Theta())) + (pipC.E() - pipC.P()*cos(pipC.Theta()))) + eleC.P()*(pipC.E() - pipC.P()*cos(ROOT::Math::VectorUtil::Angle(pipC, eleC)));
     // termC1 = "Proton Mass"*("Initial Beam Energy" - "Electron Momentum" - "π+ Energy" + "Proton Mass") - "Initial Beam Energy" * ("Electron Momentum" * (1 - cos("Electron Angle")) + ("π+ Energy" - "π+ Momentum" * cos("π+ Angle"))) + "Electron Momentum" * ("π+ Energy" - "π+ Momentum" * cos("Angle between the π+ and Electron"))
 
     auto termA2 = (termA1*termA1 - termB1*termB1);
     auto termB2 = -2*termB1*termC1;
-    auto termC2 = termA1*termA1*(0.938)*(0.938) - termC1*termC1;
+    auto termC2 = termA1*termA1*(Proton_M)*(Proton_M) - termC1*termC1;
 
     auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
     auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
@@ -7951,11 +8022,11 @@ if(event_Name != "error"):
         // The above condition checks to see if the 2 possible values of ∆P will have the same sign (the signs would cancel to be positive if they are the same)
         // The following conditions would not matter if both values of ∆P would have the same sign
         auto beam_test = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
-        auto targ_test = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+        auto targ_test = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_M);
         auto MM2_Vec = beam_test + targ_test - eleC - pipC - proC;
         auto MM2_Val = MM2_Vec.M2();
-        // auto MM2_Tru = (0.13957*0.13957);
-        auto MM2_Dif = (0.13957*0.13957) - MM2_Val;
+        // auto MM2_Tru = (Pion_C_M*Pion_C_M);
+        auto MM2_Dif = (Pion_C_M*Pion_C_M) - MM2_Val;
         
         if((MM2_Dif < 0)){ // If the Measured Missing Mass is GREATER than the Ideal Missing Mass...
             if(proC.P() < 1.5){ // Switch directions after p = 1.5 GeV...
@@ -7998,7 +8069,7 @@ if(event_Name != "error"):
         std::cout<<"====================================================================================================="<<std::endl;
         std::cout<<"(D_p_F_pro) Proton Correction = """, str(Correction), """"<<std::endl;
         std::cout<<"Sector = "<<prosec<<std::endl;
-        std::cout<<"MM2 (Ideal)              = "<<(0.13957*0.13957)<<std::endl;
+        std::cout<<"MM2 (Ideal)              = "<<(Pion_C_M*Pion_C_M)<<std::endl;
         std::cout<<"MM2 (Corrected)          = "<<MM2_Val<<std::endl;
         std::cout<<""<<std::endl;
         std::cout<<"proC.P()                 = "<<proC.P()<<std::endl;
@@ -8044,31 +8115,36 @@ if(event_Name != "error"):
             ##===============||-----------------------||===============##
             ##=========================================================## 
             if(Channel_Type == "P0"):
-                if("D_pro" in Out_Type):
+                if("D_pro" in Out_Type or "D_p_a_pro" in Out_Type or "D_p_b_pro" in Out_Type or "D_p_c_pro" in Out_Type or "D_p_sqrt_pro" in Out_Type):
                     ##=====================================================================================================##
                     ##=====================##         ∆P (π0 Pion Channel - Pro) Calculations         ##===================##
                     ##=====================================================================================================##
                     Calculation_Code_Choice = "".join(["""
-    double pi0M2term = (0.13498*0.13498)/2;
+    // double pi0M2term = (0.13498*0.13498)/2;
+    double pi0M2term = (""", str(Particle_Mass_Pi0), """*""", str(Particle_Mass_Pi0), """)/2;
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
+    
     // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pi0) based on the assumption that the proton angle and electron reconstruction were measured by the detector correctly for exclusive events in the ep->epπ0 channel
     // (π0 is used as the "missing" particle)
 
 
-    auto termA1 = pi0M2term - (0.938)*((Beam_Energy) - eleC.P() + (0.938)) + (Beam_Energy)*eleC.P()*(1 - cos(eleC.Theta()));
+    auto termA1 = pi0M2term - (Proton_M)*((Beam_Energy) - eleC.P() + (Proton_M)) + (Beam_Energy)*eleC.P()*(1 - cos(eleC.Theta()));
         // termA1 = pi0M2term - "Proton Mass"*("Initial Beam Energy" - "Electron Momentum" + "Proton Mass") + "Initial Beam Energy"*"Electron Momentum"*(1 - cos("Electron Theta Angle"))
 
     auto termB1 = (Beam_Energy)*cos(proC.Theta()) - eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC));
         // termB1 = "Initial Beam Energy"*cos("Proton Theta Angle") - "Electron Momentum"*cos("Angle between the Proton and Electron")
 
-    auto termC1 = eleC.P() - (Beam_Energy) - (0.938);
+    auto termC1 = eleC.P() - (Beam_Energy) - (Proton_M);
         // termC1 = "Electron Momentum" - "Initial Beam Energy" - "Proton Mass"
 
     auto termA2 = (termB1*termB1 - termC1*termC1);
     auto termB2 = -2*termB1*termA1;
-    auto termC2 = termA1*termA1 - termC1*termC1*(0.938)*(0.938);
+    auto termC2 = termA1*termA1 - termC1*termC1*(Proton_M)*(Proton_M);
     
-    auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
-    auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
+    auto sqrtTerm = termB2*termB2 - 4*termA2*termC2;
+    
+    auto pro_CalculateP = (-termB2 + sqrt(sqrtTerm)) / (2*termA2);
+    auto pro_CalculateM = (-termB2 - sqrt(sqrtTerm)) / (2*termA2);
 
     auto pro_Calculate = pro_CalculateP;
 
@@ -8087,7 +8163,7 @@ if(event_Name != "error"):
     }
     auto Final_Output = pro_Calculate - proC.P();
     
-    """, """
+    """, "".join(["""
     if((termB2*termB2 - 4*termA2*termC2) < 0){
         std::cout<<"MAJOR ERROR IN ∆P CALCULATION"<<std::endl;
         std::cout<<"SQUARE ROOT TERM = "<<(termB2*termB2 - 4*termA2*termC2)<<std::endl;
@@ -8095,11 +8171,11 @@ if(event_Name != "error"):
         auto MM_Vector = beam + targ - eleC - proC;
         auto MM2_Value = MM_Vector.M2();
         auto fpro_new  = (pro_Calculate/proC.P());
-        auto proC_New  = ROOT::Math::PxPyPzMVector(prox*fpro_new, proy*fpro_new, proz*fpro_new, 0.938272046);// 0.938);
+        auto proC_New  = ROOT::Math::PxPyPzMVector(prox*fpro_new, proy*fpro_new, proz*fpro_new, Proton_M);
         auto MM_Vector_New = beam + targ - eleC - proC_New;
         auto MM2_Value_New = MM_Vector_New.M2();
         std::cout<<"Sector = "<<prosec<<std::endl;
-        std::cout<<"MM2 (Ideal)              = "<<(0.13498*0.13498)<<std::endl;
+        std::cout<<"MM2 (Ideal)              = "<<(""", str(Particle_Mass_Pi0), """*""", str(Particle_Mass_Pi0), """)<<std::endl;
         std::cout<<"MM2 (Initial)            = "<<MM2_Value<<std::endl;
         std::cout<<"MM2 (Corrected)          = "<<MM2_Value_New<<std::endl;
         std::cout<<""<<std::endl;
@@ -8118,8 +8194,10 @@ if(event_Name != "error"):
         std::cout<<"pro_z                    = "<<pz0<<std::endl;
         std::cout<<""<<std::endl;
     }
-                        """ if(False) else "", "".join(["""
+                        """]) if(False) else "", "".join(["""
     if(Final_Output > 0.007 || Final_Output < -0.007){
+    
+    // if(Final_Output > 0.005 || Final_Output < -0.005){
     // if(Final_Output < 0.086 && Final_Output > 0.084){
     // if((ex0 == 0.609115) && (ey0 == -1.74351) && (ez0 == 3.79649) && (esec == 6) && (px0 == -0.251199) && (py0 == 0.0714427) && (pz0 == 2.57867) && (psec == 4) && (g1x == -0.250953) && (g1y == 1.21755) && (g1z == 3.1962) && (g2x == -0.108286) && (g2y == 0.410871) && (g2z == 0.906975) && (g1sec == 3) && (g2sec == 3) && (run == 11) && (status == 127) && (dcx1 == -25.0513) && (dcy1 == 1.70499) && (dcz1 == 247.699)){
     // if((ex0 < 0.60912 && ex0 > 0.60910) && (ey0 < -1.74350 && ey0 > -1.74352) && (ez0 < 3.7965 && ez0 > 3.79640) && (esec == 6) && (px0 < -0.25118 && px0 > -0.2512) && (py0 == 0.0714427) && (pz0 == 2.57867) && (psec == 4) && (g1x == -0.250953) && (g1y == 1.21755) && (g1z == 3.1962) && (g2x == -0.108286) && (g2y == 0.410871) && (g2z == 0.906975) && (g1sec == 3) && (g2sec == 3) && (run == 11) && (status == 127) && (dcx1 == -25.0513) && (dcy1 == 1.70499) && (dcz1 == 247.699)){
@@ -8127,28 +8205,36 @@ if(event_Name != "error"):
         auto MM_Vector = beam + targ - eleC - proC;
         auto MM2_Value = MM_Vector.M2();
         auto fpro_new  = (pro_Calculate/proC.P());
-        auto proC_New  = ROOT::Math::PxPyPzMVector(prox*fpro_new, proy*fpro_new, proz*fpro_new, 0.938272046);// 0.938);
+        auto proC_New  = ROOT::Math::PxPyPzMVector(prox*fpro_new, proy*fpro_new, proz*fpro_new, Proton_M);
         auto MM_Vector_New = beam + targ - eleC - proC_New;
         auto MM2_Value_New = MM_Vector_New.M2();
         std::cout<<"====================================================================================================="<<std::endl;
-        std::cout<<"(D_pro) Proton Correction = """, str(Correction), """"<<std::endl;
+        std::cout<<"(""", str(Out_Type), """) Proton Correction = """, str(Correction), """"<<std::endl;
         std::cout<<"Sector = "<<prosec<<std::endl;
-        std::cout<<"MM2 (Ideal)              = "<<(0.13498*0.13498)<<std::endl;
-        std::cout<<"MM2 (Initial)            = "<<MM2_Value<<std::endl;
-        std::cout<<"MM2 (Corrected)          = "<<MM2_Value_New<<std::endl;
+        std::cout<<"MM2 (Ideal)               = "<<(""", str(Particle_Mass_Pi0), """*""", str(Particle_Mass_Pi0), """)<<std::endl;
+        std::cout<<"MM2 (Initial)             = "<<MM2_Value<<std::endl;
+        std::cout<<"MM2 (Corrected)           = "<<MM2_Value_New<<std::endl;
         std::cout<<""<<std::endl;
-        std::cout<<"proC.P()                 = "<<proC.P()<<std::endl;
-        std::cout<<"pro_CalculateP           = "<<pro_CalculateP<<std::endl;
-        std::cout<<"pro_CalculateM           = "<<pro_CalculateM<<std::endl;
-        std::cout<<"Best Calculated Momentum = "<<pro_Calculate<<std::endl;
+        std::cout<<"term_A                    = "<<termA2<<std::endl;
+        std::cout<<"term_B                    = "<<termB2<<std::endl;
+        std::cout<<"term_C                    = "<<termC2<<std::endl;
         std::cout<<""<<std::endl;
-        std::cout<<"proC_New.P() (Corrected) = "<<proC_New.P()<<std::endl;
+        std::cout<<"Top Term (Plus)           = "<<(-termB2 + sqrt(sqrtTerm))<<std::endl;
+        std::cout<<"Top Term (Minus)          = "<<(-termB2 - sqrt(sqrtTerm))<<std::endl;
+        std::cout<<"Square Root Term          = "<<(sqrtTerm)<<std::endl;
         std::cout<<""<<std::endl;
-        std::cout<<"∆P (pro_P - proC.P())    = "<<pro_CalculateP - proC.P()<<std::endl;
-        std::cout<<"∆P (pro_M - proC.P())    = "<<pro_CalculateM - proC.P()<<std::endl;
-        std::cout<<"Best ∆P                  = "<<pro_Calculate - proC.P()<<std::endl;
+        std::cout<<"proC.P()                  = "<<proC.P()<<std::endl;
+        std::cout<<"pro_CalculateP            = "<<pro_CalculateP<<std::endl;
+        std::cout<<"pro_CalculateM            = "<<pro_CalculateM<<std::endl;
+        std::cout<<"Best Calculated Momentum  = "<<pro_Calculate<<std::endl;
         std::cout<<""<<std::endl;
-        std::cout<<"fpro (New)               = "<<fpro_new<<std::endl;
+        std::cout<<"proC_New.P() (Corrected)  = "<<proC_New.P()<<std::endl;
+        std::cout<<""<<std::endl;
+        std::cout<<"∆P (pro_P - proC.P())     = "<<pro_CalculateP - proC.P()<<std::endl;
+        std::cout<<"∆P (pro_M - proC.P())     = "<<pro_CalculateM - proC.P()<<std::endl;
+        std::cout<<"Best ∆P                   = "<<pro_Calculate - proC.P()<<std::endl;
+        std::cout<<""<<std::endl;
+        std::cout<<"fpro (New)                = "<<fpro_new<<std::endl;
         std::cout<<"pro_x (Corrected)         = "<<prox*fpro_new<<std::endl;
         std::cout<<"pro_y (Corrected)         = "<<proy*fpro_new<<std::endl;
         std::cout<<"pro_z (Corrected)         = "<<proz*fpro_new<<std::endl;
@@ -8158,72 +8244,78 @@ if(event_Name != "error"):
         std::cout<<"ey_0                      = "<<ey0<<std::endl;
         std::cout<<"ez_0                      = "<<ez0<<std::endl;
         std::cout<<"e_sec                     = "<<esec<<std::endl;
-        std::cout<<"pro_x                     = "<<px0<<std::endl;
-        std::cout<<"pro_y                     = "<<py0<<std::endl;
-        std::cout<<"pro_z                     = "<<pz0<<std::endl;
-        std::cout<<"pro_sec                   = "<<psec<<std::endl;
-        std::cout<<"g1_x                      = "<<g1x<<std::endl;
-        std::cout<<"g1_y                      = "<<g1y<<std::endl;
-        std::cout<<"g1_z                      = "<<g1z<<std::endl;
-        std::cout<<"g2_x                      = "<<g2x<<std::endl;
-        std::cout<<"g2_y                      = "<<g2y<<std::endl;
-        std::cout<<"g2_z                      = "<<g2z<<std::endl;
-        std::cout<<"g1_sec                    = "<<g1sec<<std::endl;
-        std::cout<<"g2_sec                    = "<<g2sec<<std::endl;
-        std::cout<<"run_num                   = "<<run<<std::endl;
-        std::cout<<"status_num                = "<<status<<std::endl;
-        std::cout<<"dc_x1                     = "<<dcx1<<std::endl;
-        std::cout<<"dc_y1                     = "<<dcy1<<std::endl;
-        std::cout<<"dc_z1                     = "<<dcz1<<std::endl;
-        std::cout<<""<<std::endl;
-        std::cout<<"ex0_0_60912_ex0_0_60910   = "<<(ex0 < 0.60912 && ex0 > 0.60910)<<std::endl;
-        std::cout<<"ey0_1_74350_ey0_1_74352   = "<<(ey0 < -1.74350 && ey0 > -1.74352)<<std::endl;
-        std::cout<<"ez0_3_7965_ez0_3_79640    = "<<(ez0 < 3.7965 && ez0 > 3.79640)<<std::endl;
-        std::cout<<"esec_6                    = "<<(esec == 6)<<std::endl;
-        std::cout<<"px0_0_25118_px0_0_2512    = "<<(px0 < -0.25118 && px0 > -0.2512)<<std::endl;
-        std::cout<<"py0_0_0714427             = "<<((py0 < (0.0714427+0.0001) && py0 > (0.0714427-0.0001)))<<std::endl;
-        std::cout<<"pz0_2_57867               = "<<((pz0 < (2.57867+0.0001) && pz0 > (2.57867-0.0001)))<<std::endl;
-        std::cout<<"psec_4                    = "<<(psec == 4)<<std::endl;
-        std::cout<<"g1x_0_250953              = "<<((g1x < (-0.250953+0.0001) && g1x > (-0.250953-0.0001)))<<std::endl;
-        std::cout<<"g1y_1_21755               = "<<((g1y < (1.21755+0.0001) && g1y > (1.21755-0.0001)))<<std::endl;
-        std::cout<<"g1z_3_1962                = "<<((g1z < (3.1962+0.0001) && g1z > (3.1962-0.0001)))<<std::endl;
-        std::cout<<"g2x_0_108286              = "<<((g2x < (-0.108286+0.0001) && g2x > (-0.108286-0.0001)))<<std::endl;
-        std::cout<<"g2y_0_410871              = "<<((g2y < (0.410871+0.0001) && g2y > (0.410871-0.0001)))<<std::endl;
-        std::cout<<"g2z_0_906975              = "<<((g2z < (0.906975+0.0001) && g2z > (0.906975-0.0001)))<<std::endl;
-        std::cout<<"g1sec_3                   = "<<(g1sec == 3)<<std::endl;
-        std::cout<<"g2sec_3                   = "<<(g2sec == 3)<<std::endl;
-        std::cout<<"run_11                    = "<<(run == 11)<<std::endl;
-        std::cout<<"status_127                = "<<(status == 127)<<std::endl;
-        std::cout<<"dcx1_25_0513              = "<<((dcx1 < (-25.0513+0.0001) && dcx1 > (-25.0513-0.0001)))<<std::endl;
-        std::cout<<"dcy1_1_70499              = "<<((dcy1 < (1.70499+0.0001) && dcy1 > (1.70499-0.0001)))<<std::endl;
-        std::cout<<"dcz1_247_699              = "<<((dcz1 < (247.699+0.001) && dcz1 > (247.699-0.001)))<<std::endl;
+        std::cout<<"eleC.P()                  = "<<eleC.P()<<std::endl;
+        // std::cout<<"eleC.E()                  = "<<eleC.E()<<std::endl;
+        // std::cout<<"pro_x                     = "<<px0<<std::endl;
+        // std::cout<<"pro_y                     = "<<py0<<std::endl;
+        // std::cout<<"pro_z                     = "<<pz0<<std::endl;
+        // std::cout<<"pro_sec                   = "<<psec<<std::endl;
+        // std::cout<<"g1_x                      = "<<g1x<<std::endl;
+        // std::cout<<"g1_y                      = "<<g1y<<std::endl;
+        // std::cout<<"g1_z                      = "<<g1z<<std::endl;
+        // std::cout<<"g2_x                      = "<<g2x<<std::endl;
+        // std::cout<<"g2_y                      = "<<g2y<<std::endl;
+        // std::cout<<"g2_z                      = "<<g2z<<std::endl;
+        // std::cout<<"g1_sec                    = "<<g1sec<<std::endl;
+        // std::cout<<"g2_sec                    = "<<g2sec<<std::endl;
+        // std::cout<<"run_num                   = "<<run<<std::endl;
+        // std::cout<<"status_num                = "<<status<<std::endl;
+        // std::cout<<"dc_x1                     = "<<dcx1<<std::endl;
+        // std::cout<<"dc_y1                     = "<<dcy1<<std::endl;
+        // std::cout<<"dc_z1                     = "<<dcz1<<std::endl;
+        // std::cout<<""<<std::endl;
+        // std::cout<<"ex0_0_60912_ex0_0_60910   = "<<(ex0 < 0.60912 && ex0 > 0.60910)<<std::endl;
+        // std::cout<<"ey0_1_74350_ey0_1_74352   = "<<(ey0 < -1.74350 && ey0 > -1.74352)<<std::endl;
+        // std::cout<<"ez0_3_7965_ez0_3_79640    = "<<(ez0 < 3.7965 && ez0 > 3.79640)<<std::endl;
+        // std::cout<<"esec_6                    = "<<(esec == 6)<<std::endl;
+        // std::cout<<"px0_0_25118_px0_0_2512    = "<<(px0 < -0.25118 && px0 > -0.2512)<<std::endl;
+        // std::cout<<"py0_0_0714427             = "<<((py0 < (0.0714427+0.0001) && py0 > (0.0714427-0.0001)))<<std::endl;
+        // std::cout<<"pz0_2_57867               = "<<((pz0 < (2.57867+0.0001) && pz0 > (2.57867-0.0001)))<<std::endl;
+        // std::cout<<"psec_4                    = "<<(psec == 4)<<std::endl;
+        // std::cout<<"g1x_0_250953              = "<<((g1x < (-0.250953+0.0001) && g1x > (-0.250953-0.0001)))<<std::endl;
+        // std::cout<<"g1y_1_21755               = "<<((g1y < (1.21755+0.0001) && g1y > (1.21755-0.0001)))<<std::endl;
+        // std::cout<<"g1z_3_1962                = "<<((g1z < (3.1962+0.0001) && g1z > (3.1962-0.0001)))<<std::endl;
+        // std::cout<<"g2x_0_108286              = "<<((g2x < (-0.108286+0.0001) && g2x > (-0.108286-0.0001)))<<std::endl;
+        // std::cout<<"g2y_0_410871              = "<<((g2y < (0.410871+0.0001) && g2y > (0.410871-0.0001)))<<std::endl;
+        // std::cout<<"g2z_0_906975              = "<<((g2z < (0.906975+0.0001) && g2z > (0.906975-0.0001)))<<std::endl;
+        // std::cout<<"g1sec_3                   = "<<(g1sec == 3)<<std::endl;
+        // std::cout<<"g2sec_3                   = "<<(g2sec == 3)<<std::endl;
+        // std::cout<<"run_11                    = "<<(run == 11)<<std::endl;
+        // std::cout<<"status_127                = "<<(status == 127)<<std::endl;
+        // std::cout<<"dcx1_25_0513              = "<<((dcx1 < (-25.0513+0.0001) && dcx1 > (-25.0513-0.0001)))<<std::endl;
+        // std::cout<<"dcy1_1_70499              = "<<((dcy1 < (1.70499+0.0001) && dcy1 > (1.70499-0.0001)))<<std::endl;
+        // std::cout<<"dcz1_247_699              = "<<((dcz1 < (247.699+0.001) && dcz1 > (247.699-0.001)))<<std::endl;
         std::cout<<std::endl<<std::endl;
         std::cout<<"====================================================================================================="<<std::endl;
     }
-    """]) if(True or (str(Correction) in ["mm0"])) else ""])
+    """]) if((True and "(GEN)" in str(event_Name)) and not ("D_p_a_pro" in Out_Type or "D_p_b_pro" in Out_Type or "D_p_c_pro" in Out_Type or "D_p_sqrt_pro" in Out_Type)) else "", """
+    """, "Final_Output = termA2;" if("D_p_a_pro" in Out_Type) else "Final_Output = termB2;" if("D_p_b_pro" in Out_Type) else "Final_Output = termC2;" if("D_p_c_pro" in Out_Type) else "Final_Output = sqrtTerm;" if("D_p_sqrt_pro" in Out_Type) else ""])
                     
                     
                 if("D_p_L_pro" in Out_Type):
                     ##=================================================================================================================##
                     ##=====================##         ∆P (π0 Pion Channel - Pro) Calculations - Larger ∆P         ##===================##
                     ##=================================================================================================================##
-                    Calculation_Code_Choice = """
-    double pi0M2term = (0.13498*0.13498)/2;
+                    Calculation_Code_Choice = "".join(["""
+    // double pi0M2term = (0.13498*0.13498)/2;
+    double pi0M2term = (""", str(Particle_Mass_Pi0), """*""", str(Particle_Mass_Pi0), """)/2;
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
+    
     // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pi0) based on the assumption that the proton angle and electron reconstruction were measured by the detector correctly for exclusive events in the ep->epπ0 channel
     // (π0 is used as the "missing" particle)
 
-    auto termA1 = pi0M2term - (0.938)*((Beam_Energy) - eleC.P() + (0.938)) + (Beam_Energy)*eleC.P()*(1 - cos(eleC.Theta()));
+    auto termA1 = pi0M2term - (Proton_M)*((Beam_Energy) - eleC.P() + (Proton_M)) + (Beam_Energy)*eleC.P()*(1 - cos(eleC.Theta()));
         // termA1 = pi0M2term - "Proton Mass"*("Initial Beam Energy" - "Electron Momentum" + "Proton Mass") + "Initial Beam Energy"*"Electron Momentum"*(1 - cos("Electron Theta Angle"))
 
     auto termB1 = (Beam_Energy)*cos(proC.Theta()) - eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC));
         // termB1 = "Initial Beam Energy"*cos("Proton Theta Angle") - "Electron Momentum"*cos("Angle between the Proton and Electron")
 
-    auto termC1 = eleC.P() - (Beam_Energy) - (0.938);
+    auto termC1 = eleC.P() - (Beam_Energy) - (Proton_M);
         // termC1 = "Electron Momentum" - "Initial Beam Energy" - "Proton Mass"
 
     auto termA2 = (termB1*termB1 - termC1*termC1);
     auto termB2 = -2*termB1*termA1;
-    auto termC2 = termA1*termA1 - termC1*termC1*(0.938)*(0.938);
+    auto termC2 = termA1*termA1 - termC1*termC1*(Proton_M)*(Proton_M);
 
     auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
     auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
@@ -8246,34 +8338,36 @@ if(event_Name != "error"):
     
     auto Final_Output = pro_Calculate - proC.P();
     
-    """
+    """])
                     
                 if("D_p_G_pro" in Out_Type):
                     ##=================================================================================================================##
                     ##=====================##         ∆P (π0 Pion Channel - Pro) Calculations - Generated         ##===================##
                     ##=================================================================================================================##
-                    Calculation_Code_Choice = """
-
+                    Calculation_Code_Choice = "".join(["""
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
+    // double pi0M2term = (0.13498*0.13498)/2;
+    double pi0M2term = (""", str(Particle_Mass_Pi0), """*""", str(Particle_Mass_Pi0), """)/2;
+    
     // Generated Proton Momentum:
-    auto proG = ROOT::Math::PxPyPzMVector(px0, py0, pz0, 0.938);
+    auto proG = ROOT::Math::PxPyPzMVector(px0, py0, pz0, Proton_M);
 
-    double pi0M2term = (0.13498*0.13498)/2;
     // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pi0) based on the assumption that the proton angle and electron reconstruction were measured by the detector correctly for exclusive events in the ep->epπ0 channel
     // (π0 is used as the "missing" particle)
     // ∆P is calculated here using the generated momentums instead of reconstructed (for simulated data)
 
-    auto termA1 = pi0M2term - (0.938)*((Beam_Energy) - eleC.P() + (0.938)) + (Beam_Energy)*eleC.P()*(1 - cos(eleC.Theta()));
+    auto termA1 = pi0M2term - (Proton_M)*((Beam_Energy) - eleC.P() + (Proton_M)) + (Beam_Energy)*eleC.P()*(1 - cos(eleC.Theta()));
         // termA1 = pi0M2term - "Proton Mass"*("Initial Beam Energy" - "Electron Momentum" + "Proton Mass") + "Initial Beam Energy"*"Electron Momentum"*(1 - cos("Electron Theta Angle"))
 
     auto termB1 = (Beam_Energy)*cos(proC.Theta()) - eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC));
         // termB1 = "Initial Beam Energy"*cos("Proton Theta Angle") - "Electron Momentum"*cos("Angle between the Proton and Electron")
 
-    auto termC1 = eleC.P() - (Beam_Energy) - (0.938);
+    auto termC1 = eleC.P() - (Beam_Energy) - (Proton_M);
         // termC1 = "Electron Momentum" - "Initial Beam Energy" - "Proton Mass"
 
     auto termA2 = (termB1*termB1 - termC1*termC1);
     auto termB2 = -2*termB1*termA1;
-    auto termC2 = termA1*termA1 - termC1*termC1*(0.938)*(0.938);
+    auto termC2 = termA1*termA1 - termC1*termC1*(Proton_M)*(Proton_M);
 
     auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
     auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
@@ -8296,33 +8390,36 @@ if(event_Name != "error"):
 
     auto Final_Output = pro_Calculate - proG.P();
 
-                        """
+                        """])
                     
                     
                 if("D_p_gL_pro" in Out_Type):
                     ##=============================================================================================================================##
                     ##=====================##         ∆P (π0 Pion Channel - Pro) Calculations - Generated - Larger ∆P         ##===================##
                     ##=============================================================================================================================##
-                    Calculation_Code_Choice = """
+                    Calculation_Code_Choice = "".join(["""
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
+    // double pi0M2term = (0.13498*0.13498)/2;
+    double pi0M2term = (""", str(Particle_Mass_Pi0), """*""", str(Particle_Mass_Pi0), """)/2;
+                    
     // Generated Proton Momentum:
-    auto proG = ROOT::Math::PxPyPzMVector(px0, py0, pz0, 0.938);
+    auto proG = ROOT::Math::PxPyPzMVector(px0, py0, pz0, Proton_M);
 
-    double pi0M2term = (0.13498*0.13498)/2;
     // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pi0) based on the assumption that the proton angle and electron reconstruction were measured by the detector correctly for exclusive events in the ep->epπ0 channel
     // (π0 is used as the "missing" particle)
 
-    auto termA1 = pi0M2term - (0.938)*((Beam_Energy) - eleC.P() + (0.938)) + (Beam_Energy)*eleC.P()*(1 - cos(eleC.Theta()));
+    auto termA1 = pi0M2term - (Proton_M)*((Beam_Energy) - eleC.P() + (Proton_M)) + (Beam_Energy)*eleC.P()*(1 - cos(eleC.Theta()));
         // termA1 = pi0M2term - "Proton Mass"*("Initial Beam Energy" - "Electron Momentum" + "Proton Mass") + "Initial Beam Energy"*"Electron Momentum"*(1 - cos("Electron Theta Angle"))
 
     auto termB1 = (Beam_Energy)*cos(proC.Theta()) - eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC));
         // termB1 = "Initial Beam Energy"*cos("Proton Theta Angle") - "Electron Momentum"*cos("Angle between the Proton and Electron")
 
-    auto termC1 = eleC.P() - (Beam_Energy) - (0.938);
+    auto termC1 = eleC.P() - (Beam_Energy) - (Proton_M);
         // termC1 = "Electron Momentum" - "Initial Beam Energy" - "Proton Mass"
 
     auto termA2 = (termB1*termB1 - termC1*termC1);
     auto termB2 = -2*termB1*termA1;
-    auto termC2 = termA1*termA1 - termC1*termC1*(0.938)*(0.938);
+    auto termC2 = termA1*termA1 - termC1*termC1*(Proton_M)*(Proton_M);
 
     auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
     auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
@@ -8345,33 +8442,35 @@ if(event_Name != "error"):
     
     auto Final_Output = pro_Calculate - proG.P();
     
-    """
+    """])
 
 
                 if("D_pel" in Out_Type):
                     ##==========================================================================================================##
                     ##=====================##         ∆P (π0 Pion Channel - Electron) Calculations         ##===================##
                     ##==========================================================================================================##
-                    Calculation_Code_Choice = """
+                    Calculation_Code_Choice = "".join(["""
+                    
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
 
     // Below are the kinematic calculations of the electron momentum (from el+pro->el+pro+pi0) based on the assumption that the electron angle and proton reconstruction were measured by the detector correctly for exclusive events in the epπ0 channel
     // (π0 is used as the "missing" particle)
 
-
-    auto termA = (0.13498*0.13498)/2;
+    // auto termA = (0.13498*0.13498)/2;
+    auto termA = (""", str(Particle_Mass_Pi0), """*""", str(Particle_Mass_Pi0), """)/2;
         // termA --> "(Pi0 Mass Squared)/2"
 
-    auto termB = termA - (0.938)*((Beam_Energy) - proC.E() + (0.938)) + (Beam_Energy)*(proC.E() - proC.P()*cos(proC.Theta()));
+    auto termB = termA - (Proton_M)*((Beam_Energy) - proC.E() + (Proton_M)) + (Beam_Energy)*(proC.E() - proC.P()*cos(proC.Theta()));
         // termB --> "0.5*Pi0 Mass^2" - "Proton Mass" * ("Initial Electron Beam Energy" - "Proton Energy" + "Proton Mass") + "Initial Electron Beam Energy" * ("Proton Energy" - "Proton Momentum"*cos("Proton Theta"))
 
-    auto termC = proC.E() - 0.938 - proC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC)) - Beam_Energy*(1 - cos(eleC.Theta()));
+    auto termC = proC.E() - Proton_M - proC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC)) - Beam_Energy*(1 - cos(eleC.Theta()));
         // termC --> "Proton Energy" - "Proton Mass" - "Proton Momentum"*cos("Angle between Electron and Proton") - "Initial Electron Beam Energy"*(1 - cos("Electron Theta"))
 
     auto pel_Calculated = termB/termC;
 
     auto Final_Output = pel_Calculated - eleC.P();
 
-                    """
+                    """])
 
 
 
@@ -8391,7 +8490,8 @@ if(event_Name != "error"):
                     ##========================================================================================================##
                     ##=====================##         ∆P (Elastic Scattering - Pro) Calculations         ##===================##
                     ##========================================================================================================##
-                    Calculation_Code_Choice = """
+                    Calculation_Code_Choice = "".join(["""
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
 
     // Below are the kinematic calculations of the proton momentum (from el+pro->el'+pro') based on the assumption that the proton angle and electron reconstruction were measured by the detector correctly for elastic events in the ep->e'p' channel
 
@@ -8407,7 +8507,7 @@ if(event_Name != "error"):
 
     auto termA2 = (termB1*termB1 - termA1*termA1);
     auto termB2 = 2*termB1*termC1;
-    auto termC2 = termC1*termC1 - termA1*termA1*(0.938)*(0.938);
+    auto termC2 = termC1*termC1 - termA1*termA1*(Proton_M)*(Proton_M);
 
     auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
     auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
@@ -8423,28 +8523,28 @@ if(event_Name != "error"):
 
     auto Final_Output = pro_Calculate - proC.P();
 
-                        """
+                        """])
 
 
                 if("D_pel" in Out_Type):
                     ##=============================================================================================================##
                     ##=====================##         ∆P (Elastic Scattering - Electron) Calculations         ##===================##
                     ##=============================================================================================================##
-                    Calculation_Code_Choice = """
-                    
+                    Calculation_Code_Choice = "".join(["""
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
+    
     // Below are the kinematic calculations of the electron momentum (from el+pro->el'+pro') based on the assumption that the electron angle was measured by the detector correctly
     
-    auto termA = Beam_Energy*(1 - cos(eleC.Theta())) + 0.938;
+    auto termA = Beam_Energy*(1 - cos(eleC.Theta())) + Proton_M;
         // termA --> "Initial Electron Beam Energy"*(1 - cos("Electron Theta")) + "Proton Mass"
         
-    auto termB = Beam_Energy*0.938;
+    auto termB = Beam_Energy*Proton_M;
         // termB --> "Initial Electron Beam Energy" * "Proton Mass"
         
-
     auto pel_Calculated = termB/termA;
     
     auto Final_Output = pel_Calculated - eleC.P();
-                    """
+                    """])
 
 
         ##########################################################################################################
@@ -8463,14 +8563,15 @@ if(event_Name != "error"):
         if("D_Angle" in Out_Type):
             if("D_Angle_V1" in Out_Type):
                 try:
-                    Calculation_Code_Choice = "".join([Calculation_Code_Choice, """
+                    Calculation_Code_Choice = "".join([Calculation_Code_Choice, """                    
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
 
     // Below are the kinematic calculations of the proton angle (theta) (from elastic scattering) 
     // To be used for exclusivity cuts
 
     auto Pro_Th_Calc = (proC.Theta())*(180/3.1415926); // Initialize the calculated proton angle as the same value as the measured/corrected proton angle (converted to degrees)
 
-    Pro_Th_Calc = atan(0.938/((Beam_Energy + 0.938)*tan(eleC.Theta()/2)))*(180/3.1415926);
+    Pro_Th_Calc = atan(Proton_M/((Beam_Energy + Proton_M)*tan(eleC.Theta()/2)))*(180/3.1415926);
 
     auto Delta_Theta = ((proC.Theta())*(180/3.1415926)) - Pro_Th_Calc;
 
@@ -8483,13 +8584,14 @@ if(event_Name != "error"):
             elif("D_Angle_V2" in Out_Type):
                 try:
                     Calculation_Code_Choice = "".join([Calculation_Code_Choice, """
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
 
     // Below are the kinematic calculations of the proton angle (theta) (from elastic scattering) 
     // To be used for exclusivity cuts
 
     auto Pro_Th_Calc = (proC.Theta())*(180/3.1415926); // Initialize the calculated proton angle as the same value as the measured/corrected proton angle (converted to degrees)
 
-    Pro_Th_Calc = acos(((Beam_Energy + 0.938)*(proC.E() - + 0.938))/(Beam_Energy*proC.P()))*(180/3.1415926);
+    Pro_Th_Calc = acos(((Beam_Energy + Proton_M)*(proC.E() - + Proton_M))/(Beam_Energy*proC.P()))*(180/3.1415926);
 
     auto Delta_Theta = ((proC.Theta())*(180/3.1415926)) - Pro_Th_Calc;
 
@@ -8547,17 +8649,18 @@ if(event_Name != "error"):
 #     auto Final_Output = Delta_Theta;
 #                     """])
                     Calculation_Code_Choice = "".join([Calculation_Code_Choice, """
-
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
+    
     // Below are the kinematic calculations of the proton angle (theta) (from elastic scattering) 
     // To be used for exclusivity cuts
 
     auto Pro_Th_Calc = (proC.Theta())*(180/3.1415926); // Initialize the calculated proton angle as the same value as the measured/corrected proton angle (converted to degrees)
 
-    auto Calc_P_El = (Beam_Energy*0.938)/((Beam_Energy*(1 - cos(eleC.Theta()))) + 0.938);
+    auto Calc_P_El = (Beam_Energy*Proton_M)/((Beam_Energy*(1 - cos(eleC.Theta()))) + Proton_M);
     auto Calc_Terms_1 = Beam_Energy*Calc_P_El*(1 - cos(eleC.Theta()));
     
-    auto denomintator = Beam_Energy*sqrt(Calc_Terms_1*Calc_Terms_1 - 2*Calc_Terms_1*0.938*0.938);
-    auto numerator = (Beam_Energy + 0.938)*(Calc_Terms_1 - 2*0.938*0.938);
+    auto denomintator = Beam_Energy*sqrt(Calc_Terms_1*Calc_Terms_1 - 2*Calc_Terms_1*Proton_M*Proton_M);
+    auto numerator = (Beam_Energy + Proton_M)*(Calc_Terms_1 - 2*Proton_M*Proton_M);
 
     auto Pro_Th_Calc_P = acos((numerator/denomintator))*(180/3.1415926);
     auto Pro_Th_Calc_M = acos(-(numerator/denomintator))*(180/3.1415926);
@@ -8598,13 +8701,14 @@ if(event_Name != "error"):
                 # print("Defaulting to Verion 1 of ∆Theta Calculation")
                 try:
                     Calculation_Code_Choice = "".join([Calculation_Code_Choice, """
-
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
+    
     // Below are the kinematic calculations of the proton angle (theta) (from elastic scattering) 
     // To be used for exclusivity cuts
 
     auto Pro_Th_Calc = (proC.Theta())*(180/3.1415926); // Initialize the calculated proton angle as the same value as the measured/corrected proton angle (converted to degrees)
 
-    Pro_Th_Calc = atan(0.938/((Beam_Energy + 0.938)*tan(eleC.Theta()/2)))*(180/3.1415926);
+    Pro_Th_Calc = atan(Proton_M/((Beam_Energy + Proton_M)*tan(eleC.Theta()/2)))*(180/3.1415926);
 
     auto Delta_Theta = ((proC.Theta())*(180/3.1415926)) - Pro_Th_Calc;
 
@@ -8646,7 +8750,7 @@ if(event_Name != "error"):
     // Defined by the run group/data set
 
     auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
-    auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);""", Particles_for_Correction, """
+    auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);""", Particles_for_Correction, """
         """, Calculation_Code_Choice, """
     return Final_Output;
         """])
@@ -8689,7 +8793,7 @@ if(event_Name != "error"):
             
             print("".join([color.BLUE, color.BOLD, "\nINPUTS: CorDpp('Data_Frame', '", str(Correction), "', '", str(Out_Type), "', '", str(Channel_Type), "', '", str(MM_Type), "', '", str(Data_Type), "', '", str(Extra_Cut), "')", color.END]))
             print("".join([color.RED, color.BOLD, "ERROR GIVEN: \n", str(e), color.END, "\n\n"]))
-            print("".join([color.RED, color.BOLD, "TRACEBACK: \n", str(traceback.format_exc()), color.END, "\n\n"]))
+            print("".join([color.RED, color.BOLD, "TRACEBACK: \n", color.END, color.RED, str(traceback.format_exc()), color.END, "\n\n"]))
             
 
         
@@ -8936,6 +9040,8 @@ if(event_Name != "error"):
                 CorrectionName2 = 'Pi+ Cor (Quad - Quad Phi)'
             if('MMEF' in CorrectionNameIn):
                 CorrectionName2 = 'Pi+ Cor (Quad - Quad Phi - With Elastic Cors)'
+            if('MMP2' in CorrectionNameIn):
+                CorrectionName1 = 'Pi+ Cor (Quad - Pass 2)'
 
         if('Pim' not in CorrectionNameIn):
             CorrectionName3 = 'No Pi- Cor' if(event_type in ["DP"]) else ""
@@ -9406,11 +9512,10 @@ if(event_Name != "error"):
         if("In" in datatype):
 
             Calculated_Exclusive_Cuts = "".join(["""
-            
                 auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
-                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-                auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-                auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
+                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);//0.938);
+                auto ele  = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+                auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, """, str(Particle_Mass_PiC), """);//0.13957);
 
                 auto MM_Vector = beam + targ - ele - pip0;
 
@@ -9626,9 +9731,9 @@ if(event_Name != "error"):
             Calculated_Exclusive_Cuts = "".join(["""
             
                 auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
-                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-                auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-                auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
+                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);//0.938);
+                auto ele  = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+                auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, """, str(Particle_Mass_PiC), """);//0.13957);
 
                 auto MM_Vector = beam + targ - ele - pip0;
 
@@ -9858,10 +9963,10 @@ if(event_Name != "error"):
         if("In" in datatype):
             Calculated_Exclusive_Cuts_V4 = "".join(["""
                 auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
-                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-                auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-                auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
-                auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
+                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);//0.938);
+                auto ele  = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+                auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, """, str(Particle_Mass_PiC), """);//0.13957);
+                auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, """, str(Particle_Mass_Proton), """);//0.938);
                 auto MM_Vector = beam + targ - ele - pip0 - pro0;
                 auto cut_up = 0.2;
                 auto cut_down = -0.2;
@@ -9870,18 +9975,18 @@ if(event_Name != "error"):
             """])
             Calculated_Exclusive_Cuts_V5 = "".join([str(Correction_Code_Full_In), """
                 auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
-                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);//0.938);
                 
                 auto fe = dppC(ex, ey, ez, esec, 0, 3, 2, 0, 0) + 1;
                 auto eleC = ROOT::Math::PxPyPzMVector(ex*fe, ey*fe, ez*fe, 0);
                 
                 auto fpip = dppC(pipx, pipy, pipz, pipsec, 1, 3, 2, 0, 0) + 1;
-                auto pipC = ROOT::Math::PxPyPzMVector(pipx*fpip, pipy*fpip, pipz*fpip, 0.13957);
+                auto pipC = ROOT::Math::PxPyPzMVector(pipx*fpip, pipy*fpip, pipz*fpip, """, str(Particle_Mass_PiC), """);//0.13957);
                 
                 // auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-                // auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
+                // auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, """, str(Particle_Mass_PiC), """);//0.13957);
                 
-                auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
+                auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, """, str(Particle_Mass_Proton), """);//0.938);
                 auto MM_Vector = beam + targ - eleC - pipC - pro0;
                 auto cut_up = 0.2;
                 auto cut_down = -0.2;
@@ -9889,10 +9994,10 @@ if(event_Name != "error"):
             """])
             Calculated_Exclusive_Cuts_V6 = "".join(["""
                 auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
-                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);//0.938);
                 auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-                auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
-                auto pro0 = ROOT::Math::PxPyPzMVector(prox_cor, proy_cor, proz_cor, 0.938);
+                auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, """, str(Particle_Mass_PiC), """);//0.13957);
+                auto pro0 = ROOT::Math::PxPyPzMVector(prox_cor, proy_cor, proz_cor, """, str(Particle_Mass_Proton), """);//0.938);
                 auto MM_Vector = beam + targ - ele - pip0 - pro0;
                 auto cut_up = 0.2;
                 auto cut_down = -0.2;
@@ -9901,10 +10006,10 @@ if(event_Name != "error"):
             """])
             Calculated_Exclusive_Cuts = "".join(["""
                 auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
-                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
+                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);//0.938);
                 auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-                auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
-                auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
+                auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, """, str(Particle_Mass_PiC), """);//0.13957);
+                auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, """, str(Particle_Mass_Proton), """);//0.938);
                 auto MM_Vector = beam + targ - ele - pip0 - pro0;
                 auto cut_up = 0.2;
                 auto cut_down = -0.2;
@@ -9951,10 +10056,10 @@ if(event_Name != "error"):
         if("Out" in datatype):
             Calculated_Exclusive_Cuts = "".join(["""
                 auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
-                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-                auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-                auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, 0.13957);
-                auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
+                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);//0.938);
+                auto ele  = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+                auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, """, str(Particle_Mass_PiC), """);//0.13957);
+                auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, """, str(Particle_Mass_Proton), """);//0.938);
                 auto MM_Vector = beam + targ - ele - pip0 - pro0;
                 auto cut_up = 0.2;
                 auto cut_down = -0.2;
@@ -10014,26 +10119,28 @@ if(event_Name != "error"):
 
         if("In" in datatype):
             Calculated_Dp_Cut = "".join(["""
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
     auto Beam_Energy = """, str(Beam_Energy), """;
-    auto eleC = ROOT::Math::PxPyPzMVector(ex0, ey0, ez0, 0);
-    auto proC = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
+    auto eleC = ROOT::Math::PxPyPzMVector(""", "ex, ey, ez" if("(GEN)" not in str(event_Name)) else "ex0, ey0, ez0", """, 0);
+    auto proC = ROOT::Math::PxPyPzMVector(prox, proy, proz, Proton_M);
             
-    double pi0M2term = (0.13498*0.13498)/2;
+    // double pi0M2term = (0.13498*0.13498)/2;
+    double pi0M2term = (""", str(Particle_Mass_Pi0), """*""", str(Particle_Mass_Pi0), """)/2;
     // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pi0) based on the assumption that the proton angle and electron reconstruction were measured by the detector correctly for exclusive events in the ep->epπ0 channel
     // (π0 is used as the "missing" particle)
 
-    auto termA1 = pi0M2term - (0.938)*((Beam_Energy) - eleC.P() + (0.938)) + (Beam_Energy)*eleC.P()*(1 - cos(eleC.Theta()));
+    auto termA1 = pi0M2term - (Proton_M)*((Beam_Energy) - eleC.P() + (Proton_M)) + (Beam_Energy)*eleC.P()*(1 - cos(eleC.Theta()));
         // termA1 = pi0M2term - "Proton Mass"*("Initial Beam Energy" - "Electron Momentum" + "Proton Mass") + "Initial Beam Energy"*"Electron Momentum"*(1 - cos("Electron Theta Angle"))
 
     auto termB1 = (Beam_Energy)*cos(proC.Theta()) - eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC));
         // termB1 = "Initial Beam Energy"*cos("Proton Theta Angle") - "Electron Momentum"*cos("Angle between the Proton and Electron")
 
-    auto termC1 = eleC.P() - (Beam_Energy) - (0.938);
+    auto termC1 = eleC.P() - (Beam_Energy) - (Proton_M);
         // termC1 = "Electron Momentum" - "Initial Beam Energy" - "Proton Mass"
 
     auto termA2 = (termB1*termB1 - termC1*termC1);
     auto termB2 = -2*termB1*termA1;
-    auto termC2 = termA1*termA1 - termC1*termC1*(0.938)*(0.938);
+    auto termC2 = termA1*termA1 - termC1*termC1*(Proton_M)*(Proton_M);
 
     auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
     auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
@@ -10057,57 +10164,75 @@ if(event_Name != "error"):
     auto Delta_P_Cut = pro_Calculate - proC.P();
     return (Delta_P_Cut > 0.05 || Delta_P_Cut < -0.05);
     """])
+#             Calculated_Dp_Cut_V2 = "".join(["""
+#     double Proton_M  = """, str(Particle_Mass_Proton), """;
+#     auto Beam_Energy = """, str(Beam_Energy), """;
+#     auto eleC = ROOT::Math::PxPyPzMVector(""", "ex, ey, ez" if("(GEN)" not in str(event_Name)) else "ex0, ey0, ez0", """, 0);
+#     auto proC = ROOT::Math::PxPyPzMVector(prox, proy, proz, Proton_M);  
+#     double pi0M2term = (""", str(Particle_Mass_Pi0), """*""", str(Particle_Mass_Pi0), """)/2;
+#     // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pi0) based on the assumption that the proton angle and electron reconstruction were measured by the detector correctly for exclusive events in the ep->epπ0 channel
+#     // (π0 is used as the "missing" particle)
+#     auto termA1 = pi0M2term - (Proton_M)*((Beam_Energy) - eleC.P() + (Proton_M)) + (Beam_Energy)*eleC.P()*(1 - cos(eleC.Theta()));
+#         // termA1 = pi0M2term - "Proton Mass"*("Initial Beam Energy" - "Electron Momentum" + "Proton Mass") + "Initial Beam Energy"*"Electron Momentum"*(1 - cos("Electron Theta Angle"))
+#     auto termB1 = (Beam_Energy)*cos(proC.Theta()) - eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC));
+#         // termB1 = "Initial Beam Energy"*cos("Proton Theta Angle") - "Electron Momentum"*cos("Angle between the Proton and Electron")
+#     auto termC1 = eleC.P() - (Beam_Energy) - (Proton_M);
+#         // termC1 = "Electron Momentum" - "Initial Beam Energy" - "Proton Mass"
+#     auto termA2 = (termB1*termB1 - termC1*termC1);
+#     auto termB2 = -2*termB1*termA1;
+#     auto termC2 = termA1*termA1 - termC1*termC1*(Proton_M)*(Proton_M);
+#     auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
+#     auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
+#     auto pro_Calculate = pro_CalculateP;
+#     if(abs(proC.P() - pro_CalculateP) <= abs(proC.P() - pro_CalculateM)){
+#         pro_Calculate = pro_CalculateP;
+#     }
+#     else{
+#         pro_Calculate = pro_CalculateM;
+#     }
+#     if(pro_CalculateP < 0){
+#         pro_Calculate = pro_CalculateM;
+#     }
+#     if(pro_CalculateM < 0){
+#         pro_Calculate = pro_CalculateP;
+#     }
+#     auto Delta_P_Cut = pro_Calculate - proC.P();
+#     return (Delta_P_Cut > 0.005 || Delta_P_Cut < -0.005);
+#     """])
             Calculated_Dp_Cut_V2 = "".join(["""
+    double Proton_M  = """, str(Particle_Mass_Proton), """;
     auto Beam_Energy = """, str(Beam_Energy), """;
-    auto eleC = ROOT::Math::PxPyPzMVector(ex0, ey0, ez0, 0);
-    auto proC = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
+    auto eleC = ROOT::Math::PxPyPzMVector(""", "ex, ey, ez" if("(GEN)" not in str(event_Name)) else "ex0, ey0, ez0", """, 0);
+    auto proC = ROOT::Math::PxPyPzMVector(prox, proy, proz, Proton_M);
             
-    double pi0M2term = (0.13498*0.13498)/2;
+    double pi0M2term = (""", str(Particle_Mass_Pi0), """*""", str(Particle_Mass_Pi0), """)/2;
     // Below are the kinematic calculations of the proton momentum (from el+pro->el+pro+pi0) based on the assumption that the proton angle and electron reconstruction were measured by the detector correctly for exclusive events in the ep->epπ0 channel
     // (π0 is used as the "missing" particle)
 
-    auto termA1 = pi0M2term - (0.938)*((Beam_Energy) - eleC.P() + (0.938)) + (Beam_Energy)*eleC.P()*(1 - cos(eleC.Theta()));
+    auto termA1 = pi0M2term - (Proton_M)*((Beam_Energy) - eleC.P() + (Proton_M)) + (Beam_Energy)*eleC.P()*(1 - cos(eleC.Theta()));
         // termA1 = pi0M2term - "Proton Mass"*("Initial Beam Energy" - "Electron Momentum" + "Proton Mass") + "Initial Beam Energy"*"Electron Momentum"*(1 - cos("Electron Theta Angle"))
 
     auto termB1 = (Beam_Energy)*cos(proC.Theta()) - eleC.P()*cos(ROOT::Math::VectorUtil::Angle(eleC, proC));
         // termB1 = "Initial Beam Energy"*cos("Proton Theta Angle") - "Electron Momentum"*cos("Angle between the Proton and Electron")
 
-    auto termC1 = eleC.P() - (Beam_Energy) - (0.938);
+    auto termC1 = eleC.P() - (Beam_Energy) - (Proton_M);
         // termC1 = "Electron Momentum" - "Initial Beam Energy" - "Proton Mass"
 
     auto termA2 = (termB1*termB1 - termC1*termC1);
     auto termB2 = -2*termB1*termA1;
-    auto termC2 = termA1*termA1 - termC1*termC1*(0.938)*(0.938);
+    auto termC2 = termA1*termA1 - termC1*termC1*(Proton_M)*(Proton_M);
+    
+    auto sqrt_Term = termB2*termB2 - 4*termA2*termC2;
 
-    auto pro_CalculateP = (-termB2 + sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
-    auto pro_CalculateM = (-termB2 - sqrt(termB2*termB2 - 4*termA2*termC2)) / (2*termA2);
-
-    auto pro_Calculate = pro_CalculateP;
-
-    if(abs(proC.P() - pro_CalculateP) <= abs(proC.P() - pro_CalculateM)){
-        pro_Calculate = pro_CalculateP;
-    }
-    else{
-        pro_Calculate = pro_CalculateM;
-    }
-
-    if(pro_CalculateP < 0){
-        pro_Calculate = pro_CalculateM;
-    }
-    if(pro_CalculateM < 0){
-        pro_Calculate = pro_CalculateP;
-    }
-
-    auto Delta_P_Cut = pro_Calculate - proC.P();
-    return (Delta_P_Cut > 0.005 || Delta_P_Cut < -0.005);
+    return (sqrt_Term > 0.05);
     """])
             
             Calculated_Exclusive_Cuts = "".join(["""
-
+                double Proton_M  = """, str(Particle_Mass_Proton), """;
                 auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
-                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-                """, "auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);" if("MC" not in event_Name) else "auto ele = ROOT::Math::PxPyPzMVector(ex0, ey0, ez0, 0);", """
-                auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
+                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_M);
+                auto ele  = ROOT::Math::PxPyPzMVector(""", "ex, ey, ez" if("(GEN)" not in str(event_Name)) else "ex0, ey0, ez0", """, 0);
+                auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, Proton_M);
 
                 auto MM_Vector = beam + targ - ele - pro0;
 
@@ -10180,11 +10305,11 @@ if(event_Name != "error"):
             
         if("Out" in datatype):
             Calculated_Exclusive_Cuts = "".join(["""
-
+                double Proton_M  = """, str(Particle_Mass_Proton), """;
                 auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
-                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, 0.938);
-                """, "auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);" if("MC" not in event_Name) else "auto ele = ROOT::Math::PxPyPzMVector(ex0, ey0, ez0, 0);", """
-                auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, 0.938);
+                auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_M);
+                auto ele  = ROOT::Math::PxPyPzMVector(""", "ex, ey, ez" if("(GEN)" not in str(event_Name)) else "ex0, ey0, ez0", """, 0);
+                auto pro0 = ROOT::Math::PxPyPzMVector(prox, proy, proz, Proton_M);
 
                 auto MM_Vector = beam + targ - ele - pro0;
 
@@ -10272,7 +10397,7 @@ if(event_Name != "error"):
         Calculated_Exclusive_Cuts = "".join(["""        
         // For Invariant Mass Cut (Determined with the help of Azimuthal Kinematic Cut applied on the invariant mass histogram):
         auto Beam_Energy = """, str(Beam_Energy), """;
-        auto Proton_Mass = 0.938;
+        auto Proton_M  = """, str(Particle_Mass_Proton), """;
         auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
         auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
         auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
@@ -10511,7 +10636,7 @@ if(event_Name != "error"):
         """])
         Calculated_Exclusive_Cuts_V2 = "".join(["""
         auto Beam_Energy = """, str(Beam_Energy), """;
-        auto Proton_Mass = 0.938;
+        auto Proton_M  = """, str(Particle_Mass_Proton), """;
         auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
         auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
         auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
@@ -10576,8 +10701,10 @@ if(event_Name != "error"):
 #         # kinematicCuts = [Calculated_Dp_Cut, Calculated_Dp_Cut_V2]
 #         kinematicCuts = [Calculated_Dp_Cut]
 
-
-    
+    if("(GEN)" in event_Name):
+        kinematicCuts = ["", Calculated_Dp_Cut_V2]
+    elif("MC" in event_Name):
+        kinematicCuts.append(Calculated_Dp_Cut_V2)
         
         
     def Cut_Function(Data_Frame, Input_Cut, Output_Type="Default"):
@@ -10611,6 +10738,8 @@ if(event_Name != "error"):
             Cut_Title = "Large Dp Cut"
         if(str(Input_Cut) == str(Calculated_Dp_Cut_V2)):
             Cut_Title = "|Dp| < 0.005 GeV Cut"
+            Cut_Title = "Square Root Term Cut"
+            
 
             
         if(Output_Type == "Title"):
@@ -10945,6 +11074,7 @@ if(event_Name != "error"):
     elif(('pro' in Delta_P_histo_CompareList) and (event_type in ["P0"]) and ("MC" in event_Name)):
         extra_Dp_calc = ["D_p", "D_p_L", "D_p_G", "D_p_gL"]
         extra_Dp_calc = ["D_p", "D_p_L"]
+        extra_Dp_calc = ["D_p", "D_p_L", "D_p_a", "D_p_b", "D_p_c", "D_p_sqrt"]
     else:
         extra_Dp_calc = ["D_p"]
 
@@ -11541,13 +11671,11 @@ if(event_Name != "error"):
                             Erdf_MM = CorDpp(Erdf_MM, correction, "MM", event_type, MM_type, datatype, "")
                             # Erdf_MM = CorDpp(Erdf_MM, correction, "D_pro", event_type, MM_type, datatype, "")
                             # Erdf_MM = CorDpp(Erdf_MM, correction, "D_p_L_pro", event_type, MM_type, datatype, "")
-
                         elif("D_p_L" not in calc_option):
                             Erdf    = CorDpp(Erdf, correction, "".join([calc_option, "_pro"]), event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
                             Erdf_MM = CorDpp(Erdf, correction, "MM", event_type, MM_type, datatype, "")
                             Erdf_MM = CorDpp(Erdf_MM, correction, "D_p_L_pro", event_type, MM_type, datatype, "")
                             Erdf_MM = CorDpp(Erdf_MM, correction, "D_pro", event_type, MM_type, datatype, "")
-
                         else:
                             Erdf    = CorDpp(Erdf, correction, "".join([calc_option, "_pro"]), event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
                             Erdf_MM = CorDpp(Erdf, correction, "MM", event_type, MM_type, datatype, "")
@@ -11622,47 +11750,77 @@ if(event_Name != "error"):
 
                                             if(binningEL != '1'):
                                                 sdf = regFilter(sdf, binningEL, secEL, regionEL, 'S', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", 'el')
-                                                histoName             = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title)
-                                                histoName_3D          = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "MM_3D")
-                                                histoName_3D_Dp       = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_3D")
-                                                histoName_3D_Theta    = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "MM_Theta")
-                                                histoName_3D_Theta_Dp = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_Theta")
+                                                histoName               = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title)
+                                                histoName_3D            = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "MM_3D")
+                                                histoName_3D_Dp         = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_3D")
+                                                histoName_3D_Theta      = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "MM_Theta")
+                                                histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_Theta")
+                                                histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_3D_Theta")
+                                                histoName_3D_Electron   = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_Electron")
+                                                histoName_3D_El_Theta   = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_El_Theta")
                                             elif("D_p_L" in calc_option):
-                                                histoName             = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp")
-                                                histoName_3D          = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "MM_3D")
-                                                histoName_3D_Dp       = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "Dp_MM_3D")
-                                                histoName_3D_Theta    = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Larger_Dp", "MM_Theta")
-                                                histoName_3D_Theta_Dp = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Larger_Dp", "Dp_MM_Theta")
+                                                histoName               = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp")
+                                                histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "MM_3D")
+                                                histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "Dp_MM_3D")
+                                                histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "MM_Theta")
+                                                histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "Dp_MM_Theta")
+                                                histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "Dp_3D_Theta")
+                                                histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "Dp_Electron")
+                                                histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "Dp_El_Theta")
                                             elif("No_C" in calc_option):
-                                                histoName             = (correction, '', SecName, binning, region, Cut_Title, "No_C")
-                                                histoName_3D          = (correction, '', SecName, binning, region, Cut_Title, "No_C", "MM_3D")
-                                                histoName_3D_Dp       = (correction, '', SecName, binning, region, Cut_Title, "No_C", "Dp_3D")
-                                                histoName_3D_Theta    = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "No_C", "MM_Theta")
-                                                histoName_3D_Theta_Dp = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "No_C", "Dp_Theta")
+                                                histoName               = (correction, '', SecName, binning, region, Cut_Title, "No_C")
+                                                histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, "No_C", "MM_3D")
+                                                histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, "No_C", "Dp_3D")
+                                                histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, "No_C", "MM_Theta")
+                                                histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, "No_C", "Dp_Theta")
+                                                histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, "No_C", "Dp_3D_Theta")
+                                                histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, "No_C", "Dp_Electron")
+                                                histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, "No_C", "Dp_El_Theta")
                                             elif("S" in calc_option):
-                                                histoName             = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp")
-                                                histoName_3D          = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "MM_3D")
-                                                histoName_3D_Dp       = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "Dp_3D")
-                                                histoName_3D_Theta    = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Picked_Dp", "MM_Theta")
-                                                histoName_3D_Theta_Dp = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Picked_Dp", "Dp_Theta")
+                                                histoName               = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp")
+                                                histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "MM_3D")
+                                                histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "Dp_3D")
+                                                histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "MM_Theta")
+                                                histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "Dp_Theta")
+                                                histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "Dp_3D_Theta")
+                                                histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "Dp_Electron")
+                                                histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "Dp_El_Theta")
                                             elif("F" in calc_option):
-                                                histoName             = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp")
-                                                histoName_3D          = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "MM_3D")
-                                                histoName_3D_Dp       = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "Dp_3D")
-                                                histoName_3D_Theta    = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Flipped_Dp", "MM_Theta")
-                                                histoName_3D_Theta_Dp = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Flipped_Dp", "Dp_Theta")
+                                                histoName               = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp")
+                                                histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "MM_3D")
+                                                histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "Dp_3D")
+                                                histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "MM_Theta")
+                                                histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "Dp_Theta")
+                                                histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "Dp_3D_Theta")
+                                                histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "Dp_Electron")
+                                                histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "Dp_El_Theta")
                                             elif(calc_option in ["D_p_G", "D_p_gL"]):
-                                                histoName             = (correction, '', SecName, binning, region, Cut_Title, str(calc_option))
-                                                histoName_3D          = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "MM_3D")
-                                                histoName_3D_Dp       = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_3D" if(calc_option in ["D_p_G"]) else "Dp_MM_3D")
-                                                histoName_3D_Theta    = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, str(calc_option), "MM_Theta")
-                                                histoName_3D_Theta_Dp = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, str(calc_option), "".join(["Dp_" if(calc_option in ["D_p_G"]) else "Dp_MM_", "Theta"]))
+                                                histoName               = (correction, '', SecName, binning, region, Cut_Title, str(calc_option))
+                                                histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "MM_3D")
+                                                histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_3D" if(calc_option in ["D_p_G"]) else "Dp_MM_3D")
+                                                histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "MM_Theta")
+                                                histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "".join(["Dp_" if(calc_option in ["D_p_G"]) else "Dp_MM_", "Theta"]))
+                                                histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_3D_Theta")
+                                                histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_Electron")
+                                                histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_El_Theta")
+                                            elif(str(calc_option) in ["D_p_a", "D_p_b", "D_p_c", "D_p_sqrt"]):
+                                                histoName               = (correction, '', SecName, binning, region, Cut_Title, str(calc_option))
+                                                histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "MM_3D")
+                                                histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_3D")
+                                                histoName_3D_Pars       = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_Pars")
+                                                histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_Theta")
+                                                histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_3D_Theta")
+                                                histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_Electron")
+                                                histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_El_Theta")
                                             else:
-                                                histoName             = (correction, '', SecName, binning, region, Cut_Title)
-                                                histoName_3D          = (correction, '', SecName, binning, region, Cut_Title, "MM_3D")
-                                                histoName_3D_Dp       = (correction, '', SecName, binning, region, Cut_Title, "Dp_3D")
-                                                histoName_3D_Theta    = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "MM_Theta")
-                                                histoName_3D_Theta_Dp = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_Theta")
+                                                histoName               = (correction, '', SecName, binning, region, Cut_Title)
+                                                histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, "MM_3D")
+                                                histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, "Dp_3D")
+                                                histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, "MM_Theta")
+                                                histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, "Dp_Theta")
+                                                histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, "Dp_3D_Theta")
+                                                histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, "Dp_Electron")
+                                                histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, "Dp_El_Theta")
 
 
                                             Title_Line_1 = "".join(["(", str(datatype), ") #Delta p_{Particle} vs p_{Particle}"])
@@ -11724,20 +11882,41 @@ if(event_Name != "error"):
                                                 # Dmom_pro_Histo[histoName_3D] = sdf_MM.Histo2D(("".join(["Dmom_pro_Histo", str(histoName_3D)]), str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Particle} vs Missing Mass")).replace(Title_Axis, "; #Delta p_{Particle}; Missing Mass")).replace("Particle", "Pro"), NumOfExtendedBins, extendx_min, extendx_max, Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max), ''.join(['D_pro_' if("L" not in calc_option) else 'D_p_L_pro_', str(correction)]), str(correction))
                                                 
                                                 
-                                                Title_3D_Pro = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Particle} vs Missing Mass vs p_{Particle}")).replace(Title_Axis, "; p_{Particle}; #Delta p_{Particle}; Missing Mass Squared")).replace("Particle", "Pro")
+                                                Title_3D_Pro = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Particle} vs Missing Mass^{2} vs p_{Particle}")).replace(Title_Axis, "; p_{Particle}; #Delta p_{Particle}; MM^{2}")).replace("Particle", "Pro")
                                                 # Title_3D_Pro = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Particle} vs #theta_{Particle} vs p_{Particle}")).replace(Title_Axis, "; p_{Particle}; #Delta p_{Particle}; Missing Mass")).replace("Particle", "Pro")
+                                                if(str(calc_option) in ["D_p_a", "D_p_b", "D_p_c", "D_p_sqrt"]):
+                                                    Title_3D_Pro = Title_3D_Pro.replace("#Delta p_{Pro}", str(calc_option))
                                                 x_variable = 'pro' if(('_NoELC' in str(correction)) or ('No_C' in str(calc_option)) or ("MC" in event_Name)) else 'pro_cor'
                                                 y_variable = ''.join(['D_pro_' if(str(calc_option) in ["D_p", "D_p_No_C"]) else ''.join([str(calc_option), '_pro_']), str(correction)])
                                                 z_variable = str(correction)
-                                                dp_range = 0.5 if("MC" not in event_Name) else 0.05
+                                                dp_min     = -0.5 if("MC" not in event_Name) else -0.05
+                                                dp_max     =  0.5 if("MC" not in event_Name) else  0.05
+                                                if(str(calc_option) in ["D_p_a", "D_p_b", "D_p_c", "D_p_sqrt"]):
+                                                    dp_min = -15 if(str(calc_option) in ["D_p_a", "D_p_sqrt"]) else 0 if("D_p_b" in str(calc_option)) else -70
+                                                    dp_max =  70 if("D_p_b" in str(calc_option)) else 35 if(str(calc_option) in "D_p_sqrt") else 0
+                                                dp_bin     = 200 if(str(calc_option) not in "D_p_sqrt") else 400
+                                                dp_min    += -0.5*((dp_max - dp_max)/dp_bin)
+                                                dp_max    +=  0.5*((dp_max - dp_max)/dp_bin)
+                                                dp_bin    += 1
+                                                
+                                                # if(str(calc_option) in ["D_p_sqrt"]):
+                                                #     print("".join([color.BOLD, str(calc_option), ' in ["D_p_sqrt"]', color.BLUE, "\ndp_min = ", str(dp_min), "\ndp_max = ", str(dp_max), "\ndp_bin = ", str(dp_bin), color.END]))
+                                                
+                                                
                                                 MM_min, MM_max = -0.1, 0.3
-                                                if("MC" in event_Name):
+                                                if("(GEN)" in event_Name):
                                                     MM_min, MM_max = -0.05, 0.05
                                                 # z_variable = "proth"
                                                 # Dmom_pro_Histo[histoName_3D] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D)]), Title_3D_Pro, 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max, Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max), x_variable, y_variable, str(correction))
-                                                Dmom_pro_Histo[histoName_3D] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D)]), Title_3D_Pro, 100, 0, 10, 200, -dp_range, dp_range, 200, MM_min, MM_max), x_variable, y_variable, z_variable)
+                                                Dmom_pro_Histo[histoName_3D] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D)]), Title_3D_Pro, 100, 0, 10, dp_bin, dp_min, dp_max, 200, MM_min, MM_max), x_variable, y_variable, z_variable)
                                                 # Dmom_pro_Histo[histoName_3D] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D)]), Title_3D_Pro, 100, 0, 10, 100, -0.5, 0.5, 20, 0, 60), x_variable, y_variable, z_variable)
                                                 Delta_P_histo_Count += 1
+                                                
+                                                Title_3D_Pro_EL       = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Pro} vs #theta_{Pro} vs #theta_{El}")).replace(str(Title_Axis), "; #theta_{Pro}; #Delta p_{Pro}; #theta_{El}"))
+                                                Title_3D_Pro_EL_Theta = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Pro} vs #theta_{Pro} vs #theta_{El}")).replace(str(Title_Axis), "; #theta_{Pro}; #Delta p_{Pro}; #theta_{El}"))
+                                                Dmom_pro_Histo[histoName_3D_Electron] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Electron)]), Title_3D_Pro_EL,       100, 0, 10,  dp_bin, dp_bin, dp_min, 100, 0, 10),  "pro",   str(y_variable), "el")
+                                                Dmom_pro_Histo[histoName_3D_El_Theta] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_El_Theta)]), Title_3D_Pro_EL_Theta, 100, 0, 100, dp_bin, dp_bin, dp_min, 100, 0, 100), "proth", str(y_variable), "elth")
+                                                Delta_P_histo_Count += 2
                                                 
                                                 if(str(calc_option) in ["D_p", "D_p_L", "D_p_G", "D_p_gL"]):
                                                     # print("".join([color.BOLD, color.BLUE, "\n\ncalc_option = ", str(calc_option), "\n\n", color.END]))
@@ -11750,22 +11929,46 @@ if(event_Name != "error"):
                                                     if(str(calc_option) in ["D_p_L", "D_p_gL"]):
                                                         x_variable = str(correction)
                                                         Title_3D_Pro_Dp = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "(Both) #Delta p_{Particle} vs MM^{2}")).replace(Title_Axis, "; MM^{2}; (Best) #Delta p_{Particle}; (Secondary) #Delta p_{Particle}")).replace("Particle", "Pro")
-                                                        x_bins, x_min, x_max = 100, MM_min, MM_max
-                                                    y_variable = ''.join(['D_pro_', str(correction)]) if(calc_option not in ["D_p_G", "D_p_gL"]) else ''.join(['D_p_G_pro_', str(correction)])
+                                                        x_bins, x_min, x_max = 200, MM_min, MM_max
+                                                    y_variable = ''.join(['D_pro_', str(correction)])     if(calc_option not in ["D_p_G", "D_p_gL"]) else ''.join(['D_p_G_pro_',  str(correction)])
                                                     z_variable = ''.join(['D_p_L_pro_', str(correction)]) if(calc_option not in ["D_p_G", "D_p_gL"]) else ''.join(['D_p_gL_pro_', str(correction)])
-                                                    Dmom_pro_Histo[histoName_3D_Dp] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Dp)]), Title_3D_Pro_Dp, int(x_bins), x_min, x_max, 200, -dp_range, dp_range, 200, -0.5, 0.5), x_variable, y_variable, z_variable)
-                                                    Delta_P_histo_Count += 1
-
+                                                    # Dmom_pro_Histo[histoName_3D_Dp] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Dp)]), Title_3D_Pro_Dp, int(x_bins), x_min, x_max, dp_bin, dp_min, dp_max, 200, -0.5, 0.5), x_variable, y_variable, z_variable)
                                                     
-                                                Title_3D_Pro_Theta    = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Particle} vs #Theta_{Particle} vs p_{Particle}")).replace(Title_Axis, "; p_{Particle}; #Delta p_{Particle}; #Theta_{Particle}")).replace("Particle", "Pro")
-                                                Title_3D_Pro_Theta_MM = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "Missing Mass^{2} vs #Theta_{Particle} vs p_{Particle}")).replace(Title_Axis, "; p_{Particle}; MM^{2}; #Theta_{Particle}")).replace("Particle", "Pro")
-                                                y_variable = ''.join(['D_pro_' if(str(calc_option) in ["D_p", "D_p_No_C"]) else ''.join([str(calc_option), '_pro_']), str(correction)])
-                                                
-                                                Dmom_pro_Histo[histoName_3D_Theta_Dp] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Theta_Dp)]), Title_3D_Pro_Theta, 100, 0, 10, 200, -dp_range, dp_range, 100, 0, 100), "pro", y_variable, "proth")
-                                                Dmom_pro_Histo[histoName_3D_Theta]    = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Theta)]), Title_3D_Pro_Theta_MM, 100, 0, 10, 200, MM_min,    MM_max,   100, 0, 100), "pro", str(correction), "proth")
+                                                    Dmom_pro_Histo[histoName_3D_Dp]         = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Dp)]),         str(Title_3D_Pro_Dp), int(x_bins), x_min, x_max, dp_bin, dp_min, dp_max, 201, -0.15025, 0.15025), x_variable, y_variable, z_variable)
+                                                    Dmom_pro_Histo[histoName_3D_Theta_Dp_2] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Theta_Dp_2)]), str((Title_3D_Pro_Dp.replace("MM^{2}", "#theta_{Pro}")).replace("p_{Pro}; (Best)", "#theta_{Pro}; (Best)")).replace("vs p_{Pro}", "vs #theta_{Pro}"), 100, 0, 100, dp_bin, dp_min, dp_max, 201, -0.15025, 0.15025), "proth", y_variable, z_variable)
+                                                    Delta_P_histo_Count += 2
 
-                                                   
-                                                histoName_3D_Theta_Dp
+                                                if(str(calc_option) not in ["D_p_a", "D_p_b", "D_p_c", "D_p_sqrt"]):
+                                                    Title_3D_Pro_Theta    = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Particle} vs #theta_{Particle} vs p_{Particle}")).replace(Title_Axis, "; p_{Particle}; #Delta p_{Particle}; #theta_{Particle}")).replace("Particle", "Pro")
+                                                    Title_3D_Pro_Theta_MM = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "Missing Mass^{2} vs #theta_{Particle} vs p_{Particle}")).replace(Title_Axis, "; p_{Particle}; MM^{2}; #theta_{Particle}")).replace("Particle", "Pro")
+                                                    if(str(calc_option) in ["D_p_a", "D_p_b", "D_p_c", "D_p_sqrt"]):
+                                                        Title_3D_Pro_Theta    = Title_3D_Pro_Theta.replace("#Delta p_{Pro}", str(calc_option))
+                                                        Title_3D_Pro_Theta_MM = Title_3D_Pro_Theta_MM.replace("#Delta p_{Pro}", str(calc_option))
+                                                    y_variable = ''.join(['D_pro_' if(str(calc_option) in ["D_p", "D_p_No_C"]) else ''.join([str(calc_option), '_pro_']), str(correction)])
+                                                    Dmom_pro_Histo[histoName_3D_Theta_Dp] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Theta_Dp)]), Title_3D_Pro_Theta, 100, 0, 10, dp_bin, dp_min, dp_max, 100, 0, 100), "pro", str(y_variable), "proth")
+                                                    Dmom_pro_Histo[histoName_3D_Theta]    = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Theta)]), Title_3D_Pro_Theta_MM, 100, 0, 10, dp_bin, MM_min, MM_max, 100, 0, 100), "pro", str(correction), "proth")
+                                                    Delta_P_histo_Count += 2
+                                                else:
+                                                    Title_3D_Pro_Dp       = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "".join([str(calc_option), " vs #Delta p_{Particle} vs p_{Particle}"]))).replace(Title_Axis, "".join(["; p_{Particle}; ", str(calc_option), "; #Delta p_{Particle}"]))).replace("Particle", "Pro")
+                                                    Title_3D_Pro_Theta    = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "".join([str(calc_option), " vs #theta_{Particle} vs p_{Particle}"])).replace(Title_Axis,    "".join(["; p_{Particle}; ", str(calc_option), "; #theta_{Particle}"])))).replace("Particle", "Pro")
+                                                    # pars_variable = ''.join(['D_pro_' if(str(calc_option) in ["D_p", "D_p_No_C"]) else ''.join([str(calc_option), '_pro_']), str(correction)])
+                                                    pars_variable = ''.join([str(calc_option), '_pro_', str(correction)])
+                                                    dp_variable   = ''.join(['D_pro_', str(correction)])
+                                                    
+                                                    Dmom_pro_Histo[histoName_3D_Dp]    = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Dp)]),    Title_3D_Pro_Dp,    100, 0, 10, dp_bin, dp_min, dp_max, 201, -0.05025, 0.05025), "pro", str(pars_variable), str(dp_variable))
+                                                    Dmom_pro_Histo[histoName_3D_Theta] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Theta)]), Title_3D_Pro_Theta, 100, 0, 10, dp_bin, dp_min, dp_max, 100,  0,       100),     "pro", str(pars_variable), "proth")
+                                                    Delta_P_histo_Count += 2
+                                                    
+                                                    # if(str(calc_option) in ["D_p_sqrt"]):
+                                                    #     print("".join([color.BOLD, str(calc_option), ' in ["D_p_sqrt"] (CHECK 2)', color.BLUE, "\ndp_min = ", str(dp_min), "\ndp_max = ", str(dp_max), "\ndp_bin = ", str(dp_bin), color.END]))
+                                                    #     print("".join([color.BLUE, "pars_variable = ", str(pars_variable), color.END]))
+                                                    #     print("".join([color.BLUE, "Dmom_pro_Histo[histoName_3D_Dp].GetNbinsX() = ", str(Dmom_pro_Histo[histoName_3D_Dp].GetNbinsX()), "\nDmom_pro_Histo[histoName_3D_Dp].GetNbinsY() = ", str(Dmom_pro_Histo[histoName_3D_Dp].GetNbinsY()), "\nDmom_pro_Histo[histoName_3D_Dp].GetNbinsZ() = ", str(Dmom_pro_Histo[histoName_3D_Dp].GetNbinsZ()), "\n", color.END]))
+                                                    # else:
+                                                    #     print("".join([color.RED, "INCORRECT FOR D_p_sqrt", color.END]))
+                                                    #     print("".join([color.RED, "calc_option = ", str(calc_option), color.BOLD, "\ndp_min = ", str(dp_min), "\ndp_max = ", str(dp_max), "\ndp_bin = ", str(dp_bin), color.END]))
+                                                        
+
+
 
                                             if('el' in Delta_P_histo_CompareList and Delta_Pel_histo_Q == 'y'):
                                                 # Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), Title.replace("Particle", "El"), 120, 0, 12, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
