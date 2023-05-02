@@ -144,7 +144,17 @@ file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_nSidis/ePip.pass2.inb.qa.", ""))
 file_name = str(file_name.replace("nSidis_00", "nSidis_"))
 
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Single_Pion_Channel_epipN/Outbending_skim4/ePip.outb.qa.rec_clas_005449.evio.0",        ""))
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Only_Electron_Channel/Outbending/electron_only.outb.qa.rec_clas_005449.evio.0",         ""))
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Elastic_Scattering_ep/Outbending/eP_Elastic_with_CDpro.outb.qa.rec_clas_005449.evio.0", ""))
 
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Single_Pion_Channel_epipN/Outbending_skim4/ePip.outb.qa.rec_clas_00",        ""))
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Only_Electron_Channel/Outbending/electron_only.outb.qa.rec_clas_00",         ""))
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Elastic_Scattering_ep/Outbending/eP_Elastic_with_CDpro.outb.qa.rec_clas_00", ""))
+
+file_name = str(file_name.replace("-", "_")).replace(".hipo.root", "")
+file_name = str(file_name).replace(".evio.root", "")
+file_name = str(file_name).replace(".root", "")
 
     
 ROOT.gStyle.SetTitleOffset(1.3, 'y')
@@ -218,8 +228,8 @@ if(event_type == "DP"):
 if("P0" in event_type):
     event_Name = "Pi0 Channel"
     if("MC" in event_type):
-        event_Name = "".join(["(MC) Pi0 Channel", " (+20 MeV)" if("MC_P" in event_type) else " (-20 MeV)" if("MC_M" in event_type) else " (GEN)" if("_Gen" in event_type) else ""])
-        event_type = "P0"
+        event_Name  = "".join(["(MC) Pi0 Channel", " (+20 MeV)" if("MC_P" in event_type) else " (-20 MeV)" if("MC_M" in event_type) else " (GEN)" if("_Gen" in event_type) else ""])
+        event_type  = "P0"
         Beam_Energy = 10.6 # MC Beam Energy
 
     MM_type = "eppi0X"
@@ -1178,28 +1188,42 @@ if(event_Name != "error"):
         # Added option to include "C" in the 3rd arguement of this code's input in order to switch from the Forward dectector to the central detector
         
     
+    if("Out" in datatype):
+        Extra_Part_of_Name = "_New_Extended_Out_V1"
+        # New Extended Outbending Corrections
+        
+        Extra_Part_of_Name = "_New_Extended_Out_V2"
+        # New Extended Outbending Corrections (ran with more files)
+        
+        Extra_Part_of_Name = "_New_Extended_Out_V3"
+        # Modified the Exclusive Cuts to the Electron Only (EO) Files
+            # Used the simplest version of the cuts to begin their development 
+        # Added the Invariant Mass Histograms to the list of histograms being produced (needed to refine the Electron Only Files)
+        
+        Extra_Part_of_Name = "_New_Extended_Out_V4"
+        # New Outbending Exclusivity Cut (Linear equations - NOT sector dependant - replaced "Calculated_Exclusive_Cuts")
     
     
     if(event_type != "MC"):
         if(event_type != "P0"):
             if(Delta_P_histo_Q != 'y'):
-                OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp", str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
+                OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp",   str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
             else:
                 OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_With_Dp", str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
         else:
             if("MC" not in event_Name):
                 if(Delta_P_histo_Q != 'y'):
-                    OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp", str(Extra_Part_of_Name), ".root"])
+                    OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp",   str(Extra_Part_of_Name), ".root"])
                 else:
                     OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_With_Dp", str(Extra_Part_of_Name), ".root"])
             else:
                 if(Delta_P_histo_Q != 'y'):
-                    OutputFileName = "".join(["Pi0_Channel_", str(MM_type), "_", str(datatype), "_No_Dp", str(Extra_Part_of_Name), ".root"])
+                    OutputFileName = "".join(["Pi0_Channel_", str(MM_type), "_", str(datatype), "_No_Dp",   str(Extra_Part_of_Name), ".root"])
                 else:
                     OutputFileName = "".join(["Pi0_Channel_", str(MM_type), "_", str(datatype), "_With_Dp", str(Extra_Part_of_Name), ".root"])
     else:
         if(Delta_P_histo_Q != 'y'):
-            OutputFileName = "".join(["Simulated_", event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp", str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
+            OutputFileName = "".join(["Simulated_", event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp",   str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
         else:
             OutputFileName = "".join(["Simulated_", event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_With_Dp", str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
             
@@ -1272,6 +1296,10 @@ if(event_Name != "error"):
                     # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/shrestha/clas12momcorr/outbending/ePipX/skim4_00*"
                     # running_code_with_these_files = "/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/outbending/ePipX/skim4_005*"
                     running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Single_Pion_Channel_epipN/Outbending/ePip.outb.qa.nSidis_005*"
+                    
+                    # Skim4 cuts
+                    # running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Single_Pion_Channel_epipN/Outbending_skim4/ePip.outb.qa.rec_clas_005449.evio.0*.root"
+                    running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Single_Pion_Channel_epipN/Outbending_skim4/ePip.outb.qa.rec_clas_*.root"
             elif("Central" in pass_version):
                 if("Pass 1" in pass_version):
                     running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Central_Tracking/Pass1/Inbending/ePip.Central.pass1.inb.qa.nSidis_00*"
@@ -1312,15 +1340,24 @@ if(event_Name != "error"):
                 running_code_with_these_files = "/u/home/richcap/lvl2_eppi0.outb.qa.exclusiveselection.root"
                 
         if(event_type == "ES"):
-            # running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/*.root"])
-            # running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/eP_Elastic_with_CDpro*.root"])
-            running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/eP_Elastic_with_CDpro_New*.root"])
-            running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/Valerii_Files/eP_Elastic_with_CDpro_New", ".inb" if("In" in str(datatype)) else ".outb", "*root"])
-            running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/Valerii_Files/eP_Elastic_with_CDpro", ".inb" if("In" in str(datatype)) else ".outb", "*root"])
-            
+            if(datatype == "Inbending"):
+                # running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/*.root"])
+                # running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/eP_Elastic_with_CDpro*.root"])
+                running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/", str(datatype), "/eP_Elastic_with_CDpro_New*.root"])
+                running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/Valerii_Files/eP_Elastic_with_CDpro_New", ".inb" if("In" in str(datatype)) else ".outb", "*root"])
+                running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Elastic_Scattering_ep/Valerii_Files/eP_Elastic_with_CDpro", ".inb" if("In" in str(datatype)) else ".outb", "*root"])
+            else:
+                # Skim4 cuts
+                running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Elastic_Scattering_ep/Outbending/eP_Elastic_with_CDpro.outb.qa.rec_clas_005449.evio.0*.root"
+                
         if(event_type == "EO"):
-            running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Only_Electron_Channel/electron_only", ".inb" if("In" in str(datatype)) else ".outb", "*root"])
-
+            if(datatype == "Inbending"):
+                running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Only_Electron_Channel/electron_only", ".inb" if("In" in str(datatype)) else ".outb", "*root"])
+            else:
+                # Skim4 cuts
+                running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Only_Electron_Channel/Outbending/electron_only.outb.qa.rec_clas_005449.evio.0*.root"
+                running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Only_Electron_Channel/Outbending/electron_only.outb.qa.rec_clas_005*.root"
+                
         if(event_type == "MC"):
             running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/SIDIS_Analysis/Data_Files_Groovy/Matched_REC_MC/MC_Matching_sidis_epip_richcap.inb.qa.45nA_job_*.root"])
             event_type = "SP"
@@ -1658,7 +1695,7 @@ if(event_Name != "error"):
     ##############################################################
     #----------#      Last updated on: 1-15-2022      #----------#
     ##############################################################
-
+    Correction_Code_Full_In, Correction_Code_Full_Out = "", ""
     if(datatype == "Inbending"):
         
         Correction_Code_Full_In = """
@@ -7014,9 +7051,9 @@ if(event_Name != "error"):
             // Defining Phi Angle
             double Phi = (180/3.1415926)*atan2(Py, Px);
 
+
             // (Initial) Shift of the Phi Angle (done to realign sectors whose data is separated when plotted from ±180˚)
-            // After this line, the angular distribution will approximately go from 0 to 360˚
-            if((sec == 4 && Phi < 0) || (sec > 4 && Phi < 90)){
+            if(((sec == 4 || sec == 3) && Phi < 0) || (sec > 4 && Phi < 90)){
                 Phi += 360;
             }
 
@@ -7042,7 +7079,6 @@ if(event_Name != "error"):
             }
 
 
-
             ////////////////////////////////////////////////////////////////////////////////////////////////
             //===============//===============//     No Corrections     //===============//===============//
             ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -7063,6 +7099,8 @@ if(event_Name != "error"):
             //////////////////////////////////////////////////////////////////////////////////////////////////
             //==============//==============//     No Corrections (End)     //==============//==============//
             //////////////////////////////////////////////////////////////////////////////////////////////////
+            
+
 
 
 
@@ -7616,6 +7654,14 @@ if(event_Name != "error"):
     auto Final_Output = Output_Vectors.M2();
                 """
 
+            ##==================================================##
+            ##=====##       Electron Only Channel        ##=====##
+            ##==================================================##
+            if(MM_Type in ['eX'] or Channel_Type in ["EO"]):
+                Calculation_Code_Choice = "".join(["""
+        auto Output_Vectors = beam + targ - eleC;
+        auto Final_Output = Output_Vectors.M""", "2" if("2" in Out_Type) else "", """();
+                """])
 
         ##========================================================##
         ##===============||----------------------||===============##
@@ -8778,14 +8824,14 @@ if(event_Name != "error"):
             # print("".join([color.BOLD, "Correction Code: \n", color.END, str(Full_Correction_Output)]) if("D_Angle" in Out_Type) else "")
             if(Extra_Cut not in ["none", ""]):
                 Output = Output.Filter(Extra_Cut)
-                if("D_Angle" in Out_Type):
-                    print("".join([color.BOLD, "\n\n\nCut Code: \n", color.END, str(Extra_Cut)]))
-                # print("".join([color.BOLD, "\n\n\nCut Code: \n", color.END, str(Extra_Cut)]) if("D_Angle" in Out_Type) else "")
+                # if("D_Angle" in Out_Type):
+                #     print("".join([color.BOLD, "\n\n\nCut Code: \n", color.END, str(Extra_Cut)]))
+                # # print("".join([color.BOLD, "\n\n\nCut Code: \n", color.END, str(Extra_Cut)]) if("D_Angle" in Out_Type) else "")
             # if("D_Angle_V4" in Out_Type and Correction == "mm0" and Extra_Cut != ""):
             #     Output.Display(str(Output_Title), 10).Print()
         except Exception as e:
             print("".join([color.RED, color.BOLD, """ERROR: Failed to create the DataFrame Column...\nCode is written as:
-            """, color.END, "Output = Data_Frame.Define(", str(Output_Title), ", ", str(Full_Correction_Output).replace(str(Correction_Code_Full_In), "Correction Code"), """)
+            """, color.END, "Output = Data_Frame.Define(", str(Output_Title), ", ", str(Full_Correction_Output).replace(str(Correction_Code_Full_In) if("In" in datatype) else str(Correction_Code_Full_Out), "Correction Code"), """)
             
             if(Extra_Cut not in ["none", ""]):
                 Output = Output.Filter(""", str(Extra_Cut), ")"]))
@@ -10397,7 +10443,7 @@ if(event_Name != "error"):
         Calculated_Exclusive_Cuts = "".join(["""        
         // For Invariant Mass Cut (Determined with the help of Azimuthal Kinematic Cut applied on the invariant mass histogram):
         auto Beam_Energy = """, str(Beam_Energy), """;
-        auto Proton_M  = """, str(Particle_Mass_Proton), """;
+        auto Proton_Mass  = """, str(Particle_Mass_Proton), """;
         auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
         auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
         auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
@@ -10633,10 +10679,20 @@ if(event_Name != "error"):
             }
         }
         return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
+        """]) if("Out" not in datatype) else "".join(["""
+        auto Beam_Energy = """, str(Beam_Energy), """;
+        auto Proton_Mass = """, str(Particle_Mass_Proton), """;
+        auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
+        auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
+        auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+        auto Cut_Variable = (beam + targ - eleC).M();
+        double Cut_Upper = -0.0346*(eleC.P()) + 1.4574;
+        double Cut_Lower = -0.0047*(eleC.P()) + 0.8646;
+        return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
         """])
         Calculated_Exclusive_Cuts_V2 = "".join(["""
         auto Beam_Energy = """, str(Beam_Energy), """;
-        auto Proton_M  = """, str(Particle_Mass_Proton), """;
+        auto Proton_Mass = """, str(Particle_Mass_Proton), """;
         auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
         auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
         auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
@@ -10748,16 +10804,16 @@ if(event_Name != "error"):
         Cut_Data_Frame = Data_Frame
         if(Input_Cut not in ["", "none"]):
             try:
-                if("Both" == Input_Cut and CutChoice != "none"):
+                if(  "Both"   == Input_Cut and CutChoice   != "none"):
                     Cut_Data_Frame = Cut_Data_Frame.Filter(Calculated_Exclusive_Cuts)
                     Cut_Data_Frame = Cut_Data_Frame.Filter(CutChoice)
-                elif("Both_2" == Input_Cut and CutChoice_2 != "" and CutChoice_2 != "none"):
+                elif("Both_2" == Input_Cut and CutChoice_2 != ""     and CutChoice_2 != "none"):
                     Cut_Data_Frame = Cut_Data_Frame.Filter(Calculated_Exclusive_Cuts)
                     Cut_Data_Frame = Cut_Data_Frame.Filter(CutChoice_2)
-                elif("Both_3" == Input_Cut and CutChoice != "none" and CutChoice_2 not in ["", "none"]):
+                elif("Both_3" == Input_Cut and CutChoice   != "none" and CutChoice_2 not in ["", "none"]):
                     Cut_Data_Frame = Cut_Data_Frame.Filter(CutChoice)
                     Cut_Data_Frame = Cut_Data_Frame.Filter(CutChoice_2)
-                elif("All" == Input_Cut and CutChoice != "none" and CutChoice_2 not in ["", "none"]):
+                elif("All"    == Input_Cut and CutChoice   != "none" and CutChoice_2 not in ["", "none"]):
                     Cut_Data_Frame = Cut_Data_Frame.Filter(Calculated_Exclusive_Cuts)
                     Cut_Data_Frame = Cut_Data_Frame.Filter(CutChoice)
                     Cut_Data_Frame = Cut_Data_Frame.Filter(CutChoice_2)
@@ -11080,8 +11136,8 @@ if(event_Name != "error"):
 
 
     # Number of (π+/pro) phi bins
-    # NumPhiBins = ['1', '3']
-    NumPhiBins = ['1']
+    NumPhiBins = ['1', '3']
+    # NumPhiBins = ['1']
     
     if("E" in event_type or ("pi+" not in Delta_P_histo_CompareList and 'pro' not in Delta_P_histo_CompareList)):
         NumPhiBins = ['1']
@@ -11089,8 +11145,8 @@ if(event_Name != "error"):
 
     # # Number of (electron) phi bins
     # To run code normally (without electron phi bins in ∆P histograms), let NumPhiBinsEL = ['1'] (anything else will cut histograms based on electron phi angles)
-    # NumPhiBinsEL = ['1', '3']
-    NumPhiBinsEL = ['1']
+    NumPhiBinsEL = ['1', '3']
+    # NumPhiBinsEL = ['1']
     
     if(ExtraElectronSecListFilterOn == 'no'):
         NumPhiBinsEL = ['1']
@@ -11385,7 +11441,7 @@ if(event_Name != "error"):
 
     binningList = ['1']
     # binningList = ['1','3','5']
-    # binningList = ['1', '3']
+    binningList = ['1', '3']
     # binningList = ['3']
     
     # if("E" in event_type):
@@ -11396,7 +11452,7 @@ if(event_Name != "error"):
 
     # SecRangeMin, SecRangeMax = 0, 6
     SecRangeAll = [0, 1, 2, 3, 4, 5, 6]
-    SecRangeAll = [0]
+    # SecRangeAll = [0]
 
     # SecRangeMin = min(SecRangeAll)
     # SecRangeMax = max(SecRangeAll)
@@ -11437,8 +11493,8 @@ if(event_Name != "error"):
     
     # Run with the Invariant Mass histograms?
     # Letting Run_Invariant_Mass_Histos = 'yes' causes the code to also create histograms for Invariant Mass versus the particle momentum
-    # Run_Invariant_Mass_Histos = 'yes'
-    Run_Invariant_Mass_Histos = 'no'
+    Run_Invariant_Mass_Histos = 'yes'
+    # Run_Invariant_Mass_Histos = 'no'
 
     ##-------------------------------------------------------------##
     ##=====##=====##     Histogram Options (End)     ##=====##=====##
