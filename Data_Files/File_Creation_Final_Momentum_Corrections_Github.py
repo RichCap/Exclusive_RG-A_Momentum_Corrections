@@ -1,4 +1,4 @@
-import ROOT, numpy
+import ROOT
 import array
 from datetime import datetime
 import traceback
@@ -200,7 +200,7 @@ class root_color:
     # Symbols
     Delta   = '#Delta'
     Phi     = '#phi'
-    π       = '#pi'
+    # π     = '#pi'
     Degrees = '#circ'
     
     Line = '#splitline'
@@ -767,12 +767,12 @@ if(event_Name != "error"):
 #     # Removed Phi binning from the Elastic Channel (option was not being used)
     
 #     Extra_Part_of_Name = "_GitHub_Cut_Tests_V7"
-#     # Made the basic Invariant Mass cut tighter (i.e., "Calculated_Exclusive_Cuts_V2" --> W < 0.7 GeV and W > 1.2 GeV)
+#     # Made the basic Invariant Mass cut tighter (i.e., "Calculated_Exclusive_Cuts_v2" --> W < 0.7 GeV and W > 1.2 GeV)
 #     # Decreased the range of the y-axis of the ∆P plots (decreased to ±1 GeV with the same sizes of binning --> the ideal may be even lower as all desirable events are between ±0.3 Gev but the range has been extended to see more when necessary)
     
     
 #     Extra_Part_of_Name = "_GitHub_Electron_Refinement_V1"
-#     # Reintroduced the automatic baseline cut on Invariant Mass for elastic channels (W < 0.6 GeV and W > 1.3 GeV --- "Calculated_Exclusive_Cuts_V2" is not effected)
+#     # Reintroduced the automatic baseline cut on Invariant Mass for elastic channels (W < 0.6 GeV and W > 1.3 GeV --- "Calculated_Exclusive_Cuts_v2" is not effected)
 #     # Increased the bin sizes along the y-axis of the ∆P plots for the non-elastic channels (same bin ranges as before, but the bin sizes are now consistent with those from the elastic scattering channels)
 #         # Other similar updates were also added so that these channels will produce plots which are consistent with the elastic scattering events
 #     # Running with electron phi bins
@@ -1202,6 +1202,31 @@ if(event_Name != "error"):
         
         Extra_Part_of_Name = "_New_Extended_Out_V4"
         # New Outbending Exclusivity Cut (Linear equations - NOT sector dependant - replaced "Calculated_Exclusive_Cuts")
+        
+        Extra_Part_of_Name = "_New_Extended_Out_V5"
+        # New Outbending Exclusivity Cut (Linear equations - functions of MOMENTUM and PHI - sector dependant - replaced "Calculated_Exclusive_Cuts")
+            # Cuts use a new method of finding the region where the background is overtaking the signal (should offer better cuts to avoid large background peaks in the ∆P distributions)
+        # Invariant Mass Histograms can now be made with the cuts being applied
+        
+        
+        Extra_Part_of_Name = "_New_Extended_El_Cor_V1"
+        # New Electron correction for the outbending data
+        
+        Extra_Part_of_Name = "_New_Extended_El_Cor_V2"
+        # Refined the new Electron correction from '_New_Extended_El_Cor_V1'
+            # Correction from '_New_Extended_El_Cor_V1' was renamed from 'mmEF' to 'mmExF' (refined correction is now called 'mmEF')
+            
+        Extra_Part_of_Name = "_New_Extended_El_Cor_V3"
+        # Refined the Electron correction from '_New_Extended_El_Cor_V2'
+            # Correction 'mmEF' now has an additional refinement made to it ('mmExF' has not changed)
+            
+        Extra_Part_of_Name = "_New_Extended_El_Cor_V4"
+        # Refined the Electron correction from '_New_Extended_El_Cor_V3'
+            # Correction 'mmEF' now has an additional refinement made to it ('mmExF' has not changed)
+            
+        Extra_Part_of_Name = "_New_Extended_El_Cor_V5"
+        # Refined the Electron correction from '_New_Extended_El_Cor_V4'
+            # Correction 'mmEF' now has an additional refinement made to it while 'mmExF' has been changed to include all prior refinements since "_New_Extended_El_Cor_V1"
     
     
     if(event_type != "MC"):
@@ -7006,7 +7031,7 @@ if(event_Name != "error"):
 
 
     ############################################################
-    #----------#     Last updated on: 8-13-2022     #----------#
+    #----------#     Last updated on: 5-9-2023     #----------#
     ############################################################
 
 
@@ -7014,7 +7039,6 @@ if(event_Name != "error"):
 
         Correction_Code_Full_Out = """
         
-
         auto dppC = [&](float Px, float Py, float Pz, int sec, int ivec, int corEl, int corPip, int corPim, int corPro)
         {
 
@@ -7026,6 +7050,8 @@ if(event_Name != "error"):
             // corEl ==> Gives the 'generation' of the electron correction
                 // corEl == 0 --> No Correction
                 // corEl == 1 --> Final Version of Corrections
+                // corEl == 2 --> Extended Version of Corrections
+                // corEl == 3 --> New Extended Version of Corrections (Lastest/Final Refinement)
 
             // corPip ==> Gives the 'generation' of the π+ Pion correction
                 // corPip == 0 --> No Correction
@@ -7141,7 +7167,112 @@ if(event_Name != "error"):
                     dp = ((1.63e-06)*phi*phi + (6.251e-05)*phi + (-2.2457e-04))*pp*pp + ((8.18e-06)*phi*phi + (-6.688e-04)*phi + (4.2875e-04))*pp + ((-2.172e-05)*phi*phi + (1.5467e-03)*phi + (0.05676));
                     dp = dp + ((1.34e-06)*phi*phi + (-1.574e-05)*phi + (-0.00133653))*pp*pp + ((-1.991e-05)*phi*phi + (0.00024404)*phi + (0.01428837))*pp + ((5.149e-05)*phi*phi + (-0.0007992)*phi + (-0.03467815));
                 }
+                
+                
+                // New Extended Corrections (mmExF)
+                if(corEl > 1){
+                    if(sec == 1){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = No Correction][Sector 1] is:
+                        dp = ((5.0405e-06)*phi*phi + (3.8245e-05)*phi + (-0.0013668))*pp*pp + ((-6.3680e-05)*phi*phi + (-3.5346e-05)*phi + (0.017592))*pp + ((1.7893e-04)*phi*phi + (4.9969e-04)*phi + (-0.034336));
+                    }
+                    if(sec == 2){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = No Correction][Sector 2] is:
+                        dp = ((1.0601e-06)*phi*phi + (-2.0599e-05)*phi + (-9.3989e-04))*pp*pp + ((-2.9184e-05)*phi*phi + (6.4713e-04)*phi + (0.013571))*pp + ((1.2782e-04)*phi*phi + (-0.0015982)*phi + (-0.035799));
+                    }
+                    if(sec == 3){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = No Correction][Sector 3] is:
+                        dp = ((4.0477e-06)*phi*phi + (-1.1090e-05)*phi + (-8.8179e-04))*pp*pp + ((-7.5277e-05)*phi*phi + (1.1253e-05)*phi + (0.015032))*pp + ((3.2857e-04)*phi*phi + (-1.4871e-04)*phi + (-0.03637));
+                    }
+                    if(sec == 4){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = No Correction][Sector 4] is:
+                        dp = ((-2.8052e-06)*phi*phi + (-2.2854e-05)*phi + (-4.1159e-04))*pp*pp + ((3.3257e-05)*phi*phi + (1.9861e-04)*phi + (0.0050248))*pp + ((-3.7414e-05)*phi*phi + (-6.1781e-04)*phi + (1.4903e-04));
+                    }
+                    if(sec == 5){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = No Correction][Sector 5] is:
+                        dp = ((-2.1116e-06)*phi*phi + (1.6136e-05)*phi + (-0.00135))*pp*pp + ((7.6007e-06)*phi*phi + (-1.0720e-05)*phi + (0.015568))*pp + ((1.6135e-04)*phi*phi + (-3.7412e-04)*phi + (-0.051331));
+                    }
+                    if(sec == 6){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = No Correction][Sector 6] is:
+                        dp = ((-1.7832e-06)*phi*phi + (1.6966e-05)*phi + (-0.0010273))*pp*pp + ((3.5802e-05)*phi*phi + (-7.7697e-05)*phi + (0.018163))*pp + ((-8.7108e-05)*phi*phi + (1.7289e-04)*phi + (-0.044444));
+                    }
+                    
+                    if(sec == 1){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 1] is:
+                        dp = dp + ((-9.1565e-06)*phi*phi + (-3.0121e-05)*phi +  (1.0958e-04))*pp*pp +  ((1.2296e-04)*phi*phi +  (4.7107e-04)*phi +  (-0.0013516))*pp + ((-3.6182e-04)*phi*phi +  (-0.0014695)*phi +   (0.0054485));
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 1] is:
+                        dp = dp +  ((1.2011e-05)*phi*phi + (-1.0377e-06)*phi + (-1.0079e-04))*pp*pp + ((-1.6154e-04)*phi*phi +  (3.4794e-05)*phi +  (8.4711e-04))*pp +  ((4.8920e-04)*phi*phi + (-1.8913e-04)*phi + (-8.0855e-04));
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 1] is:
+                        dp = dp + ((-1.0435e-05)*phi*phi +  (1.4137e-05)*phi +  (3.9998e-05))*pp*pp +  ((1.4518e-04)*phi*phi + (-1.5993e-04)*phi + (-2.3791e-04))*pp + ((-4.5680e-04)*phi*phi +  (2.6327e-04)*phi +  (6.0975e-05));
+                    }
+                    if(sec == 2){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 2] is:
+                        dp = dp +  ((1.8037e-06)*phi*phi +  (5.8295e-05)*phi + (-6.4276e-04))*pp*pp + ((-2.2497e-05)*phi*phi + (-7.2470e-04)*phi +     (0.00799))*pp +  ((6.4252e-05)*phi*phi +   (0.0020054)*phi + (-0.019967));
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 2] is:
+                        dp = dp + ((-5.3639e-06)*phi*phi + (-3.9588e-05)*phi +  (2.5821e-04))*pp*pp +  ((7.1482e-05)*phi*phi +  (5.6509e-04)*phi +  (-0.0029168))*pp + ((-1.9994e-04)*phi*phi +  (-0.0017939)*phi + (0.0049078));
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 2] is:
+                        dp = dp +  ((7.3134e-06)*phi*phi +  (2.1578e-07)*phi +  (8.8102e-05))*pp*pp + ((-1.0626e-04)*phi*phi + (-1.6914e-05)*phi + (-7.7181e-04))*pp +  ((3.3884e-04)*phi*phi +  (1.5723e-04)*phi + (0.0021254));
+                    }
+                    if(sec == 3){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 3] is:
+                        dp = dp + ((-1.2961e-05)*phi*phi + (-5.0593e-06)*phi + (-2.0861e-05))*pp*pp + ((2.0698e-04)*phi*phi + (-1.1223e-05)*phi + (-0.0015348))*pp + ((-7.8680e-04)*phi*phi + (4.1276e-04)*phi + (0.016077));
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 3] is:
+                        dp = dp + ((1.1994e-05)*phi*phi + (4.8958e-06)*phi + (-2.9240e-04))*pp*pp + ((-1.9392e-04)*phi*phi + (-3.9522e-05)*phi + (0.0049301))*pp + ((7.6922e-04)*phi*phi + (1.2448e-05)*phi + (-0.021559));
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 3] is:
+                        dp = dp + ((-7.9820e-06)*phi*phi + (7.7508e-07)*phi + (-4.4541e-05))*pp*pp + ((1.2196e-04)*phi*phi + (3.6743e-06)*phi + (0.001536))*pp + ((-4.6393e-04)*phi*phi + (-8.7269e-05)*phi + (-0.0082336));
+                    }
+                    if(sec == 4){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 4] is:
+                        dp = dp + ((8.1342e-06)*phi*phi + (4.0946e-05)*phi + (-0.0010942))*pp*pp + ((-9.8339e-05)*phi*phi + (-5.2091e-04)*phi + (0.014025))*pp + ((2.1987e-04)*phi*phi + (0.0013168)*phi + (-0.034387));
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 4] is:
+                        dp = dp + ((-1.6781e-05)*phi*phi + (-4.9127e-05)*phi + (0.0011043))*pp*pp + ((2.1672e-04)*phi*phi + (5.7714e-04)*phi + (-0.014288))*pp + ((-5.7731e-04)*phi*phi + (-0.0012425)*phi + (0.039549));
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 4] is:
+                        dp = dp + ((1.6136e-05)*phi*phi + (4.5230e-06)*phi + (-2.7187e-04))*pp*pp + ((-2.1837e-04)*phi*phi + (-5.4798e-05)*phi + (0.0044954))*pp + ((6.2835e-04)*phi*phi + (4.7089e-05)*phi + (-0.016063));
+                    }
+                    if(sec == 5){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 5] is:
+                        dp = dp + ((-2.6323e-09)*phi*phi + (1.0475e-05)*phi + (1.7346e-04))*pp*pp + ((3.4369e-05)*phi*phi + (-2.0506e-04)*phi + (-0.0033645))*pp + ((-3.1440e-04)*phi*phi + (8.5940e-04)*phi + (0.017928));
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 5] is:
+                        dp = dp + ((-6.9452e-06)*phi*phi + (1.2777e-05)*phi + (0.0010526))*pp*pp + ((6.8395e-05)*phi*phi + (-1.7579e-04)*phi + (-0.014401))*pp + ((-5.8937e-05)*phi*phi + (5.0637e-04)*phi + (0.044588));
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 5] is:
+                        dp = dp + ((8.6908e-06)*phi*phi + (-2.6211e-06)*phi + (-9.9693e-04))*pp*pp + ((-9.2982e-05)*phi*phi + (5.0393e-05)*phi + (0.01287))*pp + ((1.3405e-04)*phi*phi + (-1.5467e-04)*phi + (-0.036625));
+                    }
+                    if(sec == 6){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 6] is:
+                        dp = dp + ((1.1422e-05)*phi*phi + (1.6369e-05)*phi + (-7.5436e-04))*pp*pp + ((-1.5646e-04)*phi*phi + (-2.5678e-04)*phi + (0.010662))*pp + ((4.8595e-04)*phi*phi + (0.0010086)*phi + (-0.032133));
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 6] is:
+                        dp = dp + ((-1.6348e-05)*phi*phi + (-1.0959e-06)*phi + (8.7809e-04))*pp*pp + ((2.3135e-04)*phi*phi + (1.1761e-04)*phi + (-0.012469))*pp + ((-7.3188e-04)*phi*phi + (-8.8192e-04)*phi + (0.039663));
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 6] is:
+                        dp = dp + ((1.8650e-05)*phi*phi + (1.1757e-05)*phi + (-5.2514e-04))*pp*pp + ((-2.6206e-04)*phi*phi + (-2.6712e-04)*phi + (0.0074623))*pp + ((8.3426e-04)*phi*phi + (0.0013708)*phi + (-0.024749));
+                    }
 
+
+                    if(corEl == 3){ // New (Refined) Extended Corrections (mmEF)                        
+                        if(sec == 1){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 1] is:
+                            dp = dp +  ((9.6177e-06)*phi*phi + (-1.6643e-06)*phi + (-7.5806e-05))*pp*pp + ((-1.3124e-04)*phi*phi + (-1.1399e-05)*phi +  (5.9901e-04))*pp +  ((4.1151e-04)*phi*phi +  (2.2676e-04)*phi + (-0.0012323));
+                        }
+                        if(sec == 2){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 2] is:
+                            dp = dp + ((-6.5403e-06)*phi*phi +  (1.8051e-05)*phi + (-1.5816e-04))*pp*pp +  ((9.7305e-05)*phi*phi + (-2.3155e-04)*phi +   (0.0016089))*pp + ((-3.0901e-04)*phi*phi +  (6.0455e-04)*phi + (-0.003992));
+                        }
+                        if(sec == 3){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 3] is:
+                            dp = dp +  ((3.0603e-07)*phi*phi + (-1.5040e-05)*phi +  (6.0727e-04))*pp*pp + ((-1.0623e-05)*phi*phi +  (1.7486e-04)*phi +  (-0.008958))*pp +  ((8.0536e-05)*phi*phi + (-3.9857e-04)*phi + (0.030768));
+                        }
+                        if(sec == 4){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 4] is:
+                            dp = dp + ((-9.8782e-06)*phi*phi +  (1.4314e-05)*phi + (-4.5577e-04))*pp*pp +  ((1.2864e-04)*phi*phi + (-1.1600e-04)*phi +   (0.0057963))*pp + ((-3.4841e-04)*phi*phi +  (2.4823e-05)*phi + (-0.0175));
+                        }
+                        if(sec == 5){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 5] is:
+                            dp = dp + ((-1.8802e-06)*phi*phi +  (1.5345e-05)*phi +  (1.4538e-04))*pp*pp + ((-6.4792e-06)*phi*phi + (-1.8614e-04)*phi + (-7.4891e-04))*pp +  ((2.0656e-04)*phi*phi +  (4.4799e-04)*phi + (-0.0041372));
+                        }
+                        if(sec == 6){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 6] is:
+                            dp = dp + ((-1.3151e-05)*phi*phi + (-5.9373e-05)*phi + (-4.5769e-04))*pp*pp +  ((1.8344e-04)*phi*phi +  (8.9377e-04)*phi +   (0.0067169))*pp + ((-5.7639e-04)*phi*phi +  (-0.0031197)*phi + (-0.022393));
+                        }
+                    }
+                }
             }
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9544,7 +9675,7 @@ if(event_Name != "error"):
     ############################################################################################################################################
 
     Calculated_Exclusive_Cuts = "esec != -2" # This statement is always true (avoids failure of calculated cuts if MM_type not defined properly)
-    Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, Calculated_Exclusive_Cuts_V5, Calculated_Exclusive_Cuts_V6 = "esec != -2", "esec != -2", "esec != -2", "esec != -2", "esec != -2"
+    Calculated_Exclusive_Cuts_v2, Calculated_Exclusive_Cuts_v3, Calculated_Exclusive_Cuts_v4, Calculated_Exclusive_Cuts_v5, Calculated_Exclusive_Cuts_v6 = "esec != -2", "esec != -2", "esec != -2", "esec != -2", "esec != -2"
     Calculated_Dp_Cut, Calculated_Dp_Cut_V2 = "esec != -2", "esec != -2"
 
 
@@ -10007,7 +10138,7 @@ if(event_Name != "error"):
     if(MM_type == "eppipX"):
 
         if("In" in datatype):
-            Calculated_Exclusive_Cuts_V4 = "".join(["""
+            Calculated_Exclusive_Cuts_v4 = "".join(["""
                 auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
                 auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);//0.938);
                 auto ele  = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
@@ -10019,7 +10150,7 @@ if(event_Name != "error"):
                 return (MM_Vector.M2() < cut_up && MM_Vector.M2() > cut_down);
             
             """])
-            Calculated_Exclusive_Cuts_V5 = "".join([str(Correction_Code_Full_In), """
+            Calculated_Exclusive_Cuts_v5 = "".join([str(Correction_Code_Full_In), """
                 auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
                 auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);//0.938);
                 
@@ -10038,7 +10169,7 @@ if(event_Name != "error"):
                 auto cut_down = -0.2;
                 return (MM_Vector.M2() < cut_up && MM_Vector.M2() > cut_down);
             """])
-            Calculated_Exclusive_Cuts_V6 = "".join(["""
+            Calculated_Exclusive_Cuts_v6 = "".join(["""
                 auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
                 auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);//0.938);
                 auto ele = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
@@ -10686,11 +10817,44 @@ if(event_Name != "error"):
         auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
         auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
         auto Cut_Variable = (beam + targ - eleC).M();
-        double Cut_Upper = -0.0346*(eleC.P()) + 1.4574;
-        double Cut_Lower = -0.0047*(eleC.P()) + 0.8646;
+        
+        double Phi = (180/3.1415926)*atan2(ey, ex);
+        if(((esec == 4 || esec == 3) && Phi < 0) || (esec > 4 && Phi < 90)){
+            Phi += 360;
+        }
+        double phi = (Phi - (esec - 1)*60) - (30/eleC.P());
+        
+        double Cut_Upper = 1.2;
+        double Cut_Lower = 0.7;
+        // double Cut_Upper = -0.0346*(eleC.P()) + 1.4574;
+        // double Cut_Lower = -0.0047*(eleC.P()) + 0.8646;
+        if(esec == 1){
+            Cut_Upper = ((-0.0024)*phi + (-0.0131))*eleC.P() + ((0.0264)*phi + (1.1944));
+            Cut_Lower = ((-0.0013)*phi + (-0.0191))*eleC.P() + ((0.0169)*phi + (0.9950));
+        }
+        if(esec == 2){
+            Cut_Upper = ((-0.0011)*phi + (-0.0063))*eleC.P() + ((0.0137)*phi + (1.1209));
+            Cut_Lower = ((-0.0012)*phi + (-0.0217))*eleC.P() + ((0.0151)*phi + (1.0104));
+        }
+        if(esec == 3){
+            Cut_Upper =  ((0.0011)*phi + (-0.0087))*eleC.P() + ((-0.0111)*phi + (1.1678));
+            Cut_Lower =  ((0.0020)*phi + (-0.0231))*eleC.P() + ((-0.0204)*phi + (1.0516));
+        }
+        if(esec == 4){
+            Cut_Upper = ((-0.0014)*phi + (-0.0139))*eleC.P() +  ((0.0128)*phi + (1.1997));
+            Cut_Lower =  ((0.0013)*phi + (-0.0320))*eleC.P() + ((-0.0137)*phi + (1.1266));
+        }
+        if(esec == 5){
+            Cut_Upper = ((-0.0007)*phi + (-0.0357))*eleC.P() + ((0.0072)*phi + (1.3869));
+            Cut_Lower = ((-0.0006)*phi + (-0.0619))*eleC.P() + ((0.0062)*phi + (1.3819));
+        }
+        if(esec == 6){
+            Cut_Upper = ((0.0001)*phi + (-0.0417))*eleC.P() + ((-0.0001)*phi + (1.5031));
+            Cut_Lower = ((0.0008)*phi + (-0.0462))*eleC.P() + ((-0.0071)*phi + (1.3042));
+        }
         return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
         """])
-        Calculated_Exclusive_Cuts_V2 = "".join(["""
+        Calculated_Exclusive_Cuts_v2 = "".join(["""
         auto Beam_Energy = """, str(Beam_Energy), """;
         auto Proton_Mass = """, str(Particle_Mass_Proton), """;
         auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
@@ -10743,16 +10907,16 @@ if(event_Name != "error"):
     if("ES" == event_type):
         kinematicCuts = ["", Calculated_Exclusive_Cuts, CutChoice, CutChoice_2, "Both_3", "All"]
     
-    if(Calculated_Exclusive_Cuts_V2 != "esec != -2"):
-        kinematicCuts.append(Calculated_Exclusive_Cuts_V2)
-    if(Calculated_Exclusive_Cuts_V3 != "esec != -2"):
-        kinematicCuts.append(Calculated_Exclusive_Cuts_V3)
-    if(Calculated_Exclusive_Cuts_V4 != "esec != -2"):
-        kinematicCuts.append(Calculated_Exclusive_Cuts_V4)
-    if(Calculated_Exclusive_Cuts_V5 != "esec != -2"):
-        kinematicCuts.append(Calculated_Exclusive_Cuts_V5)
-#     if(Calculated_Exclusive_Cuts_V6 != "esec != -2"):
-#         kinematicCuts.append(Calculated_Exclusive_Cuts_V6)
+    if(Calculated_Exclusive_Cuts_v2 != "esec != -2"):
+        kinematicCuts.append(Calculated_Exclusive_Cuts_v2)
+    if(Calculated_Exclusive_Cuts_v3 != "esec != -2"):
+        kinematicCuts.append(Calculated_Exclusive_Cuts_v3)
+    if(Calculated_Exclusive_Cuts_v4 != "esec != -2"):
+        kinematicCuts.append(Calculated_Exclusive_Cuts_v4)
+    if(Calculated_Exclusive_Cuts_v5 != "esec != -2"):
+        kinematicCuts.append(Calculated_Exclusive_Cuts_v5)
+#     if(Calculated_Exclusive_Cuts_v6 != "esec != -2"):
+#         kinematicCuts.append(Calculated_Exclusive_Cuts_v6)
 #     if(Calculated_Dp_Cut != "esec != -2"):
 #         # kinematicCuts = [Calculated_Dp_Cut, Calculated_Dp_Cut_V2]
 #         kinematicCuts = [Calculated_Dp_Cut]
@@ -10768,15 +10932,15 @@ if(event_Name != "error"):
         Cut_Title = ""
         if(str(Input_Cut) == str(Calculated_Exclusive_Cuts)):
             Cut_Title = "Calculated Exclusivity Cuts"
-        if(str(Input_Cut) == str(Calculated_Exclusive_Cuts_V2)):
+        if(str(Input_Cut) == str(Calculated_Exclusive_Cuts_v2)):
             Cut_Title = "Calculated Exclusivity Cuts (Basic)"
-        if(str(Input_Cut) == str(Calculated_Exclusive_Cuts_V3)):
+        if(str(Input_Cut) == str(Calculated_Exclusive_Cuts_v3)):
             Cut_Title = "Calculated Exclusivity Cuts (Based on Both Angles)"
-        if(str(Input_Cut) == str(Calculated_Exclusive_Cuts_V4)):
+        if(str(Input_Cut) == str(Calculated_Exclusive_Cuts_v4)):
             Cut_Title = "Missing Mass Squared Cut"
-        if(str(Input_Cut) == str(Calculated_Exclusive_Cuts_V5)):
+        if(str(Input_Cut) == str(Calculated_Exclusive_Cuts_v5)):
             Cut_Title = "Corrected (Full) Missing Mass Squared Cut"
-        if(str(Input_Cut) == str(Calculated_Exclusive_Cuts_V6)):
+        if(str(Input_Cut) == str(Calculated_Exclusive_Cuts_v6)):
             Cut_Title = "Corrected (EL) Missing Mass Squared Cut"
         if(str(Input_Cut) == str(CutChoice)):
             Cut_Title = "Azimuthal Kinematic Cut"
@@ -10979,7 +11143,9 @@ if(event_Name != "error"):
                 Delta_P_histo_CorList.append("mmP2")
 
         if(datatype == "Outbending"):
-            Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF']
+            # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF']
+            # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmEF']
+            Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmExF', 'mmEF']
             
         # # Select which comparisons you would like to see (i.e. which variables would you like to compare to the theoretical calculations)
         Delta_P_histo_CompareList = ['pi+', 'el']   # Show both corrections
@@ -11066,7 +11232,9 @@ if(event_Name != "error"):
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF', 'mmF_ProMMpro_F', 'mmEF_NoELC', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF_ProMMpro_F', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
             # Delta_P_histo_CorList = ['mm0_NoELC', 'mm0', 'mmF_ProMMpro_F']
-            Delta_P_histo_CorList = ['mm0_NoELC', 'mmF']
+#             Delta_P_histo_CorList = ['mm0_NoELC', 'mmF']
+            Delta_P_histo_CorList = ['mm0_NoELC', 'mmF', 'mmEF']
+
             
             
         # Select which comparisons you would like to see (i.e. which variables would you like to compare to the theoretical calculations)
@@ -11080,7 +11248,10 @@ if(event_Name != "error"):
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmExF']
             Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF']
         if(datatype == "Outbending"):
-            Delta_P_histo_CorList = ['mm0', 'mmF']
+#             Delta_P_histo_CorList = ['mm0', 'mmF']
+            Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF']
+            Delta_P_histo_CorList = ['mm0', 'mmF', 'mmExF', 'mmEF']
+
         Delta_P_histo_CompareList = ['el']
 
 
@@ -11344,7 +11515,9 @@ if(event_Name != "error"):
             if(pass_version == "Spring 2019 - Pass 2"):
                 correctionList.append("mmP2")
         if(datatype == "Outbending"):
-            correctionList = ['mm0', 'mmF', 'mmF_PipMMF']
+#             correctionList = ['mm0', 'mmF', 'mmF_PipMMF']
+#             correctionList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmEF']
+            correctionList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmExF', 'mmEF']
             
     if(event_type == "DP"):
         if(datatype == "Inbending"):
@@ -11426,7 +11599,8 @@ if(event_Name != "error"):
             # correctionList = ['mm0_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF_ProMMpro_F', 'mmEF_NoELC', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
             # correctionList = ['mm0_NoELC', 'mmF_ProMMpro_F_NoELC', 'mm0', 'mmF_ProMMpro_F', 'mmEF_ProMMpro_F_NoELC', 'mmEF', 'mmEF_ProMMpro_F']
             # correctionList = ['mm0_NoELC', 'mm0', 'mmF_ProMMpro_F']
-            correctionList = ['mm0', 'mmF']
+#             correctionList = ['mm0', 'mmF']
+            correctionList = ['mm0', 'mmF', 'mmEF']
             
             
     if(event_type == "EO"):
@@ -11435,7 +11609,9 @@ if(event_Name != "error"):
             # correctionList = ['mm0', 'mmF', 'mmEF', 'mmExF']
             correctionList = ['mm0', 'mmF', 'mmEF']
         if(datatype == "Outbending"):
-            correctionList = ['mm0', 'mmF']
+#             correctionList = ['mm0', 'mmF']
+#             correctionList = ['mm0', 'mmF', 'mmEF']
+            correctionList = ['mm0', 'mmF', 'mmExF', 'mmEF']
 
 
 
@@ -11565,7 +11741,7 @@ if(event_Name != "error"):
 
     if(Run_Missing_Mass_Histos == "yes"):
         for Cuts in kinematicCuts:
-            # if(Cuts in [Calculated_Exclusive_Cuts if("E" not in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, Calculated_Exclusive_Cuts_V5, Calculated_Exclusive_Cuts_V6, "Both", "Both_2", "All"]):
+            # if(Cuts in [Calculated_Exclusive_Cuts if("E" not in event_type) else "esec != -2", Calculated_Exclusive_Cuts_v2, Calculated_Exclusive_Cuts_v3, Calculated_Exclusive_Cuts_v4, Calculated_Exclusive_Cuts_v5, Calculated_Exclusive_Cuts_v6, "Both", "Both_2", "All"]):
             #     continue
             for particle in particle_plot_List:
                 for sector in SecRangeAll:
@@ -11603,8 +11779,8 @@ if(event_Name != "error"):
                                 
     if(Run_Invariant_Mass_Histos == 'yes'): 
         for Cuts in kinematicCuts:
-            if(Cuts in [Calculated_Exclusive_Cuts if("E" in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, Calculated_Exclusive_Cuts_V5, Calculated_Exclusive_Cuts_V6, "Both", "Both_2", "All"]):
-                continue
+            # if(Cuts in [Calculated_Exclusive_Cuts if("E" in event_type) else "esec != -2", Calculated_Exclusive_Cuts_v2, Calculated_Exclusive_Cuts_v3, Calculated_Exclusive_Cuts_v4, Calculated_Exclusive_Cuts_v5, Calculated_Exclusive_Cuts_v6, "Both", "Both_2", "All"]):
+            #     continue
             for particle in particle_plot_List:
                 for particle_filter in particleList:
                     if(same_particle_P_and_Sec_MM and particle != particle_filter):
@@ -12142,7 +12318,7 @@ if(event_Name != "error"):
     
     if(Run_Missing_Mass_Histos == "yes"):
         for Cuts in kinematicCuts:
-            # if(Cuts in [Calculated_Exclusive_Cuts if("E" not in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, Calculated_Exclusive_Cuts_V5, Calculated_Exclusive_Cuts_V6, "Both", "Both_2", "All"]):
+            # if(Cuts in [Calculated_Exclusive_Cuts if("E" not in event_type) else "esec != -2", Calculated_Exclusive_Cuts_v2, Calculated_Exclusive_Cuts_v3, Calculated_Exclusive_Cuts_v4, Calculated_Exclusive_Cuts_v5, Calculated_Exclusive_Cuts_v6, "Both", "Both_2", "All"]):
             #     continue
             #     # Do not plot variables with cuts applied to them that are based on themselves
             Cut_rdf, Cut_Title = Cut_Function(rdf, Cuts)
@@ -12205,9 +12381,9 @@ if(event_Name != "error"):
     
     if(Run_Invariant_Mass_Histos == 'yes'):
         for Cuts in kinematicCuts:
-            if(Cuts in [Calculated_Exclusive_Cuts if("E" in event_type) else "esec != -2", Calculated_Exclusive_Cuts_V2, Calculated_Exclusive_Cuts_V3, Calculated_Exclusive_Cuts_V4, Calculated_Exclusive_Cuts_V5, Calculated_Exclusive_Cuts_V6, "Both", "Both_2", "All"]):
-                continue
-                # Do not plot variables with cuts applied to them that are based on themselves
+#             if(Cuts in [Calculated_Exclusive_Cuts if("E" in event_type) else "esec != -2", Calculated_Exclusive_Cuts_v2, Calculated_Exclusive_Cuts_v3, Calculated_Exclusive_Cuts_v4, Calculated_Exclusive_Cuts_v5, Calculated_Exclusive_Cuts_v6, "Both", "Both_2", "All"]):
+#                 continue
+#                 # Do not plot variables with cuts applied to them that are based on themselves
             Cut_rdf, Cut_Title = Cut_Function(rdf, Cuts)
             for correction in correctionList:
                 sdf1 = CorDpp(Cut_rdf, correction, "WM", event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")

@@ -26,6 +26,13 @@ Saved here to prevent a loss of files while working on the volitile folder.
 Backup File location: /w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections
 
 
+
+## Updates from 5-9-2023
+* Updated the Inbending Corrections (Done)
+* Updating the Outbending Corrections (In-progress)
+* Switched to running files with python3 (original command stopped working on 5-9-2023)
+
+
 ## Updates from 11-14-2022:
 General Updates:
 * Moved back to the work directory (issue was fixed but code may not all be updated yet...)
