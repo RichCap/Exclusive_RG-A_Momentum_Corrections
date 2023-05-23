@@ -1227,6 +1227,79 @@ if(event_Name != "error"):
         Extra_Part_of_Name = "_New_Extended_El_Cor_V5"
         # Refined the Electron correction from '_New_Extended_El_Cor_V4'
             # Correction 'mmEF' now has an additional refinement made to it while 'mmExF' has been changed to include all prior refinements since "_New_Extended_El_Cor_V1"
+            
+            
+        Extra_Part_of_Name = "_New_Extended_El_Cor_V6"
+        # Refined the Electron correction from '_New_Extended_El_Cor_V5'
+            # Correction 'mmEF' now has an additional refinement made to it while 'mmExF' is the same correction as 'mmEF' was in "_New_Extended_El_Cor_V5"
+            # The newest refinement uses data that starts from 2.5 GeV instead of 2 GeV (too few statistics to keep using for refinements)
+            
+            
+        Extra_Part_of_Name = "_New_Extended_El_Cor_V7"
+        # Refined the Electron correction from '_New_Extended_El_Cor_V6'
+            # Correction 'mmEF' now has an additional refinement made to it while 'mmExF' is the same correction as 'mmEF' was in "_New_Extended_El_Cor_V6"
+            # The newest refinement uses data that starts from 2.5 GeV instead of 2 GeV
+            
+            
+        Extra_Part_of_Name = "_New_Extended_El_Cor_V8"
+        # Refined the Electron correction from '_New_Extended_El_Cor_V7'
+            # Correction 'mmEF' now has some additional refinements but some sectors are either left unchanged from what they were in "_New_Extended_El_Cor_V7" (sectors 4 and 6) or have been reverted to be the same as 'mmExF' (which was left unchanged this time as well)
+            
+            
+        Extra_Part_of_Name = "_New_Extended_El_Cor_V9"
+        # Refined the Electron correction from '_New_Extended_El_Cor_V8'
+            # Correction 'mmEF' now has one additional refinement to sector 1 (refinement uses the old range starting at 2 GeV instead of 2.5 GeV)
+            # All other sectors are left unchanged from what they were in "_New_Extended_El_Cor_V8"
+            
+            
+        Extra_Part_of_Name = "_New_Pip_Cor_V1"
+        # Condensed the Electron correction from '_New_Extended_El_Cor_V9' into one line
+            # Correction 'mmEF' may be slightly rounded but otherwise the same
+            # Correction 'mmExF' is the same (unrounded) correction that was 'mmEF' in '_New_Extended_El_Cor_V9' (the older 'mmExF' was replaced)
+        # Added new Pi+ Momentum correction as an initial test (iterations may be needed as 'mmEF' was changed slightly)
+        # Now running "SP" events with the corrections 'mmEF_PipMMEF' and 'mmExF_PipMMEF'
+        
+        
+        
+        Extra_Part_of_Name = "_New_Pip_Cor_V2"
+        # The condensed the Electron correction from '_New_Pip_Cor_V1' was successfully tested
+            # All corrections using 'mmExF' were removed as the correction is now identical to 'mmEF'
+        # Refined the new Pi+ Momentum correction
+        
+        
+        Extra_Part_of_Name = "_New_Pip_Cor_V3"
+        # Refined the new Pi+ Momentum correction from '_New_Pip_Cor_V2'
+            # Refinement was done using the same momentum range but the size of each slice was increased from 0.5 GeV per point to 1 GeV per point
+            
+            
+        Extra_Part_of_Name = "_New_Final_El_Cor_V1"
+        # Refined the new Electron Momentum correction from '_New_Pip_Cor_V3'
+            # Refinement was done using the shorter electron momentum range which started at 2.5 GeV
+            # File 5578 had some issues when being processed that were not addressed (could be fixed by rerunning the code but this was not done before moving on the next version)
+            
+            
+        Extra_Part_of_Name = "_New_Final_El_Cor_V2"
+        # Refined the Electron Momentum correction from '_New_Final_El_Cor_V1'
+            # Refinement was done with a slightly different method using the missing mass values as a direct means of calculating ∆P for the final levels of refinement
+            
+            
+        Extra_Part_of_Name = "_New_Final_Pip_Cor_V1"
+        # Refined the Pi+ Momentum correction from '_New_Final_El_Cor_V2'
+            # Normal method
+        # Removed all "mmExF" corrections
+    
+    
+        Extra_Part_of_Name = "_New_Final_Pip_Cor_V2"
+        # Refined the Pi+ Momentum correction from '_New_Final_El_Cor_V1' (removed all sectors refinements from '_New_Final_El_Cor_V2' and '_New_Final_Pip_Cor_V1' and only refined sector 4)
+        # Removed a variety of histograms not being used currently including a 3D histogram and the phase space and Invariant mass histograms. Also only running the final corrections
+        
+        
+        Extra_Part_of_Name = "_New_Final_El_Cor_V3"
+        # Refined the El Momentum correction from '_New_Final_Pip_Cor_V2' (just refined El sector 1 and 2)
+        
+        
+        Extra_Part_of_Name = "_New_Final_El_Cor_V4"
+        # Refined the El Momentum correction from '_New_Final_El_Cor_V3' (just refined El)
     
     
     if(event_type != "MC"):
@@ -7031,7 +7104,7 @@ if(event_Name != "error"):
 
 
     ############################################################
-    #----------#     Last updated on: 5-9-2023     #----------#
+    #----------#     Last updated on: 5-21-2023     #----------#
     ############################################################
 
 
@@ -7245,32 +7318,159 @@ if(event_Name != "error"):
                         dp = dp + ((1.8650e-05)*phi*phi + (1.1757e-05)*phi + (-5.2514e-04))*pp*pp + ((-2.6206e-04)*phi*phi + (-2.6712e-04)*phi + (0.0074623))*pp + ((8.3426e-04)*phi*phi + (0.0013708)*phi + (-0.024749));
                     }
 
+                    if(sec == 1){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 1] is:
+                        dp = dp +  ((9.6177e-06)*phi*phi + (-1.6643e-06)*phi + (-7.5806e-05))*pp*pp + ((-1.3124e-04)*phi*phi + (-1.1399e-05)*phi +  (5.9901e-04))*pp +  ((4.1151e-04)*phi*phi +  (2.2676e-04)*phi + (-0.0012323));
+                    }
+                    if(sec == 2){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 2] is:
+                        dp = dp + ((-6.5403e-06)*phi*phi +  (1.8051e-05)*phi + (-1.5816e-04))*pp*pp +  ((9.7305e-05)*phi*phi + (-2.3155e-04)*phi +   (0.0016089))*pp + ((-3.0901e-04)*phi*phi +  (6.0455e-04)*phi + (-0.003992));
+                    }
+                    if(sec == 3){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 3] is:
+                        dp = dp +  ((3.0603e-07)*phi*phi + (-1.5040e-05)*phi +  (6.0727e-04))*pp*pp + ((-1.0623e-05)*phi*phi +  (1.7486e-04)*phi +  (-0.008958))*pp +  ((8.0536e-05)*phi*phi + (-3.9857e-04)*phi + (0.030768));
+                    }
+                    if(sec == 4){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 4] is:
+                        dp = dp + ((-9.8782e-06)*phi*phi +  (1.4314e-05)*phi + (-4.5577e-04))*pp*pp +  ((1.2864e-04)*phi*phi + (-1.1600e-04)*phi +   (0.0057963))*pp + ((-3.4841e-04)*phi*phi +  (2.4823e-05)*phi + (-0.0175));
+                    }
+                    if(sec == 5){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 5] is:
+                        dp = dp + ((-1.8802e-06)*phi*phi +  (1.5345e-05)*phi +  (1.4538e-04))*pp*pp + ((-6.4792e-06)*phi*phi + (-1.8614e-04)*phi + (-7.4891e-04))*pp +  ((2.0656e-04)*phi*phi +  (4.4799e-04)*phi + (-0.0041372));
+                    }
+                    if(sec == 6){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 6] is:
+                        dp = dp + ((-1.3151e-05)*phi*phi + (-5.9373e-05)*phi + (-4.5769e-04))*pp*pp +  ((1.8344e-04)*phi*phi +  (8.9377e-04)*phi +   (0.0067169))*pp + ((-5.7639e-04)*phi*phi +  (-0.0031197)*phi + (-0.022393));
+                    }
 
-                    if(corEl == 3){ // New (Refined) Extended Corrections (mmEF)                        
+                    // These corrections were made on 5/9/2023 and use a slightly smaller kinematic range than the corrections above (range starts at 2.5 GeV instead of 2 GeV)
+                    if(sec == 1){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 1] is:
+                        dp = dp + ((-1.5949e-05)*phi*phi + (4.1737e-06)*phi + (9.3051e-04))*pp*pp + ((2.2274e-04)*phi*phi + (-5.5908e-05)*phi + (-0.012478))*pp + ((-7.2884e-04)*phi*phi + (2.3293e-04)*phi + (0.039049));
+                    }
+                    if(sec == 2){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 2] is:
+                        dp = dp + ((-4.0123e-06)*phi*phi + (-2.8548e-05)*phi + (0.0010347))*pp*pp + ((5.2701e-05)*phi*phi + (4.0875e-04)*phi + (-0.013862))*pp + ((-1.7368e-04)*phi*phi + (-0.0013278)*phi + (0.042685));
+                    }
+                    if(sec == 3){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 3] is:
+                        dp = dp + ((-2.4662e-07)*phi*phi + (-2.2071e-06)*phi + (4.5111e-05))*pp*pp + ((4.9086e-06)*phi*phi + (3.4926e-05)*phi + (-3.7982e-04))*pp + ((-2.4268e-05)*phi*phi + (-1.5430e-04)*phi + (-5.1332e-04));
+                    }
+                    if(sec == 4){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 4] is:
+                        dp = dp + ((1.9571e-06)*phi*phi + (-4.0049e-05)*phi + (5.8303e-04))*pp*pp + ((-2.5271e-05)*phi*phi + (5.1827e-04)*phi + (-0.0073137))*pp + ((6.7075e-05)*phi*phi + (-0.0014843)*phi + (0.019712));
+                    }
+                    if(sec == 5){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 5] is:
+                        dp = dp + ((-1.3704e-06)*phi*phi + (-2.2204e-05)*phi + (-8.5453e-06))*pp*pp + ((5.4827e-05)*phi*phi + (2.8622e-04)*phi + (-0.0010583))*pp + ((-3.7468e-04)*phi*phi + (-8.1873e-04)*phi + (0.0096448));
+                    }
+                    if(sec == 6){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 6] is:
+                        dp = dp + ((3.7315e-06)*phi*phi + (2.6829e-05)*phi + (8.5940e-04))*pp*pp + ((-4.8253e-05)*phi*phi + (-4.2904e-04)*phi + (-0.012406))*pp + ((1.2664e-04)*phi*phi + (0.0015771)*phi + (0.040887));
+                    }
+
+                    // These corrections were made on 5/10/2023 and use the smaller kinematic range of the corrections above (range starts at 2.5 GeV instead of 2 GeV)
+                    if(sec == 1){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 1] is:
+                        dp = dp +  ((1.2672e-05)*phi*phi + (-7.2349e-06)*phi + (-3.3866e-04))*pp*pp + ((-1.9480e-04)*phi*phi +  (1.1734e-04)*phi +  (0.0048881))*pp + ((7.2094e-04)*phi*phi + (-4.9098e-04)*phi + (-0.017591));
+                        // Made with "_New_Extended_El_Cor_V7":
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 1] is:
+                        dp = dp + ((-1.6711e-05)*phi*phi + (-5.0132e-06)*phi +  (4.3982e-04))*pp*pp +  ((2.6100e-04)*phi*phi +  (5.5687e-05)*phi + (-0.0069082))*pp + ((-9.7378e-04)*phi*phi + (-8.6253e-05)*phi + (0.025668));
+                        // Made with "_New_Extended_El_Cor_V8":
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 1] is:
+                        dp = dp +  ((1.5606e-05)*phi*phi +  (2.6339e-06)*phi + (-4.9270e-04))*pp*pp + ((-2.4409e-04)*phi*phi + (-5.0027e-05)*phi +  (0.0071274))*pp +  ((9.1998e-04)*phi*phi +  (2.0150e-04)*phi + (-0.024643));
+                    }
+                    if(sec == 4){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 4] is:
+                        dp = dp +  ((4.1578e-06)*phi*phi +  (2.0446e-05)*phi + (-4.4732e-04))*pp*pp + ((-4.2237e-05)*phi*phi + (-2.6439e-04)*phi +  (0.0050143))*pp + ((6.6987e-05)*phi*phi +  (6.2765e-04)*phi +  (-0.01015));
+                    }
+                    if(sec == 5){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 5] is:
+                        dp = dp + ((-2.5598e-06)*phi*phi +  (2.5822e-05)*phi +  (3.6894e-04))*pp*pp + ((-4.1048e-06)*phi*phi + (-3.5369e-04)*phi + (-0.0038407))*pp + ((2.3498e-04)*phi*phi +   (0.0011169)*phi + (0.0054669));
+                        // Made with "_New_Extended_El_Cor_V7":
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 5] is:
+                        dp = dp +  ((1.5502e-05)*phi*phi + (-2.0620e-05)*phi +  (-0.0015768))*pp*pp + ((-1.8364e-04)*phi*phi +  (2.7179e-04)*phi +   (0.021456))*pp + ((4.0783e-04)*phi*phi + (-8.0724e-04)*phi + (-0.066293));
+                    }
+                    if(sec == 6){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 6] is:
+                        dp = dp + ((-1.7688e-08)*phi*phi +  (1.5406e-05)*phi + (-3.6864e-04))*pp*pp + ((-6.1710e-06)*phi*phi + (-1.8641e-04)*phi +  (0.0052647))*pp + ((5.1462e-05)*phi*phi +  (4.8340e-04)*phi + (-0.016055));
+                    }
+
+
+                    if(corEl == 3){ // New (Refined) Extended Corrections (mmEF)
                         if(sec == 1){
-                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 1] is:
-                            dp = dp +  ((9.6177e-06)*phi*phi + (-1.6643e-06)*phi + (-7.5806e-05))*pp*pp + ((-1.3124e-04)*phi*phi + (-1.1399e-05)*phi +  (5.9901e-04))*pp +  ((4.1151e-04)*phi*phi +  (2.2676e-04)*phi + (-0.0012323));
+                            dp =  ((2.6957000e-06)*phi*phi +  (1.411850e-05)*phi + (-8.548480e-04))*pp*pp + ((-4.347000e-05)*phi*phi +  (3.662810e-04)*phi + (0.01007791))*pp +  ((1.99320e-04)*phi*phi + (-8.11713e-04)*phi + (-0.008384375));
                         }
                         if(sec == 2){
-                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 2] is:
-                            dp = dp + ((-6.5403e-06)*phi*phi +  (1.8051e-05)*phi + (-1.5816e-04))*pp*pp +  ((9.7305e-05)*phi*phi + (-2.3155e-04)*phi +   (0.0016089))*pp + ((-3.0901e-04)*phi*phi +  (6.0455e-04)*phi + (-0.003992));
+                            dp = ((-5.7393000e-06)*phi*phi + (-1.217322e-05)*phi + (-3.597980e-04))*pp*pp +  ((6.354700e-05)*phi*phi +  (6.478060e-04)*phi + (0.00561929))*pp + ((-1.51718e-04)*phi*phi +  (-0.00195272)*phi + (-0.0100398));
                         }
                         if(sec == 3){
-                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 3] is:
-                            dp = dp +  ((3.0603e-07)*phi*phi + (-1.5040e-05)*phi +  (6.0727e-04))*pp*pp + ((-1.0623e-05)*phi*phi +  (1.7486e-04)*phi +  (-0.008958))*pp +  ((8.0536e-05)*phi*phi + (-3.9857e-04)*phi + (0.030768));
+                            dp = ((-4.8418900e-06)*phi*phi + (-2.772552e-05)*phi + (-5.872110e-04))*pp*pp +  ((5.402860e-05)*phi*phi +  (1.739683e-04)*phi + (0.01062548))*pp + ((-9.66720e-05)*phi*phi + (-3.63641e-04)*phi + (-0.01983092));
                         }
                         if(sec == 4){
-                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 4] is:
-                            dp = dp + ((-9.8782e-06)*phi*phi +  (1.4314e-05)*phi + (-4.5577e-04))*pp*pp +  ((1.2864e-04)*phi*phi + (-1.1600e-04)*phi +   (0.0057963))*pp + ((-3.4841e-04)*phi*phi +  (2.4823e-05)*phi + (-0.0175));
+                            dp =  ((9.2070000e-07)*phi*phi + (-3.180100e-05)*phi + (-9.934200e-04))*pp*pp + ((-5.600000e-06)*phi*phi +  (3.379220e-04)*phi +  (0.0127541))*pp +  ((1.91480e-05)*phi*phi + (-0.001328248)*phi + (-0.01868997));
                         }
                         if(sec == 5){
-                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 5] is:
-                            dp = dp + ((-1.8802e-06)*phi*phi +  (1.5345e-05)*phi +  (1.4538e-04))*pp*pp + ((-6.4792e-06)*phi*phi + (-1.8614e-04)*phi + (-7.4891e-04))*pp +  ((2.0656e-04)*phi*phi +  (4.4799e-04)*phi + (-0.0041372));
+                            dp =  ((9.3229677e-06)*phi*phi +  (3.510990e-05)*phi + (-0.0021918953))*pp*pp + ((-1.220143e-04)*phi*phi + (-3.229970e-04)*phi + (0.02648059))*pp +  ((3.96753e-04)*phi*phi +  (7.75900e-04)*phi + (-0.0807585));
                         }
                         if(sec == 6){
-                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Without Pion)][Sector 6] is:
-                            dp = dp + ((-1.3151e-05)*phi*phi + (-5.9373e-05)*phi + (-4.5769e-04))*pp*pp +  ((1.8344e-04)*phi*phi +  (8.9377e-04)*phi +   (0.0067169))*pp + ((-5.7639e-04)*phi*phi +  (-0.0031197)*phi + (-0.022393));
+                            dp =  ((2.5036120e-06)*phi*phi +  (2.685810e-05)*phi +   (-0.00139564))*pp*pp + ((-2.235200e-05)*phi*phi + (-2.056670e-04)*phi +  (0.0233939))*pp +  ((1.02934e-04)*phi*phi +  (6.11170e-04)*phi + (-0.059224)); 
                         }
+                        
+                        // Made with "_New_Pip_Cor_V3":
+                        if(sec == 1){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Full Elastic)][Sector 1] is:
+                            dp = dp + ((-7.6847e-06)*phi*phi +  (4.1267e-05)*phi + (-7.4240e-04))*pp*pp +  ((1.2218e-04)*phi*phi + (-4.9847e-04)*phi +   (0.0088033))*pp + ((-4.9434e-04)*phi*phi +    (0.001114)*phi + (-0.021955));
+                            
+                            // Made with "_New_Final_Pip_Cor_V2"
+                            dp = dp + ((1.3641e-05)*phi*phi + (-1.5731e-05)*phi + (-8.7395e-04))*pp*pp + ((-1.8416e-04)*phi*phi + (9.9110e-05)*phi + (0.010497))*pp + ((6.2267e-04)*phi*phi + (2.5877e-04)*phi + (-0.028027));
+                            
+                            // Made with "_New_Final_El_Cor_V3"
+                            dp = dp + ((-7.3331e-06)*phi*phi + (2.9512e-06)*phi + (1.4857e-04))*pp*pp + ((9.4041e-05)*phi*phi + (5.5267e-05)*phi + (-5.8894e-04))*pp + ((-3.0270e-04)*phi*phi + (-5.5944e-04)*phi + (-0.0034499));
+                            
+                            // // Made with "_New_Final_El_Cor_V1"
+                            // dp = dp + ((1.03251e-05)*phi*phi +  (2.2513e-06)*phi + (-5.3280e-04))*pp*pp + ((-1.4595e-04)*phi*phi + (-8.2451e-05)*phi +   (0.0070263))*pp + ((5.04685e-04)*phi*phi + (5.98378e-04)*phi + (-0.021709));
+                        }
+                        if(sec == 2){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Full Elastic)][Sector 2] is:
+                            dp = dp +  ((7.0884e-06)*phi*phi +  (8.7982e-06)*phi +  (-0.0010783))*pp*pp + ((-1.0109e-04)*phi*phi + (-1.1700e-04)*phi +    (0.012013))*pp +  ((3.3792e-04)*phi*phi +  (2.8723e-04)*phi + (-0.025106));
+                            
+                            // Made with "_New_Final_Pip_Cor_V2"
+                            dp = dp + ((-1.6415e-06)*phi*phi + (3.6995e-06)*phi + (-4.1021e-04))*pp*pp + ((3.7988e-05)*phi*phi + (-5.4482e-05)*phi + (0.0045624))*pp + ((-1.7928e-04)*phi*phi + (1.3032e-04)*phi + (-0.01276));
+                            
+                            // // Made with "_New_Final_El_Cor_V1"
+                            // dp = dp + ((-3.4856e-06)*phi*phi +  (6.7366e-06)*phi + (-6.7262e-05))*pp*pp +  ((5.9230e-05)*phi*phi + (-1.0128e-04)*phi +  (9.6405e-04))*pp + ((-2.4045e-04)*phi*phi +  (3.4902e-04)*phi + (-0.0024082));
+                        }
+                        if(sec == 3){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Full Elastic)][Sector 3] is:
+                            dp = dp +  ((7.5610e-06)*phi*phi +  (4.4297e-05)*phi +   (-0.001235))*pp*pp + ((-1.0371e-04)*phi*phi + (-5.5008e-04)*phi +    (0.015016))*pp +  ((2.9442e-04)*phi*phi +   (0.0013219)*phi + (-0.038352));
+                            
+                            // // Made with "_New_Final_El_Cor_V1"
+                            // dp = dp + ((-6.5533e-06)*phi*phi + (-2.4763e-05)*phi +  (2.5581e-04))*pp*pp +  ((9.0806e-05)*phi*phi +  (3.2069e-04)*phi +    (-0.00317))*pp + ((-2.8331e-04)*phi*phi + (-8.9180e-04)*phi + (0.0090994));
+                        }
+                        if(sec == 4){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Full Elastic)][Sector 4] is:
+                            dp = dp +  ((9.8896e-07)*phi*phi +  (7.0400e-06)*phi +  (-0.0013222))*pp*pp + ((-1.8327e-05)*phi*phi + (-1.1266e-04)*phi +    (0.016429))*pp +  ((6.1367e-05)*phi*phi +  (6.8615e-04)*phi + (-0.042902));
+                            
+                            // // Made with "_New_Final_El_Cor_V1"
+                            // dp = dp + ((-2.9180e-06)*phi*phi +  (1.3058e-05)*phi +  (1.0764e-04))*pp*pp +  ((4.4838e-05)*phi*phi + (-1.7994e-04)*phi +   (-0.001485))*pp + ((-1.4825e-04)*phi*phi +  (5.4030e-04)*phi + (0.004241));
+                        }
+                        if(sec == 5){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Full Elastic)][Sector 5] is:
+                            dp = dp + ((-1.2999e-05)*phi*phi +  (5.3299e-06)*phi + (-4.8562e-06))*pp*pp +  ((1.7110e-04)*phi*phi + (-1.1444e-04)*phi +  (-0.0015372))*pp + ((-5.0501e-04)*phi*phi +  (6.8521e-04)*phi + (0.01591));
+                            
+                            // // Made with "_New_Final_El_Cor_V1"
+                            // dp = dp +  ((8.8026e-07)*phi*phi + (-2.9591e-05)*phi + (-1.3689e-04))*pp*pp + ((-7.6211e-06)*phi*phi +  (4.3146e-04)*phi +   (0.0010141))*pp +  ((1.7583e-05)*phi*phi +  (-0.0014301)*phi + (1.8729e-04));
+                        }
+                        if(sec == 6){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = Corrected (Full Elastic)][Sector 6] is:
+                            dp = dp + ((-2.5661e-06)*phi*phi + (-4.5408e-06)*phi + (-8.7958e-04))*pp*pp +  ((4.0724e-05)*phi*phi +  (1.3044e-04)*phi +   (0.0092421))*pp + ((-1.6950e-04)*phi*phi + (-8.5567e-04)*phi + (-0.013069));
+                            
+                            // // Made with "_New_Final_El_Cor_V1"
+                            // dp = dp +  ((7.7260e-07)*phi*phi +  (2.4124e-05)*phi + (-6.1300e-06))*pp*pp + ((-1.0544e-05)*phi*phi + (-3.1879e-04)*phi + (-2.5230e-05))*pp +  ((5.0320e-05)*phi*phi +  (9.1722e-04)*phi + (1.7274e-04)); 
+                        }
+
+                        
                     }
                 }
             }
@@ -7296,36 +7496,143 @@ if(event_Name != "error"):
                 if(sec == 1){
                     dp = ((5.7e-07)*phi*phi + (-2.531e-05)*phi + (3.2253e-04))*pp*pp + ((2.12e-06)*phi*phi + (-3.6741e-04)*phi + (-0.01378))*pp + ((-1.215e-05)*phi*phi + (4.275e-04)*phi + (0.04561));
                     dp = dp + ((-2.12e-06)*phi*phi + (3.185e-05)*phi + (0.00178389))*pp*pp + ((1.262e-05)*phi*phi + (-0.00012324)*phi + (-0.01494883))*pp + ((-1.422e-05)*phi*phi + (0.00021045)*phi + (0.02590949));
-                    
                 }
 
                 if(sec == 2){
                     dp = ((-4e-08)*phi*phi + (-9.836e-05)*phi + (3.142e-04))*pp*pp + ((8.6e-07)*phi*phi + (4.6073e-04)*phi + (-0.0136))*pp + ((8.09e-06)*phi*phi + (-6.0253e-04)*phi + (0.03594));
                     dp = dp + ((-9.8e-07)*phi*phi + (3.974e-05)*phi + (0.00159441))*pp*pp + ((6.61e-06)*phi*phi + (-0.00023934)*phi + (-0.01295355))*pp + ((-1.087e-05)*phi*phi + (0.00027704)*phi + (0.02013232));
-                    
                 }
 
                 if(sec == 3){
                     dp = ((-1.37e-06)*phi*phi + (3.759e-05)*phi + (7.4895e-04))*pp*pp + ((8.45e-06)*phi*phi + (1.464e-04)*phi + (-0.01952))*pp + ((-1.41e-06)*phi*phi + (-3.5781e-04)*phi + (0.0353));
                     dp = dp + ((-3.2e-07)*phi*phi + (-2.98e-06)*phi + (0.00144252))*pp*pp + ((2.9e-06)*phi*phi + (-5.719e-05)*phi + (-0.01197579))*pp + ((-5.74e-06)*phi*phi + (0.00024614)*phi + (0.02228774));
-                    
                 }
 
                 if(sec == 4){
                     dp = ((2.7e-06)*phi*phi + (5.028e-05)*phi + (9.007e-04))*pp*pp + ((-1.548e-05)*phi*phi + (-6.141e-05)*phi + (-0.0151))*pp + ((2.063e-05)*phi*phi + (1.7882e-04)*phi + (0.03522));
                     dp = dp + ((-8.2e-07)*phi*phi + (-2.606e-05)*phi + (0.00102121))*pp*pp + ((6.32e-06)*phi*phi + (0.00013252)*phi + (-0.00898872))*pp + ((-9.79e-06)*phi*phi + (-0.00017861)*phi + (0.01654247));
-                    
                 }
 
                 if(sec == 5){
                     dp = ((2.2e-06)*phi*phi + (-1.554e-05)*phi + (5.465e-04))*pp*pp + ((-1.06e-05)*phi*phi + (1.226e-04)*phi + (-0.01651))*pp + ((1.039e-05)*phi*phi + (-2.062e-04)*phi + (0.0436));
                     dp = dp + ((-5.8e-07)*phi*phi + (-1.4e-07)*phi + (0.00129068))*pp*pp + ((5.43e-06)*phi*phi + (-2.262e-05)*phi + (-0.01076443))*pp + ((-7.78e-06)*phi*phi + (0.00010021)*phi + (0.01975448));
-                    
                 }
 
                 if(sec == 6){
                     dp = ((1.11e-06)*phi*phi + (-1e-08)*phi + (6.88e-05))*pp*pp + ((-8.86e-06)*phi*phi + (-5.94e-05)*phi + (-0.01133))*pp + ((1.919e-05)*phi*phi + (-2.444e-04)*phi + (0.03491));
                     dp = dp + ((-1.15e-06)*phi*phi + (6.34e-06)*phi + (0.00196799))*pp*pp + ((1.196e-05)*phi*phi + (-0.00010685)*phi + (-0.01774286))*pp + ((-2.573e-05)*phi*phi + (0.00042626)*phi + (0.03688378));
+                }
+                
+                if(corPip == 2){
+                    if(sec == 1){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion)][Sector 1] is:
+                        dp = ((-5.5619e-07)*phi*phi +  (1.2176e-05)*phi + (0.0019766))*pp*pp +  ((2.2974e-06)*phi*phi + (-3.2344e-04)*phi + (-0.018279))*pp + ((-3.3287e-06)*phi*phi +  (1.2371e-04)*phi + (0.037557));
+                    }
+                    if(sec == 2){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion)][Sector 2] is:
+                        dp = ((-3.0769e-06)*phi*phi +  (5.2387e-06)*phi + (0.0025674))*pp*pp +  ((1.8124e-05)*phi*phi + (-1.7621e-04)*phi + (-0.020154))*pp + ((-1.2558e-05)*phi*phi +  (1.2769e-04)*phi + (0.033566));
+                    }
+                    if(sec == 3){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion)][Sector 3] is:
+                        dp =  ((1.3125e-06)*phi*phi + (-5.9180e-05)*phi + (0.0014564))*pp*pp + ((-7.2451e-06)*phi*phi +  (6.3174e-04)*phi + (-0.017146))*pp +  ((1.0599e-05)*phi*phi + (-8.1889e-04)*phi + (0.029497));
+                    }
+                    if(sec == 4){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion)][Sector 4] is:
+                        dp = ((-3.3265e-07)*phi*phi + (-3.0209e-05)*phi +  (0.001713))*pp*pp +  ((7.3058e-06)*phi*phi +  (3.1596e-04)*phi + (-0.017057))*pp + ((-1.3587e-05)*phi*phi + (-2.3543e-04)*phi + (0.034361));
+                    }
+                    if(sec == 5){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion)][Sector 5] is:
+                        dp =  ((4.9522e-08)*phi*phi +  (1.6615e-06)*phi + (0.0013238))*pp*pp + ((-7.7824e-07)*phi*phi + (-1.8424e-05)*phi + (-0.013754))*pp +  ((6.2245e-06)*phi*phi +  (5.4907e-05)*phi + (0.027401));
+                    }
+                    if(sec == 6){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion)][Sector 6] is:
+                        dp = ((-1.1641e-06)*phi*phi +  (3.6397e-05)*phi + (0.0017669))*pp*pp +  ((1.2615e-05)*phi*phi + (-3.1012e-04)*phi + (-0.018168))*pp + ((-1.9665e-05)*phi*phi +  (6.8981e-05)*phi + (0.038744));
+                    }
+                    
+                    if(sec == 1){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 1] is:
+                        dp = dp + ((-1.1071e-07)*phi*phi +  (1.1611e-05)*phi + (-6.8815e-04))*pp*pp + ((-2.2037e-06)*phi*phi + (-1.8548e-04)*phi +  (0.0055018))*pp +  ((2.3393e-07)*phi*phi +  (1.2655e-04)*phi + (-0.0055127));
+                    }
+                    if(sec == 2){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 2] is:
+                        dp = dp + ((-1.2998e-06)*phi*phi + (-2.7296e-05)*phi + (-1.2792e-04))*pp*pp +  ((6.8931e-06)*phi*phi +  (1.6941e-04)*phi +  (0.0013802))*pp + ((-8.9689e-06)*phi*phi + (-2.5644e-04)*phi + (-0.0032964));
+                    }
+                    if(sec == 3){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 3] is:
+                        dp = dp + ((-1.7131e-06)*phi*phi +  (5.7922e-05)*phi +  (5.9580e-04))*pp*pp +  ((1.1049e-05)*phi*phi + (-2.7280e-04)*phi + (-0.0039213))*pp + ((-8.5944e-06)*phi*phi +  (2.8071e-04)*phi + (-1.3545e-04));
+                    }
+                    if(sec == 4){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 4] is:
+                        dp = dp +  ((9.2471e-07)*phi*phi +  (7.2685e-06)*phi + (-1.4055e-05))*pp*pp + ((-8.2856e-06)*phi*phi +  (1.0956e-05)*phi +  (0.0013298))*pp +  ((1.1312e-05)*phi*phi + (-3.6642e-05)*phi + (-0.004602));
+                    }
+                    if(sec == 5){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 5] is:
+                        dp = dp +  ((8.9196e-08)*phi*phi + (-3.7341e-05)*phi +  (1.5161e-05))*pp*pp +  ((3.2196e-06)*phi*phi +  (3.1272e-04)*phi + (-0.0012442))*pp + ((-9.1313e-06)*phi*phi + (-5.1308e-04)*phi + (0.0042737));
+                    }
+                    if(sec == 6){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 6] is:
+                        dp = dp + ((-4.7604e-08)*phi*phi + (-8.9182e-06)*phi + (-9.4440e-05))*pp*pp + ((-1.9801e-06)*phi*phi +  (2.6388e-05)*phi +  (0.0014914))*pp +  ((5.5219e-06)*phi*phi + (-9.8614e-05)*phi + (-0.0038784));
+                    }
+                    
+                    
+                    if(sec == 1){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 1] is:
+                        dp = dp + ((-1.0665e-06)*phi*phi + (-9.2758e-06)*phi +  (2.1876e-04))*pp*pp +  ((6.5297e-06)*phi*phi +  (2.7729e-05)*phi + (-0.0010923))*pp + ((-1.4148e-07)*phi*phi +  (2.9491e-05)*phi + (-0.0043183));
+                    }
+                    if(sec == 2){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 2] is:
+                        dp = dp + ((-9.8764e-08)*phi*phi + (-1.9100e-05)*phi + (-3.9391e-04))*pp*pp + ((-3.3432e-07)*phi*phi +  (1.0039e-04)*phi +  (0.0033748))*pp +  ((5.3722e-06)*phi*phi + (-1.1331e-04)*phi + (-0.0070953));
+                    }
+                    if(sec == 3){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 3] is:
+                        dp = dp + ((-4.0314e-07)*phi*phi +  (4.1308e-06)*phi + (-5.3057e-04))*pp*pp +  ((1.3308e-06)*phi*phi +  (1.2769e-05)*phi +  (0.0044938))*pp +  ((2.0059e-06)*phi*phi +  (9.1931e-06)*phi + (-0.0076076));
+                    }
+                    if(sec == 4){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 4] is:
+                        dp = dp + ((-1.2205e-06)*phi*phi +  (1.4853e-05)*phi +  (2.6654e-04))*pp*pp +  ((8.0883e-06)*phi*phi + (-8.1258e-05)*phi + (-0.0017054))*pp + ((-6.7779e-06)*phi*phi + (-4.1304e-05)*phi + (0.0013179));
+                    }
+                    if(sec == 5){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 5] is:
+                        dp = dp +  ((2.0598e-06)*phi*phi +  (2.0426e-05)*phi + (-1.5120e-04))*pp*pp + ((-1.2444e-05)*phi*phi + (-1.3032e-04)*phi + (7.0147e-04))*pp +  ((1.2403e-05)*phi*phi +  (7.1482e-05)*phi + (-0.0013052));
+                    }
+                    if(sec == 6){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 6] is:
+                        dp = dp +  ((8.1876e-07)*phi*phi + (-1.2894e-05)*phi + (-4.6578e-04))*pp*pp + ((-6.8450e-06)*phi*phi +  (8.5513e-05)*phi +  (0.0035454))*pp +  ((1.0147e-05)*phi*phi + (-1.0325e-04)*phi + (-0.0054159));
+                    }
+                    
+                    
+                    // Made with "_New_Final_El_Cor_V1"
+                    if(sec == 4){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 4] is:
+                        dp = dp + ((2.4054e-07)*phi*phi + (-3.9757e-05)*phi + (3.5924e-04))*pp*pp + ((-3.0307e-07)*phi*phi + (3.2370e-04)*phi + (-0.0024836))*pp + ((-3.9735e-06)*phi*phi + (-2.7823e-04)*phi + (9.4398e-04));
+                    }
+                    
+                    // // Made with "_New_Final_El_Cor_V2"
+                    // if(sec == 1){
+                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 1] is:
+                    //     dp = dp + ((-1.5773e-06)*phi*phi +  (9.9088e-06)*phi +  (0.0014437))*pp*pp + ((1.3096e-05)*phi*phi + (-8.3749e-05)*phi +  (-0.011931))*pp + ((-2.5415e-05)*phi*phi +  (4.2288e-05)*phi + (0.020025));
+                    // }
+                    // if(sec == 2){
+                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 2] is:
+                    //     dp = dp + ((-3.0481e-07)*phi*phi +  (8.5867e-06)*phi +  (0.0015758))*pp*pp + ((8.4365e-07)*phi*phi + (-5.3751e-05)*phi +  (-0.013059))*pp +  ((5.3675e-06)*phi*phi + (-4.6104e-05)*phi + (0.013993));
+                    // }
+                    // if(sec == 3){
+                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 3] is:
+                    //     dp = dp + ((-1.1422e-06)*phi*phi +  (8.8344e-06)*phi +  (0.0014836))*pp*pp + ((8.4247e-06)*phi*phi + (-1.5137e-05)*phi +  (-0.013165))*pp + ((-9.7766e-06)*phi*phi + (-2.2650e-05)*phi + (0.016665));
+                    // }
+                    // if(sec == 4){
+                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 4] is:
+                    //     dp = dp + ((-5.5674e-08)*phi*phi + (-2.4465e-05)*phi + (9.7991e-04))*pp*pp + ((1.9739e-06)*phi*phi +  (1.5276e-04)*phi + (-0.0080991))*pp + ((-8.3491e-06)*phi*phi + (-6.1803e-06)*phi + (0.012138));
+                    // }
+                    // if(sec == 5){
+                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 5] is:
+                    //     dp = dp + ((-2.1078e-07)*phi*phi +  (4.2935e-06)*phi + (7.7315e-04))*pp*pp + ((2.8898e-06)*phi*phi + (-7.2161e-05)*phi + (-0.0062508))*pp + ((-3.7784e-06)*phi*phi +  (1.4753e-04)*phi + (0.0073286));
+                    // }
+                    // if(sec == 6){
+                    //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Full Elastic)][Sector 6] is:
+                    //     dp = dp + ((-1.1672e-06)*phi*phi +  (2.3563e-05)*phi +  (0.0015138))*pp*pp + ((8.8051e-06)*phi*phi + (-1.6862e-04)*phi +  (-0.011727))*pp + ((-7.7027e-06)*phi*phi +  (1.1270e-04)*phi + (0.01485));
+                    // }
+                    
                     
                 }
 
@@ -9689,7 +9996,7 @@ if(event_Name != "error"):
         if("In" in datatype):
 
             Calculated_Exclusive_Cuts = "".join(["""
-                auto beam = ROOT::Math::PxPyPzMVector(0, 0, """, str(Beam_Energy), """, 0);
+                auto beam = ROOT::Math::PxPyPzMVector(0, 0, """,    str(Beam_Energy),          """, 0);
                 auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);//0.938);
                 auto ele  = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
                 auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, """, str(Particle_Mass_PiC), """);//0.13957);
@@ -11145,8 +11452,11 @@ if(event_Name != "error"):
         if(datatype == "Outbending"):
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF']
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmEF']
-            Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmExF', 'mmEF']
-            
+#             Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmExF', 'mmEF', 'mmEF_PipMMEF', 'mmExF_PipMMEF']
+            Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmEF', 'mmEF_PipMMEF']
+            Delta_P_histo_CorList = ['mm0', 'mmEF', 'mmEF_PipMMEF']
+            # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmEF', 'mmEF_PipMMEF', "mmExF_PipMMEF", "mmExF"]
+
         # # Select which comparisons you would like to see (i.e. which variables would you like to compare to the theoretical calculations)
         Delta_P_histo_CompareList = ['pi+', 'el']   # Show both corrections
         # Delta_P_histo_CompareList = ['el']          # Electron Corrections only
@@ -11517,7 +11827,11 @@ if(event_Name != "error"):
         if(datatype == "Outbending"):
 #             correctionList = ['mm0', 'mmF', 'mmF_PipMMF']
 #             correctionList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmEF']
-            correctionList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmExF', 'mmEF']
+#             correctionList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmExF', 'mmEF', 'mmEF_PipMMEF', 'mmExF_PipMMEF']
+            correctionList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmEF', 'mmEF_PipMMEF']
+    
+            correctionList = ['mm0', 'mmEF', 'mmEF_PipMMEF']
+            # correctionList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmEF', 'mmEF_PipMMEF', "mmExF_PipMMEF", "mmExF"]
             
     if(event_type == "DP"):
         if(datatype == "Inbending"):
@@ -11651,10 +11965,10 @@ if(event_Name != "error"):
 
     # Letting Run_Phase_Space = 'yes' allows for the histograms without the missing mass values to be run
     Run_Phase_Space = 'yes'
-#     Run_Phase_Space = 'no'
+    Run_Phase_Space = 'no'
     
     Skip_Sector_Phase_Space = "yes"
-    # Skip_Sector_Phase_Space = "no"
+#     Skip_Sector_Phase_Space = "no"
 
 
     # This list is for the extra phase space histograms which can be run with or without shifts      
@@ -11670,7 +11984,10 @@ if(event_Name != "error"):
     # Run with the Invariant Mass histograms?
     # Letting Run_Invariant_Mass_Histos = 'yes' causes the code to also create histograms for Invariant Mass versus the particle momentum
     Run_Invariant_Mass_Histos = 'yes'
-    # Run_Invariant_Mass_Histos = 'no'
+    Run_Invariant_Mass_Histos = 'no'
+    
+    if("E" in event_type):
+        Run_Invariant_Mass_Histos = 'yes'
 
     ##-------------------------------------------------------------##
     ##=====##=====##     Histogram Options (End)     ##=====##=====##
@@ -12088,16 +12405,16 @@ if(event_Name != "error"):
 
                                                 Delta_P_histo_Count += 1
                                                 
-                                                Title_3D_Pip = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Particle} vs Missing Mass vs p_{Particle}")).replace(Title_Axis, "; p_{Particle}; #Delta p_{Particle}; Missing Mass")).replace("Particle", "#pi^{+}")
-                                                # Title_3D_Pip = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Particle} vs #theta_{Particle} vs p_{Particle}")).replace(Title_Axis, "; p_{Particle}; #Delta p_{Particle}; Missing Mass")).replace("Particle", "Pro")
-                                                x_variable = 'pip'
-                                                y_variable = ''.join(['D_pip_', str(correction)])
-                                                z_variable = str(correction)
-                                                # z_variable = "proth"
-                                                # Dmom_pip_Histo[histoName_3D] = sdf_MM.Histo3D(("".join(["Dmom_pip_Histo", str(histoName_3D)]), Title_3D_Pip, 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max, Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max), x_variable, y_variable, str(correction))
-                                                Dmom_pip_Histo[histoName_3D] = sdf_MM.Histo3D(("".join(["Dmom_pip_Histo", str(histoName_3D)]), Title_3D_Pip, 100, 0, 10, 100, -0.5, 0.5, 100, 0.5, 1.2), x_variable, y_variable, z_variable)
-                                                # Dmom_pip_Histo[histoName_3D] = sdf_MM.Histo3D(("".join(["Dmom_pip_Histo", str(histoName_3D)]), Title_3D_Pip, 100, 0, 10, 100, -0.5, 0.5, 20, 0, 60), x_variable, y_variable, z_variable)
-                                                Delta_P_histo_Count += 1
+#                                                 Title_3D_Pip = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Particle} vs Missing Mass vs p_{Particle}")).replace(Title_Axis, "; p_{Particle}; #Delta p_{Particle}; Missing Mass")).replace("Particle", "#pi^{+}")
+#                                                 # Title_3D_Pip = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Particle} vs #theta_{Particle} vs p_{Particle}")).replace(Title_Axis, "; p_{Particle}; #Delta p_{Particle}; Missing Mass")).replace("Particle", "Pro")
+#                                                 x_variable = 'pip'
+#                                                 y_variable = ''.join(['D_pip_', str(correction)])
+#                                                 z_variable = str(correction)
+#                                                 # z_variable = "proth"
+#                                                 # Dmom_pip_Histo[histoName_3D] = sdf_MM.Histo3D(("".join(["Dmom_pip_Histo", str(histoName_3D)]), Title_3D_Pip, 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max, Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max), x_variable, y_variable, str(correction))
+#                                                 Dmom_pip_Histo[histoName_3D] = sdf_MM.Histo3D(("".join(["Dmom_pip_Histo", str(histoName_3D)]), Title_3D_Pip, 100, 0, 10, 100, -0.5, 0.5, 100, 0.5, 1.2), x_variable, y_variable, z_variable)
+#                                                 # Dmom_pip_Histo[histoName_3D] = sdf_MM.Histo3D(("".join(["Dmom_pip_Histo", str(histoName_3D)]), Title_3D_Pip, 100, 0, 10, 100, -0.5, 0.5, 20, 0, 60), x_variable, y_variable, z_variable)
+#                                                 Delta_P_histo_Count += 1
 
 
                                             if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
