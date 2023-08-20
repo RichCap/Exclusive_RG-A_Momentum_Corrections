@@ -152,6 +152,10 @@ file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Only_Electron_Channel/Outbending/electron_only.outb.qa.rec_clas_00",         ""))
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Elastic_Scattering_ep/Outbending/eP_Elastic_with_CDpro.outb.qa.rec_clas_00", ""))
 
+
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_nSidis/Complete/ePip.pass2.inb.qa.nSidis_",                                ""))
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_nSidis/Complete/Only_Electron_Channel/electron_only.pass2.inb.qa.nSidis_", ""))
+
 file_name = str(file_name.replace("-", "_")).replace(".hipo.root", "")
 file_name = str(file_name).replace(".evio.root", "")
 file_name = str(file_name).replace(".root", "")
@@ -1182,6 +1186,9 @@ if(event_Name != "error"):
         # Made new electron correction for pass 2
         # Starting Pi+ Corrections
         
+        Extra_Part_of_Name = "".join(["_GitHub_Spring_2019_Pass_", "1" if("Pass 1" in pass_version) else "2", "_NEW_V1"])
+        # Now has the more complete set of pass 2 files
+        
     if("Central" in pass_version):
         Extra_Part_of_Name = "".join(["_GitHub_Spring_2019_Pass_", "1" if("Pass 1" in pass_version) else "2", "_V3" if("Central" not in pass_version) else "_Central_V1"])
         # No changes to regular Spring 2019 files (as of V3 above), but added the option to plot using only central detector pions
@@ -1416,6 +1423,8 @@ if(event_Name != "error"):
                 else:
                     running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass2/Inbending_nSidis/ePip.pass2.inb.qa.nSidis_00*"
                     # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass2/Inbending/ePip.pass2.inb.qa.MissingNeutron_00*"
+                    running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_nSidis/Complete/ePip.pass2.inb.qa.nSidis_00*"
+#                     running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_nSidis/ePip.pass2.inb.qa.nSidis_00*"
                         
         if(event_type == "DP"):
             if(datatype == "Inbending"):
@@ -1456,7 +1465,9 @@ if(event_Name != "error"):
                 
         if(event_type == "EO"):
             if(datatype == "Inbending"):
-                running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Only_Electron_Channel/electron_only", ".inb" if("In" in str(datatype)) else ".outb", "*root"])
+                running_code_with_these_files     = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Only_Electron_Channel/electron_only", ".inb" if("In" in str(datatype)) else ".outb", "*root"])
+                if("Pass 2" in pass_version):
+                    running_code_with_these_files = "".join(["/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/", "Inbending" if("In" in str(datatype)) else "Outbending", "_nSidis/Complete/Only_Electron_Channel/electron_only.pass2", ".inb" if("In" in str(datatype)) else ".outb", ".qa.nSidis_*root"])
             else:
                 # Skim4 cuts
                 running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Only_Electron_Channel/Outbending/electron_only.outb.qa.rec_clas_005449.evio.0*.root"
@@ -11311,7 +11322,10 @@ if(event_Name != "error"):
     if(event_type == "EO"):
         if(datatype == "Inbending"):
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmExF']
-            Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF']
+            # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF']
+            Delta_P_histo_CorList = ['mm0', 'mmEF']
+            if(pass_version == "Spring 2019 - Pass 2"):
+                Delta_P_histo_CorList.append("mmP2")
         if(datatype == "Outbending"):
 #             Delta_P_histo_CorList = ['mm0', 'mmF']
 #             Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF']
@@ -11678,7 +11692,10 @@ if(event_Name != "error"):
         if(datatype == "Inbending"):
             # correctionList = ['mm0', 'mmF']
             # correctionList = ['mm0', 'mmF', 'mmEF', 'mmExF']
-            correctionList = ['mm0', 'mmF', 'mmEF']
+            # correctionList = ['mm0', 'mmF', 'mmEF']
+            correctionList = ['mm0', 'mmEF']
+            if(pass_version == "Spring 2019 - Pass 2"):
+                correctionList.append("mmP2")
         if(datatype == "Outbending"):
 #             correctionList = ['mm0', 'mmF']
 #             correctionList = ['mm0', 'mmF', 'mmEF']
