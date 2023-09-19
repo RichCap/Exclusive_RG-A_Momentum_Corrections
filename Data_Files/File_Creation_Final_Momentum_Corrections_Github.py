@@ -58,8 +58,10 @@ if("_MC" not in event_type):
         Beam_Energy = 10.1998
     if("C" in event_type):
         pass_version = "".join([pass_version, " - Central Detector"])
+    if("F" in event_type):
+        pass_version = "".join([pass_version, " - Forward Detector"])
 
-    event_type = str(((event_type.replace("P1", "")).replace("P2", "")).replace("C", ""))
+    event_type = str((((event_type.replace("P1", "")).replace("P2", "")).replace("C", "")).replace("F", ""))
     
     
 # Normal values used (rounded)
@@ -1411,21 +1413,23 @@ if(event_Name != "error"):
                     # Skim4 cuts
                     # running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Single_Pion_Channel_epipN/Outbending_skim4/ePip.outb.qa.rec_clas_005449.evio.0*.root"
                     running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Single_Pion_Channel_epipN/Outbending_skim4/ePip.outb.qa.rec_clas_*.root"
-            elif("Central" in pass_version):
-                if("Pass 1" in pass_version):
-                    running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Central_Tracking/Pass1/Inbending/ePip.Central.pass1.inb.qa.nSidis_00*"
-                else:
-                    running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Central_Tracking/Pass2/Inbending/ePip.Central.pass2.inb.qa.nSidis_00*"
+            # elif("Central" in pass_version):
+            #     if("Pass 1" in pass_version):
+            #         running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Central_Tracking/Pass1/Inbending/ePip.Central.pass1.inb.qa.nSidis_00*"
+            #     else:
+            #         running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Central_Tracking/Pass2/Inbending/ePip.Central.pass2.inb.qa.nSidis_00*"
+            # else:
+            if("Pass 1" in pass_version):
+                running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass1/Inbending_nSidis/ePip.pass1.inb.qa.nSidis_00*"
+                # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass1/Inbending/ePip.pass1.inb.qa.MissingNeutron_00*"
             else:
-                if("Pass 1" in pass_version):
-                    running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass1/Inbending_nSidis/ePip.pass1.inb.qa.nSidis_00*"
-                    # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass1/Inbending/ePip.pass1.inb.qa.MissingNeutron_00*"
-                else:
-                    running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass2/Inbending_nSidis/ePip.pass2.inb.qa.nSidis_00*"
-                    # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass2/Inbending/ePip.pass2.inb.qa.MissingNeutron_00*"
-                    running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_nSidis/Complete/ePip.pass2.inb.qa.nSidis_00*"
-#                     running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_nSidis/ePip.pass2.inb.qa.nSidis_00*"
-                        
+                # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass2/Inbending_nSidis/ePip.pass2.inb.qa.nSidis_00*"
+                # # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass2/Inbending/ePip.pass2.inb.qa.MissingNeutron_00*"
+                # running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_nSidis/Complete/ePip.pass2.inb.qa.nSidis_00*"
+                # # running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_nSidis/ePip.pass2.inb.qa.nSidis_00*"
+                running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_recon/Single_Pion_Channel_epipN/ePip.pass2.inb.qa.rec_clas_00*"
+        
+        
         if(event_type == "DP"):
             if(datatype == "Inbending"):
                 # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/trotta/wagon/RhoWagon/PyAnalysis/data/inb/epPipPim.inb.qa.nSidis_005*"
@@ -1468,6 +1472,7 @@ if(event_Name != "error"):
                 running_code_with_these_files     = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Only_Electron_Channel/electron_only", ".inb" if("In" in str(datatype)) else ".outb", "*root"])
                 if("Pass 2" in pass_version):
                     running_code_with_these_files = "".join(["/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/", "Inbending" if("In" in str(datatype)) else "Outbending", "_nSidis/Complete/Only_Electron_Channel/electron_only.pass2", ".inb" if("In" in str(datatype)) else ".outb", ".qa.nSidis_*root"])
+                    running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_recon/Only_Electron_Channel/electron_only.pass2.inb.qa.rec_clas_00*"
             else:
                 # Skim4 cuts
                 running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Only_Electron_Channel/Outbending/electron_only.outb.qa.rec_clas_005449.evio.0*.root"
@@ -10646,7 +10651,7 @@ if(event_Name != "error"):
         Calculated_Exclusive_Cuts = "".join(["""        
         // For Invariant Mass Cut (Determined with the help of Azimuthal Kinematic Cut applied on the invariant mass histogram):
         auto Beam_Energy = """, str(Beam_Energy), """;
-        auto Proton_Mass  = """, str(Particle_Mass_Proton), """;
+        auto Proton_Mass = """, str(Particle_Mass_Proton), """;
         auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
         auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
         auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);

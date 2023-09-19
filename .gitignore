@@ -1,3 +1,5 @@
+*.png
+Untitled*
 *.hipo.root
 *.ipynb_checkpoints/
 *0.root
