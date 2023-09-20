@@ -158,6 +158,9 @@ file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_nSidis/Complete/ePip.pass2.inb.qa.nSidis_",                                ""))
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_nSidis/Complete/Only_Electron_Channel/electron_only.pass2.inb.qa.nSidis_", ""))
 
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_recon/Single_Pion_Channel_epipN/ePip.pass2.inb.qa.rec_clas_00",      ""))
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_recon/Only_Electron_Channel/electron_only.pass2.inb.qa.rec_clas_00", ""))
+
 file_name = str(file_name.replace("-", "_")).replace(".hipo.root", "")
 file_name = str(file_name).replace(".evio.root", "")
 file_name = str(file_name).replace(".root", "")
@@ -763,367 +766,23 @@ if(event_Name != "error"):
     else:
         print("\033[1mResults WILL be saved\033[0m")
 
-    
-    
-#     Extra_Part_of_Name = "_GitHub_Back_to_Back_Test_V9"
-#     # Increased the number of bins used in the ∆Theta_Pro Histograms
-#     # Added an additional exclusivity cut (CutChoice_2) based on ∆Theta Calculation (D_Angle_V1)
-#     # Exclusivity Cuts now do not use linear or quadratic equations, but instead use the gaussian widths of the fitted histograms
-#     # "Cut_Function" now supports a combination of all of these added cuts (names updated somewhat from V8 to differentiate between all of the cut options)
-#     # Removed Phi binning from the Elastic Channel (option was not being used)
-    
-#     Extra_Part_of_Name = "_GitHub_Cut_Tests_V7"
-#     # Made the basic Invariant Mass cut tighter (i.e., "Calculated_Exclusive_Cuts_v2" --> W < 0.7 GeV and W > 1.2 GeV)
-#     # Decreased the range of the y-axis of the ∆P plots (decreased to ±1 GeV with the same sizes of binning --> the ideal may be even lower as all desirable events are between ±0.3 Gev but the range has been extended to see more when necessary)
-    
-    
-#     Extra_Part_of_Name = "_GitHub_Electron_Refinement_V1"
-#     # Reintroduced the automatic baseline cut on Invariant Mass for elastic channels (W < 0.6 GeV and W > 1.3 GeV --- "Calculated_Exclusive_Cuts_v2" is not effected)
-#     # Increased the bin sizes along the y-axis of the ∆P plots for the non-elastic channels (same bin ranges as before, but the bin sizes are now consistent with those from the elastic scattering channels)
-#         # Other similar updates were also added so that these channels will produce plots which are consistent with the elastic scattering events
-#     # Running with electron phi bins
-#     # Phase space histograms now only create a plot for sector 0 (i.e., all sectors -- Optional condition that can be turned off -- does not affect other options)
-#     # Only running electron kinematics and corrections (for elastic and single pion channels -- Pi+ corrections are included in the SP channel)
-#     # Updated the default location of the SP files (compatible with current file names for the SP files made with the groovy script)
-    
-    
-    
-#     Extra_Part_of_Name = "_GitHub_Electron_Refinement_V2"
-#     # Minor update to histogram titles (related to the phi binning parts of titles)
-#     # Updated SP files to take in files using skim4 data (files which did not have the W cuts applied)
-    
-    
-#     Extra_Part_of_Name = "_GitHub_Electron_Refinement_V3"
-#     # Added new (extended) Electron Momentum Corrections (Kinematic Coverage is: 0.95-9.95 GeV)
-#     # Not running Electron Only Correction (i.e., 'mmF') for the Single Pion Channel (may run it later during the refinement of the pion corrections)
-    
-    
-#     Extra_Part_of_Name = "_GitHub_Electron_Refinement_V4"
-#     # Updated Missing Mass histograms so that their momentum ranges are always from p = 0-12 GeV (does not depend on the plotted particle anymore)
-#     # Refined Electron Corrections based on Extra_Part_of_Name = "_GitHub_Electron_Refinement_V3"
-#         # (Kinematic Coverage changed to: 1.45-9.95 GeV)
-#     # Running the pi+ pion corrections again
-    
-    
-#     Extra_Part_of_Name = "_GitHub_Electron_Refinement_V5"
-#     # Doubled the number of bins in the ∆P plots (both in x and y binning for the electron corrections, just in the y binning for all others)
-#         # Changed the range of the electron momentum plotted in the ∆P histograms from 0-12 GeV (with 120 bins total) to the new dimensions of 0.5-10.5 GeV with 400 bins total (bin size is 0.025 GeV/bin)
-#     # Added the Correction options where only the electron is corrected to the SP channel
-#     # No new corrections since "_GitHub_Electron_Refinement_V4"
-    
-    
-#     Extra_Part_of_Name = "_GitHub_Electron_Refinement_V6"
-#     # Refined the Electron Corrections based on the new fits of the uncorrected ∆P plots
 
-    
-    
-#     Extra_Part_of_Name = "_GitHub_Pion_Refinement_V1"
-#     # Created new Pion Corrections using the new electron corrections (and fit methods)
-#     # Minor issue noticed: there seems to be some print funtion which outputs empty lines during the running of this code - this should not effect the histograms, but is an oddity that I would like to fix (this was not noticed ever before)
-    
-#     Extra_Part_of_Name = "_GitHub_Pion_Refinement_V2"
-#     # Refined the Pion Corrections from "GitHub_Pion_Refinement_V1"
-#     # Fixed an issue with 'pass_version' being used with Fall2018 data (code check for pass_version != "NS" instead of pass_version != "NA")
-    
-#     Extra_Part_of_Name = "_GitHub_Pion_Refinement_V3"
-#     # Refined the Pion Corrections from "GitHub_Pion_Refinement_V1" ("GitHub_Pion_Refinement_V2" refinements were accidentally applied to the electron instead of the pion)
-#     # Set the initial beam energies used throughout the code at the beginning (based on file input) to avoid issues when loading other (i.e., Spring 2019) datasets
-#     # Fixed the minor note mentioned for "GitHub_Pion_Refinement_V1"
-    
-#     Extra_Part_of_Name = "_GitHub_Pion_Refinement_V4"
-#     # Refined the Pion Corrections from "GitHub_Pion_Refinement_V3"
-    
-    
-#     Extra_Part_of_Name = "_GitHub_Proton_Refinement_V1"
-#     # Starting the proton corrections
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V2"
-    # New proton corrections (compatible with Elastic Corrections) - Quadratic but not phi dependent 
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V3"
-    # New proton corrections added
-        # More complex correction uses 2 quadratic equation
-    # Ran more versions of the corrections which turned off the Energy Loss Corrections
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V4"
-    # New proton corrections added
-        # More complex correction uses a combination of a quadratic and then a linear equation
-            # The correction added used the Energy Loss corrections when being created
-            # These are the only proton (momentum) corrections that are applied in this file
-    # The (new) corrections from "_GitHub_Proton_Refinement_V3" were not run again (did not work well)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V5"
-    # New proton corrections added
-        # Modified/replaced existing corrections to check how the number/size of momentum bins effects the corrections (updated the 'complex' corrections as well as the 'regular' quadratic corrections)
-        
-        
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V6"
-    # Refined the Proton Corrections by limiting the contributions of the Pi0 channel
-    # No longer plotting Pi- histograms (only electron, proton, and Pi+)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V7"
-    # Refined the Proton Corrections (again)
-    
-    Extra_Part_of_Name = "_GitHub_Cut_Check_V1"
-    # Running Missing Mass histograms WITH exclusivities cuts (investigating why the corrections are not working)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V8"
-    # Refined the Proton Corrections (again)
-    # Reset the exclusivity cuts to only run for the proper histograms
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V9"
-    # Refined the Proton Corrections (again)
-        # No Pi0 Contributions to the proton corrections
-        
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V10"
-    # Refined the Proton Corrections (Just the Quad+Linear and 'refined' Quad)
-        # No Pi0 Contributions to the proton corrections
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V11"
-    # Refined the Proton Corrections (All versions with 'REF' now including another double quadratic refinement)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V12"
-    # Refined the Proton Corrections (New/Refined corrections to replace/improve those from V11)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V13"
-    # Refined the Proton Corrections ("LEF" Corrections refined with normal quadratic OR linear corrections - depending on sector)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V14"
-    # New the Proton Corrections (New versions of "LEF" and "QEF" that use 0.05 GeV Momentum slices of ∆P below p = 1 GeV)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V15"
-    # Removed some corrections (all proton corrections that are not the quad+linear ones) but adds two new ones
-        # New proton corrections are:
-            # 1) A refinement of the quad+linear correction where the refinement uses the mean of each gaussian slice is used in their defined range instead of using a continuous function
-            # 2) A new proton correction entirely pased on the method described in the above refinement
-            
-            
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V16"
-    # Refined the sliced corrections
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V17"
-    # Needed to fix the refinements from the last version
-    # Changed the binning of the Missing Mass Squared plots (from 160 to 200 in the range of -0.5 to 0.5)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V18"
-    # Changed the binning of the Missing Mass Squared plots (from 200 to 310 in the range of -0.3175 to 0.3025)
-    # Removed plots which use different particle momentums and sectors
-    # Checking Missing Mass Plots with exclusivity cuts
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V19"
-    # Changed the binning of the Missing Mass Squared plots (from 310 to 320 in the range of -0.3275 to 0.3125 - Same size but the range is increased to make the bins easier to change while fitting)
-    # Added alternative calculation of ∆P histograms
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V20"
-    # Removed the alternative calculation of ∆P histograms but added the ∆P vs uncorrected proton momentum (i.e., without the energy loss correction - will be incompatible with current order that the proton corrections are applied)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V21"
-    # New Proton Correction Refinement (Sliced)
-    # Added Integrated Sector ∆P histograms
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V22"
-    # New Proton Correction that uses slices WITHOUT the Energy Loss corrections
-    # Updated the corNameTitles function so that histograms are made with the corrections already in multiple lines for each particle
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V23"
-    # Added new type of exclusivity cut (simple cut on the MM2 < 0.2 and MM2 > -0.2)
-        # Past cuts were too tight/baised higher missing mass at low momentum
-    # No longer running invariant mass histograms (was not using them)
-    # Removed the Proton Correction that used slices WITHOUT the Energy Loss corrections (i.e., the one added in the previous version)
-        # Was not necessary (the problem with the corrections was not the order of the Energy Loss/Momentum corrections were applied)
-        
-        
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V24"
-    # Added another new type of exclusivity cut (cut on the MM2 < 0.15 and MM2 > -0.2)
-    # Rewrote the Proton Correction that used slices WITHOUT the Energy Loss corrections (Now is a unique slice correction using the new exclusivity cut from 'Extra_Part_of_Name = "_GitHub_Proton_Refinement_V23"')
-    # Refined the Sliced Proton correction from prior files using the new cut (seperated the refinement from the original versions)
-    # Removed the phi binning histograms (was not using)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V25"
-    # The tighter MM2 cut from the last file was not needed
-    # Refined the 'SERC' proton correction 
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V26"
-    # Refined the sliced proton corrections and added a new one (using the original, calculated, cuts)
-    # Removed a few unused corrections
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V27"
-    # Combined a refined version of the sliced proton corrections and added a new one (using the original, calculated, cuts)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V28"
-    # Refined the new sliced proton correction (from V27, i.e., corPro == 10) using ∆P fits without exclusivity cuts
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V29"
-    # Added new exclusivity cut which includes the energy loss corrections before cutting on the Missing Mass Squared (cut still on |MM2| < 0.2)
-    # Created a new correction from a refinement of the sliced proton correction from V28 (i.e., corPro == 10 refined into the new correction corPro == 11)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V30"
-    # Slightly refined corPro == 11 and created a double quadratic (continuous) correction using those parameters
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V31"
-    # Needed to fix corPro == 12 (used the wrong parameter at the end of the equation and refined the switch point a bit)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V32"
-    # Removed Sliced Corrections and created a new refined corPro == 13 (similar to corPro == 12 but with a few adjustments)
-    # Renamed corPro == 12 (gave name to corPro == 13)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V33"
-    # Created a new refined corPro == 14 (similar to corPro == 12-13 but with a few adjustments)
-    # Renamed corPro == 12-14 (switched similar names)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V34"
-    # Refined corPro == 14 (sector 5 and 6 using ∆P peaks with corrected (Eloss) Missing Mass Cuts)
-    # Added new cut which corrects all particles except the proton and pi- pion (i.e., full electron/pi+ momentum corrections + Eloss)
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V35"
-    # Refined corPro == 14 (sector 5 and 6 refined arbitrarily for testing - last version performed very poorly)
-    # Added new 3D histogram to plot ∆P, Missing Mass, and proton momentum in the same histogram
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V36"
-    # Refined corPro == 15 (sector 5 and 6 refined arbitrarily for testing)
-    # Fixed the 3D histogram to plot ∆P, Missing Mass, and proton momentum in the same histogram (was not running due to constant crashes)
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V37"
-    # Testing Theta (3D ∆P plots) and Phi bins to see if they can help with the corrections
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V38"
-    # Removed 3D and Phi plots
-    # Refined Sec 5 as a test (corPro == 15)
-        # Sec 6 will still need correcting
-        
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V39"
-    # Refined Sec 5 as another test (corPro == 15)
-        # V38 was an improvement
-        # Sec 6 will still need correcting
-    
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V40"
-    # Using 3D tests with new conditions for getting ∆P
-    # Removed some unnecessary options/cuts
-    
-    Extra_Part_of_Name = "_GitHub_Proton_Refinement_V41"
-    # Flipped the condition for D_p_S_pro
-    
-    Extra_Part_of_Name = "_Proton_Testing_V1"
-    # Added testing corrections (proton only - not sector dependent)
-    
-    Extra_Part_of_Name = "_Proton_Testing_V2"
-    # Added additional testing corrections from the last version (now also include the other particle corrections)
-    
-    Extra_Part_of_Name = "_New_Proton_Refinement_V1"
-    # Added manual sliced refinement (corPro == 18 -- 'Sliced - Manual Refined New')
-        # Refined from 'mmEF_PipMMEF_ProMMpro_NRE' but completely independent when running
-        
-    Extra_Part_of_Name = "_New_Proton_Refinement_V2"
-    # Modified corPro == 18 (saved only improved points with a few additional minor tests)
-    # Added another 3D histogram to show both ∆P calculated options
-    
     Extra_Part_of_Name = "_New_Proton_Refinement_V3"
     # Plotting the larger ∆P instead of the flipped choices
     # Modified the ENERGY LOSS CORRECTIONS (removed the constant terms)
     
     if(event_type in ["SP", "P0"]):
-        Extra_Part_of_Name = "_GitHub_3D_Dp_Test_V1"
-        # Testing 3D ∆P vs Missing Mass vs Momentum for the Pi+ Corrections (reduced other options to avoid running unnecessary plots for this test)
-        # No Phi Bins and only Pi+ (∆P) Plots
-        
         Extra_Part_of_Name = "_GitHub_3D_Dp_Test_V2"
         # Testing improved ∆P calculation (p_calc can't be negative)
-        
         if("MC" in event_Name):
-            
-            Extra_Part_of_Name = "_MC_Testing_Normal_V1"
-            # Testing Correction Code with Simulated data
-            
-            Extra_Part_of_Name = "_MC_Testing_Normal_V2"
-            # Same update as "_New_Proton_Refinement_V2"
-            
-            Extra_Part_of_Name = "_MC_Testing_Normal_V3"
-            # Removed all non-testing corrections
-            # ∆P histograms now do not plot sector-by-sector
-            # Testing ∆P = P_calculated - P_generated (instead of measured)
-            # Plotting the larger ∆P instead of the flipped choices
-            
-            Version_MC = "_V4"
-            # Made plot for Missing Mass vs both ∆P values
-            
-            Version_MC = "_V5"
-            # Fixed some issues in the last version and added the ∆P(Gen) plots
-            
-            Version_MC = "_V6"
-            # Completely switched to generated kinematics
-            
-            Version_MC = "_V7"
-            # Improved formatting for generated events
-            
-            Version_MC = "_V8"
-            # Delta P cuts only
-
-            Version_MC = "_VTesting_Delete"
-            
-            Version_MC = "_V9"
-            # Fixed beam energy
-            
-            Version_MC = "_V10"
-            # Cutting events from ∆P with imaginary components
-            
-            Version_MC = "_V11"
-            # Plotting ∆P vs Theta
-            
-            Version_MC = "_VTesting_Delete"
-            
-            Version_MC = "_VTesting_Delete_New"
-            # Updating the mass sig figs
-            
-            
-            Version_MC = "_V12"
-            # Plotting all terms in ∆P calculation
-            # Turning off exclusivity cuts
-            
-#             Version_MC = "_V13"
-#             # Using full sig figs all particles except electron
-
             Version_MC = "_V14"
             # Using reconstructed kinematics (not using full sig figs for proton)
             # Changed binning for the square root term histograms
             # Added cut on the square root term (instead of ∆P - cut is for less than 0.05)
             
-            
             Extra_Part_of_Name = "".join(["_MC_Testing_Normal", str(Version_MC)])
             
             if("+20 MeV" in event_Name):
-                Extra_Part_of_Name = "_MC_Testing_Plus_V1"
-                # Testing Correction Code with Simulated data (added 20 MeV to Proton Momentum)
-                
-                Extra_Part_of_Name = "_MC_Testing_Plus_V2"
-                # Same update as "_New_Proton_Refinement_V2"
-                
                 Extra_Part_of_Name = "_MC_Testing_Plus_V3"
                 # Removed all non-testing corrections
                 # ∆P histograms now do not plot sector-by-sector
@@ -1133,12 +792,6 @@ if(event_Name != "error"):
                 Extra_Part_of_Name = "".join(["_MC_Testing_Plus", str(Version_MC)])
                 
             if("-20 MeV" in event_Name):
-                Extra_Part_of_Name = "_MC_Testing_Minus_V1"
-                # Testing Correction Code with Simulated data (subtracted 20 MeV from Proton Momentum)
-                
-                Extra_Part_of_Name = "_MC_Testing_Minus_V2"
-                # Same update as "_New_Proton_Refinement_V2"
-                
                 Extra_Part_of_Name = "_MC_Testing_Minus_V3"
                 # Removed all non-testing corrections
                 # ∆P histograms now do not plot sector-by-sector
@@ -1147,15 +800,7 @@ if(event_Name != "error"):
                 
                 Extra_Part_of_Name = "".join(["_MC_Testing_Minus", str(Version_MC)])
                 
-                
-                
             if("(GEN)" in event_Name):
-                Version_MC = "_V1"
-                # First version to give the option to switch back-and-forth between the generated and reconstructed simulated events
-                # Made after "_V12"/"_V13" from above notes (ran just before "_V14")
-                # Last reconstructed version was "_V6" so all notes after that correspond to this group going forward
-                # Changed binning for the square root term histograms
-                
                 Version_MC = "_V2"
                 # Added cut on the square root term (instead of ∆P - cut is for less than 0.05)
                 # Ran with "_V14" for REC
@@ -1163,31 +808,12 @@ if(event_Name != "error"):
                 Extra_Part_of_Name = "".join(["_MC_GEN_Test", str(Version_MC)])
                 
     
-    
     if(event_type == "MC"):
         Extra_Part_of_Name = "_GitHub_MC_Test_V1"
         # Testing the momentum corrections using Monte Carlo files (for use in SIDIS analysis)
         # Runs the same as event_type == "SP"
         
     if(pass_version not in ["NA", ""]):
-        Extra_Part_of_Name = "".join(["_GitHub_Spring_2019_Pass_", "1" if("Pass 1" in pass_version) else "2", "_V1"])
-        # Testing Spring 2019 data with pass 1 and pass 2 files
-        
-        Extra_Part_of_Name = "".join(["_GitHub_Spring_2019_Pass_", "1" if("Pass 1" in pass_version) else "2", "_V2"])
-        # Update file locations to take in events from different file skims (MissingNeutron files instead of the nSidis files)
-        # Removed "Extended" Electron Corrections (i.e., the refinements of the original corrections from the last collaboration meeting)
-        
-        Extra_Part_of_Name = "".join(["_GitHub_Spring_2019_Pass_", "1" if("Pass 1" in pass_version) else "2", "_V3"])
-        # Fixed initial beam energies (was still using energy from Fall 2018 instead of from Spring 2019)
-        # File locations take events from MissingNeutron files instead of the nSidis files (want to switch back to nSidis)
-        
-        Extra_Part_of_Name = "".join(["_GitHub_Spring_2019_Pass_", "1" if("Pass 1" in pass_version) else "2", "_V4"])
-        # Starting new Pass 2 electron corrections
-        
-        Extra_Part_of_Name = "".join(["_GitHub_Spring_2019_Pass_", "1" if("Pass 1" in pass_version) else "2", "_V5"])
-        # Made new electron correction for pass 2
-        # Starting Pi+ Corrections
-        
         Extra_Part_of_Name = "".join(["_GitHub_Spring_2019_Pass_", "1" if("Pass 1" in pass_version) else "2", "_NEW_V1"])
         # Now has the more complete set of pass 2 files
         
@@ -1197,148 +823,49 @@ if(event_Name != "error"):
         # Added option to include "C" in the 3rd arguement of this code's input in order to switch from the Forward dectector to the central detector
         
     
-    if("Out" in datatype):
-        Extra_Part_of_Name = "_New_Extended_Out_V1"
-        # New Extended Outbending Corrections
-        
-        Extra_Part_of_Name = "_New_Extended_Out_V2"
-        # New Extended Outbending Corrections (ran with more files)
-        
-        Extra_Part_of_Name = "_New_Extended_Out_V3"
-        # Modified the Exclusive Cuts to the Electron Only (EO) Files
-            # Used the simplest version of the cuts to begin their development 
-        # Added the Invariant Mass Histograms to the list of histograms being produced (needed to refine the Electron Only Files)
-        
-        Extra_Part_of_Name = "_New_Extended_Out_V4"
-        # New Outbending Exclusivity Cut (Linear equations - NOT sector dependant - replaced "Calculated_Exclusive_Cuts")
-        
-        Extra_Part_of_Name = "_New_Extended_Out_V5"
-        # New Outbending Exclusivity Cut (Linear equations - functions of MOMENTUM and PHI - sector dependant - replaced "Calculated_Exclusive_Cuts")
-            # Cuts use a new method of finding the region where the background is overtaking the signal (should offer better cuts to avoid large background peaks in the ∆P distributions)
-        # Invariant Mass Histograms can now be made with the cuts being applied
-        
-        
-        Extra_Part_of_Name = "_New_Extended_El_Cor_V1"
-        # New Electron correction for the outbending data
-        
-        Extra_Part_of_Name = "_New_Extended_El_Cor_V2"
-        # Refined the new Electron correction from '_New_Extended_El_Cor_V1'
-            # Correction from '_New_Extended_El_Cor_V1' was renamed from 'mmEF' to 'mmExF' (refined correction is now called 'mmEF')
-            
-        Extra_Part_of_Name = "_New_Extended_El_Cor_V3"
-        # Refined the Electron correction from '_New_Extended_El_Cor_V2'
-            # Correction 'mmEF' now has an additional refinement made to it ('mmExF' has not changed)
-            
-        Extra_Part_of_Name = "_New_Extended_El_Cor_V4"
-        # Refined the Electron correction from '_New_Extended_El_Cor_V3'
-            # Correction 'mmEF' now has an additional refinement made to it ('mmExF' has not changed)
-            
-        Extra_Part_of_Name = "_New_Extended_El_Cor_V5"
-        # Refined the Electron correction from '_New_Extended_El_Cor_V4'
-            # Correction 'mmEF' now has an additional refinement made to it while 'mmExF' has been changed to include all prior refinements since "_New_Extended_El_Cor_V1"
-            
-            
-        Extra_Part_of_Name = "_New_Extended_El_Cor_V6"
-        # Refined the Electron correction from '_New_Extended_El_Cor_V5'
-            # Correction 'mmEF' now has an additional refinement made to it while 'mmExF' is the same correction as 'mmEF' was in "_New_Extended_El_Cor_V5"
-            # The newest refinement uses data that starts from 2.5 GeV instead of 2 GeV (too few statistics to keep using for refinements)
-            
-            
-        Extra_Part_of_Name = "_New_Extended_El_Cor_V7"
-        # Refined the Electron correction from '_New_Extended_El_Cor_V6'
-            # Correction 'mmEF' now has an additional refinement made to it while 'mmExF' is the same correction as 'mmEF' was in "_New_Extended_El_Cor_V6"
-            # The newest refinement uses data that starts from 2.5 GeV instead of 2 GeV
-            
-            
-        Extra_Part_of_Name = "_New_Extended_El_Cor_V8"
-        # Refined the Electron correction from '_New_Extended_El_Cor_V7'
-            # Correction 'mmEF' now has some additional refinements but some sectors are either left unchanged from what they were in "_New_Extended_El_Cor_V7" (sectors 4 and 6) or have been reverted to be the same as 'mmExF' (which was left unchanged this time as well)
-            
-            
-        Extra_Part_of_Name = "_New_Extended_El_Cor_V9"
-        # Refined the Electron correction from '_New_Extended_El_Cor_V8'
-            # Correction 'mmEF' now has one additional refinement to sector 1 (refinement uses the old range starting at 2 GeV instead of 2.5 GeV)
-            # All other sectors are left unchanged from what they were in "_New_Extended_El_Cor_V8"
-            
-            
-        Extra_Part_of_Name = "_New_Pip_Cor_V1"
-        # Condensed the Electron correction from '_New_Extended_El_Cor_V9' into one line
-            # Correction 'mmEF' may be slightly rounded but otherwise the same
-            # Correction 'mmExF' is the same (unrounded) correction that was 'mmEF' in '_New_Extended_El_Cor_V9' (the older 'mmExF' was replaced)
-        # Added new Pi+ Momentum correction as an initial test (iterations may be needed as 'mmEF' was changed slightly)
-        # Now running "SP" events with the corrections 'mmEF_PipMMEF' and 'mmExF_PipMMEF'
-        
-        
-        
-        Extra_Part_of_Name = "_New_Pip_Cor_V2"
-        # The condensed the Electron correction from '_New_Pip_Cor_V1' was successfully tested
-            # All corrections using 'mmExF' were removed as the correction is now identical to 'mmEF'
-        # Refined the new Pi+ Momentum correction
-        
-        
-        Extra_Part_of_Name = "_New_Pip_Cor_V3"
-        # Refined the new Pi+ Momentum correction from '_New_Pip_Cor_V2'
-            # Refinement was done using the same momentum range but the size of each slice was increased from 0.5 GeV per point to 1 GeV per point
-            
-            
-        Extra_Part_of_Name = "_New_Final_El_Cor_V1"
-        # Refined the new Electron Momentum correction from '_New_Pip_Cor_V3'
-            # Refinement was done using the shorter electron momentum range which started at 2.5 GeV
-            # File 5578 had some issues when being processed that were not addressed (could be fixed by rerunning the code but this was not done before moving on the next version)
-            
-            
-        Extra_Part_of_Name = "_New_Final_El_Cor_V2"
-        # Refined the Electron Momentum correction from '_New_Final_El_Cor_V1'
-            # Refinement was done with a slightly different method using the missing mass values as a direct means of calculating ∆P for the final levels of refinement
-            
-            
-        Extra_Part_of_Name = "_New_Final_Pip_Cor_V1"
-        # Refined the Pi+ Momentum correction from '_New_Final_El_Cor_V2'
-            # Normal method
-        # Removed all "mmExF" corrections
-    
-    
-        Extra_Part_of_Name = "_New_Final_Pip_Cor_V2"
-        # Refined the Pi+ Momentum correction from '_New_Final_El_Cor_V1' (removed all sectors refinements from '_New_Final_El_Cor_V2' and '_New_Final_Pip_Cor_V1' and only refined sector 4)
-        # Removed a variety of histograms not being used currently including a 3D histogram and the phase space and Invariant mass histograms. Also only running the final corrections
-        
-        
-        Extra_Part_of_Name = "_New_Final_El_Cor_V3"
-        # Refined the El Momentum correction from '_New_Final_Pip_Cor_V2' (just refined El sector 1 and 2)
-        
-        
-        Extra_Part_of_Name = "_New_Final_El_Cor_V4"
-        # Refined the El Momentum correction from '_New_Final_El_Cor_V3' (just refined El)
-        
-        
+    if("Out" in datatype):        
         Extra_Part_of_Name = "_Final_Outbending"
         # Complete set of corrections/histograms with the final versions of the corrections
             # Added a 'PipMMExF' option to see the old (extended) versions of the pion correction
             # The 'ExF' options of both particles are now used for the 'EF' versions of the prior 'Extra_Part_of_Name' iterations with the 'EF' version of the correction used as of '_Final_Outbending' is the one-line equivalent for those corrections
     
     
+    
+    # New Names as of 9-19-2023 (After Pass 1 corrections were finished)
+    if("Pass" in str(pass_version)):
+        Pass_File_Name     = str(pass_version).replace(" Detector", "")
+        Pass_File_Name     = str(Pass_File_Name.replace("-", "_")).replace(" ", "_")
+        Pass_File_Name     = str(Pass_File_Name.replace("___", "_"))
+        Pass_File_Name     = str(Pass_File_Name.replace("__",  "_"))
+        
+        Extra_Part_of_Name = "".join(["_", str(Pass_File_Name), "_rec_clas_V1"])
+        # 'rec_clas' refers to the DST files used to create the root files in this code
+            # The DST files are what was used instead of the skim4 or nSidis files since there was not any current versions of the skim files without the cuts I wanted removed
+    
+    
     if(event_type != "MC"):
         if(event_type != "P0"):
             if(Delta_P_histo_Q != 'y'):
-                OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp",   str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
+                OutputFileName = "".join([event_Name.replace(" ", "_"),     "_",       str(MM_type), "_", str(datatype), "_No_Dp",   str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
             else:
-                OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_With_Dp", str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
+                OutputFileName = "".join([event_Name.replace(" ", "_"),     "_",       str(MM_type), "_", str(datatype), "_With_Dp", str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
         else:
             if("MC" not in event_Name):
                 if(Delta_P_histo_Q != 'y'):
-                    OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp",   str(Extra_Part_of_Name), ".root"])
+                    OutputFileName = "".join([event_Name.replace(" ", "_"), "_",       str(MM_type), "_", str(datatype), "_No_Dp",   str(Extra_Part_of_Name),                           ".root"])
                 else:
-                    OutputFileName = "".join([event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_With_Dp", str(Extra_Part_of_Name), ".root"])
+                    OutputFileName = "".join([event_Name.replace(" ", "_"), "_",       str(MM_type), "_", str(datatype), "_With_Dp", str(Extra_Part_of_Name),                           ".root"])
             else:
                 if(Delta_P_histo_Q != 'y'):
-                    OutputFileName = "".join(["Pi0_Channel_", str(MM_type), "_", str(datatype), "_No_Dp",   str(Extra_Part_of_Name), ".root"])
+                    OutputFileName = "".join(["Pi0_Channel_",                          str(MM_type), "_", str(datatype), "_No_Dp",   str(Extra_Part_of_Name),                           ".root"])
                 else:
-                    OutputFileName = "".join(["Pi0_Channel_", str(MM_type), "_", str(datatype), "_With_Dp", str(Extra_Part_of_Name), ".root"])
+                    OutputFileName = "".join(["Pi0_Channel_",                          str(MM_type), "_", str(datatype), "_With_Dp", str(Extra_Part_of_Name),                           ".root"])
     else:
         if(Delta_P_histo_Q != 'y'):
             OutputFileName = "".join(["Simulated_", event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp",   str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
         else:
             OutputFileName = "".join(["Simulated_", event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_With_Dp", str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
+            
             
 
     print("".join(["\n\033[1mName of file that will be saved:\033[0m\n", str(OutputFileName), "\n"]))
@@ -1612,6 +1139,12 @@ if(event_Name != "error"):
             rdf = rdf.Define("el", "sqrt(ex*ex + ey*ey + ez*ez)")
             ##=====##       Polar Angles       ##=====##
             rdf = rdf.Define("elth", "atan2(sqrt(ex*ex + ey*ey), ez)*(180/3.1415926)")
+            if("Central" in str(pass_version)):
+                print(color.BOLD, "\nMAKING CUT ON ELECTRON POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Central' DETECTOR\n", color.END)
+                rdf = rdf.Filter("elth > 35 && elth < 135")
+            if("Forward" in str(pass_version)):
+                print(color.BOLD, "\nMAKING CUT ON ELECTRON POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Forward' DETECTOR\n", color.END)
+                rdf = rdf.Filter("elth >  5 && elth <  35")
             ##=====##     Azimuthal Angles     ##=====##
             rdf = rdf.Define("elPhi", """
                 double elPhi = (180/3.1415926)*atan2(ey, ex);
@@ -1630,6 +1163,12 @@ if(event_Name != "error"):
             rdf = rdf.Define("el", "sqrt(ex0*ex0 + ey0*ey0 + ez0*ez0)")
             ##=====##       Polar Angles       ##=====##
             rdf = rdf.Define("elth", "atan2(sqrt(ex0*ex0 + ey0*ey0), ez0)*(180/3.1415926)")
+            if("Central" in str(pass_version)):
+                print(color.BOLD, "\nMAKING CUT ON ELECTRON POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Central' DETECTOR\n", color.END)
+                rdf = rdf.Filter("elth > 35 && elth < 135")
+            if("Forward" in str(pass_version)):
+                print(color.BOLD, "\nMAKING CUT ON ELECTRON POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Forward' DETECTOR\n", color.END)
+                rdf = rdf.Filter("elth >  5 && elth <  35")
             ##=====##     Azimuthal Angles     ##=====##
             rdf = rdf.Define("elPhi", """
                 double elPhi = (180/3.1415926)*atan2(ey0, ex0);
@@ -1656,6 +1195,12 @@ if(event_Name != "error"):
                 rdf = rdf.Define("pip", "sqrt(pipx*pipx+pipy*pipy+pipz*pipz)")
                 ##=====##       Polar Angles       ##=====##
                 rdf = rdf.Define("pipth", "atan2(sqrt(pipx*pipx+pipy*pipy), pipz)*(180/3.1415926)")
+                if("Central" in str(pass_version)):
+                    print("".join([color.BOLD, "MAKING CUT ON PI+ PION POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Central' DETECTOR\n\n", color.END]))
+                    rdf = rdf.Filter("pipth > 35 && pipth < 135")
+                if("Forward" in str(pass_version)):
+                    print("".join([color.BOLD, "MAKING CUT ON PI+ PION POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Forward' DETECTOR\n\n", color.END]))
+                    rdf = rdf.Filter("pipth >  5 && pipth <  35")
                 ##=====##     Azimuthal Angles     ##=====##
                 rdf = rdf.Define("pipPhi", """
                     double pipPhi = (180/3.1415926)*atan2(pipy, pipx);
@@ -11216,7 +10761,7 @@ if(event_Name != "error"):
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmF_PipMMF', 'mmEF_PipMMF', 'mmEF_PipMMEF']
             Delta_P_histo_CorList = ['mm0', 'mmEF', 'mmEF_PipMMEF']
             
-            if(pass_version == "Spring 2019 - Pass 2"):
+            if("Spring 2019 - Pass 2" in str(pass_version)):
                 Delta_P_histo_CorList.append("mmP2")
 
         if(datatype == "Outbending"):
@@ -11329,7 +10874,7 @@ if(event_Name != "error"):
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmExF']
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF']
             Delta_P_histo_CorList = ['mm0', 'mmEF']
-            if(pass_version == "Spring 2019 - Pass 2"):
+            if("Spring 2019 - Pass 2" in str(pass_version)):
                 Delta_P_histo_CorList.append("mmP2")
         if(datatype == "Outbending"):
 #             Delta_P_histo_CorList = ['mm0', 'mmF']
@@ -11597,7 +11142,7 @@ if(event_Name != "error"):
             # correctionList = ['mm0', 'mmF', 'mmEF', 'mmF_PipMMF', 'mmEF_PipMMF']
             correctionList = ['mm0', 'mmF', 'mmEF', 'mmF_PipMMF', 'mmEF_PipMMF', 'mmEF_PipMMEF']
             correctionList = ['mm0', 'mmEF', 'mmEF_PipMMEF']
-            if(pass_version == "Spring 2019 - Pass 2"):
+            if("Spring 2019 - Pass 2" in str(pass_version)):
                 correctionList.append("mmP2")
         if(datatype == "Outbending"):
 #             correctionList = ['mm0', 'mmF', 'mmF_PipMMF']
@@ -11699,7 +11244,7 @@ if(event_Name != "error"):
             # correctionList = ['mm0', 'mmF', 'mmEF', 'mmExF']
             # correctionList = ['mm0', 'mmF', 'mmEF']
             correctionList = ['mm0', 'mmEF']
-            if(pass_version == "Spring 2019 - Pass 2"):
+            if("Spring 2019 - Pass 2" in str(pass_version)):
                 correctionList.append("mmP2")
         if(datatype == "Outbending"):
 #             correctionList = ['mm0', 'mmF']
