@@ -30,9 +30,9 @@ from sys import argv
     # If the file number is given as 'test', then the code will run without saving any of the histograms
 
 # EXAMPLES: 
-    # python File_Creation_Final_Momentum_Corrections_Github.py In SP All
+    # python3 File_Creation_Final_Momentum_Corrections_Github.py In SP All
         # The line above would run ALL INBENDING files together for the ep->eπ+N channel
-    # python File_Creation_Final_Momentum_Corrections_Github.py Out DP test
+    # python3 File_Creation_Final_Momentum_Corrections_Github.py Out DP test
         # The line above would test-run the OUTBENDING files for the ep->epπ+π- channel (no results would be saved)
         
         
@@ -160,6 +160,9 @@ file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_
 
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_recon/Single_Pion_Channel_epipN/ePip.pass2.inb.qa.rec_clas_00",      ""))
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_recon/Only_Electron_Channel/electron_only.pass2.inb.qa.rec_clas_00", ""))
+
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass1/Inbending_recon/Single_Pion_Channel_epipN/ePip.pass1.inb.qa.rec_clas_00",      ""))
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass1/Inbending_recon/Only_Electron_Channel/electron_only.pass1.inb.qa.rec_clas_00", ""))
 
 file_name = str(file_name.replace("-", "_")).replace(".hipo.root", "")
 file_name = str(file_name).replace(".evio.root", "")
@@ -838,9 +841,59 @@ if(event_Name != "error"):
         Pass_File_Name     = str(Pass_File_Name.replace("___", "_"))
         Pass_File_Name     = str(Pass_File_Name.replace("__",  "_"))
         
-        Extra_Part_of_Name = "".join(["_", str(Pass_File_Name), "_rec_clas_V1"])
+        Extra_Version_Name = "_V1"
+        # Ran on 9/19/2023-9/20/2023 with Spring 2019 data (Pass 2)
+            # Ran 3 versions of files for SP and EO events (6 files total)
+                # Included normal code (no changes since the last time it was run) and 2 versions where cuts to check the central/forward detector separately (via theta cuts) were added
+                # Note: Later change was made to the Central detector cuts to remove the condition that the electron be detected there (no events were suriving the cut)
+                    # This change was updated for only the SP events (Central EO would be the same as the other files if the cut was removed)
+                    # Didn't matter since the central detector was cut in the groovy script already (did not remove the cut beforehand)
+                    
+                    
+        Extra_Version_Name = "_V2"
+        # Ran on 9/21/2023 with Spring 2019 data (Pass 2)
+        # Added Refinements to the earlier Pass 2 Corrections (added phi-dependence)
+            # Correction name is 'mmRP2' for 'Refined'-'Pass 2'
+        # Extended the plot range of the theta particle in relavent plots (will help see the central detector particles later)
+        
+        
+        Extra_Version_Name = "_V3"
+        # Ran on 9/22/2023 with Spring 2019 data (Pass 2)
+        # Refined the phi-dependent Pass 2 Correction again
+            # Correction is still called 'mmRP2'
+            
+            
+        Extra_Version_Name = "_V4"
+        # Ran on 9/29/2023 with Spring 2019 data (Pass 2)
+        # Added a pi+ phi-dependent Correction based on 'mmRP2'
+        # Needed to test a potential issue in the Inbending pi+ corrections
+            # Testing to see what the differences are between 'PipMMF', 'PipMMExF', and 'PipMMEF' in case the Inbending corrections for 'PipMMF' and 'PipMMEF' are the same (possible naming error in Inbending Pass 1)
+                # RESULT OF TEST: The issue did NOT exist when finalizing the Pass 1 Corrections. It does, however, exist now such that the 'PipMMEF' correction no longer works the same as it did when finalizing the results
+                    # The issue must have been created while working on the Outbending corrections with the Inbending code never having been readdressed and fixed before this point
+                    # The issue has been resolved (for the next file version) and since the pion correction has not been used to develop new corrections yet, this presents no concerns for the status of the Pass 2 corrections
+                    
+                    
+        Extra_Version_Name = "_V5"
+        # Ran on 10/5/2023 with Spring 2019 data (Pass 2 AND Pass 1)
+        # Refined the pi+ phi-dependent Correction based on 'mmRP2_PipMMP2'
+            # Name has not been changed
+        # Fixed the issue noted in the 'RESULT OF TEST' section of the 'Extra_Version_Name = "_V4"' notes
+            # No longer using the extra corrections ('ExF') now that the test is complete
+        # Finished creating the Pass 1 version of the required files
+            # Ran with Pass 2 versions
+            # Included the Pass 2 versions of the corrections to test how compatile they are (no existing Pass 1 corrections to compare otherwise)
+        
+        
+        Extra_Part_of_Name = "".join(["_", str(Pass_File_Name), "_rec_clas", str(Extra_Version_Name)])
         # 'rec_clas' refers to the DST files used to create the root files in this code
             # The DST files are what was used instead of the skim4 or nSidis files since there was not any current versions of the skim files without the cuts I wanted removed
+        # Refer to Extra_Version_Name above for version notes
+    else:
+        Extra_Part_of_Name = "_Pass1_Final_Tests_V1"
+        # Ran with Extra_Version_Name = "_V4" above (with Pass 1 Fall 2018 data)
+            # RESULT OF TEST: The issue did NOT exist when finalizing the Pass 1 Corrections. It does, however, exist now such that the 'PipMMEF' correction no longer works the same as it did when finalizing the results
+                # The issue must have been created while working on the Outbending corrections with the Inbending code never having been readdressed and fixed before this point
+                # The issue has been resolved (for the next file version) and since the pion correction has not been used to develop new corrections yet, this presents no concerns for the status of the Pass 2 corrections
     
     
     if(event_type != "MC"):
@@ -949,6 +1002,7 @@ if(event_Name != "error"):
             if("Pass 1" in pass_version):
                 running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass1/Inbending_nSidis/ePip.pass1.inb.qa.nSidis_00*"
                 # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass1/Inbending/ePip.pass1.inb.qa.MissingNeutron_00*"
+                running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass1/Inbending_recon/Single_Pion_Channel_epipN/ePip.pass1.inb.qa.rec_clas_00*"
             else:
                 # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass2/Inbending_nSidis/ePip.pass2.inb.qa.nSidis_00*"
                 # # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass2/Inbending/ePip.pass2.inb.qa.MissingNeutron_00*"
@@ -1000,6 +1054,8 @@ if(event_Name != "error"):
                 if("Pass 2" in pass_version):
                     running_code_with_these_files = "".join(["/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/", "Inbending" if("In" in str(datatype)) else "Outbending", "_nSidis/Complete/Only_Electron_Channel/electron_only.pass2", ".inb" if("In" in str(datatype)) else ".outb", ".qa.nSidis_*root"])
                     running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_recon/Only_Electron_Channel/electron_only.pass2.inb.qa.rec_clas_00*"
+                else:
+                    running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass1/Inbending_recon/Only_Electron_Channel/electron_only.pass1.inb.qa.rec_clas_00*"
             else:
                 # Skim4 cuts
                 running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Only_Electron_Channel/Outbending/electron_only.outb.qa.rec_clas_005449.evio.0*.root"
@@ -1139,9 +1195,9 @@ if(event_Name != "error"):
             rdf = rdf.Define("el", "sqrt(ex*ex + ey*ey + ez*ez)")
             ##=====##       Polar Angles       ##=====##
             rdf = rdf.Define("elth", "atan2(sqrt(ex*ex + ey*ey), ez)*(180/3.1415926)")
-            if("Central" in str(pass_version)):
-                print(color.BOLD, "\nMAKING CUT ON ELECTRON POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Central' DETECTOR\n", color.END)
-                rdf = rdf.Filter("elth > 35 && elth < 135")
+            # if("Central" in str(pass_version)):
+            #     print(color.BOLD, "\nMAKING CUT ON ELECTRON POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Central' DETECTOR\n", color.END)
+            #     rdf = rdf.Filter("elth > 35 && elth < 135")
             if("Forward" in str(pass_version)):
                 print(color.BOLD, "\nMAKING CUT ON ELECTRON POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Forward' DETECTOR\n", color.END)
                 rdf = rdf.Filter("elth >  5 && elth <  35")
@@ -1163,9 +1219,9 @@ if(event_Name != "error"):
             rdf = rdf.Define("el", "sqrt(ex0*ex0 + ey0*ey0 + ez0*ez0)")
             ##=====##       Polar Angles       ##=====##
             rdf = rdf.Define("elth", "atan2(sqrt(ex0*ex0 + ey0*ey0), ez0)*(180/3.1415926)")
-            if("Central" in str(pass_version)):
-                print(color.BOLD, "\nMAKING CUT ON ELECTRON POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Central' DETECTOR\n", color.END)
-                rdf = rdf.Filter("elth > 35 && elth < 135")
+            # if("Central" in str(pass_version)):
+            #     print(color.BOLD, "\nMAKING CUT ON ELECTRON POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Central' DETECTOR\n", color.END)
+            #     rdf = rdf.Filter("elth > 35 && elth < 135")
             if("Forward" in str(pass_version)):
                 print(color.BOLD, "\nMAKING CUT ON ELECTRON POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Forward' DETECTOR\n", color.END)
                 rdf = rdf.Filter("elth >  5 && elth <  35")
@@ -1196,10 +1252,10 @@ if(event_Name != "error"):
                 ##=====##       Polar Angles       ##=====##
                 rdf = rdf.Define("pipth", "atan2(sqrt(pipx*pipx+pipy*pipy), pipz)*(180/3.1415926)")
                 if("Central" in str(pass_version)):
-                    print("".join([color.BOLD, "MAKING CUT ON PI+ PION POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Central' DETECTOR\n\n", color.END]))
+                    print("".join([color.BOLD, "\nMAKING CUT ON PI+ PION POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Central' DETECTOR\n\n", color.END]))
                     rdf = rdf.Filter("pipth > 35 && pipth < 135")
                 if("Forward" in str(pass_version)):
-                    print("".join([color.BOLD, "MAKING CUT ON PI+ PION POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Forward' DETECTOR\n\n", color.END]))
+                    print("".join([color.BOLD,   "MAKING CUT ON PI+ PION POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Forward' DETECTOR\n\n", color.END]))
                     rdf = rdf.Filter("pipth >  5 && pipth <  35")
                 ##=====##     Azimuthal Angles     ##=====##
                 rdf = rdf.Define("pipPhi", """
@@ -1358,7 +1414,7 @@ if(event_Name != "error"):
     #####################################################################################################
 
     ##############################################################
-    #----------#      Last updated on: 1-15-2022      #----------#
+    #----------#      Last updated on: 10-5-2023      #----------#
     ##############################################################
     Correction_Code_Full_In, Correction_Code_Full_Out = "", ""
     if(datatype == "Inbending"):
@@ -1377,13 +1433,15 @@ if(event_Name != "error"):
                 // corEl == 1 --> Final Version of Corrections
                 // corEl == 2 --> Modified/Extended Correction (using the Elastic Events - based of existing corrections)
                 // corEl == 3 --> New Extended Correction (using the Elastic Events - created from uncorrected ∆P Plots)
-                // corEl == 4 --> New Pass2 Corrections (Incomplete)
+                // corEl == 4 --> Old Pass2 Corrections (Incomplete)
+                // corEl == 5 --> New Pass2 Corrections (Refinement)
                 
             // corPip ==> Gives the 'generation' of the π+ Pion correction
                 // corPip == 0 --> No Correction
                 // corPip == 1 --> Old Version of Corrections
-                // corPip == 2 --> Final Version of Corrections
-                // corPip == 3 --> New Pass2 Corrections (Incomplete)
+                // corPip == 2 --> Final Version of Corrections (uses the wrong name   - is mmExF - same correction as corPip == 3)
+                // corPip == 3 --> Final Version of Corrections (uses the correct name - is mmEF  - same correction as corPip == 2)
+                // corPip == 4 --> New Pass2 Corrections (Incomplete)
 
             // corPim ==> Gives the 'generation' of the π- Pion correction
                 // corPim == 0 --> No Correction
@@ -1563,7 +1621,7 @@ if(event_Name != "error"):
                     }
                 }
                 
-                if(corEl == 4){ // Pass 2 Corrections (i.e., 'mmP2')
+                if(corEl == 4 || corEl == 5){ // Pass 2 Corrections (i.e., 'mmP2' and 'mmRP2')
                     if(sec == 1){
                         dp = (-4.3927e-04)*pp*pp + (5.8658e-04)*pp + (0.02801);
                     }
@@ -1582,6 +1640,47 @@ if(event_Name != "error"):
                     if(sec == 6){
                         dp = (1.3589e-04)*pp*pp + (-6.7704e-03)*pp + (0.03464);
                     }
+                    
+                    if(corEl == 5){ // Phi-dependent Refinement of Pass 2 Corrections
+                        if(sec == 1){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmP2          (Pass 2 Correction)][Sector 1] is:
+                            dp = dp +  ((1.0461e-07)*phi*phi +  (2.0228e-05)*phi +  (1.7357e-04))*pp*pp + ((-8.7646e-06)*phi*phi + (-3.9387e-04)*phi + (-5.4988e-04))*pp +  ((6.0164e-05)*phi*phi +   (0.0010708)*phi + (-0.0030032));
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 1] is:
+                            dp = dp + ((-6.4421e-07)*phi*phi + (-1.3073e-05)*phi + (-1.4102e-05))*pp*pp +  ((6.7547e-06)*phi*phi +  (1.0047e-04)*phi +  (3.1341e-04))*pp + ((-1.6767e-05)*phi*phi + (-2.0917e-04)*phi + (-0.0013211));
+                        }
+                        if(sec == 2){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmP2          (Pass 2 Correction)][Sector 2] is:
+                            dp = dp + ((-7.3200e-07)*phi*phi +  (2.5209e-05)*phi + (-3.7645e-04))*pp*pp + ((-6.7578e-07)*phi*phi + (-5.1042e-04)*phi +   (0.0049163))*pp +  ((3.4087e-05)*phi*phi +   (0.0018198)*phi +  (-0.014044));
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 2] is:
+                            dp = dp + ((-7.4037e-07)*phi*phi + (-1.4694e-05)*phi + (-5.5340e-05))*pp*pp +  ((7.4548e-06)*phi*phi +  (1.2889e-04)*phi +  (6.2012e-04))*pp + ((-1.7841e-05)*phi*phi + (-2.6237e-04)*phi + (-0.0017847));
+                        }
+                        if(sec == 3){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmP2          (Pass 2 Correction)][Sector 3] is:
+                            dp = dp + ((-4.3080e-08)*phi*phi +  (1.9303e-05)*phi + (-2.7301e-04))*pp*pp + ((-5.8015e-06)*phi*phi + (-1.8028e-04)*phi +   (0.0036556))*pp +  ((3.7849e-05)*phi*phi +  (4.8794e-04)*phi +  (-0.010733));
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 3] is:
+                            dp = dp + ((-7.7040e-07)*phi*phi +  (9.8938e-06)*phi + (-7.6219e-05))*pp*pp +  ((6.0610e-06)*phi*phi + (-8.0530e-05)*phi +   (0.0010106))*pp + ((-8.5135e-06)*phi*phi +  (1.5472e-04)*phi + (-0.0031448));
+                        }
+                        if(sec == 4){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmP2          (Pass 2 Correction)][Sector 4] is:
+                            dp = dp + ((-4.1853e-07)*phi*phi +  (1.0473e-05)*phi + (-6.5274e-05))*pp*pp +  ((3.6816e-06)*phi*phi + (-1.5587e-05)*phi +  (7.6000e-04))*pp + ((-7.1764e-06)*phi*phi + (-1.5987e-04)*phi + (-0.0020378));
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 4] is:
+                            dp = dp + ((-3.2135e-07)*phi*phi +  (2.7994e-06)*phi +  (4.7069e-05))*pp*pp + ((-3.3353e-07)*phi*phi + (-1.2275e-05)*phi + (-4.2176e-04))*pp +  ((1.0466e-05)*phi*phi +  (2.0954e-05)*phi + (8.1115e-04));
+                        }
+                        if(sec == 5){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmP2          (Pass 2 Correction)][Sector 5] is:
+                            dp = dp +  ((1.1760e-06)*phi*phi +  (2.9355e-05)*phi + (-2.1403e-04))*pp*pp + ((-1.8923e-05)*phi*phi + (-4.2933e-04)*phi +     (0.00421))*pp +  ((7.2838e-05)*phi*phi +   (0.0012461)*phi +  (-0.014348));
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 5] is:
+                            dp = dp + ((-1.5632e-06)*phi*phi + (-7.1527e-06)*phi +  (9.9895e-05))*pp*pp +  ((1.8332e-05)*phi*phi +  (5.5202e-05)*phi + (-0.0012584))*pp +  ((-5.1594e-05)*phi*phi + (-1.0622e-04)*phi +  (0.0036533));
+                        }
+                        if(sec == 6){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmP2          (Pass 2 Correction)][Sector 6] is:
+                            dp = dp + ((-7.4655e-07)*phi*phi + (-3.2506e-05)*phi +  (3.0801e-04))*pp*pp +  ((3.7179e-07)*phi*phi +  (3.3195e-04)*phi +  (-0.0015145))*pp +  ((4.6216e-05)*phi*phi + (-7.6947e-04)*phi +  (-0.001801));
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 6] is:
+                            dp = dp + ((-9.7434e-07)*phi*phi + (-6.4726e-06)*phi + (-6.1383e-05))*pp*pp +  ((1.1760e-05)*phi*phi +  (5.5914e-05)*phi +  (8.6014e-04))*pp + ((-3.4082e-05)*phi*phi + (-1.0690e-04)*phi + (-0.0027697));
+                        }
+                        
+                    }
+                    
                 }
             }
 
@@ -1624,7 +1723,7 @@ if(event_Name != "error"):
                 }
                 
                 
-                if(corPip == 2){
+                if(corPip == 2 || corPip == 3){
                     if(sec == 1){
                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = Corrected (Uncorrected Pion - With Elastic)][Sector 1] is:
                         dp = ((-5.4904e-07)*phi*phi + (-1.4436e-05)*phi + (3.1534e-04))*pp*pp + ((3.8231e-06)*phi*phi + (3.6582e-04)*phi + (-0.0046759))*pp + ((-5.4913e-06)*phi*phi + (-4.0157e-04)*phi + (0.010767));
@@ -1673,6 +1772,63 @@ if(event_Name != "error"):
                         dp = dp + ((6.0270e-07)*phi*phi + (-6.8200e-06)*phi + (1.3103e-04))*pp*pp + ((-1.8745e-06)*phi*phi + (3.8646e-05)*phi + (-8.8056e-04))*pp + ((2.0885e-06)*phi*phi + (-3.4932e-05)*phi + (4.5895e-04));
                         dp = dp + ((4.7349e-08)*phi*phi + (-5.7528e-06)*phi + (-3.4097e-06))*pp*pp + ((1.7731e-06)*phi*phi + (3.5865e-05)*phi + (-5.7881e-04))*pp + ((-9.7008e-06)*phi*phi + (-4.1836e-05)*phi + (0.0035403));
                     }
+                }
+                
+                
+                if(corPip == 4){ // Corresponds to Correction = mmRP2_PipMMP2
+                    if(sec == 1){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 1] is:
+                        dp =       ((2.3162e-07)*phi*phi +  (1.0037e-04)*phi + (6.3605e-04))*pp*pp +  ((2.5189e-06)*phi*phi + (-6.8325e-04)*phi + (-0.0073536))*pp + ((-4.8953e-06)*phi*phi +  (3.7776e-04)*phi + (0.017481));
+                    }
+                    if(sec == 2){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 2] is:
+                        dp =       ((2.6856e-06)*phi*phi +  (7.3145e-05)*phi +  (0.0011107))*pp*pp + ((-1.7339e-05)*phi*phi + (-4.6609e-04)*phi +   (-0.01069))*pp +  ((1.9965e-05)*phi*phi +  (2.0460e-06)*phi + (0.017721));
+                    }
+                    if(sec == 3){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 3] is:
+                        dp =       ((1.4348e-07)*phi*phi + (-6.0459e-05)*phi +  (0.0010993))*pp*pp + ((-2.9584e-07)*phi*phi +  (4.3780e-04)*phi +  (-0.010494))*pp +  ((4.7522e-06)*phi*phi + (-3.0397e-04)*phi + (0.011763));
+                    }
+                    if(sec == 4){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 4] is:
+                        dp =       ((7.6182e-07)*phi*phi + (-2.4537e-05)*phi + (7.4374e-04))*pp*pp + ((-3.5117e-06)*phi*phi +  (1.6932e-04)*phi + (-0.0072707))*pp +  ((6.3642e-06)*phi*phi + (-1.1886e-04)*phi + (0.014928));
+                    }
+                    if(sec == 5){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 5] is:
+                        dp =       ((3.4726e-07)*phi*phi + (-2.5325e-06)*phi +  (0.0012672))*pp*pp + ((-2.2847e-08)*phi*phi +  (2.9380e-05)*phi +  (-0.010917))*pp +  ((3.3013e-06)*phi*phi + (-1.0943e-04)*phi + (0.014334));
+                    }
+                    if(sec == 6){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 6] is:
+                        dp =       ((2.7008e-08)*phi*phi +  (7.9373e-06)*phi +  (0.0011934))*pp*pp + ((-6.2218e-08)*phi*phi + (-8.2899e-05)*phi + (-0.0097092))*pp +  ((1.1058e-05)*phi*phi + (-1.1152e-05)*phi + (0.0097068));
+                    }
+                    
+                    // Refinements made to this correction (kept the same name)
+                    // Refinements were made with the file: Single_Pion_Channel_epipX_Inbending_With_Dp_Spring_2019_Pass_2_rec_clas_V4_File_All.root
+                        // The refinements were created on 10/5/2023 (for V5)
+                    if(sec == 1){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2_PipMMP2 (Pass 2 Refined Electron Correction - With Pion)][Sector 1] is:
+                        dp = dp +  ((8.4176e-07)*phi*phi +  (1.2005e-05)*phi + (-1.6620e-04))*pp*pp + ((-5.4513e-06)*phi*phi + (-9.3949e-05)*phi +   (0.0012257))*pp +  ((8.6315e-06)*phi*phi +  (1.1832e-04)*phi + (-0.0018008));
+                    }
+                    if(sec == 2){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2_PipMMP2 (Pass 2 Refined Electron Correction - With Pion)][Sector 2] is:
+                        dp = dp +  ((2.8775e-07)*phi*phi +  (3.6807e-06)*phi +  (2.1783e-05))*pp*pp + ((-1.3163e-06)*phi*phi + (-4.5873e-05)*phi + (-4.1510e-04))*pp +  ((1.6431e-06)*phi*phi +  (9.8938e-05)*phi +  (0.0012463));
+                    }
+                    if(sec == 3){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2_PipMMP2 (Pass 2 Refined Electron Correction - With Pion)][Sector 3] is:
+                        dp = dp +  ((5.3417e-08)*phi*phi + (-6.9131e-06)*phi +  (4.6364e-05))*pp*pp +  ((1.6226e-07)*phi*phi +  (5.9662e-05)*phi + (-3.8155e-04))*pp +  ((4.8169e-07)*phi*phi + (-8.2344e-05)*phi +  (2.5891e-04));
+                    }
+                    if(sec == 4){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2_PipMMP2 (Pass 2 Refined Electron Correction - With Pion)][Sector 4] is:
+                        dp = dp + ((-2.1283e-07)*phi*phi +  (6.3134e-06)*phi +  (4.8988e-06))*pp*pp +  ((2.4374e-06)*phi*phi + (-4.4217e-05)*phi + (-1.6725e-04))*pp + ((-4.4455e-06)*phi*phi +  (6.8315e-05)*phi +  (3.5471e-04));
+                    }
+                    if(sec == 5){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2_PipMMP2 (Pass 2 Refined Electron Correction - With Pion)][Sector 5] is:
+                        dp = dp +  ((6.0902e-07)*phi*phi +  (1.1325e-06)*phi + (-1.0441e-04))*pp*pp + ((-3.7002e-06)*phi*phi + (-8.4353e-06)*phi +  (7.3170e-04))*pp +  ((6.0250e-06)*phi*phi + (-1.6914e-06)*phi + (-0.0013206));
+                    }
+                    if(sec == 6){
+                        // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2_PipMMP2 (Pass 2 Refined Electron Correction - With Pion)][Sector 6] is:
+                        dp = dp +  ((5.5947e-07)*phi*phi + (-4.3539e-06)*phi + (-1.0766e-04))*pp*pp + ((-4.3709e-06)*phi*phi +  (2.9333e-05)*phi +  (9.7093e-04))*pp +  ((9.2126e-06)*phi*phi + (-5.9750e-05)*phi + (-0.0019547));
+                    }
+                    
                 }
 
             }
@@ -7145,7 +7301,8 @@ if(event_Name != "error"):
     #     // corEl == 1 --> Quad Momentum - Quad Phi (Final Version)
     #     // corEl == 2 --> Modified Electron Correction with extended range (Created using exsisting corrections (i.e., this is a refinement of those corrections) -- Quad Mom - Quad Phi -- Kinematic Coverage is from 0.95-9.95 GeV using both SP and EO channels)
     #     // corEl == 3 --> New Electron Correction with extended range (Created from Uncorrected Particles -- Quad Mom - Quad Phi -- Kinematic Coverage is from 0.95-9.95 GeV using both SP and EO channels)
-    #     // corEl == 4 --> New Electron Correction with pass2 data (Created from Uncorrected Particles -- Quad Mom -- does not use EO channels)
+    #     // corEl == 4 --> Old Electron Correction with pass2 data (Created from Uncorrected Particles -- Quad Mom -- does not use EO channels)
+    #     // corEl == 5 --> New Electron Correction with pass2 data (Created from corEL = 4 Corrections -- Quad Mom -- does not use EO channels)
     def NameElCor(corEl, datatype):
         coutN = 0
         if('mm0' in corEl):
@@ -7158,6 +7315,8 @@ if(event_Name != "error"):
             coutN = 3
         if("mmP2" in corEl):
             coutN = 4
+        if("mmRP2" in corEl):
+            coutN = 5
 
         return coutN
 
@@ -7266,7 +7425,7 @@ if(event_Name != "error"):
         Full_Correction_Output = ""
 
         # Correction Numbers (for code - translating the input string into integers for C++):
-        corEl_Num  = str(NameElCor(Correction, Data_Type))
+        corEl_Num  = str(NameElCor( Correction, Data_Type))
         corPip_Num = str(NamePipCor(Correction, Data_Type))
         corPim_Num = str(NamePimCor(Correction, Data_Type))
         corPro_Num = str(NameProCor(Correction, Data_Type))
@@ -7281,7 +7440,7 @@ if(event_Name != "error"):
 
         # Particles for Correction:
         Particles_for_Correction = "".join(["""
-    auto fe = dppC(ex, ey, ez, esec, 0, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
+    auto fe = dppC(ex, ey, ez, esec, 0, """,    str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
     auto eleC = ROOT::Math::PxPyPzMVector(ex*fe, ey*fe, ez*fe, 0);
         """]) if("(GEN)" not in event_Name) else "".join(["""
     auto fe = dppC(ex0, ey0, ez0, esec, 0, """, str(corEl_Num), """, """, str(corPip_Num), """, """, str(corPim_Num), """, """, str(corPro_Num), """) + 1;
@@ -7372,25 +7531,25 @@ if(event_Name != "error"):
     auto Final_Output = Output_Vectors.M2();
                 """
 
-            if('eppipX' == MM_Type and Channel_Type == "DP"):
+            if('eppipX'    == MM_Type and Channel_Type == "DP"):
                 Calculation_Code_Choice = """
     auto Output_Vectors = beam + targ - eleC - pipC - proC;
     auto Final_Output = Output_Vectors.M2();
                 """
 
-            if('eppimX' == MM_Type and Channel_Type == "DP"):
+            if('eppimX'    == MM_Type and Channel_Type == "DP"):
                 Calculation_Code_Choice = """
     auto Output_Vectors = beam + targ - eleC - pimC - proC;
     auto Final_Output = Output_Vectors.M2();
                 """
 
-            if('epippimX' == MM_Type and Channel_Type == "DP"):
+            if('epippimX'  == MM_Type and Channel_Type == "DP"):
                 Calculation_Code_Choice = """
     auto Output_Vectors = beam + targ - eleC - pipC - pimC;
     auto Final_Output = Output_Vectors.M();
                 """
 
-            if('epX' == MM_Type and Channel_Type == "DP"):
+            if('epX'       == MM_Type and Channel_Type == "DP"):
                 Calculation_Code_Choice = """
     auto Output_Vectors = beam + targ - eleC - proC;
     auto Final_Output = Output_Vectors.M2();
@@ -8784,11 +8943,11 @@ if(event_Name != "error"):
         if(CorrectionNameIn == "No correction"):
             CorrectionNameIn = "mm0"
 
-        if('mm0' in CorrectionNameIn):
+        if('mm0'      in CorrectionNameIn):
             CorrectionName1 = 'No El Cor'
-        if('mm1' in CorrectionNameIn):
+        if('mm1'      in CorrectionNameIn):
             CorrectionName1 = 'El Cor (Linear - No Phi)'
-        if('mmPhi' in CorrectionNameIn):
+        if('mmPhi'    in CorrectionNameIn):
             CorrectionName1 = 'El Cor (Linear - Linear Phi)'
         if('mmPhi_R1' in CorrectionNameIn):
             CorrectionName1 = 'El Cor (Quad - Linear Phi - Refined 1)'.replace('Linear', 'Linear' if("In" in datatype) else 'Quad')
@@ -8800,14 +8959,16 @@ if(event_Name != "error"):
             CorrectionName1 = 'El Cor (Quad - Quad Phi - Refined 4)'
         if('mmPhi_R5' in CorrectionNameIn):
             CorrectionName1 = 'El Cor (Quad - Quad Phi - Refined 5)'
-        if('mmF' in CorrectionNameIn):
+        if('mmF'      in CorrectionNameIn):
             CorrectionName1 = 'El Cor (Quad - Quad Phi)'
-        if('mmEF' in CorrectionNameIn):
+        if('mmEF'     in CorrectionNameIn):
             CorrectionName1 = 'El Cor (Quad - Quad Phi - With Elastic Cors)'
-        if('mmExF' in CorrectionNameIn):
+        if('mmExF'    in CorrectionNameIn):
             CorrectionName1 = 'El Cor (Quad - Quad Phi - Extended)'
-        if('mmP2' in CorrectionNameIn):
+        if('mmP2'     in CorrectionNameIn):
             CorrectionName1 = 'El Cor (Quad - Pass 2)'
+        if('mmRP2'    in CorrectionNameIn):
+            CorrectionName1 = 'El Cor (Quad - Quad Phi - Pass 2)'
             
         if(event_type in ["EO"]):
             if(CorrectionNameIn == "mm0"):
@@ -8819,9 +8980,9 @@ if(event_Name != "error"):
         if('Pip' not in CorrectionNameIn):
             CorrectionName2 = 'No Pi+ Cor' if(event_type not in ["P0"]) else ""
         if('Pip' in CorrectionNameIn):
-            if('MMQ' in CorrectionNameIn):
+            if('MMQ'       in CorrectionNameIn):
                 CorrectionName2 = 'Pi+ Cor (Quad - No Phi)'
-            if('MMPhi' in CorrectionNameIn):
+            if('MMPhi'     in CorrectionNameIn):
                 CorrectionName2 = 'Pi+ Cor (Quad - Linear Phi)'
             if('MMqPhi_R1' in CorrectionNameIn):
                 CorrectionName2 = 'Pi+ Cor (Quad - Quad Phi - Refined 1)'
@@ -8833,23 +8994,23 @@ if(event_Name != "error"):
                 CorrectionName2 = 'Pi+ Cor (Quad - Quad Phi - Refined 4)'
             if('MMqPhi_R5' in CorrectionNameIn):
                 CorrectionName2 = 'Pi+ Cor (Quad - Quad Phi - Refined 5)'
-            if('MMF' in CorrectionNameIn):
+            if('MMF'       in CorrectionNameIn):
                 CorrectionName2 = 'Pi+ Cor (Quad - Quad Phi)'
-            if('MMExF' in CorrectionNameIn):
+            if('MMExF'     in CorrectionNameIn):
                 CorrectionName2 = 'Pi+ Cor (Quad - Quad Phi - Extended)'
-            if('MMEF' in CorrectionNameIn):
+            if('MMEF'      in CorrectionNameIn):
                 CorrectionName2 = 'Pi+ Cor (Quad - Quad Phi - With Elastic Cors)'
-            if('MMP2' in CorrectionNameIn):
+            if('MMP2'      in CorrectionNameIn):
                 CorrectionName2 = 'Pi+ Cor (Quad - Pass 2)'
 
         if('Pim' not in CorrectionNameIn):
             CorrectionName3 = 'No Pi- Cor' if(event_type in ["DP"]) else ""
         if('Pim' in CorrectionNameIn):
-            if('MMpimPhi' in CorrectionNameIn):
+            if('MMpimPhi'   in CorrectionNameIn):
                 CorrectionName3 = 'Pi- Cor (Linear - Linear Phi)'
             if('MMpim_qPhi' in CorrectionNameIn):
                 CorrectionName3 = 'Pi- Cor (Quad - Quad Phi)'
-            if('MMpim_F' in CorrectionNameIn):
+            if('MMpim_F'    in CorrectionNameIn):
                 CorrectionName3 = 'Pi- Cor (Quad - Quad Phi - Rounded)'
 
         if('Pro' not in CorrectionNameIn):
@@ -8858,49 +9019,49 @@ if(event_Name != "error"):
             if((('_NoELC' not in CorrectionNameIn)) and CorrectionName4 != ""):
                 CorrectionName4 = ''.join([CorrectionName4, " (Energy Loss Cor)"])
         if('Pro' in CorrectionNameIn):
-            if('MMproPhi' in CorrectionNameIn):
+            if('MMproPhi'       in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Linear - Linear Phi)'
-            if("MMpro_qPhi" in CorrectionNameIn):
+            if("MMpro_qPhi"     in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Quad - Quad Phi)'
-            if('MMpro_pi0Phi' in CorrectionNameIn):
+            if('MMpro_pi0Phi'   in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Quad - Quad Phi - From Pi0)'
-            if('MMpro_pi2Phi' in CorrectionNameIn):
+            if('MMpro_pi2Phi'   in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Quad - Quad Phi - From Double Pion)'
-            if('MMpro_NoPhi' in CorrectionNameIn):
+            if('MMpro_NoPhi'    in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Linear - No Phi)'
-            if('MMpro_qNoPhi' in CorrectionNameIn or 'MMpro_F' in CorrectionNameIn):
+            if('MMpro_qNoPhi'   in CorrectionNameIn or 'MMpro_F' in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Quad - No Phi)'
-            if('MMpro_EF' in CorrectionNameIn):
+            if('MMpro_EF'       in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Quad - No Phi - With Elastic Cors)'
-            if('MMpro_REF' in CorrectionNameIn):
+            if('MMpro_REF'      in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Quad - Refined - With Elastic Cors)'
-            if('MMpro_QEF' in CorrectionNameIn):
+            if('MMpro_QEF'      in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Double Quad - With Elastic Cors)'
-            if('MMpro_LEF' in CorrectionNameIn):
+            if('MMpro_LEF'      in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Quad+Linear - With Elastic Cors)'
-            if('MMpro_S_LEF' in CorrectionNameIn):
+            if('MMpro_S_LEF'    in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Quad+Linear+Slices - With Elastic Cors)'
-            if('MMpro_SEF' in CorrectionNameIn):
+            if('MMpro_SEF'      in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Sliced - With Elastic Cors)'
             if('MMpro_SE_NoELC' in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Sliced - With Elastic Cors - Before Energy Loss)' # Removed
-            if('MMpro_SEC' in CorrectionNameIn):
+            if('MMpro_SEC'      in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Sliced - With Elastic Cors - New Cut)'
-            if('MMpro_SERC' in CorrectionNameIn):
+            if('MMpro_SERC'     in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Sliced - With Elastic Cors and New Refined Cut)'
-            if('MMpro_SRE' in CorrectionNameIn):
+            if('MMpro_SRE'      in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Sliced - With Elastic Cors - Refined)'
-            if('MMpro_SFRE' in CorrectionNameIn):
+            if('MMpro_SFRE'     in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Sliced - Elastic Cors - Refined - Final)'
-            if('MMpro_DRE' in CorrectionNameIn):
+            if('MMpro_DRE'      in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Double Quad - Elastic Cors)'
-            if('MMpro_RE' in CorrectionNameIn):
+            if('MMpro_RE'       in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Double Quad - Elastic Cors - Refined - Old)'
-            if('MMpro_FRE' in CorrectionNameIn):
+            if('MMpro_FRE'      in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Double Quad - Elastic Cors - Refined)'
-            if('MMpro_NRE' in CorrectionNameIn):
+            if('MMpro_NRE'      in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Double Quad - Elastic Cors - New)'
-            if('MMpro_NS' in CorrectionNameIn):
+            if('MMpro_NS'       in CorrectionNameIn):
                 CorrectionName4 = 'Pro Cor (Sliced - Manual Refined New)'
                 
 
@@ -9032,7 +9193,7 @@ if(event_Name != "error"):
             PhiFilter = 'error'
             if(Region == 'reg1'):
                 if(Particle == 'el'):
-                    PhiFilter = "".join([binName, '>-5 && ', binName, '<5'])
+                    PhiFilter = "".join([binName, '>-5 && ',  binName, '<5'])
                 else:
                     PhiFilter = "".join([binName, '>-10 && ', binName, '<10'])
             if(Region == 'reg2'):
@@ -9058,7 +9219,7 @@ if(event_Name != "error"):
             if(Region == 'reg3'):
                 PhiFilter = "".join([binName, '<-15'])
             if(Region == 'reg4'):
-                PhiFilter = "".join([binName, '>5 && ', binName, '<15'])
+                PhiFilter = "".join([binName, '>5 && ',  binName, '<15'])
             if(Region == 'reg5'):
                 PhiFilter = "".join([binName, '>15'])
 
@@ -9103,17 +9264,17 @@ if(event_Name != "error"):
                 RegList_Out = ['reg1', 'reg2', 'reg3', 'reg4', 'reg5']
 
         if(Version == 2):
-            RegList_Out = [['No Phi Bins','regall']]
+            RegList_Out = [['No Phi Bins', 'regall']]
 
             if(Bin == '1'):
-                RegList_Out = [['No Phi Bins','regall']]
+                RegList_Out = [['No Phi Bins', 'regall']]
             if(Bin == '3'):
                 if(Particle == 'el'):
                     RegList_Out = [[' (-5 < localelPhiS < 5)', 'reg1'], [' (localelPhiS < -5)', 'reg2'], [' (localelPhiS > 5)', 'reg3']]
                 else:
-                    RegList_Out = [[''.join([' (-10 < local', str(Particle), 'PhiS < 10)']), 'reg1'], [''.join([' (local', str(Particle), 'PhiS < -10)']), 'reg2'], [''.join([' (local', str(Particle), 'PhiS > 10)']), 'reg3']]
+                    RegList_Out = [[''.join([' (-10 < local', str(Particle), 'PhiS < 10)']), 'reg1'], [''.join([' (local',       str(Particle), 'PhiS < -10)']), 'reg2'], [''.join([' (local', str(Particle), 'PhiS > 10)']),  'reg3']]
             if(Bin == '5'):
-                RegList_Out = [[''.join([' (-5 < local', str(Particle), 'PhiS < 5)']),'reg1'], [''.join([' (-15 < local', str(Particle), 'PhiS < -5)']), 'reg2'], [''.join([' (local', str(Particle), 'PhiS < -15)']), 'reg3'], [''.join([' (5 < local', str(Particle), 'PhiS < 15)']), 'reg4'], [''.join([' (local', str(Particle), 'PhiS > 15)']), 'reg5']]
+                RegList_Out     = [[''.join([' (-5 < local',  str(Particle), 'PhiS < 5)']),  'reg1'], [''.join([' (-15 < local', str(Particle), 'PhiS < -5)']),  'reg2'], [''.join([' (local', str(Particle), 'PhiS < -15)']), 'reg3'], [''.join([' (5 < local', str(Particle), 'PhiS < 15)']), 'reg4'], [''.join([' (local', str(Particle), 'PhiS > 15)']), 'reg5']]
 
 
         return RegList_Out
@@ -9153,22 +9314,22 @@ if(event_Name != "error"):
         # 3 Phi Bin Region
         if(Binning == '3'):
             if(Particle == 'el'):
-                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: -5 < #phi_{' if(Region == 'reg1') else ' Bin: #phi_{', str(Particle_Formatting), '} < 5' if(Region == 'reg1') else '} < -5' if(Region == 'reg2') else '} > 5'])
+                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: -5 < #phi_{'  if(Region == 'reg1') else ' Bin: #phi_{', str(Particle_Formatting), '} < 5'  if(Region == 'reg1') else '} < -5'  if(Region == 'reg2') else '} > 5'])
             else:
                 regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: -10 < #phi_{' if(Region == 'reg1') else ' Bin: #phi_{', str(Particle_Formatting), '} < 10' if(Region == 'reg1') else '} < -10' if(Region == 'reg2') else '} > 10'])
 
         # 5 Phi Bin Region
         if(Binning == '5'):
             if(Region == 'reg1'):
-                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: -5 < #phi_{', str(Particle_Formatting), '} < 5'])
+                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: -5 < #phi_{',  str(Particle_Formatting), '} < 5'])
             if(Region == 'reg2'):
                 regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: -15 < #phi_{', str(Particle_Formatting), '} < -5'])
             if(Region == 'reg3'):
-                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: #phi_{', str(Particle_Formatting), '} < -15'])
+                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: #phi_{',       str(Particle_Formatting), '} < -15'])
             if(Region == 'reg4'):
-                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: 5 < #phi_{', str(Particle_Formatting), '} < 15'])
+                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: 5 < #phi_{',   str(Particle_Formatting), '} < 15'])
             if(Region == 'reg5'):
-                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: #phi_{', str(Particle_Formatting), '} > 15'])
+                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: #phi_{',       str(Particle_Formatting), '} > 15'])
 
 
 
@@ -9225,7 +9386,7 @@ if(event_Name != "error"):
         # 3 Phi Bin Region
         if(Binning == '3'):
             if(Particle == 'el'):
-                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: -5 < #phi_{' if(Region == 'reg1') else ' Bin: #phi_{', str(Particle_Formatting), '} < 5' if(Region == 'reg1') else '} < -5' if(Region == 'reg2') else '} > 5'])
+                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: -5 < #phi_{'  if(Region == 'reg1') else ' Bin: #phi_{', str(Particle_Formatting), '} < 5'  if(Region == 'reg1') else '} < -5'  if(Region == 'reg2') else '} > 5'])
             else:
                 regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: -10 < #phi_{' if(Region == 'reg1') else ' Bin: #phi_{', str(Particle_Formatting), '} < 10' if(Region == 'reg1') else '} < -10' if(Region == 'reg2') else '} > 10'])
 
@@ -9233,15 +9394,15 @@ if(event_Name != "error"):
         if(Binning == '5'):
 
             if(Region == 'reg1'):
-                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: -5 < #phi_{', str(Particle_Formatting), '} < 5'])
+                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: -5 < #phi_{',  str(Particle_Formatting), '} < 5'])
             if(Region == 'reg2'):
                 regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: -15 < #phi_{', str(Particle_Formatting), '} < -5'])
             if(Region == 'reg3'):
-                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: #phi_{', str(Particle_Formatting), '} < -15'])
+                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: #phi_{',       str(Particle_Formatting), '} < -15'])
             if(Region == 'reg4'):
-                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: 5 < #phi_{', str(Particle_Formatting), '} < 15'])
+                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: 5 < #phi_{',   str(Particle_Formatting), '} < 15'])
             if(Region == 'reg5'):
-                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: #phi_{', str(Particle_Formatting), '} > 15'])
+                regionName = ''.join([' for #phi_{', str(Particle_Formatting) , '} Bin: #phi_{',       str(Particle_Formatting), '} > 15'])
 
             
         SecName = 'All Sectors' if(Sector == 0) else ''.join([str(Particle_Formatting) , ' Sector ', str(Sector)])
@@ -9255,11 +9416,11 @@ if(event_Name != "error"):
         if(pass_version not in ["NA", ""]):
             start_title = "".join(["#splitline{", str(start_title), "{", str(pass_version), "}}"])
                 
-        output_title = "".join([str(start_title), "{Correction:", str(CorrrectionName), "};p_{", str(Particle_Plot_Formatting), "} [GeV];MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}"])
+        output_title = "".join([str(start_title),                               "{Correction:", str(CorrrectionName), "};p_{", str(Particle_Plot_Formatting), "} [GeV];MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}"])
         if(regionName != "" and Extra_Cut != ""):
-            output_title = "".join(["#splitline{", str(start_title), "{Correction:", str(CorrrectionName), "}}{", str(regionName), "};p_{", str(Particle_Plot_Formatting), "} [GeV];MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}"])
+            output_title = "".join(["#splitline{",            str(start_title), "{Correction:", str(CorrrectionName), "}}{", str(regionName), "};p_{", str(Particle_Plot_Formatting), "} [GeV];MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}"])
         if(Extra_Cut != "" and regionName == ""):
-            output_title = "".join(["#splitline{", str(start_title), "{Correction:", str(CorrrectionName), "}}{Cut Applied: ", str(Extra_Cut), "};p_{", str(Particle_Plot_Formatting), "} [GeV];MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}"])
+            output_title = "".join(["#splitline{",            str(start_title), "{Correction:", str(CorrrectionName), "}}{Cut Applied: ", str(Extra_Cut), "};p_{", str(Particle_Plot_Formatting), "} [GeV];MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}"])
         if(Extra_Cut != "" and regionName != ""):
             output_title = "".join(["#splitline{#splitline{", str(start_title), "{Correction:", str(CorrrectionName), "}}{Cut Applied: ", str(Extra_Cut), "}}{", str(regionName), "};p_{", str(Particle_Plot_Formatting), "} [GeV];MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}"])
 
@@ -10760,9 +10921,13 @@ if(event_Name != "error"):
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmF_PipMMF', 'mmEF_PipMMF']
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmF_PipMMF', 'mmEF_PipMMF', 'mmEF_PipMMEF']
             Delta_P_histo_CorList = ['mm0', 'mmEF', 'mmEF_PipMMEF']
+            # Delta_P_histo_CorList = ['mm0', 'mmEF', 'mmEF_PipMMF', 'mmEF_PipMMExF', 'mmEF_PipMMEF']
             
-            if("Spring 2019 - Pass 2" in str(pass_version)):
+            if("Spring 2019 - Pass " in str(pass_version)):
                 Delta_P_histo_CorList.append("mmP2")
+                Delta_P_histo_CorList.append("mmRP2")
+                Delta_P_histo_CorList.append("mmP2_PipMMP2")
+                Delta_P_histo_CorList.append("mmRP2_PipMMP2")
 
         if(datatype == "Outbending"):
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF']
@@ -10874,8 +11039,10 @@ if(event_Name != "error"):
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF', 'mmExF']
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF']
             Delta_P_histo_CorList = ['mm0', 'mmEF']
-            if("Spring 2019 - Pass 2" in str(pass_version)):
+            if("Spring 2019 - Pass " in str(pass_version)):
                 Delta_P_histo_CorList.append("mmP2")
+                Delta_P_histo_CorList.append("mmRP2")
+                
         if(datatype == "Outbending"):
 #             Delta_P_histo_CorList = ['mm0', 'mmF']
 #             Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF']
@@ -11142,8 +11309,14 @@ if(event_Name != "error"):
             # correctionList = ['mm0', 'mmF', 'mmEF', 'mmF_PipMMF', 'mmEF_PipMMF']
             correctionList = ['mm0', 'mmF', 'mmEF', 'mmF_PipMMF', 'mmEF_PipMMF', 'mmEF_PipMMEF']
             correctionList = ['mm0', 'mmEF', 'mmEF_PipMMEF']
-            if("Spring 2019 - Pass 2" in str(pass_version)):
+            # correctionList = ['mm0', 'mmEF', 'mmEF_PipMMF', 'mmEF_PipMMExF', 'mmEF_PipMMEF']
+            
+            if("Spring 2019 - Pass " in str(pass_version)):
                 correctionList.append("mmP2")
+                correctionList.append("mmRP2")
+                correctionList.append("mmP2_PipMMP2")
+                correctionList.append("mmRP2_PipMMP2")
+                
         if(datatype == "Outbending"):
 #             correctionList = ['mm0', 'mmF', 'mmF_PipMMF']
 #             correctionList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmEF']
@@ -11244,8 +11417,10 @@ if(event_Name != "error"):
             # correctionList = ['mm0', 'mmF', 'mmEF', 'mmExF']
             # correctionList = ['mm0', 'mmF', 'mmEF']
             correctionList = ['mm0', 'mmEF']
-            if("Spring 2019 - Pass 2" in str(pass_version)):
+            if("Spring 2019 - Pass " in str(pass_version)):
                 correctionList.append("mmP2")
+                correctionList.append("mmRP2")
+                
         if(datatype == "Outbending"):
 #             correctionList = ['mm0', 'mmF']
 #             correctionList = ['mm0', 'mmF', 'mmEF']
@@ -12114,8 +12289,8 @@ if(event_Name != "error"):
                                 sector_title = "(All Sectors)" if (sector == 0) else "".join(["(", particle_title, " Sector ", str(sector),")"])
                                 
                                 
-                                Title_Mom_The_Line_1 = "".join(["(", str(datatype), ") #theta_{", str(particle_title), "} vs p_{", str(particle_title), "}"])
-                                Title_Mom_Phi_Line_1 = "".join(["(", str(datatype), ") p_{", str(particle_title), "} vs #phi_{", str(particle_title), "}", str(shiftTitle(shift))])
+                                Title_Mom_The_Line_1 = "".join(["(", str(datatype), ") #theta_{", str(particle_title), "} vs p_{",                      str(particle_title), "}"])
+                                Title_Mom_Phi_Line_1 = "".join(["(", str(datatype), ") p_{",      str(particle_title), "} vs #phi_{",                   str(particle_title), "}", str(shiftTitle(shift))])
                                 Title_The_Phi_Line_1 = "".join(["(", str(datatype), ") #theta_{", str(particle_title), "} vs ", str(local_Q), "#phi_{", str(particle_title), "}", str(shiftTitle(shift))])
                 
                                 if(pass_version not in ["NA", ""]):
@@ -12124,10 +12299,10 @@ if(event_Name != "error"):
                                     Title_The_Phi_Line_1 = "".join(["#splitline{", str(pass_version), "}{", str(Title_The_Phi_Line_1), "}"])
                                 
                                 Title_Line_2 = ((("".join(["Correction: ", str(root_color.Bold), "{", str(correctionNAME), "}"]).replace("Pi+", "#pi^{+}")).replace("Pi-", "#pi^{-}")).replace("Phi", "#phi"))
-                                Title_Line_3 = "".join(["Cut Applied: ", str(Cut_Title) if(str(Cut_Title) != "") else "No Additional Cuts"])
+                                Title_Line_3 = "".join(["Cut Applied: ",   str(Cut_Title) if(str(Cut_Title) != "") else "No Additional Cuts"])
                                 
-                                Title_Mom_The_Axis = "".join(["; p_{", str(particle_title), "}; #theta_{", str(particle_title), "}"])
-                                Title_Mom_Phi_Axis = "".join(["; p_{", str(particle_title), "}; #phi_{", str(particle_title), "}"])
+                                Title_Mom_The_Axis = "".join(["; p_{",    str(particle_title), "}; #theta_{", str(particle_title), "}"])
+                                Title_Mom_Phi_Axis = "".join(["; p_{",    str(particle_title), "}; #phi_{",   str(particle_title), "}"])
                                 Title_The_Phi_Axis = "".join(["; #phi_{", str(particle_title), "}; #theta_{", str(particle_title), "}"])
 
                                 Title_Mom_The = "".join(["#splitline{#splitline{", str(Title_Mom_The_Line_1), " ", str(sector_title), "}{", str(Title_Line_2), "}}{", str(Title_Line_3), "}", str(Title_Mom_The_Axis)])
@@ -12143,8 +12318,8 @@ if(event_Name != "error"):
                                 # hPARTPhiall_ref_title = "".join(["hPARTPhiall_", particle, "PhiSec", str(sector), shift, "" if correction == "mm0" else "".join(["_", correction]), local_Q])
                                 # hPARTthPhiall_ref_title = "".join(["hPARTthPhiall_", particle, "thPhiSec", str(sector), shift, local_Q])
 
-                                Histo_Mom_The_ref_title = "".join(["Histo_P_v_Th_", str(ref)])
-                                Histo_Mom_Phi_ref_title = "".join(["Histo_P_v_Phi_", str(ref)])
+                                Histo_Mom_The_ref_title = "".join(["Histo_P_v_Th_",   str(ref)])
+                                Histo_Mom_Phi_ref_title = "".join(["Histo_P_v_Phi_",  str(ref)])
                                 Histo_The_Phi_ref_title = "".join(["Histo_Th_v_Phi_", str(ref)])
 
                                 if(sector == 0):
@@ -12152,14 +12327,14 @@ if(event_Name != "error"):
                                 else:
                                     sdf = CorDpp(rdf.Filter("".join([particle.replace("l", ""), "sec", " == ", str(sector)])), correction, "".join(["Mom_", particle]), event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
 
-                                Histo_P_v_Phi[ref] = sdf.Histo2D((Histo_Mom_Phi_ref_title, Title_Mom_Phi, 110, 0, 11, 720, -260, 460), "".join([particle, "_", correction]), "".join([local_Q.replace(" ", ""), particle, "Phi", shift]))
+                                Histo_P_v_Phi[ref]      = sdf.Histo2D((Histo_Mom_Phi_ref_title, Title_Mom_Phi, 110,  0,   11,  720, -260, 460), "".join([particle, "_", correction]),                        "".join([local_Q.replace(" ", ""), particle, "Phi", shift]))
                                 count += 1
                                 
                                 if("" == shift and "" == local_Q):
-                                    Histo_P_v_Th[ref] = sdf.Histo2D((Histo_Mom_The_ref_title, Title_Mom_The, 110, 0, 11, 150, 0, 40), "".join([particle, "_", correction]), "".join([particle, "th"]))
+                                    Histo_P_v_Th[ref]   = sdf.Histo2D((Histo_Mom_The_ref_title, Title_Mom_The, 110,  0,   11,  560,  0,   140), "".join([particle, "_", correction]),                        "".join([particle, "th"]))
                                     count += 1
                                 if('mm0' in correction):
-                                    Histo_Th_v_Phi[ref] = sdf.Histo2D((Histo_The_Phi_ref_title, Title_The_Phi, 720, -260, 460, 150, 0, 40), "".join([local_Q.replace(" ", ""), particle, "Phi", shift]), "".join([particle, "th"]))
+                                    Histo_Th_v_Phi[ref] = sdf.Histo2D((Histo_The_Phi_ref_title, Title_The_Phi, 720, -260, 460, 560,  0,   140), "".join([local_Q.replace(" ", ""), particle, "Phi", shift]), "".join([particle, "th"]))
                                     count += 1
 
 

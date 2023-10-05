@@ -2,11 +2,14 @@
 Momentum Corrections developed using exclusive pion reactions.
 
 Main Correction Code Location: Data_Files/File_Creation_Final_Momentum_Corrections_Github.py
+
 Main Notebook Used to Evaluate Files created with the above python code: Momentum_Corrections_Github_Main.ipynb
 
 
 # Plans:
 1) Work on Pass2 Corrections for the Spring 2019 Data
+    * Also comparing with Pass1 Spring 2019 Data
+    * Planning to test data which includes the central detector events
 2) Start Pass2 Corrections for the Fall 2018 Data once available
 
 ## Update Notes:
