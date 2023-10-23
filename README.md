@@ -13,6 +13,14 @@ Main Notebook Used to Evaluate Files created with the above python code: Momentu
 2) Start Pass2 Corrections for the Fall 2018 Data once available
 
 ## Update Notes:
+As of 10-23-2023:
+    * Correction Progress:
+        * Fall 2018   - Pass 1 corrections are COMPLETED
+        * Fall 2018   - Pass 2 corrections not yet made (not begun)
+        * Spring 2019 - Pass 1 corrections not yet made (not begun)
+        * Spring 2019 - Pass 2 corrections are IN-DEVELOPMENT now
+    * Deleted Some older images from this repository (were not really needed here)
+
 As of 9-19-2023, the all Fall 2018 Pass1 corrections are complete (this README.md file has not been kept regularly updated for a few months)
 
 As of 11-10-2022, all files were moved to the work directory mentioned below. 
@@ -24,6 +32,102 @@ Saved here to prevent a loss of files while working on the volitile folder.
 Backup File location: /w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections
 
 
+
+## Updates from 10-23-2023
+* The following file names/info detail (most) changes since the last update to this README.md file (all still appear in the python code as of this update):
+```
+    # New Names as of 9-19-2023 (After Fall 2018 - Pass 1 corrections were finished)
+    if("Pass" in str(pass_version)):
+        Pass_File_Name     = (...)
+        
+        Extra_Version_Name = "_V1"
+        # Ran on 9/19/2023-9/20/2023 with Spring 2019 data (Pass 2)
+            # Ran 3 versions of files for SP and EO events (6 files total)
+                # Included normal code (no changes since the last time it was run) and 2 versions where cuts to check the central/forward detector separately (via theta cuts) were added
+                # Note: Later change was made to the Central detector cuts to remove the condition that the electron be detected there (no events were suriving the cut)
+                    # This change was updated for only the SP events (Central EO would be the same as the other files if the cut was removed)
+                    # Didn't matter since the central detector was cut in the groovy script already (did not remove the cut beforehand)
+                    
+                    
+        Extra_Version_Name = "_V2"
+        # Ran on 9/21/2023 with Spring 2019 data (Pass 2)
+        # Added Refinements to the earlier Pass 2 Corrections (added phi-dependence)
+            # Correction name is 'mmRP2' for 'Refined'-'Pass 2'
+        # Extended the plot range of the theta particle in relavent plots (will help see the central detector particles later)
+        
+        
+        Extra_Version_Name = "_V3"
+        # Ran on 9/22/2023 with Spring 2019 data (Pass 2)
+        # Refined the phi-dependent Pass 2 Correction again
+            # Correction is still called 'mmRP2'
+            
+            
+        Extra_Version_Name = "_V4"
+        # Ran on 9/29/2023 with Spring 2019 data (Pass 2)
+        # Added a pi+ phi-dependent Correction based on 'mmRP2'
+        # Needed to test a potential issue in the Inbending pi+ corrections
+            # Testing to see what the differences are between 'PipMMF', 'PipMMExF', and 'PipMMEF' in case the Inbending corrections for 'PipMMF' and 'PipMMEF' are the same (possible naming error in Inbending Pass 1)
+                # RESULT OF TEST: The issue did NOT exist when finalizing the Pass 1 Corrections. It does, however, exist now such that the 'PipMMEF' correction no longer works the same as it did when finalizing the results
+                    # The issue must have been created while working on the Outbending corrections with the Inbending code never having been readdressed and fixed before this point
+                    # The issue has been resolved (for the next file version) and since the pion correction has not been used to develop new corrections yet, this presents no concerns for the status of the Pass 2 corrections
+                    
+                    
+        Extra_Version_Name = "_V5"
+        # Ran on 10/5/2023 with Spring 2019 data (Pass 2 AND Pass 1)
+        # Refined the pi+ phi-dependent Correction based on 'mmRP2_PipMMP2'
+            # Name has not been changed
+        # Fixed the issue noted in the 'RESULT OF TEST' section of the 'Extra_Version_Name = "_V4"' notes
+            # No longer using the extra corrections ('ExF') now that the test is complete
+        # Finished creating the Pass 1 version of the required files
+            # Ran with Pass 2 versions
+            # Included the Pass 2 versions of the corrections to test how compatile they are (no existing Pass 1 corrections to compare otherwise)
+            
+            
+        Extra_Version_Name = "_V6"
+        # Ran on 10/16/2023 with Spring 2019 data (Pass 2 and Pass 1)
+        # Made a new refinement correction for the pi+ pion based on 'mmRP2_PipMMP2'
+            # Called 'mmRP2_PipMMsP2'
+            # This correction splits the data to create separate corrections based on whether the pion momentum is above or below 4 GeV
+            # As of this file, the refinement only is applied if pip >= 4
+        # No new Pass 1 corrections were made
+            # Now not running Pass 2 corrections for any pass 1 data set
+        # Now running sector-by-sector phase space plots to try to find the issue with the pipPhi angle favoring larger values
+        
+        
+        Extra_Version_Name = "_V7"
+        # Running on 10/23/2023 with Spring 2019 data (Pass 2 and Pass 1)
+        # Did not update the new refinement correction for the pi+ pion from the last version
+            # Correction 'mmRP2_PipMMsP2' is still the same as it was in Extra_Version_Name = "_V6"
+        # No new corrections/refinements were made (for either Pass version)
+            # Still using all the same corrections and histograms as was used in Extra_Version_Name = "_V6"
+        # Modified the Missing/Invariant Mass Exclusivity Cuts for the Spring 2019 data
+            # Was still using the same cuts as the Pass 1 Fall 2018 data
+            # Cuts are now unique between datasets and pass versions
+                # Will still have the same name (must keep track of file version to track difference in the exclusivity cuts)
+            # Single Pion Channels have cuts which are functions of electron sector, local phi angle, and momentum
+                # phi-dependence is not continuous
+                # Linear dependence on momentum
+                # Cuts are from fits of the widths of the peak distributions (boundaries are taken from 3-sigma widths in both directions)
+            # Electron Only/Elastic Scattering Channels have cuts which are functions of electron sector and momentum
+                # No phi-dependence
+                # Linear dependence on momentum for the upper cut, cut is constant in momentum for the lower cut
+                # Cuts are from fits of the widths of the peak distributions (boundaries are taken from a 2-sigma width for the upper cut and a 3-sigma width for the lower cut)
+        # Updated the time-estimates for running the code
+            # Does not impact how the code runs
+            # Just helps predict the amount of time that will be required to run when running the code as a test
+        
+        
+        Extra_Part_of_Name = "".join(["_", str(Pass_File_Name), "_rec_clas", str(Extra_Version_Name)])
+        # 'rec_clas' refers to the DST files used to create the root files in this code
+            # The DST files are what was used instead of the skim4 or nSidis files since there was not any current versions of the skim files without the cuts I wanted removed
+        # Refer to Extra_Version_Name above for version notes
+    else:
+        Extra_Part_of_Name = "_Pass1_Final_Tests_V1"
+        # Ran with Extra_Version_Name = "_V4" above (with Pass 1 Fall 2018 data)
+            # RESULT OF TEST: The issue did NOT exist when finalizing the Pass 1 Corrections. It does, however, exist now such that the 'PipMMEF' correction no longer works the same as it did when finalizing the results
+                # The issue must have been created while working on the Outbending corrections with the Inbending code never having been readdressed and fixed before this point
+                # The issue has been resolved (for the next file version) and since the pion correction has not been used to develop new corrections yet, this presents no concerns for the status of the Pass 2 corrections
+```
 
 ## Updates from 9-19-2023
 * The following file names/info has been removed from the main python file (cleaning up unnecessary clutter):

@@ -225,7 +225,7 @@ if(event_type == "E0"):
     event_type = "EO"
 
 
-if(event_type in ["SP", "MC"]):
+if(event_type in ["SP", "MC", "SIDIS"]):
     event_Name = "Single Pion Channel"
     MM_type = "epipX"
     
@@ -708,7 +708,7 @@ if(event_Name != "error"):
         Delta_Pel_histo_Q, Delta_Pip_histo_Q, Delta_Pim_histo_Q, Delta_Pro_histo_Q = 'n', 'n', 'n', 'n'
         
         
-    if(event_type in ["SP", "SP_P1", "SP_P2", "MC"]):
+    if(event_type in ["SP", "SP_P1", "SP_P2", "MC", "SIDIS"]):
         Delta_Pim_histo_Q, Delta_Pro_histo_Q = 'n', 'n'
     if(event_type == "DP"):
         Delta_Pel_histo_Q, Delta_Pip_histo_Q = 'n', 'n'
@@ -834,7 +834,7 @@ if(event_Name != "error"):
     
     
     
-    # New Names as of 9-19-2023 (After Pass 1 corrections were finished)
+    # New Names as of 9-19-2023 (After Fall 2018 - Pass 1 corrections were finished)
     if("Pass" in str(pass_version)):
         Pass_File_Name     = str(pass_version).replace(" Detector", "")
         Pass_File_Name     = str(Pass_File_Name.replace("-", "_")).replace(" ", "_")
@@ -882,6 +882,40 @@ if(event_Name != "error"):
         # Finished creating the Pass 1 version of the required files
             # Ran with Pass 2 versions
             # Included the Pass 2 versions of the corrections to test how compatile they are (no existing Pass 1 corrections to compare otherwise)
+            
+            
+        Extra_Version_Name = "_V6"
+        # Ran on 10/16/2023 with Spring 2019 data (Pass 2 and Pass 1)
+        # Made a new refinement correction for the pi+ pion based on 'mmRP2_PipMMP2'
+            # Called 'mmRP2_PipMMsP2'
+            # This correction splits the data to create separate corrections based on whether the pion momentum is above or below 4 GeV
+            # As of this file, the refinement only is applied if pip >= 4
+        # No new Pass 1 corrections were made
+            # Now not running Pass 2 corrections for any pass 1 data set
+        # Now running sector-by-sector phase space plots to try to find the issue with the pipPhi angle favoring larger values
+        
+        
+        Extra_Version_Name = "_V7"
+        # Running on 10/23/2023 with Spring 2019 data (Pass 2 and Pass 1)
+        # Did not update the new refinement correction for the pi+ pion from the last version
+            # Correction 'mmRP2_PipMMsP2' is still the same as it was in Extra_Version_Name = "_V6"
+        # No new corrections/refinements were made (for either Pass version)
+            # Still using all the same corrections and histograms as was used in Extra_Version_Name = "_V6"
+        # Modified the Missing/Invariant Mass Exclusivity Cuts for the Spring 2019 data
+            # Was still using the same cuts as the Pass 1 Fall 2018 data
+            # Cuts are now unique between datasets and pass versions
+                # Will still have the same name (must keep track of file version to track difference in the exclusivity cuts)
+            # Single Pion Channels have cuts which are functions of electron sector, local phi angle, and momentum
+                # phi-dependence is not continuous
+                # Linear dependence on momentum
+                # Cuts are from fits of the widths of the peak distributions (boundaries are taken from 3-sigma widths in both directions)
+            # Electron Only/Elastic Scattering Channels have cuts which are functions of electron sector and momentum
+                # No phi-dependence
+                # Linear dependence on momentum for the upper cut, cut is constant in momentum for the lower cut
+                # Cuts are from fits of the widths of the peak distributions (boundaries are taken from a 2-sigma width for the upper cut and a 3-sigma width for the lower cut)
+        # Updated the time-estimates for running the code
+            # Does not impact how the code runs
+            # Just helps predict the amount of time that will be required to run when running the code as a test
         
         
         Extra_Part_of_Name = "".join(["_", str(Pass_File_Name), "_rec_clas", str(Extra_Version_Name)])
@@ -1442,6 +1476,7 @@ if(event_Name != "error"):
                 // corPip == 2 --> Final Version of Corrections (uses the wrong name   - is mmExF - same correction as corPip == 3)
                 // corPip == 3 --> Final Version of Corrections (uses the correct name - is mmEF  - same correction as corPip == 2)
                 // corPip == 4 --> New Pass2 Corrections (Incomplete)
+                // corPip == 5 --> New Pass2 Corrections (refinement of corPip == 4  --- is split between two functions at p = 4 GeV)
 
             // corPim ==> Gives the 'generation' of the π- Pion correction
                 // corPim == 0 --> No Correction
@@ -1775,7 +1810,7 @@ if(event_Name != "error"):
                 }
                 
                 
-                if(corPip == 4){ // Corresponds to Correction = mmRP2_PipMMP2
+                if(corPip == 4 || corPip == 5){ // Corresponds to Correction = mmRP2_PipMMP2 or Correction = mmRP2_PipMMsP2
                     if(sec == 1){
                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 1] is:
                         dp =       ((2.3162e-07)*phi*phi +  (1.0037e-04)*phi + (6.3605e-04))*pp*pp +  ((2.5189e-06)*phi*phi + (-6.8325e-04)*phi + (-0.0073536))*pp + ((-4.8953e-06)*phi*phi +  (3.7776e-04)*phi + (0.017481));
@@ -1827,6 +1862,37 @@ if(event_Name != "error"):
                     if(sec == 6){
                         // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2_PipMMP2 (Pass 2 Refined Electron Correction - With Pion)][Sector 6] is:
                         dp = dp +  ((5.5947e-07)*phi*phi + (-4.3539e-06)*phi + (-1.0766e-04))*pp*pp + ((-4.3709e-06)*phi*phi +  (2.9333e-05)*phi +  (9.7093e-04))*pp +  ((9.2126e-06)*phi*phi + (-5.9750e-05)*phi + (-0.0019547));
+                    }
+                    
+                    
+                    if(corPip == 5){ // Corresponds to Correction = mmRP2_PipMMsP2
+                        // Correction is split based on whether the momentum is greater than 4 GeV or less than 4 GeV
+                        if(pp >= 4){
+                            if(sec == 1){
+                                // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2_PipMMP2 (Pass 2 Refined Electron Correction - With Pion)][Sector 1] is:
+                                dp = dp + ((-7.2027e-06)*phi*phi + (-9.6557e-05)*phi + (-6.8172e-04))*pp*pp + ((8.6596e-05)*phi*phi + (9.5750e-04)*phi + (0.0034343))*pp + ((-2.5537e-04)*phi*phi + (-0.0022122)*phi + (0.0048584));
+                            }
+                            if(sec == 2){
+                                // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2_PipMMP2 (Pass 2 Refined Electron Correction - With Pion)][Sector 2] is:
+                                dp = dp + ((-1.1001e-05)*phi*phi + (-1.2434e-04)*phi + (-0.0023145))*pp*pp + ((1.2473e-04)*phi*phi + (0.0012392)*phi + (0.0224))*pp + ((-3.5197e-04)*phi*phi + (-0.0028099)*phi + (-0.048264));
+                            }
+                            if(sec == 3){
+                                // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2_PipMMP2 (Pass 2 Refined Electron Correction - With Pion)][Sector 3] is:
+                                dp = dp + ((-2.1964e-06)*phi*phi + (9.1340e-07)*phi + (-0.002515))*pp*pp + ((2.8086e-05)*phi*phi + (6.5217e-05)*phi + (0.023951))*pp + ((-8.9256e-05)*phi*phi + (-4.2422e-04)*phi + (-0.050746));
+                            }
+                            if(sec == 4){
+                                // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2_PipMMP2 (Pass 2 Refined Electron Correction - With Pion)][Sector 4] is:
+                                dp = dp + ((-3.7147e-06)*phi*phi + (7.7026e-05)*phi + (-0.0018494))*pp*pp + ((4.7613e-05)*phi*phi + (-8.8878e-04)*phi + (0.01796))*pp + ((-1.4740e-04)*phi*phi + (0.0024937)*phi + (-0.039466));
+                            }
+                            if(sec == 5){
+                                // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2_PipMMP2 (Pass 2 Refined Electron Correction - With Pion)][Sector 5] is:
+                                dp = dp + ((5.4313e-06)*phi*phi + (-3.1710e-05)*phi + (-0.0036724))*pp*pp + ((-5.9298e-05)*phi*phi + (4.1536e-04)*phi + (0.037361))*pp + ((1.5828e-04)*phi*phi + (-0.0013508)*phi + (-0.089146));
+                            }
+                            if(sec == 6){
+                                // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmRP2_PipMMP2 (Pass 2 Refined Electron Correction - With Pion)][Sector 6] is:
+                                dp = dp + ((2.4524e-07)*phi*phi + (-1.1842e-04)*phi + (-0.0039563))*pp*pp + ((-1.0923e-06)*phi*phi + (0.001264)*phi + (0.040802))*pp + ((-1.3884e-06)*phi*phi + (-0.0032696)*phi + (-0.09893));
+                            }
+                        }
                     }
                     
                 }
@@ -7325,7 +7391,8 @@ if(event_Name != "error"):
     #     // corPip == 1 --> Quad Momentum, Quad Phi (Old Version)
     #     // corPip == 2 --> Quad Momentum, Quad Phi (Extended - Test - Version)
     #     // corPip == 3 --> Quad Momentum, Quad Phi (Final Version)
-    #     // corPip == 4 --> New Proton Correction with pass2 data (Created from Uncorrected Particles -- Quad Mom -- does not use EO channels)
+    #     // corPip == 4 --> New π+ Pion Correction with pass2 data (Created from Uncorrected π+ Pion -- Quad Mom -- does not use EO channels)
+    #     // corPip == 5 --> New π+ Pion Correction with pass2 data (Created from corPip == 4 -- Quad Mom -- Split at p = 4 GeV between two functions)
     def NamePipCor(corPip, datatype):
         coutN = 0
         if("Pip" not in corPip):
@@ -7337,6 +7404,8 @@ if(event_Name != "error"):
                 coutN = 3
             elif("PipMMP2" in corPip):
                 coutN = 4
+            elif("PipMMsP2" in corPip):
+                coutN = 5
             else:
                 coutN = 1
         return coutN
@@ -9002,6 +9071,8 @@ if(event_Name != "error"):
                 CorrectionName2 = 'Pi+ Cor (Quad - Quad Phi - With Elastic Cors)'
             if('MMP2'      in CorrectionNameIn):
                 CorrectionName2 = 'Pi+ Cor (Quad - Pass 2)'
+            if('MMsP2'      in CorrectionNameIn):
+                CorrectionName2 = 'Pi+ Cor (Quad - Pass 2 - Split)'
 
         if('Pim' not in CorrectionNameIn):
             CorrectionName3 = 'No Pi- Cor' if(event_type in ["DP"]) else ""
@@ -9686,6 +9757,283 @@ if(event_Name != "error"):
 
             """])
             
+            if("Pass 1" in pass_version):
+                print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 1)\n\n", color.END)
+                Calculated_Exclusive_Cuts = "".join(["""
+                    auto beam = ROOT::Math::PxPyPzMVector(0, 0, """,    str(Beam_Energy),          """, 0);
+                    auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);
+                    auto ele  = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+                    auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, """, str(Particle_Mass_PiC), """);
+
+                    auto MM_Vector = beam + targ - ele - pip0;
+
+                    auto cut_upper = 1.1;
+                    auto cut_lower = 0;
+
+                    if(esec == 1){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (-0.0029394)*el + (1.0704569);
+                            // Lower Cut
+                            cut_lower = (-0.0080116)*el + (0.8771632);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (-0.0015837)*el + (1.0848313);
+                            // Lower Cut
+                            cut_lower = (-0.005)*el + (0.8758892);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (-0.005183)*el + (1.0768906);
+                            // Lower Cut
+                            cut_lower = (-0.0106145)*el + (0.8589478);
+                        }
+                    }
+                    if(esec == 2){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (-0.0002427)*el + (1.0492291);
+                            // Lower Cut
+                            cut_lower = (-0.0067184)*el + (0.853968);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (-0.000816)*el + (1.0606348);
+                            // Lower Cut
+                            cut_lower = (-0.0048734)*el + (0.8483969);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (-0.0127831)*el + (1.125157);
+                            // Lower Cut
+                            cut_lower = (-0.009067)*el + (0.8550742);
+                        }
+                    }
+                    if(esec == 3){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (-0.0131371)*el + (1.1300458);
+                            // Lower Cut
+                            cut_lower = (-0.0171171)*el + (0.897616);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (-0.0137094)*el + (1.1206948);
+                            // Lower Cut
+                            cut_lower = (-0.0194186)*el + (0.8945861);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (-0.0099831)*el + (1.1196493);
+                            // Lower Cut
+                            cut_lower = (-0.0106769)*el + (0.8644091);
+                        }
+                    }
+                    if(esec == 4){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (-0.0036287)*el + (1.0805398);
+                            // Lower Cut
+                            cut_lower = (-0.0081657)*el + (0.8780205);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (-0.0036156)*el + (1.0741683);
+                            // Lower Cut
+                            cut_lower = (-0.0073527)*el + (0.8570785);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (-0.0036566)*el + (1.0950377);
+                            // Lower Cut
+                            cut_lower = (-0.0009844)*el + (0.840634);
+                        }
+                    }
+                    if(esec == 5){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (-0.0041069)*el + (1.0766104);
+                            // Lower Cut
+                            cut_lower = (-0.006203)*el + (0.8679564);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (-0.0051101)*el + (1.0885182);
+                            // Lower Cut
+                            cut_lower = (-0.0011979)*el + (0.8345538);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (-0.0083046)*el + (1.1063391);
+                            // Lower Cut
+                            cut_lower = (-0.0045147)*el + (0.8587532);
+                        }
+                    }
+                    if(esec == 6){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (-0.0087088)*el + (1.1095549);
+                            // Lower Cut
+                            cut_lower = (-0.0097436)*el + (0.8790762);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (-0.0048216)*el + (1.0863592);
+                            // Lower Cut
+                            cut_lower = (-0.0082379)*el + (0.8808634);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (-0.0065463)*el + (1.0862486);
+                            // Lower Cut
+                            cut_lower = (-0.0120596)*el + (0.8845782);
+                        }
+                    }  
+
+                    return (MM_Vector.M() < cut_upper && MM_Vector.M() > cut_lower);
+
+                """])
+                
+            if("Pass 2" in pass_version):
+                print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 2)\n\n", color.END)
+                Calculated_Exclusive_Cuts = "".join(["""
+                    auto beam = ROOT::Math::PxPyPzMVector(0, 0, """,    str(Beam_Energy),          """, 0);
+                    auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);
+                    auto ele  = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+                    auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, """, str(Particle_Mass_PiC), """);
+
+                    auto MM_Vector = beam + targ - ele - pip0;
+
+                    auto cut_upper = 1.1;
+                    auto cut_lower = 0;
+
+                    if(esec == 1){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (-0.0009746)*el + (1.0662726);
+                            // Lower Cut
+                            cut_lower = (-0.003077)*el + (0.8593037);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (0.0022395)*el + (1.0521977);
+                            // Lower Cut
+                            cut_lower = (0.0002064)*el + (0.8374306);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (-0.0043019)*el + (1.0873004);
+                            // Lower Cut
+                            cut_lower = (-0.0045241)*el + (0.8632384);
+                        }
+                    }
+                    if(esec == 2){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (-0.0017436)*el + (1.0671729);
+                            // Lower Cut
+                            cut_lower = (-0.006537)*el + (0.8630303);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (-0.0009251)*el + (1.0620756);
+                            // Lower Cut
+                            cut_lower = (-0.0042113)*el + (0.8512631);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (-0.0062341)*el + (1.0963343);
+                            // Lower Cut
+                            cut_lower = (-0.0096668)*el + (0.8751263);
+                        }
+                    }
+                    if(esec == 3){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (-0.0044655)*el + (1.0838766);
+                            // Lower Cut
+                            cut_lower = (-0.0068203)*el + (0.8592193);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (-0.0043441)*el + (1.0826992);
+                            // Lower Cut
+                            cut_lower = (-0.0092879)*el + (0.8691799);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (-0.0024024)*el + (1.0751932);
+                            // Lower Cut
+                            cut_lower = (-0.0067032)*el + (0.8576486);
+                        }
+                    }
+                    if(esec == 4){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (0.0009057)*el + (1.0597884);
+                            // Lower Cut
+                            cut_lower = (-0.0058479)*el + (0.8690836);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (-0.0005842)*el + (1.0702956);
+                            // Lower Cut
+                            cut_lower = (-0.007878)*el + (0.8748704);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (0.0027736)*el + (1.0548513);
+                            // Lower Cut
+                            cut_lower = (0.0011848)*el + (0.8174472);
+                        }
+                    }
+                    if(esec == 5){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (0.0006062)*el + (1.0575388);
+                            // Lower Cut
+                            cut_lower = (-0.0057308)*el + (0.8602961);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (-0.0006488)*el + (1.0737746);
+                            // Lower Cut
+                            cut_lower = (-0.0016143)*el + (0.8323827);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (-0.0055699)*el + (1.0974838);
+                            // Lower Cut
+                            cut_lower = (0.0019992)*el + (0.7994388);
+                        }
+                    }
+                    if(esec == 6){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (-0.0026965)*el + (1.0722083);
+                            // Lower Cut
+                            cut_lower = (-0.0002484)*el + (0.8195911);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (-0.00398)*el + (1.0802161);
+                            // Lower Cut
+                            cut_lower = (-0.0001438)*el + (0.8190835);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (-0.004144)*el + (1.0814831);
+                            // Lower Cut
+                            cut_lower = (-0.0026884)*el + (0.8391593);
+                        }
+                    }  
+
+                    return (MM_Vector.M() < cut_upper && MM_Vector.M() > cut_lower);
+
+                """])
+                
+            
         if("Out" in datatype):
 
             Calculated_Exclusive_Cuts = "".join(["""
@@ -10354,7 +10702,82 @@ if(event_Name != "error"):
     ##===================================================================================================================================##
     #######################################################################################################################################
     if("E" in event_type):
+        if(("Pass 2" in str(pass_version)) and ("Out" not in str(datatype))):
+            print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 2)\n\n", color.END)
+        if(("Pass 1" in str(pass_version)) and ("Out" not in str(datatype))):
+            print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 1)\n\n", color.END)
+        
         Calculated_Exclusive_Cuts = "".join(["""        
+        // For Invariant Mass Cut (Spring 2019 (Pass 2) - Based on a 2-sigma cut (upper bounds) on the Invarient Mass - Upper Cut is a function of the electron momentum - Lower cut is a constant and based on a 3-sigma cut - No Phi dependence):
+        auto Beam_Energy = """, str(Beam_Energy), """;
+        auto Proton_Mass = """, str(Particle_Mass_Proton), """;
+        auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
+        auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
+        auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+        auto Cut_Variable = (beam + targ - eleC).M();
+        auto Upper_Cut = 1.3;
+        auto Lower_Cut = 0.7;
+        if(esec == 1){
+            Upper_Cut = (-0.0491542)*el + (1.5);
+            Lower_Cut = (0.7878436);
+        }
+        if(esec == 2){
+            Upper_Cut = (-0.0505903)*el + (1.5);
+            Lower_Cut = (0.745676);
+        }
+        if(esec == 3){
+            Upper_Cut = (-0.0503804)*el + (1.5);
+            Lower_Cut = (0.735096);
+        }
+        if(esec == 4){
+            Upper_Cut = (-0.0491416)*el + (1.5);
+            Lower_Cut = (0.7817657);
+        }
+        if(esec == 5){
+            Upper_Cut = (-0.0495588)*el + (1.5);
+            Lower_Cut = (0.7855759);
+        }
+        if(esec == 6){
+            Upper_Cut = (-0.0496809)*el + (1.5);
+            Lower_Cut = (0.7655371);
+        } 
+        return ((Cut_Variable < Upper_Cut) && (Cut_Variable > Lower_Cut));
+        """]) if(("Pass 2" in str(pass_version)) and ("Out" not in str(datatype))) else "".join(["""        
+        // For Invariant Mass Cut (Spring 2019 (Pass 1) - Based on a 2-sigma cut (upper bounds) on the Invarient Mass - Upper Cut is a function of the electron momentum - Lower cut is a constant and based on a 3-sigma cut - No Phi dependence):
+        auto Beam_Energy = """, str(Beam_Energy), """;
+        auto Proton_Mass = """, str(Particle_Mass_Proton), """;
+        auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
+        auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
+        auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+        auto Cut_Variable = (beam + targ - eleC).M();
+        auto Upper_Cut = 1.3;
+        auto Lower_Cut = 0.7;
+        if(esec == 1){
+            Upper_Cut = (-0.0504201)*el + (1.5);
+            Lower_Cut = (0.7361207);
+        }
+        if(esec == 2){
+            Upper_Cut = (-0.0505571)*el + (1.5);
+            Lower_Cut = (0.7398295);
+        }
+        if(esec == 3){
+            Upper_Cut = (-0.0562397)*el + (1.5);
+            Lower_Cut = (0.6487454);
+        }
+        if(esec == 4){
+            Upper_Cut = (-0.0515732)*el + (1.5);
+            Lower_Cut = (0.7500403);
+        }
+        if(esec == 5){
+            Upper_Cut = (-0.0522959)*el + (1.5);
+            Lower_Cut = (0.7597503);
+        }
+        if(esec == 6){
+            Upper_Cut = (-0.0526918)*el + (1.5);
+            Lower_Cut = (0.7333811);
+        } 
+        return ((Cut_Variable < Upper_Cut) && (Cut_Variable > Lower_Cut));
+        """]) if(("Pass 1" in str(pass_version)) and ("Out" not in str(datatype))) else "".join(["""        
         // For Invariant Mass Cut (Determined with the help of Azimuthal Kinematic Cut applied on the invariant mass histogram):
         auto Beam_Energy = """, str(Beam_Energy), """;
         auto Proton_Mass = """, str(Particle_Mass_Proton), """;
@@ -10923,11 +11346,12 @@ if(event_Name != "error"):
             Delta_P_histo_CorList = ['mm0', 'mmEF', 'mmEF_PipMMEF']
             # Delta_P_histo_CorList = ['mm0', 'mmEF', 'mmEF_PipMMF', 'mmEF_PipMMExF', 'mmEF_PipMMEF']
             
-            if("Spring 2019 - Pass " in str(pass_version)):
+            if("Spring 2019 - Pass 2" in str(pass_version)):
                 Delta_P_histo_CorList.append("mmP2")
                 Delta_P_histo_CorList.append("mmRP2")
                 Delta_P_histo_CorList.append("mmP2_PipMMP2")
                 Delta_P_histo_CorList.append("mmRP2_PipMMP2")
+                Delta_P_histo_CorList.append("mmRP2_PipMMsP2")
 
         if(datatype == "Outbending"):
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF']
@@ -11311,11 +11735,12 @@ if(event_Name != "error"):
             correctionList = ['mm0', 'mmEF', 'mmEF_PipMMEF']
             # correctionList = ['mm0', 'mmEF', 'mmEF_PipMMF', 'mmEF_PipMMExF', 'mmEF_PipMMEF']
             
-            if("Spring 2019 - Pass " in str(pass_version)):
+            if("Spring 2019 - Pass 2" in str(pass_version)):
                 correctionList.append("mmP2")
                 correctionList.append("mmRP2")
                 correctionList.append("mmP2_PipMMP2")
                 correctionList.append("mmRP2_PipMMP2")
+                correctionList.append("mmRP2_PipMMsP2")
                 
         if(datatype == "Outbending"):
 #             correctionList = ['mm0', 'mmF', 'mmF_PipMMF']
@@ -11476,7 +11901,7 @@ if(event_Name != "error"):
     # Run_Phase_Space = 'no'
     
     Skip_Sector_Phase_Space = "yes"
-    # Skip_Sector_Phase_Space = "no"
+    Skip_Sector_Phase_Space = "no"
 
 
     # This list is for the extra phase space histograms which can be run with or without shifts      
@@ -11617,7 +12042,7 @@ if(event_Name != "error"):
 
     if(datatype == "Inbending"):
         # This number should be set to the number of histograms expected to be made per minute while running this code (VERY rough estimate - often changes between runs)
-        TimeToProcess = 720 if("DP" in event_type and file_location != "All") else 747 if("P0" in event_type) else 121.8 if("E" in event_type) else 1081
+        TimeToProcess = 720 if("DP" in event_type and file_location != "All") else 747 if("P0" in event_type) else 121.8 if("E" in event_type) else 1081 if("Pass" not in str(pass_version)) else 105
         if("MC" in event_Name):
             TimeToProcess = 30
     if(datatype == "Outbending"):
