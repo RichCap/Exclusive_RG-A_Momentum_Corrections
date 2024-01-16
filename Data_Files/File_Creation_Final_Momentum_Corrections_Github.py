@@ -8,36 +8,51 @@ from sys import argv
 
 # Arguement 1: Name of this code (File_Creation_Final_Momentum_Corrections_Github.py)
 
+
 # Arguement 2: data-type (In/Out)
     # Options: 
     # 1) In -> Inbending
     # 2) Out -> Outbending
-
+    
+    
 # Arguement 3: event-type (type of exclusive events)
     # Options: 
     # 1) SP    -> Single Pion (i.e., ep->eπ+N)
+        # Should also run with EO to complete the full set of requirements for preforming the electron corrections
     # 2) DP    -> Double Pion (i.e., ep->epπ+π-)
     # 3) P0    -> Pi0 Channel (i.e., ep->epπ0)
     # 4) ES    -> Elastic Scattering (i.e., ep->e'p')
     # 4) EO    -> Electron Only (i.e., ep->e'X)
+        # Should also run with SP to complete the full set of requirements for preforming the electron corrections
     # 5) MC    -> Simulated Single Pion (i.e., ep->eπ+N  - same option as SP but file names will be different)
     # 6) P0_MC -> Simulated Pi0 (i.e., ep->epπ0 - same option as P0 but using simulated files - has two additional options with P0_MC_P and P0_MC_M modifying the momentum of the proton by ±20 MeV)
+    
+    # NOTE: All options above default to the Fall 2018 Pass 1 versions of this code.
+    # #     To use the Spring 2019 versions of the channels listed, add 'P1' (for Pass 1) or 'P2' (for Pass 2) to run either version of the Spring 2019 data.
+    # #     For the Fall 2018 Pass 2 versions of the channels, add 'fp2' (for Fall data Pass 2) to this arguement.
 
-
-
-# Arguement 4: file number (Full file name)
+    
+# Arguement 4: file number (Full file name/path)
     # If the file number is given as 'All', then all files will be run instead of a select number of them
-    # If the file number is given as 'test', then the code will run without saving any of the histograms
+    # If the file number is given as 'test' or 'Test', then the code will run without saving any of the histograms
+    # If the file number is given as 'time', then the code will run without saving any of the histograms (like with the option 'test') BUT will set CheckDataFrameQ = 'y' (See below for details on what this does)
+    # Otherwise, input the path to the file to be processed
+        # The lines of code which read as 'file_name = str(file_name.replace(' are meant to replace the full string of the file's path with the number to name this code's output (based on the input file)
+        # Some of these lines are in place for backwards compatibility (may remove some if known to be unnecessary) - MUST ADD new lines when new directories are to be referrenced (do before running)
+    
 
 # EXAMPLES: 
     # python3 File_Creation_Final_Momentum_Corrections_Github.py In SP All
-        # The line above would run ALL INBENDING files together for the ep->eπ+N channel
+        # The line above would run ALL INBENDING (Fall 2018 Pass 1) files together for the ep->eπ+N channel
+    # python3 File_Creation_Final_Momentum_Corrections_Github.py In P2EO All
+        # The line above would run ALL INBENDING (Spring 2019 Pass 2) files together for the ep->e'X channel
+    # python3 File_Creation_Final_Momentum_Corrections_Github.py Out fa2SP All
+        # The line above would run ALL OUTBENDING (Fall 2018 Pass 2) files together for the ep->eπ+N channel
     # python3 File_Creation_Final_Momentum_Corrections_Github.py Out DP test
         # The line above would test-run the OUTBENDING files for the ep->epπ+π- channel (no results would be saved)
         
         
         
-
 code_name, datatype, event_type, file_location = argv
 
 datatype, file_location, event_type = ''.join([str(datatype), "bending"]), str(file_location), str(event_type)
@@ -56,12 +71,15 @@ if("_MC" not in event_type):
     if("P2" in event_type):
         pass_version = "Spring 2019 - Pass 2"
         Beam_Energy = 10.1998
+    if("fa2" in event_type):
+        pass_version =   "Fall 2018 - Pass 2"
+        Beam_Energy = 10.6041
     if("C" in event_type):
         pass_version = "".join([pass_version, " - Central Detector"])
     if("F" in event_type):
         pass_version = "".join([pass_version, " - Forward Detector"])
 
-    event_type = str((((event_type.replace("P1", "")).replace("P2", "")).replace("C", "")).replace("F", ""))
+    event_type = str(((((event_type.replace("P1", "")).replace("P2", "")).replace("C", "")).replace("F", "")).replace("fa2", ""))
     
     
 # Normal values used (rounded)
@@ -86,8 +104,9 @@ if("_MC" in event_type):
     print("".join(["Setting Masses as:\nParticle_Mass_Neutron = ", str(Particle_Mass_Neutron), "\nParticle_Mass_Proton  = ", str(Particle_Mass_Proton), "\nParticle_Mass_PiC     = ", str(Particle_Mass_PiC), "\nParticle_Mass_Pi0     = ", str(Particle_Mass_Pi0)]))
 
 
-    
-    
+####################################################################################################################################################################   
+# Setting proper value for file_name
+
 file_name = str(file_name.replace("/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/inbending/ePipX/epip.skim4_00", ""))
 file_name = str(file_name.replace("/work/clas12/shrestha/clas12momcorr/utsav/dataFiles/outbending/ePipX/skim4_00", ""))
     
@@ -137,8 +156,6 @@ file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Central_Tracking/Pass2/Inbending/ePip.Central.pass2.inb.qa.nSidis_00", ""))
 
 
-
-
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Single_Pion_Channel_epipN/Inbending_skim4/ePip.inb.qa.skim4_00", ""))
 
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Pi0_MC/lvl2_", ""))
@@ -164,9 +181,16 @@ file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass1/Inbending_recon/Single_Pion_Channel_epipN/ePip.pass1.inb.qa.rec_clas_00",      ""))
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass1/Inbending_recon/Only_Electron_Channel/electron_only.pass1.inb.qa.rec_clas_00", ""))
 
+
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Outbending/Single_Pion_Channel_epipN/ePip.wCentral.pass2.outb.rec_clas_00", ""))
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Outbending/Only_Electron_Channel/electron_only.pass2.outb.rec_clas_00",     ""))
+
+
 file_name = str(file_name.replace("-", "_")).replace(".hipo.root", "")
 file_name = str(file_name).replace(".evio.root", "")
 file_name = str(file_name).replace(".root", "")
+
+####################################################################################################################################################################
 
     
 ROOT.gStyle.SetTitleOffset(1.3, 'y')
@@ -176,47 +200,71 @@ ROOT.gStyle.SetPadGridY(1)
 
 
 class color:
-    PURPLE    = '\033[95m'
     CYAN      = '\033[96m'
-    DARKCYAN  = '\033[36m'
+    PURPLE    = '\033[95m'
     BLUE      = '\033[94m'
-    GREEN     = '\033[92m'
     YELLOW    = '\033[93m'
+    GREEN     = '\033[92m'
     RED       = '\033[91m'
+    DARKCYAN  = '\033[36m'
     BOLD      = '\033[1m'
+    LIGHT     = '\033[2m'
+    ITALIC    = '\033[3m'
     UNDERLINE = '\033[4m'
+    BLINK     = '\033[5m'
     DELTA     = '\u0394' # symbol
     END       = '\033[0m'
-
+    ERROR     = '\033[91m\033[1m' # Combines RED and BOLD
+    Error     = '\033[91m\033[1m' # Same as ERROR
+    
+    
+class color_bg:
+    BLACK   = '\033[40m'
+    RED     = '\033[41m'
+    GREEN   = '\033[42m'
+    YELLOW  = '\033[43m'
+    BLUE    = '\033[44m'
+    MAGENTA = '\033[45m'
+    CYAN    = '\033[46m'
+    WHITE   = '\033[47m'
+    RESET   = '\033[49m'
+    END     = '\033[0m'
+    
     
 class root_color:
     # Colors
-    Black  = 0
-    Red    = 2
-    Green  = 3
-    Blue   = 4
-    Yellow = 5
-    Pink   = 6
-    Cyan   = 7
-    DGreen = 8 # Dark Green
-    Purple = 9
-    Grey   = 13
-    Brown  = 28
-    Gold   = 41
-    Rust   = 46
+    White   = 0
+    Black   = 1
+    Red     = 2
+    Green   = 3
+    Blue    = 4
+    Yellow  = 5
+    Pink    = 6
+    Cyan    = 7
+    DGreen  = 8 # Dark Green
+    Purple  = 9
+    DGrey   = 13
+    Grey    = 15
+    LGrey   = 17
+    Brown   = 28
+    Gold    = 41
+    Rust    = 46
     
     # Fonts
-    Bold   = '#font[22]'
-    Italic = '#font[12]'
+    Bold    = '#font[22]'
+    Italic  = '#font[12]'
     
     # Symbols
     Delta   = '#Delta'
     Phi     = '#phi'
-    # π     = '#pi'
+    π       = '#pi'
     Degrees = '#circ'
     
-    Line = '#splitline'
+    Line    = '#splitline'
 
+    
+####################################################################################################################################################################
+# The following lines of code are used for determining which/how plots are made/named
 
 event_Name = "error"
 
@@ -255,7 +303,15 @@ if(event_type == "EO"):
     event_Name = "Electron Only"
     MM_type = "eX"
 
-    
+####################################################################################################################################################################    
+
+
+
+
+
+####################################################################################################################################################################
+# The following lines set the number of bins/axis ranges for the histograms made by this file (pre-set based on event channel for consistency)
+
 if(MM_type == "epippimX"):
     Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max = 160, 0, 1
 elif(MM_type == "epipX"):
@@ -270,6 +326,11 @@ else:
 
 if("MC" in event_Name):
     Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max = 200, 0.01, 0.03
+    
+#################################################################################################################################################################### 
+    
+    
+    
     
 if(event_Name != "error"):
     
@@ -677,6 +738,8 @@ if(event_Name != "error"):
         """])
 
 
+####################################################################################################################################################################
+    # The following lines are used to manually select which types of histograms are run (and turn off those not related to the event type selected)
     ##################################################################################
     ##=====##=====##=====##     Choices for Initial Set-Up     ##=====##=====##=====##
     ##################################################################################
@@ -747,9 +810,8 @@ if(event_Name != "error"):
     ########################################################################################
     ##=====##=====##=====##     Choices for Initial Set-Up (End)     ##=====##=====##=====##
     ########################################################################################
-
-
-
+    
+####################################################################################################################################################################
 
 
 
@@ -932,6 +994,7 @@ if(event_Name != "error"):
                 # Still basing the cut off a fit of these widths as function momentum (i.e., the points being fitted are tighter above 6 GeV, but otherwise applied the same way as before)
                 # Result of this modification will be a slightly tighter cut at higher momentums (where the contributions from the background could be relevant to the fit) and a slightly looser cut at lower momentum (where getting enough statics become a bigger concern for fitting than the background)
                 # Updates to the corrections made in this version may need to be updated again with this additional change
+                
         
         Extra_Version_Name = "_V9"
         # Running on 10/26/2023 with Spring 2019 data (Pass 2 - Single Pion)
@@ -944,7 +1007,40 @@ if(event_Name != "error"):
             # Change that was made: the upper cut is now based on a 1.75*sigma width cut for all points while the lower cut is based on a 2*sigma width cut (no more momentum dependence on what factor of sigma is used to calculate the cuts)
                 # Cuts are still created the same way (other than the change to the factors used to help determine the width of the cut)
                 # The new factors that were chosen are the same now as they were when developing the Fall 2018 - Pass 1 cuts
-
+        # Ran with Spring 2019 Pass 2 Electron Only Files on 10/27/2023
+            # Updated the Invariant Mass cuts for these files with the same widths used for the Single Pion Channel
+                # The lower cut is also now a linear function of momentum
+                # Still not phi-dependent, but otherwise should be comparable to the updated version of the Single Pion Exclusivity Cuts
+            # Also updated the prediction of how long the code will take to run with the Spring 2019 EO files (based on how long the last version of those Pass 2 files took to run when making Extra_Version_Name = "_V8")
+        
+          
+        Extra_Version_Name = "_V10"
+        # Running on 10/27/2023 with Spring 2019 data (Pass 2)
+            # No updates were made that would effect Pass 1
+        # Updated the electron correction (mmRP2) given the updated cuts from Extra_Version_Name = "_V9"
+            # See notes from Extra_Version_Name = "_V8" for how the update was applied (ignore its description of the cuts)
+            
+            
+        Extra_Version_Name = "_V11"
+        # Running on 10/29/2023 with Spring 2019 data (Pass 2)
+            # No updates were made that would effect Pass 1
+        # Updated the electron correction (mmRP2)
+            # Should be a small refinement, so few major changes are expected to be necessary after this update (to the electron corrections)
+        # Removed some corrections from the run list that were not really being used (i.e., corrections can still be run at a later date, but for the files produced by this iteration of the code, they will not be available)
+            # Corrections removed include:
+                # All of the Pass 1 corrections from the Pass 2 files
+                # All variants of the 'mmP2' correction (i.e., the Pass 2 electron correction that did not use any phi-dependence as part of the function)
+                # The intial version of the 'split' pion correction (i.e., 'PipMMsP2')
+                    # The pion corrections were likely going to need to be refined anyway due to the changes to the electron correction, so any use of the correction procedure which results in this type of equation should wait until the base corrections are already improved as much as they possibly can be
+            # Removal should allow the code to take less time to run as well
+        # Added a default cut to the Missing Mass of the SP Channel (now cutting automatically on MM > 1.8 GeV)
+            # This cut was made to allow the phase space histograms to show a better representation of what events are being fitted in the Missing Mass and ∆P histograms
+                # There seemed to be events in the phase space histograms which were not appearing in the other plots, so this cut is meant to show events closer to those that would be included in the fits of the important plots shown
+                # Cut was still made larger than what would actually appear to avoid any chance of it impacting any of the histograms which were already being shown
+                # This cut may be relevant for changing or making into its own separate (additional) cut in the future in case it becomes a point of interest in the future (i.e., if there is ever a reason to extend the Missing Mass Plots beyond the range that is used to see the exclusive peaks)
+                # This update should only effect the single pion channels going forward
+                    # Affects anything that runs with the 'SP' event option (i.e., if("SP" in event_type):...) from now on
+        
         
         Extra_Part_of_Name = "".join(["_", str(Pass_File_Name), "_rec_clas", str(Extra_Version_Name)])
         # 'rec_clas' refers to the DST files used to create the root files in this code
@@ -1144,6 +1240,19 @@ if(event_Name != "error"):
         double Cut_Upper = 1.3;
         double Cut_Lower = 0.6;
         return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
+        """]))
+        
+    if("SP" in event_type):
+        print(color.BOLD + "\nApplying Base Missing Mass Cuts to Single Pion Events (MM < 1.8 GeV)...\n" + color.END)
+        rdf = rdf.Filter("".join(["""
+        auto beam = ROOT::Math::PxPyPzMVector(0, 0, """,    str(Beam_Energy),          """, 0);
+        auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);
+        auto ele  = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+        auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, """, str(Particle_Mass_PiC), """);
+        auto MM_Vector = beam + targ - ele - pip0;
+        auto cut_upper = 1.8;
+        auto cut_lower = 0;
+        return (MM_Vector.M() < cut_upper && MM_Vector.M() > cut_lower);
         """]))
 
     #############################################################################
@@ -1742,7 +1851,7 @@ if(event_Name != "error"):
                             dp = dp + ((-9.7434e-07)*phi*phi + (-6.4726e-06)*phi + (-6.1383e-05))*pp*pp +  ((1.1760e-05)*phi*phi +  (5.5914e-05)*phi +  (8.6014e-04))*pp + ((-3.4082e-05)*phi*phi + (-1.0690e-04)*phi + (-0.0027697));
                         }
                         
-                        // // Refinements made after fixing the exclusivity cuts (cuts were from fits of the 3*sigma widths of the Missing Mass distributions as functions of the electron momentum/sector/non-continuous phi)
+                        // (Ran only for Extra_Version_Name = "_V8") // Refinements made after fixing the exclusivity cuts (cuts were from fits of the 3*sigma widths of the Missing Mass distributions as functions of the electron momentum/sector/non-continuous phi)
                         // if(sec == 1){
                         //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 1] is:
                         //     dp = dp + ((-6.1149e-06)*phi*phi +  (8.2002e-07)*phi +  (6.1298e-04))*pp*pp +  ((7.3105e-05)*phi*phi + (-5.3761e-05)*phi + (-0.0075309))*pp + ((-1.8946e-04)*phi*phi +  (6.8623e-04)*phi + (0.025223));
@@ -1767,6 +1876,59 @@ if(event_Name != "error"):
                         //     // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 6] is:
                         //     dp = dp + ((-1.6062e-06)*phi*phi + (-1.1259e-05)*phi +  (5.5729e-04))*pp*pp +  ((1.0938e-05)*phi*phi +  (1.0770e-04)*phi + (-0.0061604))*pp +  ((1.7795e-05)*phi*phi + (-4.1622e-05)*phi + (0.017392));
                         // }
+                        
+                        // Refinements made after fixing the exclusivity cuts - Cuts were from fits of the 1.75*sigma (upper) and 2*sigma (lower) widths of the Missing/Invariant Mass distributions as functions of the electron momentum/sector/non-continuous phi (no phi for the elastic scattering cuts) - 1st ran with Extra_Version_Name = "_V10" (made with Extra_Version_Name = "_V9")
+                        if(sec == 1){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 1] is:
+                            dp = dp + ((-1.1292e-06)*phi*phi + (-2.3124e-06)*phi + (-7.6258e-05))*pp*pp + ((1.9090e-05)*phi*phi + (-3.5616e-05)*phi + (7.3079e-04))*pp + ((-7.3456e-05)*phi*phi + (6.8312e-04)*phi + (-2.9655e-04));
+                        }
+                        if(sec == 2){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 2] is:
+                            dp = dp + ((-1.4231e-06)*phi*phi + (-1.5868e-05)*phi + (1.9364e-04))*pp*pp + ((1.6746e-05)*phi*phi + (1.5182e-04)*phi + (-0.0030687))*pp + ((-4.5275e-05)*phi*phi + (-2.1582e-04)*phi + (0.0117));
+                        }
+                        if(sec == 3){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 3] is:
+                            dp = dp + ((-3.2233e-06)*phi*phi + (-2.7358e-05)*phi + (-3.8901e-05))*pp*pp + ((3.3948e-05)*phi*phi + (3.3560e-04)*phi + (0.0011806))*pp + ((-8.6514e-05)*phi*phi + (-0.0010091)*phi + (-0.0050875));
+                        }
+                        if(sec == 4){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 4] is:
+                            dp = dp + ((-1.0316e-06)*phi*phi + (-1.6299e-05)*phi + (1.1550e-04))*pp*pp + ((1.6063e-05)*phi*phi + (2.7983e-04)*phi + (-0.0012447))*pp + ((-6.6546e-05)*phi*phi + (-0.0011668)*phi + (0.0028535));
+                        }
+                        if(sec == 5){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 5] is:
+                            dp = dp + ((-1.0044e-06)*phi*phi + (-5.2491e-07)*phi + (4.0706e-05))*pp*pp + ((1.3242e-05)*phi*phi + (2.5438e-05)*phi + (-6.5783e-04))*pp + ((-4.3946e-05)*phi*phi + (-2.8484e-04)*phi + (0.0041747));
+                        }
+                        if(sec == 6){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 6] is:
+                            dp = dp + ((-2.2626e-07)*phi*phi + (-8.5683e-06)*phi + (-9.6293e-05))*pp*pp + ((2.4282e-08)*phi*phi + (5.5672e-05)*phi + (0.0017293))*pp + ((8.8971e-06)*phi*phi + (1.5514e-04)*phi + (-0.0073817));
+                        }
+                        
+                        // Refinements made from Extra_Version_Name = "_V10" for Extra_Version_Name = "_V11" 
+                        if(sec == 1){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 1] is:
+                            dp = dp + ((5.0040e-08)*phi*phi + (-8.0456e-07)*phi + (3.3400e-05))*pp*pp + ((-9.3404e-07)*phi*phi + (1.4125e-05)*phi + (-4.8204e-04))*pp + ((3.2155e-06)*phi*phi + (-1.9460e-05)*phi + (0.0017124));
+                        }
+                        if(sec == 2){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 2] is:
+                            dp = dp + ((-6.7044e-07)*phi*phi + (2.8531e-06)*phi + (2.3486e-05))*pp*pp + ((6.4134e-06)*phi*phi + (-2.8246e-05)*phi + (-3.0853e-04))*pp + ((-1.2267e-05)*phi*phi + (5.9773e-05)*phi + (9.1883e-04));
+                        }
+                        if(sec == 3){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 3] is:
+                            dp = dp + ((-1.1237e-06)*phi*phi + (-3.3308e-06)*phi + (-1.1274e-05))*pp*pp + ((9.5363e-06)*phi*phi + (1.9525e-05)*phi + (9.1049e-05))*pp + ((-1.6966e-05)*phi*phi + (-3.0262e-05)*phi + (-2.5634e-04));
+                        }
+                        if(sec == 4){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 4] is:
+                            dp = dp + ((2.5857e-06)*phi*phi + (9.3712e-06)*phi + (-3.2810e-04))*pp*pp + ((-2.8798e-05)*phi*phi + (-1.2463e-04)*phi + (0.0034551))*pp + ((6.1470e-05)*phi*phi + (3.7680e-04)*phi + (-0.0067891));
+                        }
+                        if(sec == 5){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 5] is:
+                            dp = dp + ((-2.3158e-07)*phi*phi + (1.4747e-06)*phi + (4.3914e-05))*pp*pp + ((1.7677e-07)*phi*phi + (-1.6546e-05)*phi + (-3.7718e-04))*pp + ((8.4806e-06)*phi*phi + (2.7950e-05)*phi + (4.4451e-04));
+                        }
+                        if(sec == 6){
+                            // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mmRP2 (Refined Pass 2 Correction)][Sector 6] is:
+                            dp = dp + ((-1.6987e-06)*phi*phi + (-2.5568e-06)*phi + (1.7701e-04))*pp*pp + ((2.1510e-05)*phi*phi + (2.9852e-05)*phi + (-0.0022824))*pp + ((-6.5180e-05)*phi*phi + (-7.1982e-05)*phi + (0.0068033));
+                        }
+
                         
                     }
                     
@@ -9580,7 +9742,7 @@ if(event_Name != "error"):
     ##===============##===============##===============##         Exclusivity Cuts         ##===============##===============##===============##
     ##=================================================##                                  ##=================================================##
     ##=================================================######################################=================================================##
-    ############################################################################################################################################
+    # The following lines are used to set the additional exclusivity cuts used by this code to better select events related to the momentum corrections (based on channel selection)
 
     Calculated_Exclusive_Cuts = "esec != -2" # This statement is always true (avoids failure of calculated cuts if MM_type not defined properly)
     Calculated_Exclusive_Cuts_v2, Calculated_Exclusive_Cuts_v3, Calculated_Exclusive_Cuts_v4, Calculated_Exclusive_Cuts_v5, Calculated_Exclusive_Cuts_v6 = "esec != -2", "esec != -2", "esec != -2", "esec != -2", "esec != -2"
@@ -11030,8 +11192,45 @@ if(event_Name != "error"):
         if(("Pass 1" in str(pass_version)) and ("Out" not in str(datatype))):
             print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 1)\n\n", color.END)
         
+        # Calculated_Exclusive_Cuts = "".join(["""        
+        # // For Invariant Mass Cut (Spring 2019 (Pass 2) - Based on a 2-sigma cut (upper bounds) on the Invarient Mass - Upper Cut is a function of the electron momentum - Lower cut is a constant and based on a 3-sigma cut - No Phi dependence):
+        # auto Beam_Energy = """, str(Beam_Energy), """;
+        # auto Proton_Mass = """, str(Particle_Mass_Proton), """;
+        # auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
+        # auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
+        # auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+        # auto Cut_Variable = (beam + targ - eleC).M();
+        # auto Upper_Cut = 1.3;
+        # auto Lower_Cut = 0.7;
+        # if(esec == 1){
+        #     Upper_Cut = (-0.0491542)*el + (1.5);
+        #     Lower_Cut = (0.7878436);
+        # }
+        # if(esec == 2){
+        #     Upper_Cut = (-0.0505903)*el + (1.5);
+        #     Lower_Cut = (0.745676);
+        # }
+        # if(esec == 3){
+        #     Upper_Cut = (-0.0503804)*el + (1.5);
+        #     Lower_Cut = (0.735096);
+        # }
+        # if(esec == 4){
+        #     Upper_Cut = (-0.0491416)*el + (1.5);
+        #     Lower_Cut = (0.7817657);
+        # }
+        # if(esec == 5){
+        #     Upper_Cut = (-0.0495588)*el + (1.5);
+        #     Lower_Cut = (0.7855759);
+        # }
+        # if(esec == 6){
+        #     Upper_Cut = (-0.0496809)*el + (1.5);
+        #     Lower_Cut = (0.7655371);
+        # } 
+        # return ((Cut_Variable < Upper_Cut) && (Cut_Variable > Lower_Cut));
+        # """])
+        
         Calculated_Exclusive_Cuts = "".join(["""        
-        // For Invariant Mass Cut (Spring 2019 (Pass 2) - Based on a 2-sigma cut (upper bounds) on the Invarient Mass - Upper Cut is a function of the electron momentum - Lower cut is a constant and based on a 3-sigma cut - No Phi dependence):
+        // For Invariant Mass Cut (Spring 2019 (Pass 2) - Based on a 1.75*sigma and 2*sigma cuts on the Invarient Mass - Upper Cut is 1.75*sigma - Lower Cut is 2*sigma - Linear Functions of Momentum - No Phi dependence):
         auto Beam_Energy = """, str(Beam_Energy), """;
         auto Proton_Mass = """, str(Particle_Mass_Proton), """;
         auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
@@ -11041,28 +11240,28 @@ if(event_Name != "error"):
         auto Upper_Cut = 1.3;
         auto Lower_Cut = 0.7;
         if(esec == 1){
-            Upper_Cut = (-0.0491542)*el + (1.5);
-            Lower_Cut = (0.7878436);
+            Upper_Cut = (-0.0699295)*el + (1.6677124);
+            Lower_Cut =  (0.0408107)*el + (0.4751967);
         }
         if(esec == 2){
-            Upper_Cut = (-0.0505903)*el + (1.5);
-            Lower_Cut = (0.745676);
+            Upper_Cut = (-0.0570852)*el + (1.5409955);
+            Lower_Cut =  (0.0580087)*el + (0.291677);
         }
         if(esec == 3){
-            Upper_Cut = (-0.0503804)*el + (1.5);
-            Lower_Cut = (0.735096);
+            Upper_Cut = (-0.0654184)*el + (1.615408);
+            Lower_Cut =  (0.0756399)*el + (0.1295325);
         }
         if(esec == 4){
-            Upper_Cut = (-0.0491416)*el + (1.5);
-            Lower_Cut = (0.7817657);
+            Upper_Cut = (-0.0715222)*el + (1.681577);
+            Lower_Cut =  (0.0449407)*el + (0.4354458);
         }
         if(esec == 5){
-            Upper_Cut = (-0.0495588)*el + (1.5);
-            Lower_Cut = (0.7855759);
+            Upper_Cut = (-0.0696714)*el + (1.6621209);
+            Lower_Cut =  (0.0446726)*el + (0.4418454);
         }
         if(esec == 6){
-            Upper_Cut = (-0.0496809)*el + (1.5);
-            Lower_Cut = (0.7655371);
+            Upper_Cut = (-0.0639287)*el + (1.6097967);
+            Lower_Cut =  (0.0230642)*el + (0.6176546);
         } 
         return ((Cut_Variable < Upper_Cut) && (Cut_Variable > Lower_Cut));
         """]) if(("Pass 2" in str(pass_version)) and ("Out" not in str(datatype))) else "".join(["""        
@@ -11669,12 +11868,17 @@ if(event_Name != "error"):
             Delta_P_histo_CorList = ['mm0', 'mmEF', 'mmEF_PipMMEF']
             # Delta_P_histo_CorList = ['mm0', 'mmEF', 'mmEF_PipMMF', 'mmEF_PipMMExF', 'mmEF_PipMMEF']
             
+            
+            Delta_P_histo_CorList = ['mm0']
             if("Spring 2019 - Pass 2" in str(pass_version)):
-                Delta_P_histo_CorList.append("mmP2")
+                # Delta_P_histo_CorList.append("mmP2")
                 Delta_P_histo_CorList.append("mmRP2")
-                Delta_P_histo_CorList.append("mmP2_PipMMP2")
+                # Delta_P_histo_CorList.append("mmP2_PipMMP2")
                 Delta_P_histo_CorList.append("mmRP2_PipMMP2")
-                Delta_P_histo_CorList.append("mmRP2_PipMMsP2")
+                # Delta_P_histo_CorList.append("mmRP2_PipMMsP2")
+            else:
+                Delta_P_histo_CorList.append("mmEF")
+                Delta_P_histo_CorList.append("mmEF_PipMMEF")
 
         if(datatype == "Outbending"):
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF']
@@ -12058,12 +12262,16 @@ if(event_Name != "error"):
             correctionList = ['mm0', 'mmEF', 'mmEF_PipMMEF']
             # correctionList = ['mm0', 'mmEF', 'mmEF_PipMMF', 'mmEF_PipMMExF', 'mmEF_PipMMEF']
             
+            correctionList = ['mm0']
             if("Spring 2019 - Pass 2" in str(pass_version)):
-                correctionList.append("mmP2")
+                # correctionList.append("mmP2")
                 correctionList.append("mmRP2")
-                correctionList.append("mmP2_PipMMP2")
+                # correctionList.append("mmP2_PipMMP2")
                 correctionList.append("mmRP2_PipMMP2")
-                correctionList.append("mmRP2_PipMMsP2")
+                # correctionList.append("mmRP2_PipMMsP2")
+            else:
+                correctionList.append("mmEF")
+                correctionList.append("mmEF_PipMMEF")
                 
         if(datatype == "Outbending"):
 #             correctionList = ['mm0', 'mmF', 'mmF_PipMMF']
@@ -12365,7 +12573,7 @@ if(event_Name != "error"):
 
     if(datatype == "Inbending"):
         # This number should be set to the number of histograms expected to be made per minute while running this code (VERY rough estimate - often changes between runs)
-        TimeToProcess = 720 if("DP" in event_type and file_location != "All") else 747 if("P0" in event_type) else 121.8 if("E" in event_type) else 1081 if("Pass" not in str(pass_version)) else 105
+        TimeToProcess = 720 if("DP" in event_type and file_location != "All") else 747 if("P0" in event_type) else (121.8 if("Pass" not in str(pass_version)) else 36.75) if("E" in event_type) else 1081 if("Pass" not in str(pass_version)) else 105
         if("MC" in event_Name):
             TimeToProcess = 30
     if(datatype == "Outbending"):
