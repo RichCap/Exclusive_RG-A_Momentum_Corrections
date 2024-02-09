@@ -13,6 +13,12 @@ Main Notebook Used to Evaluate Files created with the above python code: Momentu
 2) Start Pass2 Corrections for the Fall 2018 Data once available
 
 ## Update Notes:
+As of 10-27-2023:
+    * Updated the Exclusivity Cuts in the Spring 2019 datasets and made a new default Missing Mass Cut for all Single Pion Files
+        * The default cut filters all events with an uncorrected missing mass of more than 1.8 GeV
+        * Reason for new default cut: The phase space histograms were showing many events (particularly at low electron momentum) which were clearly not appearing in any other relevant histograms
+            * Made this cut to help better represent the actual events being included while not cutting too tightly as to have any significant chances of effecting the other plots accidentally
+
 As of 10-23-2023:
     * Correction Progress:
         * Fall 2018   - Pass 1 corrections are COMPLETED

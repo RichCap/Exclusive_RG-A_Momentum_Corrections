@@ -182,8 +182,8 @@ file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass1/Inbending_recon/Only_Electron_Channel/electron_only.pass1.inb.qa.rec_clas_00", ""))
 
 
-file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Outbending/Single_Pion_Channel_epipN/ePip.wCentral.pass2.outb.rec_clas_00", ""))
-file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Outbending/Only_Electron_Channel/electron_only.pass2.outb.rec_clas_00",     ""))
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Outbending/Single_Pion_Channel_epipN/ePip.wCentral.pass2.outb.Fa18.rec_clas_00", ""))
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Outbending/Only_Electron_Channel/electron_only.pass2.outb.Fa18.rec_clas_00",     ""))
 
 
 file_name = str(file_name.replace("-", "_")).replace(".hipo.root", "")
@@ -878,6 +878,7 @@ if(event_Name != "error"):
         # Testing the momentum corrections using Monte Carlo files (for use in SIDIS analysis)
         # Runs the same as event_type == "SP"
         
+        
     if(pass_version not in ["NA", ""]):
         Extra_Part_of_Name = "".join(["_GitHub_Spring_2019_Pass_", "1" if("Pass 1" in pass_version) else "2", "_NEW_V1"])
         # Now has the more complete set of pass 2 files
@@ -1052,6 +1053,26 @@ if(event_Name != "error"):
             # RESULT OF TEST: The issue did NOT exist when finalizing the Pass 1 Corrections. It does, however, exist now such that the 'PipMMEF' correction no longer works the same as it did when finalizing the results
                 # The issue must have been created while working on the Outbending corrections with the Inbending code never having been readdressed and fixed before this point
                 # The issue has been resolved (for the next file version) and since the pion correction has not been used to develop new corrections yet, this presents no concerns for the status of the Pass 2 corrections
+                
+                
+    if("Fall" in pass_version):
+        Extra_Part_of_Name = "_Fall_Pass2_V1"
+        # Initial tests of the Pass 2 Fall 2018 datasets
+            
+        Extra_Part_of_Name = "_Fall_Pass2_V2"
+        # Ran on 1/24/2024
+            # Fixed issue with the Central/Forward/Status cuts
+            
+        Extra_Part_of_Name = "_Fall_Pass2_V3"
+        # Ran on 2/7/2024
+            # Adjusted definition of the pipPhi variable
+            # Redefined pipsec for the central detector - Now up to 12 sectors total (6 forward + 6 central)
+            
+            
+        if("Central"   in pass_version):
+            Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
+        elif("Forward" in pass_version):
+            Extra_Part_of_Name = f"_Forward{Extra_Part_of_Name}"
     
     
     if(event_type != "MC"):
@@ -1157,7 +1178,12 @@ if(event_Name != "error"):
             #     else:
             #         running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Central_Tracking/Pass2/Inbending/ePip.Central.pass2.inb.qa.nSidis_00*"
             # else:
-            if("Pass 1" in pass_version):
+            if("Fall"     in pass_version):
+                if(datatype == "Inbending"):
+                    running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Inbending/Single_Pion_Channel_epipN/ePip.wCentral.pass2.inb.Fa18.rec_clas_00*"
+                else:
+                    running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Outbending/Single_Pion_Channel_epipN/ePip.wCentral.pass2.outb.Fa18.rec_clas_00*"
+            elif("Pass 1" in pass_version):
                 running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass1/Inbending_nSidis/ePip.pass1.inb.qa.nSidis_00*"
                 # running_code_with_these_files = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Spring2019/Pass1/Inbending/ePip.pass1.inb.qa.MissingNeutron_00*"
                 running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass1/Inbending_recon/Single_Pion_Channel_epipN/ePip.pass1.inb.qa.rec_clas_00*"
@@ -1209,7 +1235,12 @@ if(event_Name != "error"):
         if(event_type == "EO"):
             if(datatype == "Inbending"):
                 running_code_with_these_files     = "".join(["/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Event_Selection_Files/Only_Electron_Channel/electron_only", ".inb" if("In" in str(datatype)) else ".outb", "*root"])
-                if("Pass 2" in pass_version):
+                if("Fall"     in pass_version):
+                    if(datatype == "Inbending"):
+                        running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Inbending/Only_Electron_Channel/electron_only.pass2.inb.Fa18.rec_clas_00*"
+                    else:
+                        running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Outbending/Only_Electron_Channel/electron_only.pass2.outb.Fa18.rec_clas_00*"
+                elif("Pass 2" in pass_version):
                     running_code_with_these_files = "".join(["/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/", "Inbending" if("In" in str(datatype)) else "Outbending", "_nSidis/Complete/Only_Electron_Channel/electron_only.pass2", ".inb" if("In" in str(datatype)) else ".outb", ".qa.nSidis_*root"])
                     running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass2/Inbending_recon/Only_Electron_Channel/electron_only.pass2.inb.qa.rec_clas_00*"
                 else:
@@ -1264,7 +1295,23 @@ if(event_Name != "error"):
     print("".join([color.BOLD, color.BLUE, "Running code with files located here:\n", color.END, str(running_code_with_these_files), "\n"]))
 
 
-
+    
+    ######################################################################
+    ##=====##=====##   For Central Detector Status Cuts   ##=====##=====##
+    if(("status" in rdf.GetColumnNames()) or ("artsec" in rdf.GetColumnNames())):
+        rdf = rdf.Filter("!((artsec == -1) && (status < 4000))") # Failed Forward Detector (Fiducial) Cuts but was not in the Central Detector
+        if("Central"   in pass_version):
+            print(f"{color.BOLD}\nMAKING CENTRAL DETECTOR CUTS\n{color.END}")
+            rdf = rdf.Filter("(artsec == -1) && (status >= 4000 && status < 8000)")
+        elif("Forward" in pass_version):
+            print(f"{color.BOLD}\nMAKING FORWARD DETECTOR CUTS\n{color.END}")
+            rdf = rdf.Filter("artsec == 1")
+        else:
+            print("\nMAKING STATUS CUTS\n")
+    ##=====##=====##   Central Detector Status Cuts END   ##=====##=====##
+    ######################################################################
+            
+            
 
     if(event_type not in ["SP", "MC", "EO"]):
 #         if("MC" not in event_Name):
@@ -1369,9 +1416,9 @@ if(event_Name != "error"):
             # if("Central" in str(pass_version)):
             #     print(color.BOLD, "\nMAKING CUT ON ELECTRON POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Central' DETECTOR\n", color.END)
             #     rdf = rdf.Filter("elth > 35 && elth < 135")
-            if("Forward" in str(pass_version)):
-                print(color.BOLD, "\nMAKING CUT ON ELECTRON POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Forward' DETECTOR\n", color.END)
-                rdf = rdf.Filter("elth >  5 && elth <  35")
+            # if("Forward" in str(pass_version)):
+            #     print(color.BOLD, "\nMAKING CUT ON ELECTRON POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Forward' DETECTOR\n", color.END)
+            #     rdf = rdf.Filter("elth >  5 && elth <  35")
             ##=====##     Azimuthal Angles     ##=====##
             rdf = rdf.Define("elPhi", """
                 double elPhi = (180/3.1415926)*atan2(ey, ex);
@@ -1393,9 +1440,9 @@ if(event_Name != "error"):
             # if("Central" in str(pass_version)):
             #     print(color.BOLD, "\nMAKING CUT ON ELECTRON POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Central' DETECTOR\n", color.END)
             #     rdf = rdf.Filter("elth > 35 && elth < 135")
-            if("Forward" in str(pass_version)):
-                print(color.BOLD, "\nMAKING CUT ON ELECTRON POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Forward' DETECTOR\n", color.END)
-                rdf = rdf.Filter("elth >  5 && elth <  35")
+            # if("Forward" in str(pass_version)):
+            #     print(color.BOLD, "\nMAKING CUT ON ELECTRON POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Forward' DETECTOR\n", color.END)
+            #     rdf = rdf.Filter("elth >  5 && elth <  35")
             ##=====##     Azimuthal Angles     ##=====##
             rdf = rdf.Define("elPhi", """
                 double elPhi = (180/3.1415926)*atan2(ey0, ex0);
@@ -1422,26 +1469,110 @@ if(event_Name != "error"):
                 rdf = rdf.Define("pip", "sqrt(pipx*pipx+pipy*pipy+pipz*pipz)")
                 ##=====##       Polar Angles       ##=====##
                 rdf = rdf.Define("pipth", "atan2(sqrt(pipx*pipx+pipy*pipy), pipz)*(180/3.1415926)")
-                if("Central" in str(pass_version)):
-                    print("".join([color.BOLD, "\nMAKING CUT ON PI+ PION POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Central' DETECTOR\n\n", color.END]))
-                    rdf = rdf.Filter("pipth > 35 && pipth < 135")
-                if("Forward" in str(pass_version)):
-                    print("".join([color.BOLD,   "MAKING CUT ON PI+ PION POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Forward' DETECTOR\n\n", color.END]))
-                    rdf = rdf.Filter("pipth >  5 && pipth <  35")
+                # if("Central" in str(pass_version)):
+                #     print("".join([color.BOLD, "\nMAKING CUT ON PI+ PION POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Central' DETECTOR\n\n", color.END]))
+                #     rdf = rdf.Filter("pipth > 35 && pipth < 135")
+                # if("Forward" in str(pass_version)):
+                #     print("".join([color.BOLD,   "MAKING CUT ON PI+ PION POLAR ANGLE TO SELECT THE EVENTS FROM THE 'Forward' DETECTOR\n\n", color.END]))
+                #     rdf = rdf.Filter("pipth >  5 && pipth <  35")
                 ##=====##     Azimuthal Angles     ##=====##
+                
+                # rdf = rdf.Define("pipPhi", """
+                #     double pipPhi = (180/3.1415926)*atan2(pipy, pipx);
+                #     if(((pipsec == 4 || pipsec == 3) && pipPhi < 0) || (pipsec > 4 && pipPhi < 90)){
+                #         pipPhi += 360;
+                #     }
+                #     return pipPhi;
+                # """)
+                # rdf = rdf.Define("localpipPhi", "pipPhi - (pipsec - 1)*60")
+                # rdf = rdf.Define("localpipPhiS", "localpipPhi + (32/(pip-0.05))")
+                # rdf = rdf.Define("pipPhiS", "pipPhi + (32/(pip-0.05))")
+                # rdf = rdf.Define("pipPhiNS", "(180/3.1415926)*atan2(pipy, pipx)") # 'NS' ==> No shifts (distribution will be from ±180˚)
                 rdf = rdf.Define("pipPhi", """
                     double pipPhi = (180/3.1415926)*atan2(pipy, pipx);
-                    if(((pipsec == 4 || pipsec == 3) && pipPhi < 0) || (pipsec > 4 && pipPhi < 90)){
-                        pipPhi += 360;
+                    if(pipsec > 6){
+                        if(pipPhi < 0){
+                            pipPhi += 360;
+                        }
+                    }
+                    else{
+                        if(((pipsec == 4 || pipsec == 3) && pipPhi < 0) || (pipsec > 4 && pipPhi < 90)){
+                            pipPhi += 360;
+                        }
                     }
                     return pipPhi;
                 """)
-                rdf = rdf.Define("localpipPhi", "pipPhi - (pipsec - 1)*60")
-                rdf = rdf.Define("localpipPhiS", "localpipPhi + (32/(pip-0.05))")
-                rdf = rdf.Define("pipPhiS", "pipPhi + (32/(pip-0.05))")
-                rdf = rdf.Define("pipPhiNS", "(180/3.1415926)*atan2(pipy, pipx)") # 'NS' ==> No shifts (distribution will be from ±180˚)
+                if(("status" in rdf.GetColumnNames()) or ("artsec" in rdf.GetColumnNames())):
+                    rdf = rdf.Redefine("pipsec", """
+                        int tempsec = pipsec;
+                        if(pipsec > 6){
+                            if(pipPhi > 0   && pipPhi <=  60){
+                                tempsec = 7;
+                            }
+                            if(pipPhi > 60  && pipPhi <= 120){
+                                tempsec = 8;
+                            }
+                            if(pipPhi > 120 && pipPhi <= 180){
+                                tempsec = 9;
+                            }
+                            if(pipPhi > 180 && pipPhi <= 240){
+                                tempsec = 10;
+                            }
+                            if(pipPhi > 240 && pipPhi <= 300){
+                                tempsec = 11;
+                            }
+                            if(pipPhi > 300 && pipPhi <= 360){
+                                tempsec = 12;
+                            }
+                        }
+                        return tempsec;
+                    """)
+
+                rdf = rdf.Define("localpipPhi", """
+                    double localpipPhi;
+                    if(pipsec < 7){
+                        localpipPhi =  pipPhi       - (pipsec - 1)*60;
+                    }
+                    else{
+                        localpipPhi = (pipPhi - 30) - (pipsec - 7)*60; // The (pipsec - 7) resets the offset done to get the local phi above for the central detector sectors while the -30 recenters the sector around phi = 0
+                    }
+                    return localpipPhi;
+                """)
+                rdf = rdf.Define("localpipPhiS", """
+                    double localpipPhiS = localpipPhi + (32/(pip-0.05));
+                    if(pipsec < 7){
+                        localpipPhiS = localpipPhi + (32/(pip-0.05));
+                    }
+                    if(pipsec > 6){
+                        localpipPhiS = localpipPhi + (32/(pip-0.05));
+                    }
+                    return localpipPhiS;
+                """)
+                rdf = rdf.Define("pipPhiS", """
+                    double pipPhiS;
+                    if(pipsec < 7){
+                        pipPhiS = pipPhi + (32/(pip-0.05));
+                    }
+                    if(pipsec > 6){
+                        pipPhiS = pipPhi + (32/(pip-0.05));
+                    }
+                    return pipPhiS;
+                """)
+                rdf = rdf.Define("pipPhiNS", """
+                    double pipPhiNS;
+                    if(pipsec < 7){
+                        pipPhiNS = (180/3.1415926)*atan2(pipy, pipx);
+                    }
+                    if(pipsec > 6){
+                        pipPhiNS = (180/3.1415926)*atan2(pipy, pipx);
+                    }
+                    return pipPhiNS;
+                """)
+                # rdf = rdf.Define("localpipPhiS", "localpipPhi + (32/(pip-0.05))")
+                # rdf = rdf.Define("pipPhiS",      "pipPhi + (32/(pip-0.05))")
+                # rdf = rdf.Define("pipPhiNS",     "(180/3.1415926)*atan2(pipy, pipx)") # 'NS' ==> No shifts (distribution will be from ±180˚)
             except Exception as e:
-                print("Failure to process Pi+ Pion Kinematics")
+                print(f"{color.ERROR}Failure to process Pi+ Pion Kinematics{color.END}")
                 print("".join(["ERROR: ", str(e)]))
 
         #------------------------------------------#
@@ -1631,7 +1762,12 @@ if(event_Name != "error"):
 
             // Initializing the correction factor
             double dp = 0;
-
+            
+            
+            // Central Detector Corrections not set up yet...
+            if(sec > 6){return dp/pp;}
+            
+            
             // Defining Phi Angle
             double Phi = (180/3.1415926)*atan2(Py, Px);
 
@@ -1668,15 +1804,19 @@ if(event_Name != "error"):
 
             if(corEl == 0 && ivec == 0){ // No Electron Correction
                 dp = 0;
+                return dp/pp;
             }
             if(corPip == 0 && ivec == 1){ // No π+ Pion Correction
                 dp = 0;
+                return dp/pp;
             }
             if(corPim == 0 && ivec == 2){ // No π- Pion Correction
                 dp = 0;
+                return dp/pp;
             }
             if(corPro == 0 && ivec == 3){ // No Proton Correction
                 dp = 0;
+                return dp/pp;
             }
 
             //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -7151,6 +7291,8 @@ if(event_Name != "error"):
             // Initializing the correction factor
             double dp = 0;
 
+            // Central Detector Corrections not set up yet...
+            if(sec > 6){return dp/pp;}
 
             // Defining Phi Angle
             double Phi = (180/3.1415926)*atan2(Py, Px);
@@ -9973,7 +10115,7 @@ if(event_Name != "error"):
 
             """])
             
-            if("Pass 1" in pass_version):
+            if("Pass 1" in pass_version and ("Fall" not in pass_version)):
                 print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 1)\n\n", color.END)
                 Calculated_Exclusive_Cuts = "".join(["""
                     auto beam = ROOT::Math::PxPyPzMVector(0, 0, """,    str(Beam_Energy),          """, 0);
@@ -10111,7 +10253,7 @@ if(event_Name != "error"):
 
                 """])
                 
-            if("Pass 2" in pass_version):
+            if("Pass 2" in pass_version and ("Fall" not in pass_version)):
                 print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 2)\n\n", color.END)
                 Calculated_Exclusive_Cuts = "".join(["""
                     auto beam = ROOT::Math::PxPyPzMVector(0, 0, """,    str(Beam_Energy),          """, 0);
@@ -11187,412 +11329,413 @@ if(event_Name != "error"):
     ##===================================================================================================================================##
     #######################################################################################################################################
     if("E" in event_type):
-        if(("Pass 2" in str(pass_version)) and ("Out" not in str(datatype))):
-            print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 2)\n\n", color.END)
-        if(("Pass 1" in str(pass_version)) and ("Out" not in str(datatype))):
-            print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 1)\n\n", color.END)
+        if("Fall" not in pass_version):
+            if(("Pass 2" in str(pass_version)) and ("Out" not in str(datatype))):
+                print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 2)\n\n", color.END)
+            if(("Pass 1" in str(pass_version)) and ("Out" not in str(datatype))):
+                print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 1)\n\n", color.END)
         
-        # Calculated_Exclusive_Cuts = "".join(["""        
-        # // For Invariant Mass Cut (Spring 2019 (Pass 2) - Based on a 2-sigma cut (upper bounds) on the Invarient Mass - Upper Cut is a function of the electron momentum - Lower cut is a constant and based on a 3-sigma cut - No Phi dependence):
-        # auto Beam_Energy = """, str(Beam_Energy), """;
-        # auto Proton_Mass = """, str(Particle_Mass_Proton), """;
-        # auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
-        # auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
-        # auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-        # auto Cut_Variable = (beam + targ - eleC).M();
-        # auto Upper_Cut = 1.3;
-        # auto Lower_Cut = 0.7;
-        # if(esec == 1){
-        #     Upper_Cut = (-0.0491542)*el + (1.5);
-        #     Lower_Cut = (0.7878436);
-        # }
-        # if(esec == 2){
-        #     Upper_Cut = (-0.0505903)*el + (1.5);
-        #     Lower_Cut = (0.745676);
-        # }
-        # if(esec == 3){
-        #     Upper_Cut = (-0.0503804)*el + (1.5);
-        #     Lower_Cut = (0.735096);
-        # }
-        # if(esec == 4){
-        #     Upper_Cut = (-0.0491416)*el + (1.5);
-        #     Lower_Cut = (0.7817657);
-        # }
-        # if(esec == 5){
-        #     Upper_Cut = (-0.0495588)*el + (1.5);
-        #     Lower_Cut = (0.7855759);
-        # }
-        # if(esec == 6){
-        #     Upper_Cut = (-0.0496809)*el + (1.5);
-        #     Lower_Cut = (0.7655371);
-        # } 
-        # return ((Cut_Variable < Upper_Cut) && (Cut_Variable > Lower_Cut));
-        # """])
-        
-        Calculated_Exclusive_Cuts = "".join(["""        
-        // For Invariant Mass Cut (Spring 2019 (Pass 2) - Based on a 1.75*sigma and 2*sigma cuts on the Invarient Mass - Upper Cut is 1.75*sigma - Lower Cut is 2*sigma - Linear Functions of Momentum - No Phi dependence):
-        auto Beam_Energy = """, str(Beam_Energy), """;
-        auto Proton_Mass = """, str(Particle_Mass_Proton), """;
-        auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
-        auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
-        auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-        auto Cut_Variable = (beam + targ - eleC).M();
-        auto Upper_Cut = 1.3;
-        auto Lower_Cut = 0.7;
-        if(esec == 1){
-            Upper_Cut = (-0.0699295)*el + (1.6677124);
-            Lower_Cut =  (0.0408107)*el + (0.4751967);
-        }
-        if(esec == 2){
-            Upper_Cut = (-0.0570852)*el + (1.5409955);
-            Lower_Cut =  (0.0580087)*el + (0.291677);
-        }
-        if(esec == 3){
-            Upper_Cut = (-0.0654184)*el + (1.615408);
-            Lower_Cut =  (0.0756399)*el + (0.1295325);
-        }
-        if(esec == 4){
-            Upper_Cut = (-0.0715222)*el + (1.681577);
-            Lower_Cut =  (0.0449407)*el + (0.4354458);
-        }
-        if(esec == 5){
-            Upper_Cut = (-0.0696714)*el + (1.6621209);
-            Lower_Cut =  (0.0446726)*el + (0.4418454);
-        }
-        if(esec == 6){
-            Upper_Cut = (-0.0639287)*el + (1.6097967);
-            Lower_Cut =  (0.0230642)*el + (0.6176546);
-        } 
-        return ((Cut_Variable < Upper_Cut) && (Cut_Variable > Lower_Cut));
-        """]) if(("Pass 2" in str(pass_version)) and ("Out" not in str(datatype))) else "".join(["""        
-        // For Invariant Mass Cut (Spring 2019 (Pass 1) - Based on a 2-sigma cut (upper bounds) on the Invarient Mass - Upper Cut is a function of the electron momentum - Lower cut is a constant and based on a 3-sigma cut - No Phi dependence):
-        auto Beam_Energy = """, str(Beam_Energy), """;
-        auto Proton_Mass = """, str(Particle_Mass_Proton), """;
-        auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
-        auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
-        auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-        auto Cut_Variable = (beam + targ - eleC).M();
-        auto Upper_Cut = 1.3;
-        auto Lower_Cut = 0.7;
-        if(esec == 1){
-            Upper_Cut = (-0.0504201)*el + (1.5);
-            Lower_Cut = (0.7361207);
-        }
-        if(esec == 2){
-            Upper_Cut = (-0.0505571)*el + (1.5);
-            Lower_Cut = (0.7398295);
-        }
-        if(esec == 3){
-            Upper_Cut = (-0.0562397)*el + (1.5);
-            Lower_Cut = (0.6487454);
-        }
-        if(esec == 4){
-            Upper_Cut = (-0.0515732)*el + (1.5);
-            Lower_Cut = (0.7500403);
-        }
-        if(esec == 5){
-            Upper_Cut = (-0.0522959)*el + (1.5);
-            Lower_Cut = (0.7597503);
-        }
-        if(esec == 6){
-            Upper_Cut = (-0.0526918)*el + (1.5);
-            Lower_Cut = (0.7333811);
-        } 
-        return ((Cut_Variable < Upper_Cut) && (Cut_Variable > Lower_Cut));
-        """]) if(("Pass 1" in str(pass_version)) and ("Out" not in str(datatype))) else "".join(["""        
-        // For Invariant Mass Cut (Determined with the help of Azimuthal Kinematic Cut applied on the invariant mass histogram):
-        auto Beam_Energy = """, str(Beam_Energy), """;
-        auto Proton_Mass = """, str(Particle_Mass_Proton), """;
-        auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
-        auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
-        auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-        auto Cut_Variable = (beam + targ - eleC).M();
-        double Cut_Upper = 1.3;
-        double Cut_Lower = 0.7;
-        if(esec == 1){
-            if(eleC.P() > 5.45 && eleC.P() < 5.95){
-                Cut_Upper = 1.35;
-                Cut_Lower = 0.8;
+            # Calculated_Exclusive_Cuts = "".join(["""        
+            # // For Invariant Mass Cut (Spring 2019 (Pass 2) - Based on a 2-sigma cut (upper bounds) on the Invarient Mass - Upper Cut is a function of the electron momentum - Lower cut is a constant and based on a 3-sigma cut - No Phi dependence):
+            # auto Beam_Energy = """, str(Beam_Energy), """;
+            # auto Proton_Mass = """, str(Particle_Mass_Proton), """;
+            # auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
+            # auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
+            # auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+            # auto Cut_Variable = (beam + targ - eleC).M();
+            # auto Upper_Cut = 1.3;
+            # auto Lower_Cut = 0.7;
+            # if(esec == 1){
+            #     Upper_Cut = (-0.0491542)*el + (1.5);
+            #     Lower_Cut = (0.7878436);
+            # }
+            # if(esec == 2){
+            #     Upper_Cut = (-0.0505903)*el + (1.5);
+            #     Lower_Cut = (0.745676);
+            # }
+            # if(esec == 3){
+            #     Upper_Cut = (-0.0503804)*el + (1.5);
+            #     Lower_Cut = (0.735096);
+            # }
+            # if(esec == 4){
+            #     Upper_Cut = (-0.0491416)*el + (1.5);
+            #     Lower_Cut = (0.7817657);
+            # }
+            # if(esec == 5){
+            #     Upper_Cut = (-0.0495588)*el + (1.5);
+            #     Lower_Cut = (0.7855759);
+            # }
+            # if(esec == 6){
+            #     Upper_Cut = (-0.0496809)*el + (1.5);
+            #     Lower_Cut = (0.7655371);
+            # } 
+            # return ((Cut_Variable < Upper_Cut) && (Cut_Variable > Lower_Cut));
+            # """])
+
+            Calculated_Exclusive_Cuts = "".join(["""        
+            // For Invariant Mass Cut (Spring 2019 (Pass 2) - Based on a 1.75*sigma and 2*sigma cuts on the Invarient Mass - Upper Cut is 1.75*sigma - Lower Cut is 2*sigma - Linear Functions of Momentum - No Phi dependence):
+            auto Beam_Energy = """, str(Beam_Energy), """;
+            auto Proton_Mass = """, str(Particle_Mass_Proton), """;
+            auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
+            auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
+            auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+            auto Cut_Variable = (beam + targ - eleC).M();
+            auto Upper_Cut = 1.3;
+            auto Lower_Cut = 0.7;
+            if(esec == 1){
+                Upper_Cut = (-0.0699295)*el + (1.6677124);
+                Lower_Cut =  (0.0408107)*el + (0.4751967);
             }
-            if(eleC.P() > 5.95 && eleC.P() < 6.45){
-                Cut_Upper = 1.23;
-                Cut_Lower = 0.83;
+            if(esec == 2){
+                Upper_Cut = (-0.0570852)*el + (1.5409955);
+                Lower_Cut =  (0.0580087)*el + (0.291677);
             }
-            if(eleC.P() > 6.45 && eleC.P() < 6.95){
-                Cut_Upper = 1.27;
-                Cut_Lower = 0.81;
+            if(esec == 3){
+                Upper_Cut = (-0.0654184)*el + (1.615408);
+                Lower_Cut =  (0.0756399)*el + (0.1295325);
             }
-            if(eleC.P() > 6.95 && eleC.P() < 7.45){
-                Cut_Upper = 1.4;
-                Cut_Lower = 0.75;
+            if(esec == 4){
+                Upper_Cut = (-0.0715222)*el + (1.681577);
+                Lower_Cut =  (0.0449407)*el + (0.4354458);
             }
-            if(eleC.P() > 7.45 && eleC.P() < 7.95){
-                Cut_Upper = 1.31;
-                Cut_Lower = 0.73;
+            if(esec == 5){
+                Upper_Cut = (-0.0696714)*el + (1.6621209);
+                Lower_Cut =  (0.0446726)*el + (0.4418454);
             }
-            if(eleC.P() > 7.95 && eleC.P() < 8.45){
-                Cut_Upper = 1.31;
-                Cut_Lower = 0.78;
+            if(esec == 6){
+                Upper_Cut = (-0.0639287)*el + (1.6097967);
+                Lower_Cut =  (0.0230642)*el + (0.6176546);
+            } 
+            return ((Cut_Variable < Upper_Cut) && (Cut_Variable > Lower_Cut));
+            """]) if(("Pass 2" in str(pass_version)) and ("Out" not in str(datatype))) else "".join(["""        
+            // For Invariant Mass Cut (Spring 2019 (Pass 1) - Based on a 2-sigma cut (upper bounds) on the Invarient Mass - Upper Cut is a function of the electron momentum - Lower cut is a constant and based on a 3-sigma cut - No Phi dependence):
+            auto Beam_Energy = """, str(Beam_Energy), """;
+            auto Proton_Mass = """, str(Particle_Mass_Proton), """;
+            auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
+            auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
+            auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+            auto Cut_Variable = (beam + targ - eleC).M();
+            auto Upper_Cut = 1.3;
+            auto Lower_Cut = 0.7;
+            if(esec == 1){
+                Upper_Cut = (-0.0504201)*el + (1.5);
+                Lower_Cut = (0.7361207);
             }
-            if(eleC.P() > 8.45 && eleC.P() < 8.95){
-                Cut_Upper = 1.18;
-                Cut_Lower = 0.79;
+            if(esec == 2){
+                Upper_Cut = (-0.0505571)*el + (1.5);
+                Lower_Cut = (0.7398295);
             }
-            if(eleC.P() > 8.95 && eleC.P() < 9.45){
-                Cut_Upper = 1.11;
-                Cut_Lower = 0.8;
+            if(esec == 3){
+                Upper_Cut = (-0.0562397)*el + (1.5);
+                Lower_Cut = (0.6487454);
             }
-            if(eleC.P() > 9.45 && eleC.P() < 9.95){
-                Cut_Upper = 1.2;
-                Cut_Lower = 0.78;
+            if(esec == 4){
+                Upper_Cut = (-0.0515732)*el + (1.5);
+                Lower_Cut = (0.7500403);
             }
-        }
-        if(esec == 2){
-            if(eleC.P() > 5.45 && eleC.P() < 5.95){
-                Cut_Upper = 1.31;
-                Cut_Lower = 0.74;
+            if(esec == 5){
+                Upper_Cut = (-0.0522959)*el + (1.5);
+                Lower_Cut = (0.7597503);
             }
-            if(eleC.P() > 5.95 && eleC.P() < 6.45){
-                Cut_Upper = 1.28;
-                Cut_Lower = 0.75;
+            if(esec == 6){
+                Upper_Cut = (-0.0526918)*el + (1.5);
+                Lower_Cut = (0.7333811);
+            } 
+            return ((Cut_Variable < Upper_Cut) && (Cut_Variable > Lower_Cut));
+            """]) if(("Pass 1" in str(pass_version)) and ("Out" not in str(datatype))) else "".join(["""        
+            // For Invariant Mass Cut (Determined with the help of Azimuthal Kinematic Cut applied on the invariant mass histogram):
+            auto Beam_Energy = """, str(Beam_Energy), """;
+            auto Proton_Mass = """, str(Particle_Mass_Proton), """;
+            auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
+            auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
+            auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+            auto Cut_Variable = (beam + targ - eleC).M();
+            double Cut_Upper = 1.3;
+            double Cut_Lower = 0.7;
+            if(esec == 1){
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 1.35;
+                    Cut_Lower = 0.8;
+                }
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 1.23;
+                    Cut_Lower = 0.83;
+                }
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 1.27;
+                    Cut_Lower = 0.81;
+                }
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 1.4;
+                    Cut_Lower = 0.75;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 1.31;
+                    Cut_Lower = 0.73;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 1.31;
+                    Cut_Lower = 0.78;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 1.18;
+                    Cut_Lower = 0.79;
+                }
+                if(eleC.P() > 8.95 && eleC.P() < 9.45){
+                    Cut_Upper = 1.11;
+                    Cut_Lower = 0.8;
+                }
+                if(eleC.P() > 9.45 && eleC.P() < 9.95){
+                    Cut_Upper = 1.2;
+                    Cut_Lower = 0.78;
+                }
             }
-            if(eleC.P() > 6.45 && eleC.P() < 6.95){
-                Cut_Upper = 1.25;
-                Cut_Lower = 0.77;
+            if(esec == 2){
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 1.31;
+                    Cut_Lower = 0.74;
+                }
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 1.28;
+                    Cut_Lower = 0.75;
+                }
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 1.25;
+                    Cut_Lower = 0.77;
+                }
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 1.21;
+                    Cut_Lower = 0.77;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 1.19;
+                    Cut_Lower = 0.78;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 1.2;
+                    Cut_Lower = 0.77;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 1.12;
+                    Cut_Lower = 0.78;
+                }
+                if(eleC.P() > 8.95 && eleC.P() < 9.45){
+                    Cut_Upper = 1.1;
+                    Cut_Lower = 0.79;
+                }
+                if(eleC.P() > 9.45 && eleC.P() < 9.95){
+                    Cut_Upper = 1.2;
+                    Cut_Lower = 0.82;
+                }
             }
-            if(eleC.P() > 6.95 && eleC.P() < 7.45){
-                Cut_Upper = 1.21;
-                Cut_Lower = 0.77;
+            if(esec == 3){
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 1.45;
+                    Cut_Lower = 0.57;
+                }
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 1.19;
+                    Cut_Lower = 0.69;
+                }
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 1.16;
+                    Cut_Lower = 0.65;
+                }
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 1.23;
+                    Cut_Lower = 0.61;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 1.14;
+                    Cut_Lower = 0.66;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 1.09;
+                    Cut_Lower = 0.69;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 1.05;
+                    Cut_Lower = 0.68;
+                }
+                if(eleC.P() > 8.95 && eleC.P() < 9.45){
+                    Cut_Upper = 1.03;
+                    Cut_Lower = 0.64;
+                }
+                if(eleC.P() > 9.45 && eleC.P() < 9.95){
+                    Cut_Upper = 1.2;
+                    Cut_Lower = 0.66;
+                }
             }
-            if(eleC.P() > 7.45 && eleC.P() < 7.95){
-                Cut_Upper = 1.19;
-                Cut_Lower = 0.78;
+            if(esec == 4){
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 1.19;
+                    Cut_Lower = 0.77;
+                }
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 1.27;
+                    Cut_Lower = 0.7;
+                }
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 1.25;
+                    Cut_Lower = 0.69;
+                }
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 1.27;
+                    Cut_Lower = 0.69;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 1.23;
+                    Cut_Lower = 0.74;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 1.14;
+                    Cut_Lower = 0.76;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 1.12;
+                    Cut_Lower = 0.79;
+                }
+                if(eleC.P() > 8.95 && eleC.P() < 9.45){
+                    Cut_Upper = 1.1;
+                    Cut_Lower = 0.8;
+                }
+                if(eleC.P() > 9.45 && eleC.P() < 9.95){
+                    Cut_Upper = 1.2;
+                    Cut_Lower = 0.81;
+                }
             }
-            if(eleC.P() > 7.95 && eleC.P() < 8.45){
-                Cut_Upper = 1.2;
-                Cut_Lower = 0.77;
+            if(esec == 5){
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 1.26;
+                    Cut_Lower = 0.81;
+                }
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 1.2;
+                    Cut_Lower = 0.8;
+                }
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 1.2;
+                    Cut_Lower = 0.77;
+                }
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 1.2;
+                    Cut_Lower = 0.76;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 1.17;
+                    Cut_Lower = 0.78;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 1.13;
+                    Cut_Lower = 0.78;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 1.1;
+                    Cut_Lower = 0.82;
+                }
+                if(eleC.P() > 8.95 && eleC.P() < 9.45){
+                    Cut_Upper = 1.06;
+                    Cut_Lower = 0.83;
+                }
+                if(eleC.P() > 9.45 && eleC.P() < 9.95){
+                    Cut_Upper = 1.2;
+                    Cut_Lower = 0.81;
+                }
             }
-            if(eleC.P() > 8.45 && eleC.P() < 8.95){
-                Cut_Upper = 1.12;
-                Cut_Lower = 0.78;
+            if(esec == 6){
+                if(eleC.P() > 5.45 && eleC.P() < 5.95){
+                    Cut_Upper = 1.19;
+                    Cut_Lower = 0.86;
+                }
+                if(eleC.P() > 5.95 && eleC.P() < 6.45){
+                    Cut_Upper = 1.12;
+                    Cut_Lower = 0.85;
+                }
+                if(eleC.P() > 6.45 && eleC.P() < 6.95){
+                    Cut_Upper = 1.21;
+                    Cut_Lower = 0.79;
+                }
+                if(eleC.P() > 6.95 && eleC.P() < 7.45){
+                    Cut_Upper = 1.24;
+                    Cut_Lower = 0.75;
+                }
+                if(eleC.P() > 7.45 && eleC.P() < 7.95){
+                    Cut_Upper = 1.14;
+                    Cut_Lower = 0.76;
+                }
+                if(eleC.P() > 7.95 && eleC.P() < 8.45){
+                    Cut_Upper = 1.17;
+                    Cut_Lower = 0.76;
+                }
+                if(eleC.P() > 8.45 && eleC.P() < 8.95){
+                    Cut_Upper = 1.14;
+                    Cut_Lower = 0.77;
+                }
+                if(eleC.P() > 8.95 && eleC.P() < 9.45){
+                    Cut_Upper = 1.06;
+                    Cut_Lower = 0.8;
+                }
+                if(eleC.P() > 9.45 && eleC.P() < 9.95){
+                    Cut_Upper = 1.2;
+                    Cut_Lower = 0.8;
+                }
             }
-            if(eleC.P() > 8.95 && eleC.P() < 9.45){
-                Cut_Upper = 1.1;
-                Cut_Lower = 0.79;
+            return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
+            """]) if("Out" not in datatype) else "".join(["""
+            auto Beam_Energy = """, str(Beam_Energy), """;
+            auto Proton_Mass = """, str(Particle_Mass_Proton), """;
+            auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
+            auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
+            auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+            auto Cut_Variable = (beam + targ - eleC).M();
+
+            double Phi = (180/3.1415926)*atan2(ey, ex);
+            if(((esec == 4 || esec == 3) && Phi < 0) || (esec > 4 && Phi < 90)){
+                Phi += 360;
             }
-            if(eleC.P() > 9.45 && eleC.P() < 9.95){
-                Cut_Upper = 1.2;
-                Cut_Lower = 0.82;
+            double phi = (Phi - (esec - 1)*60) - (30/eleC.P());
+
+            double Cut_Upper = 1.2;
+            double Cut_Lower = 0.7;
+            // double Cut_Upper = -0.0346*(eleC.P()) + 1.4574;
+            // double Cut_Lower = -0.0047*(eleC.P()) + 0.8646;
+            if(esec == 1){
+                Cut_Upper = ((-0.0024)*phi + (-0.0131))*eleC.P() + ((0.0264)*phi + (1.1944));
+                Cut_Lower = ((-0.0013)*phi + (-0.0191))*eleC.P() + ((0.0169)*phi + (0.9950));
             }
-        }
-        if(esec == 3){
-            if(eleC.P() > 5.45 && eleC.P() < 5.95){
-                Cut_Upper = 1.45;
-                Cut_Lower = 0.57;
+            if(esec == 2){
+                Cut_Upper = ((-0.0011)*phi + (-0.0063))*eleC.P() + ((0.0137)*phi + (1.1209));
+                Cut_Lower = ((-0.0012)*phi + (-0.0217))*eleC.P() + ((0.0151)*phi + (1.0104));
             }
-            if(eleC.P() > 5.95 && eleC.P() < 6.45){
-                Cut_Upper = 1.19;
-                Cut_Lower = 0.69;
+            if(esec == 3){
+                Cut_Upper =  ((0.0011)*phi + (-0.0087))*eleC.P() + ((-0.0111)*phi + (1.1678));
+                Cut_Lower =  ((0.0020)*phi + (-0.0231))*eleC.P() + ((-0.0204)*phi + (1.0516));
             }
-            if(eleC.P() > 6.45 && eleC.P() < 6.95){
-                Cut_Upper = 1.16;
-                Cut_Lower = 0.65;
+            if(esec == 4){
+                Cut_Upper = ((-0.0014)*phi + (-0.0139))*eleC.P() +  ((0.0128)*phi + (1.1997));
+                Cut_Lower =  ((0.0013)*phi + (-0.0320))*eleC.P() + ((-0.0137)*phi + (1.1266));
             }
-            if(eleC.P() > 6.95 && eleC.P() < 7.45){
-                Cut_Upper = 1.23;
-                Cut_Lower = 0.61;
+            if(esec == 5){
+                Cut_Upper = ((-0.0007)*phi + (-0.0357))*eleC.P() + ((0.0072)*phi + (1.3869));
+                Cut_Lower = ((-0.0006)*phi + (-0.0619))*eleC.P() + ((0.0062)*phi + (1.3819));
             }
-            if(eleC.P() > 7.45 && eleC.P() < 7.95){
-                Cut_Upper = 1.14;
-                Cut_Lower = 0.66;
+            if(esec == 6){
+                Cut_Upper = ((0.0001)*phi + (-0.0417))*eleC.P() + ((-0.0001)*phi + (1.5031));
+                Cut_Lower = ((0.0008)*phi + (-0.0462))*eleC.P() + ((-0.0071)*phi + (1.3042));
             }
-            if(eleC.P() > 7.95 && eleC.P() < 8.45){
-                Cut_Upper = 1.09;
-                Cut_Lower = 0.69;
-            }
-            if(eleC.P() > 8.45 && eleC.P() < 8.95){
-                Cut_Upper = 1.05;
-                Cut_Lower = 0.68;
-            }
-            if(eleC.P() > 8.95 && eleC.P() < 9.45){
-                Cut_Upper = 1.03;
-                Cut_Lower = 0.64;
-            }
-            if(eleC.P() > 9.45 && eleC.P() < 9.95){
-                Cut_Upper = 1.2;
-                Cut_Lower = 0.66;
-            }
-        }
-        if(esec == 4){
-            if(eleC.P() > 5.45 && eleC.P() < 5.95){
-                Cut_Upper = 1.19;
-                Cut_Lower = 0.77;
-            }
-            if(eleC.P() > 5.95 && eleC.P() < 6.45){
-                Cut_Upper = 1.27;
-                Cut_Lower = 0.7;
-            }
-            if(eleC.P() > 6.45 && eleC.P() < 6.95){
-                Cut_Upper = 1.25;
-                Cut_Lower = 0.69;
-            }
-            if(eleC.P() > 6.95 && eleC.P() < 7.45){
-                Cut_Upper = 1.27;
-                Cut_Lower = 0.69;
-            }
-            if(eleC.P() > 7.45 && eleC.P() < 7.95){
-                Cut_Upper = 1.23;
-                Cut_Lower = 0.74;
-            }
-            if(eleC.P() > 7.95 && eleC.P() < 8.45){
-                Cut_Upper = 1.14;
-                Cut_Lower = 0.76;
-            }
-            if(eleC.P() > 8.45 && eleC.P() < 8.95){
-                Cut_Upper = 1.12;
-                Cut_Lower = 0.79;
-            }
-            if(eleC.P() > 8.95 && eleC.P() < 9.45){
-                Cut_Upper = 1.1;
-                Cut_Lower = 0.8;
-            }
-            if(eleC.P() > 9.45 && eleC.P() < 9.95){
-                Cut_Upper = 1.2;
-                Cut_Lower = 0.81;
-            }
-        }
-        if(esec == 5){
-            if(eleC.P() > 5.45 && eleC.P() < 5.95){
-                Cut_Upper = 1.26;
-                Cut_Lower = 0.81;
-            }
-            if(eleC.P() > 5.95 && eleC.P() < 6.45){
-                Cut_Upper = 1.2;
-                Cut_Lower = 0.8;
-            }
-            if(eleC.P() > 6.45 && eleC.P() < 6.95){
-                Cut_Upper = 1.2;
-                Cut_Lower = 0.77;
-            }
-            if(eleC.P() > 6.95 && eleC.P() < 7.45){
-                Cut_Upper = 1.2;
-                Cut_Lower = 0.76;
-            }
-            if(eleC.P() > 7.45 && eleC.P() < 7.95){
-                Cut_Upper = 1.17;
-                Cut_Lower = 0.78;
-            }
-            if(eleC.P() > 7.95 && eleC.P() < 8.45){
-                Cut_Upper = 1.13;
-                Cut_Lower = 0.78;
-            }
-            if(eleC.P() > 8.45 && eleC.P() < 8.95){
-                Cut_Upper = 1.1;
-                Cut_Lower = 0.82;
-            }
-            if(eleC.P() > 8.95 && eleC.P() < 9.45){
-                Cut_Upper = 1.06;
-                Cut_Lower = 0.83;
-            }
-            if(eleC.P() > 9.45 && eleC.P() < 9.95){
-                Cut_Upper = 1.2;
-                Cut_Lower = 0.81;
-            }
-        }
-        if(esec == 6){
-            if(eleC.P() > 5.45 && eleC.P() < 5.95){
-                Cut_Upper = 1.19;
-                Cut_Lower = 0.86;
-            }
-            if(eleC.P() > 5.95 && eleC.P() < 6.45){
-                Cut_Upper = 1.12;
-                Cut_Lower = 0.85;
-            }
-            if(eleC.P() > 6.45 && eleC.P() < 6.95){
-                Cut_Upper = 1.21;
-                Cut_Lower = 0.79;
-            }
-            if(eleC.P() > 6.95 && eleC.P() < 7.45){
-                Cut_Upper = 1.24;
-                Cut_Lower = 0.75;
-            }
-            if(eleC.P() > 7.45 && eleC.P() < 7.95){
-                Cut_Upper = 1.14;
-                Cut_Lower = 0.76;
-            }
-            if(eleC.P() > 7.95 && eleC.P() < 8.45){
-                Cut_Upper = 1.17;
-                Cut_Lower = 0.76;
-            }
-            if(eleC.P() > 8.45 && eleC.P() < 8.95){
-                Cut_Upper = 1.14;
-                Cut_Lower = 0.77;
-            }
-            if(eleC.P() > 8.95 && eleC.P() < 9.45){
-                Cut_Upper = 1.06;
-                Cut_Lower = 0.8;
-            }
-            if(eleC.P() > 9.45 && eleC.P() < 9.95){
-                Cut_Upper = 1.2;
-                Cut_Lower = 0.8;
-            }
-        }
-        return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
-        """]) if("Out" not in datatype) else "".join(["""
-        auto Beam_Energy = """, str(Beam_Energy), """;
-        auto Proton_Mass = """, str(Particle_Mass_Proton), """;
-        auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
-        auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
-        auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-        auto Cut_Variable = (beam + targ - eleC).M();
-        
-        double Phi = (180/3.1415926)*atan2(ey, ex);
-        if(((esec == 4 || esec == 3) && Phi < 0) || (esec > 4 && Phi < 90)){
-            Phi += 360;
-        }
-        double phi = (Phi - (esec - 1)*60) - (30/eleC.P());
-        
-        double Cut_Upper = 1.2;
-        double Cut_Lower = 0.7;
-        // double Cut_Upper = -0.0346*(eleC.P()) + 1.4574;
-        // double Cut_Lower = -0.0047*(eleC.P()) + 0.8646;
-        if(esec == 1){
-            Cut_Upper = ((-0.0024)*phi + (-0.0131))*eleC.P() + ((0.0264)*phi + (1.1944));
-            Cut_Lower = ((-0.0013)*phi + (-0.0191))*eleC.P() + ((0.0169)*phi + (0.9950));
-        }
-        if(esec == 2){
-            Cut_Upper = ((-0.0011)*phi + (-0.0063))*eleC.P() + ((0.0137)*phi + (1.1209));
-            Cut_Lower = ((-0.0012)*phi + (-0.0217))*eleC.P() + ((0.0151)*phi + (1.0104));
-        }
-        if(esec == 3){
-            Cut_Upper =  ((0.0011)*phi + (-0.0087))*eleC.P() + ((-0.0111)*phi + (1.1678));
-            Cut_Lower =  ((0.0020)*phi + (-0.0231))*eleC.P() + ((-0.0204)*phi + (1.0516));
-        }
-        if(esec == 4){
-            Cut_Upper = ((-0.0014)*phi + (-0.0139))*eleC.P() +  ((0.0128)*phi + (1.1997));
-            Cut_Lower =  ((0.0013)*phi + (-0.0320))*eleC.P() + ((-0.0137)*phi + (1.1266));
-        }
-        if(esec == 5){
-            Cut_Upper = ((-0.0007)*phi + (-0.0357))*eleC.P() + ((0.0072)*phi + (1.3869));
-            Cut_Lower = ((-0.0006)*phi + (-0.0619))*eleC.P() + ((0.0062)*phi + (1.3819));
-        }
-        if(esec == 6){
-            Cut_Upper = ((0.0001)*phi + (-0.0417))*eleC.P() + ((-0.0001)*phi + (1.5031));
-            Cut_Lower = ((0.0008)*phi + (-0.0462))*eleC.P() + ((-0.0071)*phi + (1.3042));
-        }
-        return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
-        """])
-        Calculated_Exclusive_Cuts_v2 = "".join(["""
-        auto Beam_Energy = """, str(Beam_Energy), """;
-        auto Proton_Mass = """, str(Particle_Mass_Proton), """;
-        auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
-        auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
-        auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
-        auto Cut_Variable = (beam + targ - eleC).M();
-        double Cut_Upper = 1.2;
-        double Cut_Lower = 0.7;
-        return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
-        """])
+            return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
+            """])
+            Calculated_Exclusive_Cuts_v2 = "".join(["""
+            auto Beam_Energy = """, str(Beam_Energy), """;
+            auto Proton_Mass = """, str(Particle_Mass_Proton), """;
+            auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
+            auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
+            auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+            auto Cut_Variable = (beam + targ - eleC).M();
+            double Cut_Upper = 1.2;
+            double Cut_Lower = 0.7;
+            return ((Cut_Variable < Cut_Upper) && (Cut_Variable > Cut_Lower));
+            """])
         
     ############################################################################################################################################
     ##========================================================================================================================================##
@@ -11852,6 +11995,20 @@ if(event_Name != "error"):
         
     if("MC" in event_Name):
         Delta_Pip_histo_SecList = ["all"]
+        
+        
+    if((1 in Delta_Pip_histo_SecList) and (("status" in rdf.GetColumnNames()) or ("artsec" in rdf.GetColumnNames()))):
+        if("Central"   in pass_version):
+            Delta_Pip_histo_SecList = ['all', 7, 8, 9, 10, 11, 12]
+        elif("Forward" in pass_version):
+            Delta_Pip_histo_SecList = ['all', 1, 2, 3, 4, 5, 6]
+        else:
+            Delta_Pip_histo_SecList.append(7)
+            Delta_Pip_histo_SecList.append(8)
+            Delta_Pip_histo_SecList.append(9)
+            Delta_Pip_histo_SecList.append(10)
+            Delta_Pip_histo_SecList.append(11)
+            Delta_Pip_histo_SecList.append(12)
 
 
     Delta_P_histo_CorList = ['mm0']
@@ -11887,6 +12044,7 @@ if(event_Name != "error"):
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmEF', 'mmEF_PipMMEF']
             # Delta_P_histo_CorList = ['mm0', 'mmEF', 'mmEF_PipMMEF']
             Delta_P_histo_CorList = ['mm0', 'mmEF', 'mmExF', 'mmEF_PipMMEF', 'mmExF_PipMMExF']
+            Delta_P_histo_CorList = ['mm0', 'mmEF', 'mmEF_PipMMEF']
             # Delta_P_histo_CorList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmEF', 'mmEF_PipMMEF', "mmExF_PipMMEF", "mmExF"]
 
         # # Select which comparisons you would like to see (i.e. which variables would you like to compare to the theoretical calculations)
@@ -11999,6 +12157,7 @@ if(event_Name != "error"):
 #             Delta_P_histo_CorList = ['mm0', 'mmF', 'mmEF']
 #             Delta_P_histo_CorList = ['mm0', 'mmF', 'mmExF', 'mmEF']
             Delta_P_histo_CorList = ['mm0', 'mmExF', 'mmEF']
+            Delta_P_histo_CorList = ['mm0', 'mmEF']
 
         Delta_P_histo_CompareList = ['el']
 
@@ -12282,6 +12441,7 @@ if(event_Name != "error"):
 #             correctionList = ['mm0', 'mmEF', 'mmEF_PipMMEF']
             correctionList = ['mm0', 'mmEF', 'mmExF', 'mmEF_PipMMEF', 'mmExF_PipMMExF']
             # correctionList = ['mm0', 'mmF', 'mmF_PipMMF', 'mmEF', 'mmEF_PipMMEF', "mmExF_PipMMEF", "mmExF"]
+            correctionList = ['mm0', 'mmEF', 'mmEF_PipMMEF']
             
     if(event_type == "DP"):
         if(datatype == "Inbending"):
@@ -12381,7 +12541,8 @@ if(event_Name != "error"):
 #             correctionList = ['mm0', 'mmF']
 #             correctionList = ['mm0', 'mmF', 'mmEF']
             # correctionList = ['mm0', 'mmF', 'mmExF', 'mmEF']
-            correctionList = ['mm0', 'mmExF', 'mmEF']
+            # correctionList = ['mm0', 'mmExF', 'mmEF']
+            correctionList = ['mm0', 'mmEF']
 
 
 
@@ -12394,15 +12555,15 @@ if(event_Name != "error"):
     #     binningList = ['1']
 
     # Sector = 0 refers to all sectors so the code will start by making histograms that do not filter by sector
-    # Any number 1-6 will correspond to the sector of that same number (do not go above 6)
+    # Any number 1-6 will correspond to the (DC) sector of that same number (above 6 is used for the Central Detector)
 
-    # SecRangeMin, SecRangeMax = 0, 6
+    
     SecRangeAll = [0, 1, 2, 3, 4, 5, 6]
     # SecRangeAll = [0]
-
-    # SecRangeMin = min(SecRangeAll)
-    # SecRangeMax = max(SecRangeAll)
-    # StartOfSRR = 0 if(SecRangeMin == 0 and SecRangeMax > 0) else (SecRangeMin - 1)
+    
+    if((("status"     in rdf.GetColumnNames()) or ("artsec" in rdf.GetColumnNames())) and ("Forward" not in pass_version)):
+        SecRangeAll = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        # Includes the Central Detector Sectors (7, 8, 9)
 
 
 
@@ -12516,6 +12677,8 @@ if(event_Name != "error"):
             #     continue
             for particle in particle_plot_List:
                 for sector in SecRangeAll:
+                    if(("el" in str(particle)) and (sector > 6)):
+                        continue
                     for correction in correctionList:
                         for binning in binningList:
                             for particle_filter in particleList:
@@ -12539,6 +12702,8 @@ if(event_Name != "error"):
                             if(shift == "NS" and "local" in local_Q):
                                 continue
                             for sector in SecRangeAll:
+                                if(("el" in str(particle)) and (sector > 6)):
+                                    continue
                                 if('y' in Skip_Sector_Phase_Space and sector != 0):
                                     continue
                                 else:
@@ -12558,6 +12723,8 @@ if(event_Name != "error"):
                         continue
                     for correction in correctionList:
                         for sector in SecRangeAll:
+                            if(("el" in str(particle)) and (sector > 6)):
+                                continue
                             for binning in binningList:
                                 regionList = regList_Call(binning, particle_filter, 1)
                                 for region in regionList:
@@ -13095,7 +13262,8 @@ if(event_Name != "error"):
             Cut_rdf, Cut_Title = Cut_Function(rdf, Cuts)
             for particle in particle_plot_List:
                 for sector in SecRangeAll:
-
+                    if(("el" in str(particle)) and (sector > 6)):
+                        continue
                     for correction in correctionList:
                         sdf1 = CorDpp(Cut_rdf, correction, "MM", event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
 
@@ -13160,6 +13328,8 @@ if(event_Name != "error"):
                 sdf1 = CorDpp(Cut_rdf, correction, "WM", event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
                 for sector in SecRangeAll:
                     for particle in particle_plot_List:
+                        if(("el" in str(particle)) and (sector > 6)):
+                            continue
                         for particle_filter in particleList:
 
                             if(same_particle_P_and_Sec_MM and particle != particle_filter):
@@ -13235,7 +13405,8 @@ if(event_Name != "error"):
                             if(shift == "NS" and "local" in local_Q):
                                 continue
                             for sector in SecRangeAll:
-                                
+                                if(("el" in str(particle)) and (sector > 6)):
+                                    continue
                                 if('y' in Skip_Sector_Phase_Space and sector != 0):
                                     continue
                                     
