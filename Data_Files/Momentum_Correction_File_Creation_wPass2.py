@@ -192,6 +192,9 @@ file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Outbending/Single_Pion_Channel_epipN/ePip.wCentral.pass2.outb.qa.Fa18.rec_clas_00", ""))
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Outbending/Only_Electron_Channel/electron_only.pass2.outb.qa.Fa18.rec_clas_00",     ""))
 
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Inbending/Single_Pion_Channel_epipN/ePip.wCentral.pass2.inb.qa.Fa18.rec_clas_00", ""))
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Inbending/Only_Electron_Channel/electron_only.pass2.inb.qa.Fa18.rec_clas_00",     ""))
+
 file_name = str(file_name.replace("-", "_")).replace(".hipo.root", "")
 file_name = str(file_name).replace(".evio.root", "")
 file_name = str(file_name).replace(".root", "")
@@ -804,6 +807,43 @@ if(event_Name != "error"):
             # Updated the Fall 2018 Pass 2 Outbending files to be used by this code (includes QADB now)
             
             
+        Extra_Part_of_Name = "_Shift_Test_V1"
+        # Ran on 2/16/2024
+            # Adjusted the phi shift function of the central detector (attempting to maximize my ability to create sector definitions)
+            # Turned off all corrections and Missing Mass Plots (just interested in the phase space plots for this test)
+            # Double the number of bins in the Phi vs P plots
+            # Made the 'reg1' phi bin of the central detector pions the intergated phi bin (i.e., there are no phi bins yet for the central detector pions)
+            
+        Extra_Part_of_Name = "_Shift_Test_V2"
+        # Ran on 2/16/2024
+            # Adjusted Central Detector Sector definition
+            
+            
+        Extra_Part_of_Name = "_Shift_Test_V3"
+        # Ran on 2/16/2024
+            # Adjusted Central Detector Sector definition (using the shifted phi angle)
+            # Making all normal Missing Mass plots (did not run the corrections)
+            
+            
+        Extra_Part_of_Name = "_Shift_Test_V4"
+        # Ran on 2/16/2024
+            # Fixed Central Detector Sector definition using the shifted phi angle
+                # Needed to account for Phi > 360 (assigned to sector 7 and shifted down by 360)
+            # Running with all corrections
+            
+            
+        Extra_Part_of_Name = "_Shift_Test_V5"
+        # Ran on 2/19/2024
+            # Testing new shift to localize the phi bins better
+            
+            
+        Extra_Part_of_Name = "_In_Forward_Test_V1"
+        # Ran on 2/26/2024
+            # Starting Corrections on Inbending Pass 2 Fall 2018 Data
+            # Includes Stefan's Pi+ Energy Loss Correction
+        
+            
+            
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):
@@ -902,9 +942,9 @@ if(event_Name != "error"):
                     running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Single_Pion_Channel_epipN/Outbending_skim4/ePip.outb.qa.rec_clas_*.root"
             if("Fall"     in pass_version):
                 if(datatype == "Inbending"):
-                    running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Inbending/Single_Pion_Channel_epipN/ePip.wCentral.pass2.inb.Fa18.rec_clas_00*"
+                    running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Inbending/Single_Pion_Channel_epipN/ePip.wCentral.pass2.inb.qa.Fa18.rec_clas_00*"
                 else:
-                    running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Outbending/Single_Pion_Channel_epipN/ePip.wCentral.pass2.outb.Fa18.rec_clas_00*"
+                    # running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Outbending/Single_Pion_Channel_epipN/ePip.wCentral.pass2.outb.Fa18.rec_clas_00*"
                     running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Outbending/Single_Pion_Channel_epipN/ePip.wCentral.pass2.outb.qa.Fa18.rec_clas_00*"
             elif("Pass 1" in pass_version):
                 running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Spring2019/Pass1/Inbending_recon/Single_Pion_Channel_epipN/ePip.pass1.inb.qa.rec_clas_00*"
@@ -1140,8 +1180,8 @@ if(event_Name != "error"):
                 rdf = rdf.Define("pipPhi", """
                     double pipPhi = (180/3.1415926)*atan2(pipy, pipx);
                     if(pipsec > 6){
-                        if(pipPhi < -30){pipPhi += 360;}
-                        pipPhi += 30;
+                        if(pipPhi < -25){pipPhi += 360;}
+                        pipPhi += 25;
                     }
                     else{
                         if(((pipsec == 4 || pipsec == 3) && pipPhi < 0) || (pipsec > 4 && pipPhi < 90)){
@@ -1152,32 +1192,39 @@ if(event_Name != "error"):
                 """)
                 if(("status" in rdf.GetColumnNames()) or ("artsec" in rdf.GetColumnNames())):
                     rdf = rdf.Redefine("pipsec", "".join([str(Central_Detector_Sector_Definition).replace("""
-if(pipPhi < -30){pipPhi += 360;}
-pipPhi += 30;""", ""), "return tempsec;"]))
+if(pipPhi < -25){pipPhi += 360;}
+pipPhi += 25;""", ""), "return tempsec;"]))
+                    rdf = rdf.Redefine("pipPhi", """
+                    double tempPipPhi = pipPhi;
+                    if(pipsec == 7 && tempPipPhi > 200){tempPipPhi += -360;}
+                    return tempPipPhi;""")
                 rdf = rdf.Define("localpipPhi", """
                     double localpipPhi;
                     if(pipsec < 7){localpipPhi = pipPhi - (pipsec - 1)*60;}
-                    else{localpipPhi = pipPhi - (pipsec - 7)*60;} // The (pipsec - 7) resets the offset done to get the local phi above for the central detector sectors
+                    else{localpipPhi = pipPhi - (pipsec - 7)*60 - 30;} // The (pipsec - 7) resets the offset done to get the local phi above for the central detector sectors
                     return localpipPhi;
                 """)
                 # rdf = rdf.Define("localpipPhiS", "localpipPhi + (32/(pip-0.05))")
-                rdf = rdf.Define("localpipPhiS","""
+                rdf = rdf.Define("localpipPhiS", "".join(["""
                     double localpipPhiS = localpipPhi + (32/(pip-0.05));
                     if(pipsec < 7){localpipPhiS = localpipPhi + (32/(pip-0.05));}
-                    if(pipsec > 6){localpipPhiS = localpipPhi + (2/(pip-0.05));}
+                    // if(pipsec > 6){localpipPhiS = localpipPhi + (2/(pip-0.05));}
+                    if(pipsec > 6){""", Central_Detector_PipPhi_Shift.replace("double pipPhi_Shift = ", "localpipPhiS = local"), """}
                     return localpipPhiS;
-                """)
+                """]))
                 # rdf = rdf.Define("pipPhiS", "pipPhi + (32/(pip-0.05))")
-                rdf = rdf.Define("pipPhiS",   """
+                rdf = rdf.Define("pipPhiS",   "".join(["""
                     double pipPhiS;
                     if(pipsec < 7){pipPhiS = pipPhi + (32/(pip-0.05));}
-                    if(pipsec > 6){pipPhiS = pipPhi + (2/(pip-0.05));}
+                    // if(pipsec > 6){pipPhiS = pipPhi + (2/(pip-0.05));}
+                    if(pipsec > 6){""", Central_Detector_PipPhi_Shift.replace("double pipPhi_Shift =", "pipPhiS ="), """}
                     return pipPhiS;
-                """)
+                """]))
                 rdf = rdf.Define("pipPhiNS", "(180/3.1415926)*atan2(pipy, pipx)") # 'NS' ==> No shifts (distribution will be from ±180˚)
             except Exception as e:
                 print(f"{color.ERROR}\n\nFailure to process Pi+ Pion Kinematics\n\n{color.END}")
                 print("".join(["ERROR: ", str(e)]))
+                print("".join([color.Error, "TRACEBACK: \n", color.END, str(traceback.format_exc()), "\n\n"]))
 
         #------------------------------------------#
         #---------------# Pi- Pion #---------------#
@@ -2733,7 +2780,12 @@ pipPhi += 30;""", ""), "return tempsec;"]))
                 if(Particle == 'el'):
                     PhiFilter = "".join([binName, '>5'])
                 else:
-                    PhiFilter = "".join([binName, '>10'])
+                    PhiFilter = "".join([binName, '>10'])                    
+            if((Particle != 'el') and (("status" in rdf.GetColumnNames()) or ("artsec" in rdf.GetColumnNames()))):
+                if(Region == 'reg1'):
+                    PhiFilter = "".join([PhiFilter, " || artsec == -1"])
+                else:
+                    PhiFilter = "".join([PhiFilter, " && artsec ==  1"])
             return Bank.Filter(PhiFilter)
 
 
@@ -3546,7 +3598,146 @@ pipPhi += 30;""", ""), "return tempsec;"]))
                 return (MM_Vector.M() < cut_up && MM_Vector.M() > cut_down);
 
             """])
+            
+#             if("Pass 2" in pass_version and ("Fall" in pass_version)):
+#                 print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR FALL 2018 DATA (Pass 2)\n\n", color.END)
+#                 Calculated_Exclusive_Cuts = "".join(["""
+#                     auto beam = ROOT::Math::PxPyPzMVector(0, 0, """,    str(Beam_Energy),          """, 0);
+#                     auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);
+#                     auto ele  = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+#                     auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, """, str(Particle_Mass_PiC), """);
 
+#                     auto MM_Vector = beam + targ - ele - pip0;
+
+#                     auto cut_upper = 1.1;
+#                     auto cut_lower = 0;
+                    
+#                     if(artsec == -1){
+#                         if(esec == 1){
+#                             if(localelPhiS > -5 && localelPhiS < 5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0539923)*el + (1.5315325);
+#                                 // Lower Cut
+#                                 cut_lower = (0.0505221)*el + (0.3876042);
+#                             }
+#                             if(localelPhiS < -5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0549641)*el + (1.5443091);
+#                                 // Lower Cut
+#                                 cut_lower = (0.0407524)*el + (0.4815827);
+#                             }
+#                             if(localelPhiS > 5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0450042)*el + (1.4506875);
+#                                 // Lower Cut
+#                                 cut_lower = (0.0406852)*el + (0.4820872);
+#                             }
+#                         }
+#                         if(esec == 2){
+#                             if(localelPhiS > -5 && localelPhiS < 5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0610239)*el + (1.6051835);
+#                                 // Lower Cut
+#                                 cut_lower = (0.0445744)*el + (0.4254869);
+#                             }
+#                             if(localelPhiS < -5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0619754)*el + (1.604372);
+#                                 // Lower Cut
+#                                 cut_lower = (0.0290268)*el + (0.5710264);
+#                             }
+#                             if(localelPhiS > 5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0555071)*el + (1.559426);
+#                                 // Lower Cut
+#                                 cut_lower = (0.046757)*el + (0.4173841);
+#                             }
+#                         }
+#                         if(esec == 3){
+#                             if(localelPhiS > -5 && localelPhiS < 5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0599552)*el + (1.5980191);
+#                                 // Lower Cut
+#                                 cut_lower = (0.0526291)*el + (0.3565147);
+#                             }
+#                             if(localelPhiS < -5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0648423)*el + (1.6382221);
+#                                 // Lower Cut
+#                                 cut_lower = (0.041451)*el + (0.4593907);
+#                             }
+#                             if(localelPhiS > 5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0520627)*el + (1.5189117);
+#                                 // Lower Cut
+#                                 cut_lower = (0.0447251)*el + (0.4365211);
+#                             }
+#                         }
+#                         if(esec == 4){
+#                             if(localelPhiS > -5 && localelPhiS < 5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0555936)*el + (1.5589024);
+#                                 // Lower Cut
+#                                 cut_lower = (0.0411092)*el + (0.4859795);
+#                             }
+#                             if(localelPhiS < -5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0540295)*el + (1.5443236);
+#                                 // Lower Cut
+#                                 cut_lower = (0.035017)*el + (0.545729);
+#                             }
+#                             if(localelPhiS > 5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0521049)*el + (1.5271559);
+#                                 // Lower Cut
+#                                 cut_lower = (0.0301299)*el + (0.5903022);
+#                             }
+#                         }
+#                         if(esec == 5){
+#                             if(localelPhiS > -5 && localelPhiS < 5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0437541)*el + (1.4397139);
+#                                 // Lower Cut
+#                                 cut_lower = (0.0238166)*el + (0.6424085);
+#                             }
+#                             if(localelPhiS < -5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0589583)*el + (1.5746554);
+#                                 // Lower Cut
+#                                 cut_lower = (0.020016)*el + (0.6782186);
+#                             }
+#                             if(localelPhiS > 5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0345761)*el + (1.356262);
+#                                 // Lower Cut
+#                                 cut_lower = (0.0264388)*el + (0.6235164);
+#                             }
+#                         }
+#                         if(esec == 6){
+#                             if(localelPhiS > -5 && localelPhiS < 5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0589621)*el + (1.5825242);
+#                                 // Lower Cut
+#                                 cut_lower = (0.0295142)*el + (0.5892546);
+#                             }
+#                             if(localelPhiS < -5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0601577)*el + (1.5871589);
+#                                 // Lower Cut
+#                                 cut_lower = (0.0117666)*el + (0.7540603);
+#                             }
+#                             if(localelPhiS > 5){
+#                                 // Upper Cut
+#                                 cut_upper = (-0.0484576)*el + (1.491206);
+#                                 // Lower Cut
+#                                 cut_lower = (0.0286003)*el + (0.6041065);
+#                             }
+#                         }  
+#                     }
+
+#                     return (MM_Vector.M() < cut_upper && MM_Vector.M() > cut_lower);
+
+#                 """])
 
     ################################################################################################################################
     ##============================================================================================================================##
@@ -4345,7 +4536,6 @@ pipPhi += 30;""", ""), "return tempsec;"]))
     elif("MC" in event_Name):
         kinematicCuts.append(Calculated_Dp_Cut_V2)
         
-        
     def Cut_Function(Data_Frame, Input_Cut, Output_Type="Default"):
         
         Cut_Title = ""
@@ -4378,6 +4568,9 @@ pipPhi += 30;""", ""), "return tempsec;"]))
         if(str(Input_Cut) == str(Calculated_Dp_Cut_V2)):
             Cut_Title = "|Dp| < 0.005 GeV Cut"
             Cut_Title = "Square Root Term Cut"
+        if(str(Input_Cut) == "esec != -2"):
+            Cut_Title = "Error: Undefined Cut"
+            print(f"{color.Error}{Cut_Title}!{color.END}")
             
 
             
@@ -4622,14 +4815,10 @@ pipPhi += 30;""", ""), "return tempsec;"]))
             
         if(datatype == "Outbending"):
             Delta_P_histo_CorList = ['mm0_NoELC', 'mmEF']
-
-            
             
         # Select which comparisons you would like to see (i.e. which variables would you like to compare to the theoretical calculations)
         # Delta_P_histo_CompareList = ['pro', 'el']
         Delta_P_histo_CompareList = ['el']
-        
-        
         
     if(event_type == "EO"):
         if(datatype == "Inbending"):
@@ -4647,7 +4836,9 @@ pipPhi += 30;""", ""), "return tempsec;"]))
     if("pi+" not in Delta_P_histo_CompareList and 'pro' not in Delta_P_histo_CompareList):
         Delta_Pip_histo_SecList = ["all"]
 
-
+        
+        
+    # Delta_P_histo_CorList = ['mm0']
 
     
     # Set the y-axis range od the ∆P histograms:
@@ -5778,7 +5969,8 @@ pipPhi += 30;""", ""), "return tempsec;"]))
                                 else:
                                     sdf = CorDpp(rdf.Filter("".join([particle.replace("l", ""), "sec", " == ", str(sector)])), correction, "".join(["Mom_", particle]), event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
 
-                                Histo_P_v_Phi[ref]      = sdf.Histo2D((Histo_Mom_Phi_ref_title, Title_Mom_Phi, 110,  0,   11,  720, -260, 460), "".join([particle, "_", correction]),                        "".join([local_Q.replace(" ", ""), particle, "Phi", shift]))
+                                # Histo_P_v_Phi[ref]      = sdf.Histo2D((Histo_Mom_Phi_ref_title, Title_Mom_Phi, 110,  0,   11,  720, -260, 460), "".join([particle, "_", correction]),                        "".join([local_Q.replace(" ", ""), particle, "Phi", shift]))
+                                Histo_P_v_Phi[ref]      = sdf.Histo2D((Histo_Mom_Phi_ref_title, Title_Mom_Phi, 110,  0,   11, 1440, -260, 460), "".join([particle, "_", correction]),                        "".join([local_Q.replace(" ", ""), particle, "Phi", shift]))
                                 count += 1
                                 
                                 if("" == shift and "" == local_Q):

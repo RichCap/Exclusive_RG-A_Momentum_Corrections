@@ -1,34 +1,44 @@
-#######################################################################################
-#----------#      Central Detector Sector Definition (As of 2-9-2024)      #----------#
-#######################################################################################
+########################################################################################
+#----------#        Central Detector Pi+ Phi Shift (As of 2-16-2024)        #----------#
+########################################################################################
+# This definition is included in 'Central_Detector_Sector_Definition' below
+# Used to define the Phi Shift for the Pi+ Pion detected in the Central Detector
+# Do not define 'pipPhi_Shift' before using this code as written
+Central_Detector_PipPhi_Shift = """
+double pipPhi_Shift = pipPhi + (5/(pip-0.05));
+"""
+
+########################################################################################
+#----------#      Central Detector Sector Definition (As of 2-16-2024)      #----------#
+########################################################################################
 # This definition is included in 'Correction_Code_Full_In' and 'Correction_Code_Full_Out' below
 # Used to define the Central Detector Sector for the Pi+ Pions
 # Must have a defined value for 'pipPhi' and 'tempsec' before using this code as written
-Central_Detector_Sector_Definition = """
-if(pipPhi < -30){pipPhi += 360;}
-pipPhi += 30;
+Central_Detector_Sector_Definition = "".join(["""
+if(pipPhi < -25){pipPhi += 360;}
+pipPhi += 25;""", str(Central_Detector_PipPhi_Shift), """
 int tempsec = pipsec;
-if(pipPhi > 0   && pipPhi <=  60){
-    tempsec = 7;
-}
-if(pipPhi > 60  && pipPhi <= 120){
-    tempsec = 8;
-}
-if(pipPhi > 120 && pipPhi <= 180){
-    tempsec = 9;
-}
-if(pipPhi > 180 && pipPhi <= 240){
-    tempsec = 10;
-}
-if(pipPhi > 240 && pipPhi <= 300){
-    tempsec = 11;
-}
-if(pipPhi > 300 && pipPhi <= 360){
-    tempsec = 12;
-}
-"""
-
-
+if(pipsec > 6){
+    if((pipPhi_Shift > 0   && pipPhi_Shift <=  60) || (pipPhi_Shift > 360)){
+        // Note: For best results, make sure to apply the following redefinition of pipPhi: if(pipsec == 7 && pipPhi > 200){pipPhi += -360;}
+        tempsec = 7;
+    }
+    if( pipPhi_Shift > 60  && pipPhi_Shift <= 120 ){
+        tempsec = 8;
+    }
+    if( pipPhi_Shift > 120 && pipPhi_Shift <= 180 ){
+        tempsec = 9;
+    }
+    if( pipPhi_Shift > 180 && pipPhi_Shift <= 240 ){
+        tempsec = 10;
+    }
+    if( pipPhi_Shift > 240 && pipPhi_Shift <= 300 ){
+        tempsec = 11;
+    }
+    if( pipPhi_Shift > 300 && pipPhi_Shift <= 360 ){
+        tempsec = 12;
+    }
+}"""])
 
 
 ###################################################################################
@@ -85,13 +95,10 @@ auto dppC = [&](float Px, float Py, float Pz, int sec, int ivec, int corEl, int 
     if(sec > 6){
         if(ivec == 1){
             // For Central Detector π+ Pions
-            """, str(Central_Detector_Sector_Definition).replace("pip", ""), """
+            """, str(str(str(Central_Detector_Sector_Definition).replace("pipP", "P")).replace("pip-", "pp-")).replace("pipsec", "sec"), """
             sec = tempsec; // New Definition of Central Detector Sectors
-            // Getting Local Phi Angle
-            double PhiLocal = Phi - (sec - 7)*60;
-            // Apply Phi Shift
-            double phi = PhiLocal + (32/(pp-0.05));
-            
+            if(sec == 7 && Phi_Shift > 200){Phi_Shift += -360;}
+            double phi = Phi_Shift - (sec - 7)*60 - 30;
             // Central Detector Corrections for the π+ Pion go here (not made yet)
             return dp/pp;
         }
@@ -257,6 +264,7 @@ auto dppC = [&](float Px, float Py, float Pz, int sec, int ivec, int corEl, int 
             }
         }
 
+        // Spring 2019 - Pass 2 Corrections
         if(corEl == 4 || corEl == 5){ // Pass 2 Corrections (i.e., 'mmP2' and 'mmRP2')
             if(sec == 1){
                 dp = (-4.3927e-04)*pp*pp + (5.8658e-04)*pp + (0.02801);
@@ -368,6 +376,13 @@ auto dppC = [&](float Px, float Py, float Pz, int sec, int ivec, int corEl, int 
                 }
             }
         }
+        
+        
+        // Fall 2018 - Pass 2 Corrections
+        if(corEl == 6){
+            dp = 0; // Not set yet
+        }
+        
     }
 
 
@@ -1002,13 +1017,10 @@ auto dppC = [&](float Px, float Py, float Pz, int sec, int ivec, int corEl, int 
     if(sec > 6){
         if(ivec == 1){
             // For Central Detector π+ Pions
-            """, str(Central_Detector_Sector_Definition).replace("pip", ""), """
+            """, str(str(str(Central_Detector_Sector_Definition).replace("pipP", "P")).replace("pip-", "pp-")).replace("pipsec", "sec"), """
             sec = tempsec; // New Definition of Central Detector Sectors
-            // Getting Local Phi Angle
-            double PhiLocal = Phi - (sec - 7)*60;
-            // Apply Phi Shift
-            double phi = PhiLocal + (32/(pp-0.05));
-            
+            if(sec == 7 && Phi_Shift > 200){Phi_Shift += -360;}
+            double phi = Phi_Shift - (sec - 7)*60 - 30;
             // Central Detector Corrections for the π+ Pion go here (not made yet)
             return dp/pp;
         }
@@ -1416,7 +1428,7 @@ Pion_Energy_Loss_Cor_Function = """
 auto eloss_pip = [&](double pion_p, double pip_theta, double pion_det, bool outbending){
     // momentum loss correction for low momentum pions:
     // input: p = pion momentum in GeV, pip_theta = pion theta in degree, 
-    //        pion_det = piond etector (2 = FD, 3 = CD),  outbending = torus polarity
+    //        pion_det = pion detector (2 = FD, 3 = CD),  outbending = torus polarity
     // output: dp_pion = generated momentum - reconstructed momentum = momentum loss (+) / gain (-)
 
     double dp_pion = 0.0;
