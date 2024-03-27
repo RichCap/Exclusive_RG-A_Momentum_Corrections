@@ -100,6 +100,8 @@ def corNameTitles(CorrectionNameIn, Form="Default", EVENT_TYPE="SP", BENDING_TYP
         CorrectionName1 = 'El Cor (Quad - Pass 2)'
     if('mmRP2'    in CorrectionNameIn):
         CorrectionName1 = 'El Cor (Quad - Quad Phi - Pass 2)'
+    if('mmfaP2'   in CorrectionNameIn):
+        CorrectionName1 = 'El Cor (Quad - Quad Phi - Fa18 - Pass 2)'
 
     if(EVENT_TYPE in ["EO"]):
         if(CorrectionNameIn == "mm0"):
@@ -137,6 +139,8 @@ def corNameTitles(CorrectionNameIn, Form="Default", EVENT_TYPE="SP", BENDING_TYP
             CorrectionName2 = 'Pi+ Cor (Quad - Pass 2)'
         if('MMsP2'     in CorrectionNameIn):
             CorrectionName2 = 'Pi+ Cor (Quad - Pass 2 - Split)'
+        if('MMfaP2'    in CorrectionNameIn):
+            CorrectionName2 = 'Pi+ Cor (Quad - Fa18 - Pass 2)'
         if("ELPipMM"   in CorrectionNameIn):
             CorrectionName2 = "".join(["Pi+ Energy Loss Cor - ", str(str(CorrectionName2).replace("Pi+ Cor", "Pi+ Mom Cor"))])
 
