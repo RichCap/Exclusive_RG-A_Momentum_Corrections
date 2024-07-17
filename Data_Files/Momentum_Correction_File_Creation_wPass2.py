@@ -770,9 +770,9 @@ if(event_Name != "error"):
         SaveResultsQ = 'no'
 
     if(SaveResultsQ == 'no'):
-        print("\033[1mNot saving results...\033[0m")
+        print(f"{color.BOLD}Not saving results...{color.END}")
     else:
-        print("\033[1mResults WILL be saved\033[0m")
+        print(f"{color.BOLD}Results WILL be saved{color.END}")
 
 
     Extra_Part_of_Name = "_New_Python_Script"
@@ -901,6 +901,13 @@ if(event_Name != "error"):
         # Ran on 3/26/2024
             # More refinements for the Fall 20018 Pass 2 Pi+ Correction (still called 'PipMMfaP2')
             # Removed Correction Options where the Pi+ Momentum Corrections are applied without the Energy Loss Corrections (always applying them together now - mainly done for faster run-time)
+            # Still turned off the phase space plots to save time while running
+                # i.e., Run_Phase_Space = 'no'
+                
+                
+        Extra_Part_of_Name = "_Fall2018_P2_Theta_V1"
+        # Ran on 4/15/2024
+            # Corrections are identical to those used in Extra_Part_of_Name = "_Fall2018_P2_Test_V9" but new plots have been added to examine the theta dependence of the ∆P and MM plots
             # Still turned off the phase space plots to save time while running
                 # i.e., Run_Phase_Space = 'no'
             
@@ -2984,17 +2991,17 @@ pipPhi += 25;""", ""), "return tempsec;"]))
         name = (Correction, Sector, Binning, Region, Particle_Plot, Particle, Extra_Cut)
                
 
-        start_title = "".join(["#splitline{", str(datatype), " Invariant Mass}"])
+        start_title     = "".join(["#splitline{", str(datatype), " Invariant Mass}"])
         if(pass_version not in ["NA", ""]):
             start_title = "".join(["#splitline{", str(start_title), "{", str(pass_version), "}}"])
         
-        output_title = "".join([str(start_title), "{", str(CorrrectionName), " -- ", SecName, "}; p_{", Particle_Plot_Formatting, "} [GeV]; W [GeV]"])
-        if(regionName != "" and Extra_Cut != ""):
-            output_title = "".join([str(start_title), "{#splitline{", str(CorrrectionName), " -- ", SecName, "}{", regionName, "}}; p_{", Particle_Plot_Formatting, "} [GeV]; W [GeV]"])
-        if(Extra_Cut != "" and regionName == ""):
-            output_title = "".join([str(start_title), "{#splitline{", str(CorrrectionName), " -- ", SecName, "}{Cut Applied: ", Extra_Cut, "}}; p_{", Particle_Plot_Formatting, "} [GeV]; W [GeV]"])
-        if(Extra_Cut != "" and regionName != ""):
-            output_title = "".join([str(start_title), "{#splitline{", str(CorrrectionName), " -- ", SecName, "}{#splitline{Cut Applied: ", Extra_Cut, "}{", regionName, "}}}; p_{", Particle_Plot_Formatting, "} [GeV]; W [GeV]"])
+        output_title     = "".join([str(start_title),            "{", str(CorrrectionName), " -- ", SecName,                                           "}; p_{",                    Particle_Plot_Formatting, "} (GeV); W (GeV)"])
+        if(regionName   != "" and Extra_Cut != ""):
+            output_title = "".join([str(start_title), "{#splitline{", str(CorrrectionName), " -- ", SecName,                                          "}{", regionName, "}}; p_{",  Particle_Plot_Formatting, "} (GeV); W (GeV)"])
+        if(Extra_Cut    != "" and regionName == ""):
+            output_title = "".join([str(start_title), "{#splitline{", str(CorrrectionName), " -- ", SecName,            "}{Cut Applied: ", Extra_Cut, "}}; p_{",                    Particle_Plot_Formatting, "} (GeV); W (GeV)"])
+        if(Extra_Cut    != "" and regionName != ""):
+            output_title = "".join([str(start_title), "{#splitline{", str(CorrrectionName), " -- ", SecName, "}{#splitline{Cut Applied: ", Extra_Cut, "}{", regionName, "}}}; p_{", Particle_Plot_Formatting, "} (GeV); W (GeV)"])
             
         WC_out = "".join(["WM_", Correction])
 
@@ -3014,11 +3021,11 @@ pipPhi += 25;""", ""), "return tempsec;"]))
     ##==========##     For 2D Missing Mass vs Momentum Histograms - hmmCPARTall     ##==========##
     ##==========================================================================================##
 
-    def Missing_Mass_Histo_Maker(Bank, Correction, Sector, Region, Shift, Binning, Particle_Plot, Particle, Extra_Cut):
+    def Missing_Mass_Histo_Maker(Bank, Correction, Sector, Region, Shift, Binning, Particle_Plot, Particle, Extra_Cut, Theta_Plot=False):
 
         # Difference between Particle and Particle_Plot ==> Particle defines which particle is referenced for sectors and phi bins while Particle_Plot refers to which particle momentum will be plotted against
 
-        Particle_Formatting = str(((((str(Particle).replace("el", "El")).replace("pro", "Pro")).replace("pip", "#pi^{+}")).replace("pim", "#pi^{-}")).replace("pi0", "#pi^{0}"))
+        Particle_Formatting      = str(((((str(Particle).replace("el",      "El")).replace("pro", "Pro")).replace("pip", "#pi^{+}")).replace("pim", "#pi^{-}")).replace("pi0", "#pi^{0}"))
         Particle_Plot_Formatting = str(((((str(Particle_Plot).replace("el", "El")).replace("pro", "Pro")).replace("pip", "#pi^{+}")).replace("pim", "#pi^{-}")).replace("pi0", "#pi^{0}"))
         
         regionName = ''
@@ -3056,20 +3063,30 @@ pipPhi += 25;""", ""), "return tempsec;"]))
         name = (Correction, Sector, '', Binning, Region, Particle_Plot, Particle, Extra_Cut)
 
                 
-        start_title = "".join(["#splitline{(", str(datatype), ") MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "} ", str(SecName), "}"])
+        start_title     = "".join(["#splitline{(", str(datatype), ") MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "} ", str(SecName), "}"])
         if(pass_version not in ["NA", ""]):
-            start_title = "".join(["#splitline{", str(start_title), "{", str(pass_version), "}}"])
+            start_title = "".join(["#splitline{",  str(start_title), "{", str(pass_version), "}}"])
                 
-        output_title = "".join([str(start_title),                               "{Correction:", str(CorrrectionName), "};p_{", str(Particle_Plot_Formatting), "} [GeV];MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}"])
-        if(regionName != "" and Extra_Cut != ""):
-            output_title = "".join(["#splitline{",            str(start_title), "{Correction:", str(CorrrectionName), "}}{", str(regionName), "};p_{", str(Particle_Plot_Formatting), "} [GeV];MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}"])
-        if(Extra_Cut != "" and regionName == ""):
-            output_title = "".join(["#splitline{",            str(start_title), "{Correction:", str(CorrrectionName), "}}{Cut Applied: ", str(Extra_Cut), "};p_{", str(Particle_Plot_Formatting), "} [GeV];MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}"])
-        if(Extra_Cut != "" and regionName != ""):
-            output_title = "".join(["#splitline{#splitline{", str(start_title), "{Correction:", str(CorrrectionName), "}}{Cut Applied: ", str(Extra_Cut), "}}{", str(regionName), "};p_{", str(Particle_Plot_Formatting), "} [GeV];MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}"])
+        output_title     = "".join([str(start_title),                           "{Correction:", str(CorrrectionName),                                                             "".join(["};p_{", str(Particle_Plot_Formatting), "} (GeV);"]) if(not Theta_Plot) else "".join(["};#theta_{", str(Particle_Plot_Formatting), "} (#circ);"]), "MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}", " (GeV^{2})" if(MM_type != "epipX") else " (GeV)"])
+        if(regionName   != "" and Extra_Cut != ""):
+            output_title = "".join(["#splitline{",            str(start_title), "{Correction:", str(CorrrectionName), "}}{",                                     str(regionName), "".join(["};p_{", str(Particle_Plot_Formatting), "} (GeV);"]) if(not Theta_Plot) else "".join(["};#theta_{", str(Particle_Plot_Formatting), "} (#circ);"]), "MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}", " (GeV^{2})" if(MM_type != "epipX") else " (GeV)"])
+        if(Extra_Cut    != "" and regionName == ""):
+            output_title = "".join(["#splitline{",            str(start_title), "{Correction:", str(CorrrectionName), "}}{Cut Applied: ", str(Extra_Cut),                         "".join(["};p_{", str(Particle_Plot_Formatting), "} (GeV);"]) if(not Theta_Plot) else "".join(["};#theta_{", str(Particle_Plot_Formatting), "} (#circ);"]), "MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}", " (GeV^{2})" if(MM_type != "epipX") else " (GeV)"])
+        if(Extra_Cut    != "" and regionName != ""):
+            output_title = "".join(["#splitline{#splitline{", str(start_title), "{Correction:", str(CorrrectionName), "}}{Cut Applied: ", str(Extra_Cut), "}}{", str(regionName), "".join(["};p_{", str(Particle_Plot_Formatting), "} (GeV);"]) if(not Theta_Plot) else "".join(["};#theta_{", str(Particle_Plot_Formatting), "} (#circ);"]), "MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}", " (GeV^{2})" if(MM_type != "epipX") else " (GeV)"])
+        # if(regionName   != "" and Extra_Cut != ""):
+        #     output_title = "".join(["#splitline{",            str(start_title), "{Correction:", str(CorrrectionName), "}}{",                                     str(regionName), "};p_{", str(Particle_Plot_Formatting), "} (GeV);", "".join(["#theta_{", str(Particle_Plot_Formatting), "} (#circ);"]) if(Theta_Plot) else "", "MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}", " (GeV^{2})" if(MM_type != "epipX") else " (GeV)"])
+        # if(Extra_Cut    != "" and regionName == ""):
+        #     output_title = "".join(["#splitline{",            str(start_title), "{Correction:", str(CorrrectionName), "}}{Cut Applied: ", str(Extra_Cut),                         "};p_{", str(Particle_Plot_Formatting), "} (GeV);", "".join(["#theta_{", str(Particle_Plot_Formatting), "} (#circ);"]) if(Theta_Plot) else "", "MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}", " (GeV^{2})" if(MM_type != "epipX") else " (GeV)"])
+        # if(Extra_Cut    != "" and regionName != ""):
+        #     output_title = "".join(["#splitline{#splitline{", str(start_title), "{Correction:", str(CorrrectionName), "}}{Cut Applied: ", str(Extra_Cut), "}}{", str(regionName), "};p_{", str(Particle_Plot_Formatting), "} (GeV);", "".join(["#theta_{", str(Particle_Plot_Formatting), "} (#circ);"]) if(Theta_Plot) else "", "MM", "^{2}" if(MM_type != "epipX") else "", "_{", str((MM_type).replace("pip", "#pi^{+}")).replace("pi0", "#pi^{0}"), "}", " (GeV^{2})" if(MM_type != "epipX") else " (GeV)"])
 
-        # output = Bank.Histo2D(("".join(["hmmCPARTall_", str(name)]), str(output_title), 200, 2 if 'el' in Particle_Plot else 0, 12 if 'el' in Particle_Plot else 10, Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max), Particle_Plot, Correction)
-        output = Bank.Histo2D(("".join(["hmmCPARTall_", str(name)]), str(output_title), 240, 0, 12, Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max), Particle_Plot, Correction)
+        if(Theta_Plot):
+            # output = Bank.Histo3D(("".join(["hmmCPARTall_Vs_Theta_", str(name)]), str(output_title), 240, 0, 12, 350, 0, 140, Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max), Particle_Plot, f"{Particle_Plot}th", Correction)
+            output = Bank.Histo2D(("".join(["hmmCPARTall_Vs_Theta_", str(name)]), str(output_title), 350, 0, 140, Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max), f"{Particle_Plot}th", Correction)
+        else:
+            # output = Bank.Histo2D(("".join(["hmmCPARTall_",          str(name)]), str(output_title), 200, 2 if 'el' in Particle_Plot else 0, 12 if 'el' in Particle_Plot else 10, Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max), Particle_Plot, Correction)
+            output = Bank.Histo2D(("".join(["hmmCPARTall_",          str(name)]), str(output_title), 240, 0, 12,  Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max), Particle_Plot,        Correction)
 
         return output
 
@@ -5038,13 +5055,13 @@ pipPhi += 25;""", ""), "return tempsec;"]))
         # print("".join(["\nThe 2D histograms will be have a range of ", str(extendx_min), " < \u0394p < ", str(extendx_max)]))
 
     else:
-        print("\033[1mNot running ∆P histograms...\033[0m")
+        print(f"{color.BOLD}Not running ∆P histograms...{color.END}")
     ##----------------------------------------------------------------##
     ##-----##-----## Printed Choices for Delta P Histos ##-----##-----##
     ##----------------------------------------------------------------##
 
     # The value below will just help count the number of histograms made using these calculations (do not change or remove)
-    Delta_P_histo_Count, Total_Extra = 0, 0
+    Delta_P_histo_Count = 0
 
 
 
@@ -5101,6 +5118,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
                                             if('el' in Delta_P_histo_CompareList and Delta_Pel_histo_Q == 'y'):
                                                 Delta_P_histo_Count += 1
+                                                Delta_P_histo_Count += 1
 
                                             
     if(event_type == "ES"):
@@ -5116,7 +5134,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                         Delta_P_histo_Count += 1
 
 
-        print("".join(["\033[1mNumber of ∆P histograms to be made: \033[0m", str(Delta_P_histo_Count)]))
+    print(f"{color.BOLD}\nNumber of ∆P histograms to be made: {color.END}{str(Delta_P_histo_Count)}")
 
     Total_Extra = Delta_P_histo_Count
     Delta_P_histo_Count = 0
@@ -5354,7 +5372,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
             print("".join(["Using ShowBackground()?: ", ShowBGq]))
 
     else:
-        print("\n\033[1mNot running Kinematic Histograms...\033[0m")
+        print(f"{color.BOLD}\nNot running Kinematic Histograms...{color.END}")
 
     countHisto = 0
 
@@ -5376,6 +5394,8 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                                 for region in regionList:
                                     if(Print_Names_Of_Histos_To_Be_Made_Q == 'yes'):
                                         print("Histo: " + str((correction, sector, "", binning, region, particle, particle_filter, "Cut" if(Cuts != "") else "")))
+                                        print("Histo: " + str((correction, sector, "", binning, region, particle, particle_filter, "Cut" if(Cuts != "") else "")) + "_Vs_Theta")
+                                    countHisto += 1
                                     countHisto += 1
                                     if(ShowBGq == 'yes' and particle == 'el'):
                                         countHisto += 1
@@ -5419,9 +5439,9 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                                     countHisto += 1
 
 
-    print("".join(["\n\033[1mTotal Kinematic Histograms that will be made: \033[0m", str(countHisto)]))
+    print(f"{color.BOLD}\nTotal Kinematic Histograms that will be made:       {color.END}{str(countHisto)}")
 
-    print("".join(["\033[1mWith the first half of the code, the total will be: \033[0m", str(Total_Extra + countHisto)]))
+    print(f"{color.BOLD}With the first half of the code, the total will be: {color.END}{str(Total_Extra + countHisto)}")
 
     count_Total = Total_Extra + countHisto
 
@@ -5515,8 +5535,8 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                     correctionNAME = corNameTitles(correction, Form="splitline", EVENT_TYPE=event_type, BENDING_TYPE=datatype)
                     Erdf = Cut_rdf
                     if('pi+' in Delta_P_histo_CompareList and Delta_Pip_histo_Q == 'y'):
-                        Erdf = CorDpp(Erdf,    correction, "D_pip", event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
-                        Erdf_MM = CorDpp(Erdf, correction, "MM", event_type, MM_type, datatype, "")
+                        Erdf    = CorDpp(Erdf, correction, "D_pip", event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
+                        Erdf_MM = CorDpp(Erdf, correction, "MM",    event_type, MM_type, datatype, "")
                     if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
                         # if("L" not in calc_option):
                         if(calc_option in ["D_p", "D_p_No_C"]):
@@ -5544,7 +5564,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                             # print("".join(["\tTotal length= ", str(len(Erdf.GetColumnNames()))]))
                             
                     if('el' in Delta_P_histo_CompareList and Delta_Pel_histo_Q == 'y'):
-                        Erdf = CorDpp(Erdf,    correction, "D_pel", event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
+                        Erdf    = CorDpp(Erdf, correction, "D_pel", event_type, MM_type, datatype, Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "")
                         Erdf_MM = CorDpp(Erdf, correction, "MM",    event_type, MM_type, datatype, "")
 
                     for sec in Delta_Pip_histo_SecList:
@@ -5593,90 +5613,100 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                                                 regionEL = regionListNameEL
 
                                             if(sec not in ["all", 0]):
-                                                sdf = regFilter(Erdf.Filter("".join(["pip" if(event_type in ["SP", "MC"]) else "pro", "sec == ", str(sec)])), binning, sec, region, 'S', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", 'pip' if(event_type in ["SP", "MC"]) else 'pro')
+                                                sdf    = regFilter(Erdf.Filter(   "".join(["pip" if(event_type in ["SP", "MC"]) else "pro", "sec == ", str(sec)])), binning, sec, region, 'S', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", 'pip' if(event_type in ["SP", "MC"]) else 'pro')
                                                 sdf_MM = regFilter(Erdf_MM.Filter("".join(["pip" if(event_type in ["SP", "MC"]) else "pro", "sec == ", str(sec)])), binning, sec, region, 'S', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", 'pip' if(event_type in ["SP", "MC"]) else 'pro')
                                             else:
-                                                sdf = regFilter(Erdf,       binning, sec, region, 'S', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", 'pip' if(event_type in ["SP", "MC"]) else 'pro')
+                                                sdf    = regFilter(Erdf,    binning, sec, region, 'S', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", 'pip' if(event_type in ["SP", "MC"]) else 'pro')
                                                 sdf_MM = regFilter(Erdf_MM, binning, sec, region, 'S', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", 'pip' if(event_type in ["SP", "MC"]) else 'pro')
 
                                             if(secEL not in ["all", 0]):
-                                                sdf = sdf.Filter("".join(["esec == ", str(secEL)]))
+                                                sdf    = sdf.Filter(   "".join(["esec == ", str(secEL)]))
                                                 sdf_MM = sdf_MM.Filter("".join(["esec == ", str(secEL)]))
 
 
                                             if(binningEL != '1'):
                                                 sdf = regFilter(sdf, binningEL, secEL, regionEL, 'S', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", 'el')
-                                                histoName               = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title)
-                                                histoName_3D            = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "MM_3D")
-                                                histoName_3D_Dp         = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_3D")
-                                                histoName_3D_Theta      = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "MM_Theta")
-                                                histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_Theta")
-                                                histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_3D_Theta")
-                                                histoName_3D_Electron   = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_Electron")
-                                                histoName_3D_El_Theta   = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_El_Theta")
+                                                histoName                   = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title)
+                                                histoName_3D_Theta_Dp       = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_Theta")
+                                                if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
+                                                    histoName_3D            = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "MM_3D")
+                                                    histoName_3D_Dp         = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_3D")
+                                                    histoName_3D_Theta      = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "MM_Theta")
+                                                    histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_Theta")
+                                                    histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_3D_Theta")
+                                                    histoName_3D_Electron   = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_Electron")
+                                                    histoName_3D_El_Theta   = (correction, '', SecName, binning, region, binningEL, regionEL, Cut_Title, "Dp_El_Theta")
                                             elif("D_p_L" in calc_option):
-                                                histoName               = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp")
-                                                histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "MM_3D")
-                                                histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "Dp_MM_3D")
-                                                histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "MM_Theta")
-                                                histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "Dp_MM_Theta")
-                                                histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "Dp_3D_Theta")
-                                                histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "Dp_Electron")
-                                                histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "Dp_El_Theta")
+                                                histoName                   = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp")
+                                                if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
+                                                    histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "MM_3D")
+                                                    histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "Dp_MM_3D")
+                                                    histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "MM_Theta")
+                                                    histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "Dp_MM_Theta")
+                                                    histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "Dp_3D_Theta")
+                                                    histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "Dp_Electron")
+                                                    histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, "Larger_Dp", "Dp_El_Theta")
                                             elif("No_C" in calc_option):
-                                                histoName               = (correction, '', SecName, binning, region, Cut_Title, "No_C")
-                                                histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, "No_C", "MM_3D")
-                                                histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, "No_C", "Dp_3D")
-                                                histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, "No_C", "MM_Theta")
-                                                histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, "No_C", "Dp_Theta")
-                                                histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, "No_C", "Dp_3D_Theta")
-                                                histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, "No_C", "Dp_Electron")
-                                                histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, "No_C", "Dp_El_Theta")
+                                                histoName                   = (correction, '', SecName, binning, region, Cut_Title, "No_C")
+                                                if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
+                                                    histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, "No_C", "MM_3D")
+                                                    histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, "No_C", "Dp_3D")
+                                                    histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, "No_C", "MM_Theta")
+                                                    histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, "No_C", "Dp_Theta")
+                                                    histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, "No_C", "Dp_3D_Theta")
+                                                    histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, "No_C", "Dp_Electron")
+                                                    histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, "No_C", "Dp_El_Theta")
                                             elif("S" in calc_option):
-                                                histoName               = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp")
-                                                histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "MM_3D")
-                                                histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "Dp_3D")
-                                                histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "MM_Theta")
-                                                histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "Dp_Theta")
-                                                histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "Dp_3D_Theta")
-                                                histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "Dp_Electron")
-                                                histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "Dp_El_Theta")
+                                                histoName                   = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp")
+                                                if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
+                                                    histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "MM_3D")
+                                                    histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "Dp_3D")
+                                                    histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "MM_Theta")
+                                                    histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "Dp_Theta")
+                                                    histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "Dp_3D_Theta")
+                                                    histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "Dp_Electron")
+                                                    histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, "Picked_Dp", "Dp_El_Theta")
                                             elif("F" in calc_option):
-                                                histoName               = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp")
-                                                histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "MM_3D")
-                                                histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "Dp_3D")
-                                                histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "MM_Theta")
-                                                histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "Dp_Theta")
-                                                histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "Dp_3D_Theta")
-                                                histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "Dp_Electron")
-                                                histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "Dp_El_Theta")
+                                                histoName                   = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp")
+                                                if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
+                                                    histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "MM_3D")
+                                                    histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "Dp_3D")
+                                                    histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "MM_Theta")
+                                                    histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "Dp_Theta")
+                                                    histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "Dp_3D_Theta")
+                                                    histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "Dp_Electron")
+                                                    histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, "Flipped_Dp", "Dp_El_Theta")
                                             elif(calc_option in ["D_p_G", "D_p_gL"]):
-                                                histoName               = (correction, '', SecName, binning, region, Cut_Title, str(calc_option))
-                                                histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "MM_3D")
-                                                histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_3D" if(calc_option in ["D_p_G"]) else "Dp_MM_3D")
-                                                histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "MM_Theta")
-                                                histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "".join(["Dp_" if(calc_option in ["D_p_G"]) else "Dp_MM_", "Theta"]))
-                                                histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_3D_Theta")
-                                                histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_Electron")
-                                                histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_El_Theta")
+                                                histoName                   = (correction, '', SecName, binning, region, Cut_Title, str(calc_option))
+                                                if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
+                                                    histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "MM_3D")
+                                                    histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_3D" if(calc_option in ["D_p_G"]) else "Dp_MM_3D")
+                                                    histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "MM_Theta")
+                                                    histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "".join(["Dp_" if(calc_option in ["D_p_G"]) else "Dp_MM_", "Theta"]))
+                                                    histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_3D_Theta")
+                                                    histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_Electron")
+                                                    histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_El_Theta")
                                             elif(str(calc_option) in ["D_p_a", "D_p_b", "D_p_c", "D_p_sqrt"]):
-                                                histoName               = (correction, '', SecName, binning, region, Cut_Title, str(calc_option))
-                                                histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "MM_3D")
-                                                histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_3D")
-                                                histoName_3D_Pars       = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_Pars")
-                                                histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_Theta")
-                                                histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_3D_Theta")
-                                                histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_Electron")
-                                                histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_El_Theta")
+                                                histoName                   = (correction, '', SecName, binning, region, Cut_Title, str(calc_option))
+                                                if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
+                                                    histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "MM_3D")
+                                                    histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_3D")
+                                                    histoName_3D_Pars       = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_Pars")
+                                                    histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_Theta")
+                                                    histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_3D_Theta")
+                                                    histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_Electron")
+                                                    histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, str(calc_option), "Dp_El_Theta")
                                             else:
-                                                histoName               = (correction, '', SecName, binning, region, Cut_Title)
-                                                histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, "MM_3D")
-                                                histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, "Dp_3D")
-                                                histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, "MM_Theta")
-                                                histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, "Dp_Theta")
-                                                histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, "Dp_3D_Theta")
-                                                histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, "Dp_Electron")
-                                                histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, "Dp_El_Theta")
+                                                histoName                   = (correction, '', SecName, binning, region, Cut_Title)
+                                                histoName_3D_Theta_Dp       = (correction, '', SecName, binning, region, Cut_Title, "Dp_Theta")
+                                                if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
+                                                    histoName_3D            = (correction, '', SecName, binning, region, Cut_Title, "MM_3D")
+                                                    histoName_3D_Dp         = (correction, '', SecName, binning, region, Cut_Title, "Dp_3D")
+                                                    histoName_3D_Theta      = (correction, '', SecName, binning, region, Cut_Title, "MM_Theta")
+                                                    histoName_3D_Theta_Dp   = (correction, '', SecName, binning, region, Cut_Title, "Dp_Theta")
+                                                    histoName_3D_Theta_Dp_2 = (correction, '', SecName, binning, region, Cut_Title, "Dp_3D_Theta")
+                                                    histoName_3D_Electron   = (correction, '', SecName, binning, region, Cut_Title, "Dp_Electron")
+                                                    histoName_3D_El_Theta   = (correction, '', SecName, binning, region, Cut_Title, "Dp_El_Theta")
 
 
                                             Title_Line_1 = "".join(["(", str(datatype), ") #Delta p_{Particle} vs p_{Particle}"])
@@ -5698,14 +5728,22 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                                             Title_Line_2     = ((("".join(["Correction: ", str(root_color.Bold), "{", str(correctionNAME), "}"]).replace("Pi+", "#pi^{+}")).replace("Pi-", "#pi^{-}")).replace("Phi", "#phi"))
                                             Title_Line_3     = "".join([str(SecName), "".join([" -- #phi_{", "#pi^{+} " if(event_type in ["SP", "MC"]) else "Pro", "} Bin: ", str(regionName)]) if(str(regionName) != "" and "No Phi Bins" not in regionName) else "", "".join([" -- #phi_{El} Bin: ", str(regionNameEL)]) if(str(regionNameEL) != "" and "No Phi Bins" not in regionNameEL) else ""])
                                             Title_Line_4     = "".join(["Cut Applied: ", str(Cut_Title) if(str(Cut_Title) != "") else "No Additional Cuts"])
-                                            Title_Axis       = "".join(["; p_{Particle}; #Delta p_{Particle}"])
+                                            Title_Axis       = "".join(["; p_{Particle} (GeV); #Delta p_{Particle} (GeV)"])
 
                                             Title = "".join(["#splitline{#splitline{", str(Title_Line_1), "}{", str(Title_Line_2), "}}{#splitline{", str(Title_Line_3), "}{", str(Title_Line_4), "}}", Title_Axis])
 
 
                                             if('pi+' in Delta_P_histo_CompareList and Delta_Pip_histo_Q == 'y'):
-                                                Dmom_pip_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pip_Histo", str(histoName)]), Title.replace("Particle", "#pi^{+}"), 200, 0, 10, NumOfExtendedBins, extendx_min, extendx_max), 'pip', ''.join(['D_pip_', str(correction)]))
+                                                Dmom_pip_Histo[histoName]             = sdf.Histo2D(("".join(["Dmom_pip_Histo",          str(histoName)]),             Title.replace("Particle",       "#pi^{+}"), 200, 0, 10,  NumOfExtendedBins, extendx_min, extendx_max), 'pip',   ''.join(['D_pip_', str(correction)]))
                                                 Delta_P_histo_Count += 1
+                                                Title_Theta          = Title.replace(Title_Line_1, Title_Line_1.replace("vs p_{Particle}", "vs #theta_{Particle}"))
+                                                Title_Theta          = Title_Theta.replace(Title_Axis, "; #theta_{Particle} (#circ); #Delta p_{Particle} (GeV)")
+                                                Dmom_pip_Histo[histoName_3D_Theta_Dp] = sdf.Histo2D(("".join(["Dmom_pip_vs_Theta_Histo", str(histoName_3D_Theta_Dp)]), Title_Theta.replace("Particle", "#pi^{+}"), 350, 0, 140, NumOfExtendedBins, extendx_min, extendx_max), 'pipth', ''.join(['D_pip_', str(correction)]))
+                                                Delta_P_histo_Count += 1
+                                                # Title_Theta          = Title.replace(Title_Line_1, Title_Line_1.replace("vs p_{Particle}", "vs p_{Particle} vs #theta_{Particle}"))
+                                                # Title_Theta          = Title_Theta.replace(Title_Axis, "; p_{Particle} (GeV); #theta_{Particle} (#circ); #Delta p_{Particle} (GeV)")
+                                                # Dmom_pip_Histo[histoName_3D_Theta_Dp] = sdf.Histo3D(("".join(["Dmom_pip_vs_Theta_Histo", str(histoName_3D_Theta_Dp)]), Title_Theta.replace("Particle", "#pi^{+}"), 200, 0, 10, 350, 0, 140, NumOfExtendedBins, extendx_min, extendx_max), 'pip', 'pipth', ''.join(['D_pip_', str(correction)]))
+                                                # Delta_P_histo_Count += 1
 
 
                                             if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
@@ -5713,7 +5751,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                                                 Delta_P_histo_Count += 1
                                                 
                                                 
-                                                Title_3D_Pro = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Particle} vs Missing Mass^{2} vs p_{Particle}")).replace(Title_Axis, "; p_{Particle}; #Delta p_{Particle}; MM^{2}")).replace("Particle", "Pro")
+                                                Title_3D_Pro = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Particle} vs Missing Mass^{2} vs p_{Particle}")).replace(Title_Axis, "; p_{Particle} (GeV); #Delta p_{Particle} (GeV); MM^{2} (GeV^{2})")).replace("Particle", "Pro")
                                                 if(str(calc_option) in ["D_p_a", "D_p_b", "D_p_c", "D_p_sqrt"]):
                                                     Title_3D_Pro = Title_3D_Pro.replace("#Delta p_{Pro}", str(calc_option))
                                                 x_variable = 'pro' if(('_NoELC' in str(correction)) or ('No_C' in str(calc_option)) or ("MC" in event_Name)) else 'pro_cor'
@@ -5736,15 +5774,15 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                                                 Dmom_pro_Histo[histoName_3D] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D)]), Title_3D_Pro, 100, 0, 10, dp_bin, dp_min, dp_max, 200, MM_min, MM_max), x_variable, y_variable, z_variable)
                                                 Delta_P_histo_Count += 1
                                                 
-                                                Title_3D_Pro_EL       = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Pro} vs #theta_{Pro} vs #theta_{El}")).replace(str(Title_Axis), "; #theta_{Pro}; #Delta p_{Pro}; #theta_{El}"))
-                                                Title_3D_Pro_EL_Theta = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Pro} vs #theta_{Pro} vs #theta_{El}")).replace(str(Title_Axis), "; #theta_{Pro}; #Delta p_{Pro}; #theta_{El}"))
+                                                Title_3D_Pro_EL       = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Pro} vs #theta_{Pro} vs #theta_{El}")).replace(str(Title_Axis), "; #theta_{Pro} (#circ); #Delta p_{Pro} (GeV); #theta_{El} (#circ)"))
+                                                Title_3D_Pro_EL_Theta = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Pro} vs #theta_{Pro} vs #theta_{El}")).replace(str(Title_Axis), "; #theta_{Pro} (#circ); #Delta p_{Pro} (GeV); #theta_{El} (#circ)"))
                                                 Dmom_pro_Histo[histoName_3D_Electron] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Electron)]), Title_3D_Pro_EL,       100, 0, 10,  dp_bin, dp_bin, dp_min, 100, 0, 10),  "pro",   str(y_variable), "el")
                                                 Dmom_pro_Histo[histoName_3D_El_Theta] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_El_Theta)]), Title_3D_Pro_EL_Theta, 100, 0, 100, dp_bin, dp_bin, dp_min, 100, 0, 100), "proth", str(y_variable), "elth")
                                                 Delta_P_histo_Count += 2
                                                 
                                                 if(str(calc_option) in ["D_p", "D_p_L", "D_p_G", "D_p_gL"]):
                                                     # print("".join([color.BOLD, color.BLUE, "\n\ncalc_option = ", str(calc_option), "\n\n", color.END]))
-                                                    Title_3D_Pro_Dp = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "(Both) #Delta p_{Particle} vs p_{Particle}")).replace(Title_Axis, "; p_{Particle}; (Best) #Delta p_{Particle}; (Secondary) #Delta p_{Particle}")).replace("Particle", "Pro")
+                                                    Title_3D_Pro_Dp = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "(Both) #Delta p_{Particle} vs p_{Particle}")).replace(Title_Axis, "; p_{Particle} (GeV); (Best) #Delta p_{Particle} (GeV); (Secondary) #Delta p_{Particle} (GeV)")).replace("Particle", "Pro")
                                                     if(calc_option in ["D_p_G", "D_p_gL"]):
                                                         Title_3D_Pro_Dp = str(Title_3D_Pro_Dp).replace("(Both)", "(Both - Generated)")
                                                     x_variable = 'pro' if(('_NoELC' in str(correction)) or ('No_C' in str(calc_option)) or ("MC" in event_Name)) else 'pro_cor'
@@ -5752,28 +5790,28 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                                                     
                                                     if(str(calc_option) in ["D_p_L", "D_p_gL"]):
                                                         x_variable = str(correction)
-                                                        Title_3D_Pro_Dp = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "(Both) #Delta p_{Particle} vs MM^{2}")).replace(Title_Axis, "; MM^{2}; (Best) #Delta p_{Particle}; (Secondary) #Delta p_{Particle}")).replace("Particle", "Pro")
+                                                        Title_3D_Pro_Dp = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "(Both) #Delta p_{Particle} vs MM^{2}")).replace(Title_Axis, "; MM^{2} (GeV^{2}); (Best) #Delta p_{Particle} (GeV); (Secondary) #Delta p_{Particle} (GeV)")).replace("Particle", "Pro")
                                                         x_bins, x_min, x_max = 200, MM_min, MM_max
                                                     y_variable = ''.join(['D_pro_', str(correction)])     if(calc_option not in ["D_p_G", "D_p_gL"]) else ''.join(['D_p_G_pro_',  str(correction)])
                                                     z_variable = ''.join(['D_p_L_pro_', str(correction)]) if(calc_option not in ["D_p_G", "D_p_gL"]) else ''.join(['D_p_gL_pro_', str(correction)])
                                                     
-                                                    Dmom_pro_Histo[histoName_3D_Dp]         = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Dp)]),         str(Title_3D_Pro_Dp), int(x_bins), x_min, x_max, dp_bin, dp_min, dp_max, 201, -0.15025, 0.15025), x_variable, y_variable, z_variable)
-                                                    Dmom_pro_Histo[histoName_3D_Theta_Dp_2] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Theta_Dp_2)]), str((Title_3D_Pro_Dp.replace("MM^{2}", "#theta_{Pro}")).replace("p_{Pro}; (Best)", "#theta_{Pro}; (Best)")).replace("vs p_{Pro}", "vs #theta_{Pro}"), 100, 0, 100, dp_bin, dp_min, dp_max, 201, -0.15025, 0.15025), "proth", y_variable, z_variable)
+                                                    Dmom_pro_Histo[histoName_3D_Dp]         = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Dp)]),             str(Title_3D_Pro_Dp), int(x_bins), x_min, x_max, dp_bin, dp_min, dp_max, 201, -0.15025, 0.15025), x_variable, y_variable, z_variable)
+                                                    Dmom_pro_Histo[histoName_3D_Theta_Dp_2] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Theta_Dp_2)]), str(str((Title_3D_Pro_Dp.replace("MM^{2} (GeV^{2})", "#theta_{Pro} (#circ)")).replace("p_{Pro} (GeV); (Best)", "#theta_{Pro} (#circ); (Best)")).replace("vs p_{Pro}", "vs #theta_{Pro}")).replace("MM^{2}", "#theta_{Pro}"), 100, 0, 100, dp_bin, dp_min, dp_max, 201, -0.15025, 0.15025), "proth", y_variable, z_variable)
                                                     Delta_P_histo_Count += 2
 
                                                 if(str(calc_option) not in ["D_p_a", "D_p_b", "D_p_c", "D_p_sqrt"]):
-                                                    Title_3D_Pro_Theta    = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Particle} vs #theta_{Particle} vs p_{Particle}")).replace(Title_Axis, "; p_{Particle}; #Delta p_{Particle}; #theta_{Particle}")).replace("Particle", "Pro")
-                                                    Title_3D_Pro_Theta_MM = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "Missing Mass^{2} vs #theta_{Particle} vs p_{Particle}")).replace(Title_Axis, "; p_{Particle}; MM^{2}; #theta_{Particle}")).replace("Particle", "Pro")
+                                                    Title_3D_Pro_Theta    = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "#Delta p_{Particle} vs #theta_{Particle} vs p_{Particle}")).replace(Title_Axis, "; p_{Particle} (GeV); #Delta p_{Particle} (GeV); #theta_{Particle} (#circ)")).replace("Particle", "Pro")
+                                                    Title_3D_Pro_Theta_MM = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "Missing Mass^{2} vs #theta_{Particle} vs p_{Particle}")).replace(Title_Axis,    "; p_{Particle} (GeV); MM^{2} (GeV^{2}); #theta_{Particle} (#circ)")).replace("Particle", "Pro")
                                                     if(str(calc_option) in ["D_p_a", "D_p_b", "D_p_c", "D_p_sqrt"]):
-                                                        Title_3D_Pro_Theta    = Title_3D_Pro_Theta.replace("#Delta p_{Pro}", str(calc_option))
+                                                        Title_3D_Pro_Theta    = Title_3D_Pro_Theta.replace("#Delta p_{Pro}",    str(calc_option))
                                                         Title_3D_Pro_Theta_MM = Title_3D_Pro_Theta_MM.replace("#Delta p_{Pro}", str(calc_option))
                                                     y_variable = ''.join(['D_pro_' if(str(calc_option) in ["D_p", "D_p_No_C"]) else ''.join([str(calc_option), '_pro_']), str(correction)])
                                                     Dmom_pro_Histo[histoName_3D_Theta_Dp] = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Theta_Dp)]), Title_3D_Pro_Theta, 100, 0, 10, dp_bin, dp_min, dp_max, 100, 0, 100), "pro", str(y_variable), "proth")
                                                     Dmom_pro_Histo[histoName_3D_Theta]    = sdf_MM.Histo3D(("".join(["Dmom_pro_Histo", str(histoName_3D_Theta)]), Title_3D_Pro_Theta_MM, 100, 0, 10, dp_bin, MM_min, MM_max, 100, 0, 100), "pro", str(correction), "proth")
                                                     Delta_P_histo_Count += 2
                                                 else:
-                                                    Title_3D_Pro_Dp       = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "".join([str(calc_option), " vs #Delta p_{Particle} vs p_{Particle}"]))).replace(Title_Axis, "".join(["; p_{Particle}; ", str(calc_option), "; #Delta p_{Particle}"]))).replace("Particle", "Pro")
-                                                    Title_3D_Pro_Theta    = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "".join([str(calc_option), " vs #theta_{Particle} vs p_{Particle}"])).replace(Title_Axis,    "".join(["; p_{Particle}; ", str(calc_option), "; #theta_{Particle}"])))).replace("Particle", "Pro")
+                                                    Title_3D_Pro_Dp       = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "".join([str(calc_option), " vs #Delta p_{Particle} vs p_{Particle}"]))).replace(Title_Axis, "".join(["; p_{Particle} (GeV); ", str(calc_option), "; #Delta p_{Particle} (GeV)"]))).replace("Particle",  "Pro")
+                                                    Title_3D_Pro_Theta    = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "".join([str(calc_option), " vs #theta_{Particle} vs p_{Particle}"])).replace(Title_Axis,    "".join(["; p_{Particle} (GeV); ", str(calc_option), "; #theta_{Particle} (#circ)"])))).replace("Particle", "Pro")
                                                     # pars_variable = ''.join(['D_pro_' if(str(calc_option) in ["D_p", "D_p_No_C"]) else ''.join([str(calc_option), '_pro_']), str(correction)])
                                                     pars_variable = ''.join([str(calc_option), '_pro_', str(correction)])
                                                     dp_variable   = ''.join(['D_pro_', str(correction)])
@@ -5784,8 +5822,16 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
 
                                             if('el' in Delta_P_histo_CompareList and Delta_Pel_histo_Q == 'y'):
-                                                Dmom_pel_Histo[histoName] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]), Title.replace("Particle", "El"), 400, 0.5, 10.5, NumOfExtendedBins, extendx_min, extendx_max), 'el', ''.join(['D_pel_', str(correction)]))
+                                                Dmom_pel_Histo[histoName]             = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]),             Title.replace("Particle",       "El"), 400, 0.5, 10.5, NumOfExtendedBins, extendx_min, extendx_max), 'el',   ''.join(['D_pel_', str(correction)]))
                                                 Delta_P_histo_Count += 1
+                                                Title_Theta          = Title.replace(Title_Line_1, Title_Line_1.replace("vs p_{Particle}", "vs #theta_{Particle}"))
+                                                Title_Theta          = Title_Theta.replace(Title_Axis, "; #theta_{Particle} (#circ); #Delta p_{Particle} (GeV)")
+                                                Dmom_pel_Histo[histoName_3D_Theta_Dp] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName_3D_Theta_Dp)]), Title_Theta.replace("Particle", "El"), 350, 0, 140,    NumOfExtendedBins, extendx_min, extendx_max), 'elth', ''.join(['D_pel_', str(correction)]))
+                                                Delta_P_histo_Count += 1
+                                                # Title_Theta          = Title.replace(Title_Line_1, Title_Line_1.replace("vs p_{Particle}", "vs p_{Particle} vs #theta_{Particle}"))
+                                                # Title_Theta          = Title_Theta.replace(Title_Axis, "; p_{Particle} (GeV); #theta_{Particle} (#circ); #Delta p_{Particle} (GeV)")
+                                                # Dmom_pel_Histo[histoName_3D_Theta_Dp] = sdf.Histo3D(("".join(["Dmom_pel_Histo", str(histoName_3D_Theta_Dp)]), Title_Theta.replace("Particle", "El"), 400, 0.5, 10.5, 350, 0, 140, NumOfExtendedBins, extendx_min, extendx_max), 'el', 'elth', ''.join(['D_pel_', str(correction)]))
+                                                # Delta_P_histo_Count += 1
 
 
         print("".join(["Number of ∆P Histograms made: ", str(Delta_P_histo_Count)]))
@@ -5854,7 +5900,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                         Title_Line_2 = ((("".join(["Correction: ", str(root_color.Bold), "{", correctionNAME, "}"]).replace("Pi+", "#pi^{+}")).replace("Pi-", "#pi^{-}")).replace("Phi", "#phi"))
                         Title_Line_3 = "".join([SecName, "".join([" --- ", regionName]) if(regionName != "" and "No Phi Bins" not in regionName) else ""])
                         Title_Line_4 = "".join(["Cut Applied: ", Cut_Title if(Cut_Title != "") else "No Additional Cuts"])
-                        Title_Axis = "".join(["; p_{El}; #Delta", "#theta_{Pro}" if("V3" not in Calc_Version) else "#phi_{|El-Pro|}"])
+                        Title_Axis = "".join(["; p_{El} (GeV); #Delta", "#theta_{Pro}" if("V3" not in Calc_Version) else "#phi_{|El-Pro|}"])
 
                         Dmom_Angle_Histo_Title = "".join(["#splitline{#splitline{", str(root_color.Bold), "{", str(Title_Line_1), "}}{", str(Title_Line_2), "}}{#splitline{", str(Title_Line_3), "}{", str(Title_Line_4), "}}", Title_Axis])
                         
@@ -5925,7 +5971,9 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
                                     name = (correction, sector, '', binning, region, particle, particle_filter, Cut_Title)
 
-                                    hmmCPARTall[name] = Missing_Mass_Histo_Maker(regFilter(sdf, binning, sector, region, '', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", particle_filter), correction, sector, region, '', binning, particle, particle_filter, Cut_Title)
+                                    hmmCPARTall[name]               = Missing_Mass_Histo_Maker(regFilter(sdf, binning, sector, region, '', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", particle_filter), correction, sector, region, '', binning, particle, particle_filter, Cut_Title)
+                                    count += 1
+                                    hmmCPARTall[f"{name}_Vs_Theta"] = Missing_Mass_Histo_Maker(regFilter(sdf, binning, sector, region, '', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", particle_filter), correction, sector, region, '', binning, particle, particle_filter, Cut_Title, Theta_Plot=True)
                                     count += 1
 
 
@@ -6065,9 +6113,9 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                                 Title_Line_2 = ((("".join(["Correction: ", str(root_color.Bold), "{", str(correctionNAME), "}"]).replace("Pi+", "#pi^{+}")).replace("Pi-", "#pi^{-}")).replace("Phi", "#phi"))
                                 Title_Line_3 = "".join(["Cut Applied: ",   str(Cut_Title) if(str(Cut_Title) != "") else "No Additional Cuts"])
                                 
-                                Title_Mom_The_Axis = "".join(["; p_{",    str(particle_title), "}; #theta_{", str(particle_title), "}"])
-                                Title_Mom_Phi_Axis = "".join(["; p_{",    str(particle_title), "}; #phi_{",   str(particle_title), "}"])
-                                Title_The_Phi_Axis = "".join(["; #phi_{", str(particle_title), "}; #theta_{", str(particle_title), "}"])
+                                Title_Mom_The_Axis = "".join(["; p_{",    str(particle_title), "} (GeV); #theta_{",   str(particle_title), "} (#circ)"])
+                                Title_Mom_Phi_Axis = "".join(["; p_{",    str(particle_title), "} (GeV); #phi_{",     str(particle_title), "} (#circ)"])
+                                Title_The_Phi_Axis = "".join(["; #phi_{", str(particle_title), "} (#circ); #theta_{", str(particle_title), "} (#circ)"])
 
                                 Title_Mom_The = "".join(["#splitline{#splitline{", str(Title_Mom_The_Line_1), " ", str(sector_title), "}{", str(Title_Line_2), "}}{", str(Title_Line_3), "}", str(Title_Mom_The_Axis)])
                                 Title_Mom_Phi = "".join(["#splitline{#splitline{", str(Title_Mom_Phi_Line_1), " ", str(sector_title), "}{", str(Title_Line_2), "}}{", str(Title_Line_3), "}", str(Title_Mom_Phi_Axis)])
@@ -6141,12 +6189,12 @@ pipPhi += 25;""", ""), "return tempsec;"]))
     
 
     if(SaveResultsQ == 'yes'):
-        print("\n\033[1mSaving Results Now...\033[0m")
+        print(f"\n{color.BOLD}Saving Results Now...{color.END}")
         RoutputFile = ROOT.TFile(str(OutputFileName), 'recreate')
     elif(CheckDataFrameQ == "y"):
-        print("\n\033[1mPrinting the Results to be Saved Now...\033[0m")
+        print(f"\n{color.BOLD}Printing the Results to be Saved Now...{color.END}")
     else:
-        print("\n\033[1mPrinting the Final Count...\033[0m")
+        print(f"\n{color.BOLD}Printing the Final Count...{color.END}")
 
     countSaved = 0
 
@@ -6164,6 +6212,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                 elif(Full_Crash_Check == "y"):
                     print("".join(["type = ", str(type(Dmom_pip_Histo[saving_Dp_pip_name]))]))
                 countSaved += 1
+                # print("".join([str(countSaved), ") Dmom_pip_Histo[", str(saving_Dp_pip_name), "]"]))
 
         if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
             for saving_Dp_pro_name in Dmom_pro_Histo:
@@ -6184,6 +6233,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                 elif(Full_Crash_Check == "y"):
                     print("".join(["type = ", str(type(Dmom_pel_Histo[saving_Dp_pel_name]))]))
                 countSaved += 1
+                # print("".join([str(countSaved), ") Dmom_pel_Histo[", str(saving_Dp_pel_name), "]"]))
 
                 
                 
@@ -6216,6 +6266,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
             elif(Full_Crash_Check == "y"):
                 print("".join(["type = ", str(type(hmmCPARTall[saving_MM_name]))]))
             countSaved += 1
+            # print("".join([str(countSaved), ") hmmCPARTall[", str(saving_MM_name), "]"]))
 
 
     # # # # # # # # # # # # # # #   Other Phase Space Histograms (without Missing Mass)   # # # # # # # # # # # # # # #
@@ -6266,9 +6317,9 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
     if(SaveResultsQ == 'yes'):
         RoutputFile.Close()
-        print("".join(["\033[1mTotal Histograms Saved = \033[0m", str(countSaved)]))
+        print("".join([color.BOLD, "Total Histograms Saved = ", color.END, str(countSaved)]))
     else:
-        print("".join(["\033[1mTotal Histograms that would be saved = \033[0m", str(countSaved)]))
+        print("".join([color.BOLD, "Total Histograms that would be saved = ", color.END, str(countSaved)]))
 
 
     ###############################################################################################################################################################
@@ -6282,7 +6333,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
 
 
-    print("\n\033[1mThe code has finished running.\033[0m")
+    print(f"\n{color.BOLD}The code has finished running.{color.END}")
 
     datetime_object_full = datetime.now()
 
