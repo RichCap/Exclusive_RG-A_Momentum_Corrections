@@ -42,7 +42,7 @@ if(pipsec > 6){
 
 
 ###################################################################################
-#----------#      Last updated Indending Correctins on: 3-22-2024      #----------#
+#----------#      Last updated Inbending Corrections on: 3-22-2024     #----------#
 ###################################################################################
 Correction_Code_Full_In = "".join(["""
 
@@ -1182,7 +1182,7 @@ auto dppC = [&](float Px, float Py, float Pz, int sec, int ivec, int corEl, int 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 ###################################################################################
-#----------#      Last updated Outdending Correctins on: 5-23-2023     #----------#
+#----------#      Last updated Outbending Corrections on: 7-22-2024    #----------#
 ###################################################################################
 Correction_Code_Full_Out = "".join(["""
 
@@ -1201,6 +1201,7 @@ auto dppC = [&](float Px, float Py, float Pz, int sec, int ivec, int corEl, int 
         // corEl == 1 --> Old Version of Corrections
         // corEl == 2 --> Extended Version of Corrections (Initial/test versions)
         // corEl == 3 --> Final Extended Version of Corrections (Final Refinement)
+        // corEl == 4 --> New (Fall 2018) Pass 2 Correction (w/Pion Energy Loss)
 
     // corPip ==> Gives the 'generation' of the π+ Pion correction
         // corPip == 0 --> No Correction
@@ -1374,6 +1375,34 @@ auto dppC = [&](float Px, float Py, float Pz, int sec, int ivec, int corEl, int 
             }
             if(sec == 6){
                 dp =    ((-6.2488e-08)*phi*phi +  (2.23173e-05)*phi +   (-0.00227522))*pp*pp +   ((1.8372e-05)*phi*phi +   (-7.5227e-05)*phi +   (0.032636))*pp +  ((-6.6566e-05)*phi*phi +  (-2.4450e-04)*phi + (-0.072293));
+            }
+        }
+        
+        // New (Fall 2018 Pass 2) Corrections (mmfaP2)
+        if(corEl == 4){
+            if(sec == 1){
+                // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mm0_ELPipMM0][Sector 1] is:
+                dp =  ((1.2071e-06)*phi*phi +  (4.3200e-06)*phi + (-2.9744e-04))*pp*pp + ((-2.1188e-05)*phi*phi +  (8.4530e-05)*phi + (-0.0026927))*pp +  ((1.1271e-04)*phi*phi +  (-0.0011804)*phi + (0.058173));
+            }
+            if(sec == 2){
+                // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mm0_ELPipMM0][Sector 2] is:
+                dp = ((-1.0319e-06)*phi*phi +  (1.2265e-05)*phi +  (5.6840e-05))*pp*pp +  ((1.0772e-05)*phi*phi +  (5.1295e-05)*phi + (-0.0071982))*pp + ((-1.0130e-06)*phi*phi +  (-0.0010885)*phi + (0.062324));
+            }
+            if(sec == 3){
+                // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mm0_ELPipMM0][Sector 3] is:
+                dp = ((-2.1405e-06)*phi*phi +  (2.8517e-05)*phi +  (2.3838e-04))*pp*pp +  ((2.6409e-05)*phi*phi + (-3.5734e-04)*phi +  (-0.010347))*pp + ((-7.5798e-05)*phi*phi +  (9.5756e-04)*phi + (0.073785));
+            }
+            if(sec == 4){
+                // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mm0_ELPipMM0][Sector 4] is:
+                dp =  ((7.9694e-07)*phi*phi + (-9.9183e-06)*phi + (-8.0044e-04))*pp*pp + ((-1.0736e-05)*phi*phi +  (9.3418e-05)*phi +  (0.0037634))*pp +  ((4.8380e-05)*phi*phi + (-9.0674e-05)*phi + (0.042234));
+            }
+            if(sec == 5){
+                // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mm0_ELPipMM0][Sector 5] is:
+                dp = ((-1.4177e-07)*phi*phi + (-2.0421e-06)*phi + (-8.8740e-05))*pp*pp + ((-2.1774e-07)*phi*phi +  (1.5198e-04)*phi + (-0.0076431))*pp +  ((3.1022e-05)*phi*phi +  (-0.0010169)*phi + (0.076225));
+            }
+            if(sec == 6){
+                // The CONTINUOUS QUADRATIC function predicted for ∆p_{El} for [Cor = mm0_ELPipMM0][Sector 6] is:
+                dp =  ((2.7768e-06)*phi*phi +  (5.7209e-05)*phi +   (-0.001268))*pp*pp + ((-5.0133e-05)*phi*phi + (-5.2902e-04)*phi +  (0.0096535))*pp +  ((2.5264e-04)*phi*phi +  (5.8752e-04)*phi + (0.029426));
             }
         }
 
