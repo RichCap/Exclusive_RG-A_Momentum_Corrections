@@ -76,7 +76,7 @@ if(("_MC" not in event_type) and (event_type not in ["MC"])):
         Beam_Energy = 10.1998
     if("fa2" in event_type):
         pass_version =   "Fall 2018 - Pass 2"
-        Beam_Energy = 10.6041 if("MC" not in event_type) else 10.604
+        Beam_Energy = 10.6041 if("MC" not in event_type) else 10.6 # MC Beam Energy
     if(("C" in event_type) and ("MC" not in event_type)):
         pass_version = "".join([pass_version, " - Central Detector"])
     if("F" in event_type):
@@ -1006,6 +1006,13 @@ if(event_Name != "error"):
             # Making Momentum Corrections for the Pass 2 versions of my SIDIS analysis Reconstructed Monte Carlo files
             # Running with default plots and (experimental data) corrections (should be treated as if it was just the normal Fall 2018 Pass 2 SP option)
             # Changed the MC beam energy to 10.604 GeV instead of 10.6041 GeV to more closely match the beam energy used by Stefan
+            
+        Extra_Part_of_Name = "_Fa18_P2_MC_V2"
+        # Ran on 7/22/2024
+            # Making Momentum Corrections for the Pass 2 versions of my SIDIS analysis Reconstructed Monte Carlo files
+            # Running with default plots and (experimental data) corrections (should be treated as if it was just the normal Fall 2018 Pass 2 SP option)
+                # Using same options as selected for "Fall2018_P2_New_Out_V5" (but with Inbending Corrections)
+            # Changed the MC beam energy to 10.6 GeV instead of 10.604 GeV to more closely match the beam energy used by Stefan (beam energy from 'Fa18_P2_MC_V1' was still not correct)
         
         if(Delta_P_histo_Q != 'y'):
             OutputFileName = "".join(["Simulated_", event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp",   str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
