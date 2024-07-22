@@ -66,7 +66,7 @@ file_name = str(file_location)
 pass_version = "NA"
 Beam_Energy = 10.6041 # Fall 2018 Beam Energy
 
-if("_MC" not in event_type):
+if(("_MC" not in event_type) and (event_type not in ["MC"])):
     # Spring 2019 Data sets
     if("P1" in event_type):
         pass_version = "Spring 2019 - Pass 1"
@@ -76,13 +76,16 @@ if("_MC" not in event_type):
         Beam_Energy = 10.1998
     if("fa2" in event_type):
         pass_version =   "Fall 2018 - Pass 2"
-        Beam_Energy = 10.6041
-    if("C" in event_type):
+        Beam_Energy = 10.6041 if("MC" not in event_type) else 10.604
+    if(("C" in event_type) and ("MC" not in event_type)):
         pass_version = "".join([pass_version, " - Central Detector"])
     if("F" in event_type):
         pass_version = "".join([pass_version, " - Forward Detector"])
-
-    event_type = str(((((event_type.replace("P1", "")).replace("P2", "")).replace("C", "")).replace("F", "")).replace("fa2", ""))
+    
+    if("MC" not in event_type):
+        event_type = str(((((event_type.replace("P1", "")).replace("P2", "")).replace("C", "")).replace("F", "")).replace("fa2", ""))
+    else:
+        event_type =  str((((event_type.replace("P1", "")).replace("P2", "")).replace("F", "")).replace("fa2", ""))
     
     
 # Normal values used (rounded)
@@ -91,20 +94,17 @@ Particle_Mass_Proton  = 0.938
 Particle_Mass_PiC     = 0.13957    # Mass of Charged Pions (same for pi+ and pi-)
 Particle_Mass_Pi0     = 0.13498
 
-if("_MC" in event_type):
-    # # Exact values used by PDGParticle (see: https://github.com/JeffersonLab/clas12-offline-software/blob/516f47374b25c86d4e65cbeb1009c3422906949a/common-tools/clas-physics/src/main/java/org/jlab/clas/pdg/PDGDatabase.java#L31)
-    Particle_Mass_Neutron = 0.9396
-    Particle_Mass_Neutron = 0.939565379
-
-    Particle_Mass_Proton  = 0.938
-    # Particle_Mass_Proton  = 0.938272046
-
-    Particle_Mass_PiC     = 0.13957    # Mass of Charged Pions (same for pi+ and pi-)
-    Particle_Mass_PiC     = 0.13957018 # Mass of Charged Pions (same for pi+ and pi-)
-
-    Particle_Mass_Pi0     = 0.13498
-    Particle_Mass_Pi0     = 0.1349766
-    print("".join(["Setting Masses as:\nParticle_Mass_Neutron = ", str(Particle_Mass_Neutron), "\nParticle_Mass_Proton  = ", str(Particle_Mass_Proton), "\nParticle_Mass_PiC     = ", str(Particle_Mass_PiC), "\nParticle_Mass_Pi0     = ", str(Particle_Mass_Pi0)]))
+# if("_MC" in event_type):
+#     # # Exact values used by PDGParticle (see: https://github.com/JeffersonLab/clas12-offline-software/blob/516f47374b25c86d4e65cbeb1009c3422906949a/common-tools/clas-physics/src/main/java/org/jlab/clas/pdg/PDGDatabase.java#L31)
+#     Particle_Mass_Neutron = 0.9396
+#     Particle_Mass_Neutron = 0.939565379
+#     Particle_Mass_Proton  = 0.938
+#     # Particle_Mass_Proton  = 0.938272046
+#     Particle_Mass_PiC     = 0.13957    # Mass of Charged Pions (same for pi+ and pi-)
+#     Particle_Mass_PiC     = 0.13957018 # Mass of Charged Pions (same for pi+ and pi-)
+#     Particle_Mass_Pi0     = 0.13498
+#     Particle_Mass_Pi0     = 0.1349766
+#     print("".join(["Setting Masses as:\nParticle_Mass_Neutron = ", str(Particle_Mass_Neutron), "\nParticle_Mass_Proton  = ", str(Particle_Mass_Proton), "\nParticle_Mass_PiC     = ", str(Particle_Mass_PiC), "\nParticle_Mass_Pi0     = ", str(Particle_Mass_Pi0)]))
 
 
 ####################################################################################################################################################################   
@@ -195,6 +195,11 @@ file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Inbending/Single_Pion_Channel_epipN/ePip.wCentral.pass2.inb.qa.Fa18.rec_clas_00", ""))
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Inbending/Only_Electron_Channel/electron_only.pass2.inb.qa.Fa18.rec_clas_00",     ""))
 
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/SIDIS/Matched_REC_MC/MC_Matching_sidis_epip_richcap.inb.qa.45nA_job_", ""))
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/SIDIS/Matched_REC_MC/With_BeamCharge/Pass2/More_Cut_Info/MC_Matching_sidis_epip_richcap.inb.qa.new4.inb-clasdis_", ""))
+
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Outbending/Only_Electron_Channel/electron_only.pass2.outb.qa.Fa18.rec_clas_00", ""))
+
 file_name = str(file_name.replace("-", "_")).replace(".hipo.root", "")
 file_name = str(file_name).replace(".evio.root", "")
 file_name = str(file_name).replace(".root", "")
@@ -221,6 +226,9 @@ if(event_type == "E0"):
 if(event_type in ["SP", "MC", "SIDIS"]):
     event_Name = "Single Pion Channel"
     MM_type = "epipX"
+    print(MM_type)
+else:
+    print(f"event_type = {event_type}")
     
 if(event_type == "DP"):
     event_Name = "Double Pion Channel"
@@ -269,18 +277,18 @@ elif(event_type != "ES"):
 else:
     Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max = 120, -0.1, 0.1
 
-if("MC" in event_Name):
-    Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max = 200, 0.01, 0.03
+# if("MC" in event_Name):
+#     Missing_Mass_bins, Missing_Mass_min, Missing_Mass_max = 200, 0.01, 0.03
     
 #################################################################################################################################################################### 
 
 
 if(event_Name != "error"):
     
-    print("".join([color.BOLD, color.BLUE, "\n\n\nStarting ", str(event_Name), " ", str(datatype), "...\n", color.END]))
+    print("".join([color.BBLUE, "\n\n\nStarting ", str(event_Name), " ", str(datatype), "...\n", color.END]))
     
     if(pass_version != "NA" and pass_version != ""):
-        print("".join(["\n", color.BOLD, color.BLUE, "RUNNING FILES FROM: ", str(pass_version), "\n", color.END]))
+        print("".join(["\n", color.BBLUE, "RUNNING FILES FROM: ", str(pass_version), "\n", color.END]))
         
     print("".join(["Initial Beam Energy is given as: ", color.BOLD, str(Beam_Energy), " GeV", color.END, "\n"]))
 
@@ -910,14 +918,56 @@ if(event_Name != "error"):
             # Corrections are identical to those used in Extra_Part_of_Name = "_Fall2018_P2_Test_V9" but new plots have been added to examine the theta dependence of the ∆P and MM plots
             # Still turned off the phase space plots to save time while running
                 # i.e., Run_Phase_Space = 'no'
+                
+                
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V1"
+        # Ran on 7/12/2024
+            # Developing New Outbending Pass 2 Corrections for Fall 2018 data
+                # Making Forward Detector Corrections Only
+            # Using the default options that should be the same as used by Extra_Part_of_Name = "_Fa18_P2_MC_V1" (but not for MC files)
+            
+            
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V2"
+        # Ran on 7/17/2024
+            # Turned off pion plots, old momentum corrections, and Delta p vs theta plots
+                # Possible size/memory issue was occuring in the notebook code, so this reduction is aimed at (hopefully) reducing the likelihood of the notebook crashing and reseting
+                # Only using Energy loss correction (no new corrections/cuts from '_Fall2018_P2_New_Out_V1')
+            # Also running elastic scattering channel (will need new cuts for '_Fall2018_P2_New_Out_V3')
+            
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V3"
+        # Ran on 7/17/2024
+            # Still having issues with loading the files: Missing Mass vs Theta plots have now also been removed
+            # Updated the elastic scattering channel cuts
+            
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V4"
+        # Ran on 7/22/2024
+            # Earlier issues with loading the files seems to have nothing to do with removed histograms
+                # Issue seems to be related to the version of ROOT used by this code and the Jupyter Notebook
+                    # Work-around found by moving the Notebook code into individual python scripts (see 'Run_With_Python' folder)
+                # Still using the reduced histogram options to increase the speed at which this code runs while the new electron corrections are being developed (i.e., no pion plots are being made)
+            # Updated the elastic scattering/Single Pion channel cuts (based on "_Fall2018_P2_New_Out_V2")
+                # Made with new 'Run_With_Python' scripts (images and cuts saved in that folder)
             
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):
             Extra_Part_of_Name = f"_Forward{Extra_Part_of_Name}"
     
+    else:
+        Extra_Part_of_Name = "_Sp19_P2_Theta_V1"
+        # Ran on 4/15/2024
+            # Corrections are the same as the older (Pass 2) Spring 2019 corrections, but now the Pion Energy Loss corrections have also been added (will attempt to perform a new refinement if necessary)
+            # All other options are the same as Extra_Part_of_Name = "_Fall2018_P2_Theta_V1", i.e.:
+                # New ∆P and MM vs Theta Plots added (to study theta dependence)
+                # Turned off the phase space plots to save time while running
+                    # i.e., Run_Phase_Space = 'no'
+                
+        if("Central"   in pass_version):
+            Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
+        elif("Forward" in pass_version):
+            Extra_Part_of_Name = f"_Forward{Extra_Part_of_Name}"
     
-    if(event_type != "MC"):
+    if(event_type not in ["MC"]):
         if(event_type != "P0"):
             if(Delta_P_histo_Q != 'y'):
                 OutputFileName = "".join([event_Name.replace(" ", "_"),     "_",       str(MM_type), "_", str(datatype), "_No_Dp",   str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
@@ -935,6 +985,22 @@ if(event_Name != "error"):
                 else:
                     OutputFileName = "".join(["Pi0_Channel_",                          str(MM_type), "_", str(datatype), "_With_Dp", str(Extra_Part_of_Name),                           ".root"])
     else:
+        
+        Extra_Part_of_Name = "_Fa18_P1_MC_V1"
+        # Ran on 6/4/2024
+            # Making Momentum Corrections for the Pass 1 versions of my SIDIS analysis Reconstructed Monte Carlo files
+            # Running with default plots and (experimental data) corrections (should be treated as if it was just the normal Fall 2018 Pass 1 SP option)
+        Extra_Part_of_Name = "_Fa18_P1_MC_V2"
+        # Ran on 6/4/2024
+            # Rerunning to fix errors in "_Fa18_P1_MC_V1"
+            
+            
+        Extra_Part_of_Name = "_Fa18_P2_MC_V1"
+        # Ran on 7/12/2024
+            # Making Momentum Corrections for the Pass 2 versions of my SIDIS analysis Reconstructed Monte Carlo files
+            # Running with default plots and (experimental data) corrections (should be treated as if it was just the normal Fall 2018 Pass 2 SP option)
+            # Changed the MC beam energy to 10.604 GeV instead of 10.6041 GeV to more closely match the beam energy used by Stefan
+        
         if(Delta_P_histo_Q != 'y'):
             OutputFileName = "".join(["Simulated_", event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp",   str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
         else:
@@ -942,7 +1008,7 @@ if(event_Name != "error"):
             
             
 
-    print(f"{color.BOLD}{color.GREEN}Name of file that will be saved:{color.END}\n{str(OutputFileName)}\n")
+    print(f"{color.BGREEN}Name of file that will be saved:{color.END}\n{str(OutputFileName)}\n")
 
 
     ################################################################################
@@ -1068,9 +1134,12 @@ if(event_Name != "error"):
             else:
                 # Skim4 cuts
                 running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Only_Electron_Channel/Outbending/electron_only.outb.qa.rec_clas_005*.root"
+                if("Pass 2" in pass_version):
+                    running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Outbending/Only_Electron_Channel/electron_only.pass2.outb.qa.Fa18.rec_clas_005*.root"
                 
-        if(event_type == "MC"):
-            running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/SIDIS_Analysis/Data_Files_Groovy/Matched_REC_MC/MC_Matching_sidis_epip_richcap.inb.qa.45nA_job_*.root"])
+        if(event_type in ["MC"]):
+            # running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/SIDIS_Analysis/Data_Files_Groovy/Matched_REC_MC/MC_Matching_sidis_epip_richcap.inb.qa.45nA_job_*.root"])
+            running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/SIDIS/Matched_REC_MC/MC_Matching_sidis_epip_richcap.inb.qa.45nA_job_*.root" if("Pass 2" not in pass_version) else "/w/hallb-scshelf2102/clas12/richcap/SIDIS/Matched_REC_MC/With_BeamCharge/Pass2/More_Cut_Info/MC_Matching_sidis_epip_richcap.inb.qa.new4.inb-clasdis_*"
             event_type = "SP"
 
     else:
@@ -1079,7 +1148,7 @@ if(event_Name != "error"):
     rdf = ROOT.RDataFrame("h22", str(running_code_with_these_files))
     
     if("E" in event_type):
-        print(color.BOLD + "\nApplying Base Invariant Mass Cuts to Elastic Events...\n" + color.END)
+        print(f"{color.BOLD}\nApplying Base Invariant Mass Cuts to Elastic Events...\n{color.END}")
         rdf = rdf.Filter("".join(["""
         auto Beam_Energy = """, str(Beam_Energy), """;
         auto Proton_Mass = """, str(Particle_Mass_Proton), """;//0.938;
@@ -1111,7 +1180,7 @@ if(event_Name != "error"):
 
     if(See_Num_of_Events_Q != 'n'):
         print("".join(["Number of events = ", str(rdf.Count().GetValue())]))
-    print("".join([color.BOLD, color.BLUE, "Running code with files located here:\n", color.END, str(running_code_with_these_files), "\n"]))
+    print("".join([color.BBLUE, "Running code with files located here:\n", color.END, str(running_code_with_these_files), "\n"]))
 
 
     
@@ -1207,7 +1276,7 @@ if(event_Name != "error"):
             rdf = rdf.Define("elPhiS", "elPhi - (30/el)")
             rdf = rdf.Define("elPhiNS", "(180/3.1415926)*atan2(ey, ex)") # 'NS' ==> No shifts (distribution will be from ±180˚)
         else:
-            print("".join([color.BOLD, color.RED, "El is generated\n\n", color.END]))
+            print("".join([color.Error, "El is generated\n\n", color.END]))
             ##=====##    Momentum Magnitude    ##=====##
             rdf = rdf.Define("el", "sqrt(ex0*ex0 + ey0*ey0 + ez0*ez0)")
             ##=====##       Polar Angles       ##=====##
@@ -2656,16 +2725,16 @@ pipPhi += 25;""", ""), "return tempsec;"]))
             if(Extra_Cut not in ["none", ""]):
                 Output = Output.Filter(Extra_Cut)
         except Exception as e:
-            print("".join([color.RED, color.BOLD, """ERROR: Failed to create the DataFrame Column...\nCode is written as:
+            print("".join([color.Error, """ERROR: Failed to create the DataFrame Column...\nCode is written as:
             """, color.END, "Output = Data_Frame.Define(", str(Output_Title), ", ", str(Full_Correction_Output).replace(str(Correction_Code_Full_In) if("In" in datatype) else str(Correction_Code_Full_Out), "Correction Code"), """)
             
             if(Extra_Cut not in ["none", ""]):
                 Output = Output.Filter(""", str(Extra_Cut), ")"]))
             
             
-            print("".join([color.BLUE, color.BOLD, "\nINPUTS: CorDpp('Data_Frame', '", str(Correction), "', '", str(Out_Type), "', '", str(Channel_Type), "', '", str(MM_Type), "', '", str(Data_Type), "', '", str(Extra_Cut), "')", color.END]))
-            print("".join([color.RED, color.BOLD, "ERROR GIVEN: \n", str(e), color.END, "\n\n"]))
-            print("".join([color.RED, color.BOLD, "TRACEBACK: \n", color.END, color.RED, str(traceback.format_exc()), color.END, "\n\n"]))
+            print("".join([color.BBLUE, "\nINPUTS: CorDpp('Data_Frame', '", str(Correction), "', '", str(Out_Type), "', '", str(Channel_Type), "', '", str(MM_Type), "', '", str(Data_Type), "', '", str(Extra_Cut), "')", color.END]))
+            print("".join([color.Error, "ERROR GIVEN: \n", str(e), color.END, "\n\n"]))
+            print("".join([color.Error, "TRACEBACK: \n", color.END_R, str(traceback.format_exc()), color.END, "\n\n"]))
             
             
         # # Below is for printing out the code for testing...
@@ -3269,7 +3338,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
             """])
             
             if("Pass 1" in pass_version and ("Fall" not in pass_version)):
-                print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 1)\n\n", color.END)
+                print(color.BBLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 1)\n\n", color.END)
                 Calculated_Exclusive_Cuts = "".join(["""
                     auto beam = ROOT::Math::PxPyPzMVector(0, 0, """,    str(Beam_Energy),          """, 0);
                     auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);
@@ -3407,7 +3476,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                 """])
                 
             if("Pass 2" in pass_version and ("Fall" not in pass_version)):
-                print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 2)\n\n", color.END)
+                print(color.BBLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 2)\n\n", color.END)
                 Calculated_Exclusive_Cuts = "".join(["""
                     auto beam = ROOT::Math::PxPyPzMVector(0, 0, """,    str(Beam_Energy),          """, 0);
                     auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);
@@ -3545,7 +3614,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                 """])
                 
             if("Pass 2" in pass_version and ("Fall" in pass_version)):
-                print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR FALL 2018 DATA (Pass 2)\n\n", color.END)
+                print(color.BBLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR FALL 2018 DATA (Pass 2)\n\n", color.END)
                 Calculated_Exclusive_Cuts = "".join(["""
                     auto beam = ROOT::Math::PxPyPzMVector(0, 0, """,    str(Beam_Energy),          """, 0);
                     auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);
@@ -3813,9 +3882,144 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
             """])
             
-            # if("Pass 2" in pass_version and ("Fall" in pass_version)):
-            #     print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR FALL 2018 DATA (Pass 2)\n\n", color.END)
-            #     Calculated_Exclusive_Cuts = "esec != -2"
+            
+            if("Pass 2" in pass_version and ("Fall" in pass_version)):
+                print(color.BBLUE, "\nUSING NEW (OUTBENDING) EXCLUSIVITY CUTS FOR FALL 2018 DATA (Pass 2)\n\n", color.END)
+                Calculated_Exclusive_Cuts = "".join(["""
+                    auto beam = ROOT::Math::PxPyPzMVector(0, 0, """,    str(Beam_Energy),          """, 0);
+                    auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);
+                    auto ele  = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+                    auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, """, str(Particle_Mass_PiC), """);
+
+                    auto MM_Vector = beam + targ - ele - pip0;
+
+                    auto cut_upper = 1.1;
+                    auto cut_lower = 0;
+                    
+                    if(esec == 1){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (0.00085)*el + (1.0155684);
+                            // Lower Cut
+                            cut_lower = (0.005)*el + (0.8454096);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (-0.0019918)*el + (1.046896);
+                            // Lower Cut
+                            cut_lower = (-0.0034129)*el + (0.9109);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (0.0032537)*el + (1.0025544);
+                            // Lower Cut
+                            cut_lower = (0.005685)*el + (0.8401328);
+                        }
+                    }
+                    if(esec == 2){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (0.0025)*el + (1.0055498);
+                            // Lower Cut
+                            cut_lower = (0.005)*el + (0.835088);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (0.0014575)*el + (1.0154591);
+                            // Lower Cut
+                            cut_lower = (0.005)*el + (0.8392825);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (0.0056568)*el + (0.9868502);
+                            // Lower Cut
+                            cut_lower = (0.0053837)*el + (0.8357672);
+                        }
+                    }
+                    if(esec == 3){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (0.0036459)*el + (0.9991959);
+                            // Lower Cut
+                            cut_lower = (0.0061)*el + (0.8284471);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (0.0034006)*el + (1.0023044);
+                            // Lower Cut
+                            cut_lower = (-0.004)*el + (0.9008054);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (0.0035806)*el + (0.9979392);
+                            // Lower Cut
+                            cut_lower = (-0.0022576)*el + (0.8911326);
+                        }
+                    }
+                    if(esec == 4){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (0.0030531)*el + (1.0085585);
+                            // Lower Cut
+                            cut_lower = (0.0044807)*el + (0.853999);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (0.003645)*el + (1.0080695);
+                            // Lower Cut
+                            cut_lower = (0.0051523)*el + (0.8527973);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (0.0025041)*el + (1.0165799);
+                            // Lower Cut
+                            cut_lower = (-0.0011222)*el + (0.8952631);
+                        }
+                    }
+                    if(esec == 5){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (0.0034878)*el + (0.9961862);
+                            // Lower Cut
+                            cut_lower = (0.0060497)*el + (0.8301999);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (0.0007298)*el + (1.0183639);
+                            // Lower Cut
+                            cut_lower = (0.0061)*el + (0.8341237);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (0.0039543)*el + (0.9949684);
+                            // Lower Cut
+                            cut_lower = (0.0061)*el + (0.8317604);
+                        }
+                    }
+                    if(esec == 6){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (0.0033861)*el + (1.0031917);
+                            // Lower Cut
+                            cut_lower = (-0.0018161)*el + (0.8921721);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (0.003861)*el + (1.0051496);
+                            // Lower Cut
+                            cut_lower = (0.0060277)*el + (0.8343964);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (0.0040587)*el + (1.0039831);
+                            // Lower Cut
+                            cut_lower = (0.0051184)*el + (0.8465);
+                        }
+                    }  
+
+                    return (MM_Vector.M() < cut_upper && MM_Vector.M() > cut_lower);
+
+                """])
 
     ################################################################################################################################
     ##============================================================================================================================##
@@ -4185,7 +4389,9 @@ pipPhi += 25;""", ""), "return tempsec;"]))
         
         if("Fall" in pass_version):
             if(("Pass 2" in str(pass_version)) and ("Out" not in str(datatype))):
-                print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR INBENDING FALL 2018 DATA (Pass 2)\n\n", color.END)
+                print(color.BBLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR INBENDING FALL 2018 DATA (Pass 2)\n\n", color.END)
+            if(("Pass 2" in str(pass_version)) and ("Out"     in str(datatype))):
+                print(color.BBLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR OUTBENDING FALL 2018 DATA (Pass 2)\n\n", color.END)
             Calculated_Exclusive_Cuts = "".join(["""        
             // For Invariant Mass Cut (Fall 2018 (Pass 2) - Based on a 1.75*sigma and 3*sigma cuts on the Invarient Mass - Upper Cut is 1.75*sigma - Lower Cut is 3*sigma - Linear Functions of Momentum - No Phi dependence):
             auto Beam_Energy = """, str(Beam_Energy), """;
@@ -4221,13 +4427,48 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                 Lower_Cut =  (0.0832248)*el + (0.0);
             } 
             return ((Cut_Variable < Upper_Cut) && (Cut_Variable > Lower_Cut));
-            """]) if(("Pass 2" in str(pass_version)) and ("Out" not in str(datatype))) else "esec != -2"
+            """]) if(("Pass 2" in str(pass_version)) and ("Out" not in str(datatype))) else "".join(["""        
+        // For Invariant Mass Cut (Outbending Fall 2018 (Pass 2) - Based on a 1.75*sigma and 2*sigma cuts on the Invarient Mass - Upper Cut is 1.75*sigma - Lower Cut is 2*sigma - Linear Functions of Momentum - No Phi dependence):
+        auto Beam_Energy = """, str(Beam_Energy), """;
+        auto Proton_Mass = """, str(Particle_Mass_Proton), """;
+        auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
+        auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
+        auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+        auto Cut_Variable = (beam + targ - eleC).M();
+        auto Upper_Cut = 1.3;
+        auto Lower_Cut = 0.7;
+        if(esec == 1){
+            Upper_Cut = (-0.0471233)*el + (1.5390961);
+            Lower_Cut =  (-0.0405884)*el + (1.1311165);
+        }
+        if(esec == 2){
+            Upper_Cut = (-0.0330434)*el + (1.4053451);
+            Lower_Cut =  (-0.0781353)*el + (1.4513767);
+        }
+        if(esec == 3){
+            Upper_Cut = (0.0218953)*el + (0.8750734);
+            Lower_Cut =  (-0.0631136)*el + (1.3075803);
+        }
+        if(esec == 4){
+            Upper_Cut = (-0.0328351)*el + (1.4028829);
+            Lower_Cut =  (-0.0529724)*el + (1.2341513);
+        }
+        if(esec == 5){
+            Upper_Cut = (-0.0527261)*el + (1.5628387);
+            Lower_Cut =  (0.0180793)*el + (0.5865123);
+        }
+        if(esec == 6){
+            Upper_Cut = (-0.0503412)*el + (1.5754511);
+            Lower_Cut =  (-0.0676014)*el + (1.3853758);
+        } 
+        return ((Cut_Variable < Upper_Cut) && (Cut_Variable > Lower_Cut));
+        """]) if("Pass 2" in str(pass_version)) else "esec != -2"
         
         else:
             if(("Pass 2" in str(pass_version)) and ("Out" not in str(datatype))):
-                print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 2)\n\n", color.END)
+                print(color.BBLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 2)\n\n", color.END)
             if(("Pass 1" in str(pass_version)) and ("Out" not in str(datatype))):
-                print(color.BOLD, color.BLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 1)\n\n", color.END)
+                print(color.BBLUE, "\nUSING NEW EXCLUSIVITY CUTS FOR SPRING 2019 DATA (Pass 1)\n\n", color.END)
                 
 
             Calculated_Exclusive_Cuts = "".join(["""        
@@ -4715,7 +4956,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                 else:
                     Cut_Data_Frame = Data_Frame.Filter(Input_Cut)
             except Exception as e:
-                print("".join([color.BOLD, color.RED, "ERROR: Failed to make the cut: ", color.END, str(Input_Cut), "\n\n", color.BOLD, color.RED, "Error Reads as: ", str(e), color.END]))
+                print("".join([color.Error, "ERROR: Failed to make the cut: ", color.END, str(Input_Cut), "\n\n", color.Error, "Error Reads as: ", str(e), color.END]))
             
         if(Output_Type == "Default"):
             return [Cut_Data_Frame, Cut_Title]
@@ -4853,8 +5094,8 @@ pipPhi += 25;""", ""), "return tempsec;"]))
     if("E" in event_type and Combine_el_pip_filters_Q == "no"):
         Delta_Pip_histo_SecList = ["all"]
         
-    if("MC" in event_Name):
-        Delta_Pip_histo_SecList = ["all"]
+#     if("MC" in event_Name):
+#         Delta_Pip_histo_SecList = ["all"]
         
         
     if((1 in Delta_Pip_histo_SecList) and (("status" in rdf.GetColumnNames()) or ("artsec" in rdf.GetColumnNames()))):
@@ -4891,6 +5132,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
         if(datatype == "Outbending"):
             # Delta_P_histo_CorList = ['mm0', 'mmEF', 'mmExF', 'mmEF_PipMMEF', 'mmExF_PipMMExF']
             Delta_P_histo_CorList = ['mm0', 'mmEF', 'mmEF_PipMMEF']
+            Delta_P_histo_CorList = ['mm0']
             
         if("Pass 2" in str(pass_version)):
             Delta_P_histo_CorList_TEMP = Delta_P_histo_CorList
@@ -4907,7 +5149,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
         # # Select which comparisons you would like to see (i.e. which variables would you like to compare to the theoretical calculations)
         Delta_P_histo_CompareList = ['pi+', 'el']   # Show both corrections
-        # Delta_P_histo_CompareList = ['el']          # Electron Corrections only
+        Delta_P_histo_CompareList = ['el']          # Electron Corrections only
         # Delta_P_histo_CompareList = ['pi+']         # Pi+ Corrections only
             
             
@@ -4958,7 +5200,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                 
                 
         if(datatype == "Outbending"):
-            Delta_P_histo_CorList = ['mm0', 'mmEF']
+            Delta_P_histo_CorList = ['mm0', 'mmEF'] if("Pass 2" not in str(pass_version)) else ['mm0']
 
         Delta_P_histo_CompareList = ['el']
 
@@ -4980,10 +5222,10 @@ pipPhi += 25;""", ""), "return tempsec;"]))
     else:
         extendx_min, extendx_max = -1, 1
         size_of_Dp_Bins = 0.005
-    if("MC" in event_Name):
-        extendx_min, extendx_max = -0.05, 0.05
-        extendx_min, extendx_max = -0.02, 0.02
-        size_of_Dp_Bins = 0.0001
+#     if("MC" in event_Name):
+#         extendx_min, extendx_max = -0.05, 0.05
+#         extendx_min, extendx_max = -0.02, 0.02
+#         size_of_Dp_Bins = 0.0001
     
     extendx_min += -0.5*size_of_Dp_Bins
     extendx_max +=  0.5*size_of_Dp_Bins
@@ -5029,7 +5271,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
     ##-----##-----## Printing Choices for Delta P Histos ##-----##-----##
     ##-----------------------------------------------------------------##
     if(Delta_P_histo_Q == 'y'):
-        print(color.BOLD + color.BLUE + "\nFor the ∆P histograms..." + color.END)
+        print(color.BBLUE + "\nFor the ∆P histograms..." + color.END)
         print("".join(["The momentums being calculated are: ", str(Delta_P_histo_CompareList)]))
 
         print("".join(["The corrections that will run are: ", str(Delta_P_histo_CorList)]))
@@ -5118,7 +5360,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
                                             if('el' in Delta_P_histo_CompareList and Delta_Pel_histo_Q == 'y'):
                                                 Delta_P_histo_Count += 1
-                                                Delta_P_histo_Count += 1
+#                                                 Delta_P_histo_Count += 1
 
                                             
     if(event_type == "ES"):
@@ -5165,8 +5407,8 @@ pipPhi += 25;""", ""), "return tempsec;"]))
     if(event_type in ["SP", "MC"]):
         particleList = ['el', 'pip']
         particle_plot_List = ['el', 'pip']
-        # particleList = ['el']
-        # particle_plot_List = ['el']
+        particleList = ['el']
+        particle_plot_List = ['el']
         
         
     if(event_type == "DP"):
@@ -5343,7 +5585,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
 
     if(particleList != []):
-        print(color.BOLD, color.BLUE, "\nFor the Kinematic histograms...", color.END)
+        print(color.BBLUE, "\nFor the Kinematic histograms...", color.END)
         print("".join(["Particles to be plotted include: ", str(particle_plot_List)]))
         print("".join(["Particles to be used for sector/phi binning include: ", str(particleList)]))
 
@@ -5394,9 +5636,9 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                                 for region in regionList:
                                     if(Print_Names_Of_Histos_To_Be_Made_Q == 'yes'):
                                         print("Histo: " + str((correction, sector, "", binning, region, particle, particle_filter, "Cut" if(Cuts != "") else "")))
-                                        print("Histo: " + str((correction, sector, "", binning, region, particle, particle_filter, "Cut" if(Cuts != "") else "")) + "_Vs_Theta")
+                                        # print("Histo: " + str((correction, sector, "", binning, region, particle, particle_filter, "Cut" if(Cuts != "") else "")) + "_Vs_Theta")
                                     countHisto += 1
-                                    countHisto += 1
+                                    # countHisto += 1
                                     if(ShowBGq == 'yes' and particle == 'el'):
                                         countHisto += 1
 
@@ -5512,7 +5754,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
     ##============================================================================================================================================================##
     ################################################################################################################################################################
 
-    print("".join([color.BOLD, color.BLUE, "\nMaking Histograms now...", color.END]))
+    print("".join([color.BBLUE, "\nMaking Histograms now...", color.END]))
 
 
     #############################################################################################################
@@ -5781,7 +6023,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                                                 Delta_P_histo_Count += 2
                                                 
                                                 if(str(calc_option) in ["D_p", "D_p_L", "D_p_G", "D_p_gL"]):
-                                                    # print("".join([color.BOLD, color.BLUE, "\n\ncalc_option = ", str(calc_option), "\n\n", color.END]))
+                                                    # print("".join([color.BBLUE, "\n\ncalc_option = ", str(calc_option), "\n\n", color.END]))
                                                     Title_3D_Pro_Dp = str((Title.replace("#Delta p_{Particle} vs p_{Particle}", "(Both) #Delta p_{Particle} vs p_{Particle}")).replace(Title_Axis, "; p_{Particle} (GeV); (Best) #Delta p_{Particle} (GeV); (Secondary) #Delta p_{Particle} (GeV)")).replace("Particle", "Pro")
                                                     if(calc_option in ["D_p_G", "D_p_gL"]):
                                                         Title_3D_Pro_Dp = str(Title_3D_Pro_Dp).replace("(Both)", "(Both - Generated)")
@@ -5824,10 +6066,10 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                                             if('el' in Delta_P_histo_CompareList and Delta_Pel_histo_Q == 'y'):
                                                 Dmom_pel_Histo[histoName]             = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName)]),             Title.replace("Particle",       "El"), 400, 0.5, 10.5, NumOfExtendedBins, extendx_min, extendx_max), 'el',   ''.join(['D_pel_', str(correction)]))
                                                 Delta_P_histo_Count += 1
-                                                Title_Theta          = Title.replace(Title_Line_1, Title_Line_1.replace("vs p_{Particle}", "vs #theta_{Particle}"))
-                                                Title_Theta          = Title_Theta.replace(Title_Axis, "; #theta_{Particle} (#circ); #Delta p_{Particle} (GeV)")
-                                                Dmom_pel_Histo[histoName_3D_Theta_Dp] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName_3D_Theta_Dp)]), Title_Theta.replace("Particle", "El"), 350, 0, 140,    NumOfExtendedBins, extendx_min, extendx_max), 'elth', ''.join(['D_pel_', str(correction)]))
-                                                Delta_P_histo_Count += 1
+#                                                 Title_Theta          = Title.replace(Title_Line_1, Title_Line_1.replace("vs p_{Particle}", "vs #theta_{Particle}"))
+#                                                 Title_Theta          = Title_Theta.replace(Title_Axis, "; #theta_{Particle} (#circ); #Delta p_{Particle} (GeV)")
+#                                                 Dmom_pel_Histo[histoName_3D_Theta_Dp] = sdf.Histo2D(("".join(["Dmom_pel_Histo", str(histoName_3D_Theta_Dp)]), Title_Theta.replace("Particle", "El"), 350, 0, 140,    NumOfExtendedBins, extendx_min, extendx_max), 'elth', ''.join(['D_pel_', str(correction)]))
+#                                                 Delta_P_histo_Count += 1
                                                 # Title_Theta          = Title.replace(Title_Line_1, Title_Line_1.replace("vs p_{Particle}", "vs p_{Particle} vs #theta_{Particle}"))
                                                 # Title_Theta          = Title_Theta.replace(Title_Axis, "; p_{Particle} (GeV); #theta_{Particle} (#circ); #Delta p_{Particle} (GeV)")
                                                 # Dmom_pel_Histo[histoName_3D_Theta_Dp] = sdf.Histo3D(("".join(["Dmom_pel_Histo", str(histoName_3D_Theta_Dp)]), Title_Theta.replace("Particle", "El"), 400, 0.5, 10.5, 350, 0, 140, NumOfExtendedBins, extendx_min, extendx_max), 'el', 'elth', ''.join(['D_pel_', str(correction)]))
@@ -5973,8 +6215,8 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
                                     hmmCPARTall[name]               = Missing_Mass_Histo_Maker(regFilter(sdf, binning, sector, region, '', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", particle_filter), correction, sector, region, '', binning, particle, particle_filter, Cut_Title)
                                     count += 1
-                                    hmmCPARTall[f"{name}_Vs_Theta"] = Missing_Mass_Histo_Maker(regFilter(sdf, binning, sector, region, '', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", particle_filter), correction, sector, region, '', binning, particle, particle_filter, Cut_Title, Theta_Plot=True)
-                                    count += 1
+                                    # hmmCPARTall[f"{name}_Vs_Theta"] = Missing_Mass_Histo_Maker(regFilter(sdf, binning, sector, region, '', Cuts if(Cuts in [Calculated_Exclusive_Cuts, CutChoice]) else "", particle_filter), correction, sector, region, '', binning, particle, particle_filter, Cut_Title, Theta_Plot=True)
+                                    # count += 1
 
 
     print("".join(["Total Missing Mass Histograms made: ", str(count)]))
@@ -6184,6 +6426,17 @@ pipPhi += 25;""", ""), "return tempsec;"]))
     ################################################################################################################################################################        
     # if(SaveResultsQ == 'yes' or CheckDataFrameQ == "y"):
 
+
+    def safe_write(histogram, name):
+        try:
+            if(histogram):
+                histogram.Write()
+            else:
+                print(f"Warning: Histogram {name} is None and was not written.")
+        except Exception as e:
+            print(f"Error writing histogram {name}: {e}")
+            print(f"{color.Error}TRACEBACK: \n{color.END_B}{str(traceback.format_exc())}{color.END}\n")
+    
     Full_Crash_Check = "n"
     # Full_Crash_Check = "y"
     
@@ -6206,7 +6459,8 @@ pipPhi += 25;""", ""), "return tempsec;"]))
         if('pi+' in Delta_P_histo_CompareList and Delta_Pip_histo_Q == 'y'):
             for saving_Dp_pip_name in Dmom_pip_Histo:
                 if(SaveResultsQ == 'yes'):
-                    Dmom_pip_Histo[saving_Dp_pip_name].Write()
+                    # Dmom_pip_Histo[saving_Dp_pip_name].Write()
+                    safe_write(Dmom_pip_Histo[saving_Dp_pip_name], f"Dmom_pip_Histo[{saving_Dp_pip_name}]")
                 elif(CheckDataFrameQ == "y"):
                     print("".join(["Dmom_pip_Histo[", str(saving_Dp_pip_name), "]"]))
                 elif(Full_Crash_Check == "y"):
@@ -6217,7 +6471,8 @@ pipPhi += 25;""", ""), "return tempsec;"]))
         if('pro' in Delta_P_histo_CompareList and Delta_Pro_histo_Q == 'y'):
             for saving_Dp_pro_name in Dmom_pro_Histo:
                 if(SaveResultsQ == 'yes'):
-                    Dmom_pro_Histo[saving_Dp_pro_name].Write()
+                    # Dmom_pro_Histo[saving_Dp_pro_name].Write()
+                    safe_write(Dmom_pro_Histo[saving_Dp_pro_name], f"Dmom_pro_Histo[{saving_Dp_pro_name}]")
                 elif(CheckDataFrameQ == "y"):
                     print("".join(["Dmom_pro_Histo[", str(saving_Dp_pro_name), "]"]))
                 elif(Full_Crash_Check == "y"):
@@ -6227,7 +6482,8 @@ pipPhi += 25;""", ""), "return tempsec;"]))
         if('el' in Delta_P_histo_CompareList and Delta_Pel_histo_Q == 'y'):
             for saving_Dp_pel_name in Dmom_pel_Histo:
                 if(SaveResultsQ == 'yes'):
-                    Dmom_pel_Histo[saving_Dp_pel_name].Write()
+                    # Dmom_pel_Histo[saving_Dp_pel_name].Write()
+                    safe_write(Dmom_pel_Histo[saving_Dp_pel_name], f"Dmom_pel_Histo[{saving_Dp_pel_name}]")
                 elif(CheckDataFrameQ == "y"):
                     print("".join(["Dmom_pel_Histo[", str(saving_Dp_pel_name), "]"]))
                 elif(Full_Crash_Check == "y"):
@@ -6245,7 +6501,8 @@ pipPhi += 25;""", ""), "return tempsec;"]))
     if(event_type == "ES"):
         for saving_DAngle_name in Dmom_Angle_Histo:
             if(SaveResultsQ == 'yes'):
-                Dmom_Angle_Histo[saving_DAngle_name].Write()
+                # Dmom_Angle_Histo[saving_DAngle_name].Write()
+                safe_write(Dmom_Angle_Histo[saving_DAngle_name], f"Dmom_Angle_Histo[{saving_DAngle_name}]")
             elif(CheckDataFrameQ == "y"):
                 print("".join(["Dmom_Angle_Histo[", str(saving_DAngle_name), "]"]))
             elif(Full_Crash_Check == "y"):
@@ -6260,7 +6517,8 @@ pipPhi += 25;""", ""), "return tempsec;"]))
     if(Run_Missing_Mass_Histos == "yes"):
         for saving_MM_name in hmmCPARTall:
             if(SaveResultsQ == 'yes'):
-                hmmCPARTall[saving_MM_name].Write()
+                # hmmCPARTall[saving_MM_name].Write()
+                safe_write(hmmCPARTall[saving_MM_name], f"hmmCPARTall[{saving_MM_name}]")
             elif(CheckDataFrameQ == "y"):
                 print("".join(["hmmCPARTall[", str(saving_MM_name), "]"]))
             elif(Full_Crash_Check == "y"):
@@ -6274,7 +6532,8 @@ pipPhi += 25;""", ""), "return tempsec;"]))
     if(Run_Phase_Space == 'yes'):
         for saving_th_name in Histo_P_v_Th:
             if(SaveResultsQ == 'yes'):
-                Histo_P_v_Th[saving_th_name].Write()
+                # Histo_P_v_Th[saving_th_name].Write()
+                safe_write(Histo_P_v_Th[saving_th_name], f"Histo_P_v_Th[{saving_th_name}]")
             elif(CheckDataFrameQ == "y"):
                 print("".join(["Histo_P_v_Th[", str(saving_th_name), "]"]))
             elif(Full_Crash_Check == "y"):
@@ -6283,7 +6542,8 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
         for saving_Phi_name in Histo_P_v_Phi:
             if(SaveResultsQ == 'yes'):
-                Histo_P_v_Phi[saving_Phi_name].Write()
+                # Histo_P_v_Phi[saving_Phi_name].Write()
+                safe_write(Histo_P_v_Phi[saving_Phi_name], f"Histo_P_v_Phi[{saving_Phi_name}]")
             elif(CheckDataFrameQ == "y"):
                 print("".join(["Histo_P_v_Phi[", str(saving_Phi_name), "]"]))
             elif(Full_Crash_Check == "y"):
@@ -6292,7 +6552,8 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
         for saving_thPhi_name in Histo_Th_v_Phi:
             if(SaveResultsQ == 'yes'):
-                Histo_Th_v_Phi[saving_thPhi_name].Write()
+                # Histo_Th_v_Phi[saving_thPhi_name].Write()
+                safe_write(Histo_Th_v_Phi[saving_thPhi_name], f"Histo_Th_v_Phi[{saving_thPhi_name}]")
             elif(CheckDataFrameQ == "y"):
                 print("".join(["Histo_Th_v_Phi[", str(saving_thPhi_name), "]"]))
             elif(Full_Crash_Check == "y"):
@@ -6304,7 +6565,8 @@ pipPhi += 25;""", ""), "return tempsec;"]))
     if(Run_Invariant_Mass_Histos == 'yes'):
         for saving_WM_name in HWC_Histo_All:
             if(SaveResultsQ == 'yes'):
-                HWC_Histo_All[saving_WM_name].Write()
+                # HWC_Histo_All[saving_WM_name].Write()
+                safe_write(HWC_Histo_All[saving_WM_name], f"HWC_Histo_All[{saving_WM_name}]")
             elif(CheckDataFrameQ == "y"):
                 print("".join(["HWC_Histo_All[", str(saving_WM_name), "]"]))
             elif(Full_Crash_Check == "y"):
