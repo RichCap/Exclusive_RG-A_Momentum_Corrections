@@ -1,0 +1,39 @@
+Cuts for: Fall2018 - Pass 2 - EO - Outbending
+Made on 7/22/2024
+
+        Calculated_Exclusive_Cuts = "".join(["""        
+        // For Invariant Mass Cut (Outbending Fall 2018 (Pass 2) - Based on a 1.75*sigma and 2*sigma cuts on the Invarient Mass - Upper Cut is 1.75*sigma - Lower Cut is 2*sigma - Linear Functions of Momentum - No Phi dependence):
+        auto Beam_Energy = """, str(Beam_Energy), """;
+        auto Proton_Mass = """, str(Particle_Mass_Proton), """;
+        auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
+        auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, Proton_Mass);
+        auto eleC = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+        auto Cut_Variable = (beam + targ - eleC).M();
+        auto Upper_Cut = 1.3;
+        auto Lower_Cut = 0.7;
+        if(esec == 1){
+            Upper_Cut = (-0.0471233)*el + (1.5390961);
+            Lower_Cut =  (-0.0405884)*el + (1.1311165);
+        }
+        if(esec == 2){
+            Upper_Cut = (-0.0330434)*el + (1.4053451);
+            Lower_Cut =  (-0.0781353)*el + (1.4513767);
+        }
+        if(esec == 3){
+            Upper_Cut = (0.0218953)*el + (0.8750734);
+            Lower_Cut =  (-0.0631136)*el + (1.3075803);
+        }
+        if(esec == 4){
+            Upper_Cut = (-0.0328351)*el + (1.4028829);
+            Lower_Cut =  (-0.0529724)*el + (1.2341513);
+        }
+        if(esec == 5){
+            Upper_Cut = (-0.0527261)*el + (1.5628387);
+            Lower_Cut =  (0.0180793)*el + (0.5865123);
+        }
+        if(esec == 6){
+            Upper_Cut = (-0.0503412)*el + (1.5754511);
+            Lower_Cut =  (-0.0676014)*el + (1.3853758);
+        } 
+        return ((Cut_Variable < Upper_Cut) && (Cut_Variable > Lower_Cut));
+        """])

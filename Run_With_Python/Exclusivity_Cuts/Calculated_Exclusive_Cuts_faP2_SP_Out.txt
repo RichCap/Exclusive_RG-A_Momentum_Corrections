@@ -1,0 +1,138 @@
+Cuts for: Fall2018 - Pass 2 - SP - Outbending
+Made on 7/22/2024
+
+                Calculated_Exclusive_Cuts = "".join(["""
+                    auto beam = ROOT::Math::PxPyPzMVector(0, 0, """,    str(Beam_Energy),          """, 0);
+                    auto targ = ROOT::Math::PxPyPzMVector(0, 0, 0, """, str(Particle_Mass_Proton), """);
+                    auto ele  = ROOT::Math::PxPyPzMVector(ex, ey, ez, 0);
+                    auto pip0 = ROOT::Math::PxPyPzMVector(pipx, pipy, pipz, """, str(Particle_Mass_PiC), """);
+
+                    auto MM_Vector = beam + targ - ele - pip0;
+
+                    auto cut_upper = 1.1;
+                    auto cut_lower = 0;
+                
+                    if(esec == 1){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (0.00085)*el + (1.0155684);
+                            // Lower Cut
+                            cut_lower = (0.005)*el + (0.8454096);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (-0.0019918)*el + (1.046896);
+                            // Lower Cut
+                            cut_lower = (-0.0034129)*el + (0.9109);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (0.0032537)*el + (1.0025544);
+                            // Lower Cut
+                            cut_lower = (0.005685)*el + (0.8401328);
+                        }
+                    }
+                    if(esec == 2){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (0.0025)*el + (1.0055498);
+                            // Lower Cut
+                            cut_lower = (0.005)*el + (0.835088);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (0.0014575)*el + (1.0154591);
+                            // Lower Cut
+                            cut_lower = (0.005)*el + (0.8392825);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (0.0056568)*el + (0.9868502);
+                            // Lower Cut
+                            cut_lower = (0.0053837)*el + (0.8357672);
+                        }
+                    }
+                    if(esec == 3){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (0.0036459)*el + (0.9991959);
+                            // Lower Cut
+                            cut_lower = (0.0061)*el + (0.8284471);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (0.0034006)*el + (1.0023044);
+                            // Lower Cut
+                            cut_lower = (-0.004)*el + (0.9008054);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (0.0035806)*el + (0.9979392);
+                            // Lower Cut
+                            cut_lower = (-0.0022576)*el + (0.8911326);
+                        }
+                    }
+                    if(esec == 4){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (0.0030531)*el + (1.0085585);
+                            // Lower Cut
+                            cut_lower = (0.0044807)*el + (0.853999);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (0.003645)*el + (1.0080695);
+                            // Lower Cut
+                            cut_lower = (0.0051523)*el + (0.8527973);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (0.0025041)*el + (1.0165799);
+                            // Lower Cut
+                            cut_lower = (-0.0011222)*el + (0.8952631);
+                        }
+                    }
+                    if(esec == 5){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (0.0034878)*el + (0.9961862);
+                            // Lower Cut
+                            cut_lower = (0.0060497)*el + (0.8301999);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (0.0007298)*el + (1.0183639);
+                            // Lower Cut
+                            cut_lower = (0.0061)*el + (0.8341237);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (0.0039543)*el + (0.9949684);
+                            // Lower Cut
+                            cut_lower = (0.0061)*el + (0.8317604);
+                        }
+                    }
+                    if(esec == 6){
+                        if(localelPhiS > -5 && localelPhiS < 5){
+                            // Upper Cut
+                            cut_upper = (0.0033861)*el + (1.0031917);
+                            // Lower Cut
+                            cut_lower = (-0.0018161)*el + (0.8921721);
+                        }
+                        if(localelPhiS < -5){
+                            // Upper Cut
+                            cut_upper = (0.003861)*el + (1.0051496);
+                            // Lower Cut
+                            cut_lower = (0.0060277)*el + (0.8343964);
+                        }
+                        if(localelPhiS > 5){
+                            // Upper Cut
+                            cut_upper = (0.0040587)*el + (1.0039831);
+                            // Lower Cut
+                            cut_lower = (0.0051184)*el + (0.8465);
+                        }
+                    }  
+
+                    return (MM_Vector.M() < cut_upper && MM_Vector.M() > cut_lower);
+
+                """])
