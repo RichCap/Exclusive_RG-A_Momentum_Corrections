@@ -1,13 +1,13 @@
 #!/bin/bash
 #SBATCH --ntasks=1
-#SBATCH --job-name=fa2EO_MomC_Out_Fall2018_P2_New_Out_V5_7_22_2024_R1
+#SBATCH --job-name=fa2EO_MomC_Out_Fall2018_P2_New_Out_V5_7_22_2024_R2
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=richard.capobianco@uconn.edu 
 #SBATCH --output=/farm_out/%u/%x-%A_%a-%j-%N.out
 #SBATCH --error=/farm_out/%u/%x-%A_%a-%j-%N.err
 #SBATCH --partition=production
 #SBATCH --account=clas12
-#SBATCH --mem-per-cpu=8000
+#SBATCH --mem-per-cpu=4000
 #SBATCH --time=1:00:00
 #SBATCH --array=0-180
 
