@@ -10,7 +10,6 @@ ll, ll2 = ROOT.TLine(), ROOT.TLine()
 ll.SetLineColor(2)
 ll2.SetLineColor(1)
 
-# from File_Search_Script                 import *
 from Extra_Functions_for_Histo_Creation import *
 
 
@@ -20,27 +19,27 @@ Selection_of_In_or_Out = "Outbending"
 # Selection_Data_Set = "Fall2018"
 Selection_Data_Set = "Fall2018_Pass2"
 # Selection_Data_Set = "Fall2018_Pass2_Central"
-# Selection_Data_Set = "Fall2018_Pass2_Forward"
+Selection_Data_Set = "Fall2018_Pass2_Forward"
 # Selection_Data_Set = "Spring2019_Pass2"
 # Selection_Data_Set = "Spring2019_Pass1"
-# event_type = "SP" # Single Pion Channel (ep->eπ+N)
-# MM_type = "epipX" # Use for single pion channel (select with event_type = "SP")
+event_type = "SP" # Single Pion Channel (ep->eπ+N)
+MM_type = "epipX" # Use for single pion channel (select with event_type = "SP")
 
-event_type = "EO" # Single Pion Channel (ep->eπ+N)
-MM_type = "eX" # Use for single pion channel (select with event_type = "SP")
+# event_type = "EO" # Single Pion Channel (ep->eπ+N)
+# MM_type = "eX" # Use for single pion channel (select with event_type = "SP")
 
 Single_Histogram_Canvas, histo_search_count_single = {}, {}
 
 # Single_EvntType = "DP"
 # Single_EvntType = "P0"
 Single_EvntType = "EO"
-# Single_EvntType = "SP"
+Single_EvntType = "SP"
 Single_Bending_Type = "Inbending"
 Single_Bending_Type = "Outbending"
 # Single_Data_Run = "Fall2018"
 Single_Data_Run = "Fall2018_Pass2"
 # Single_Data_Run = "Fall2018_Pass2_Central"
-# Single_Data_Run = "Fall2018_Pass2_Forward"
+Single_Data_Run = "Fall2018_Pass2_Forward"
 # Single_Data_Run = "Spring2019_Pass1_Central"
 # Single_Data_Run = "Spring2019_Pass2_Central"
 # Single_Data_Run = "Spring2019_Pass2"
@@ -51,7 +50,7 @@ Particle_Search = "el"
 
 Use_Missing_Mass_Plots = not True
 
-Use_Invariant_Mass_Plots = True
+Use_Invariant_Mass_Plots = not True
 
 Make_MM_Cuts = True
 if((not Use_Missing_Mass_Plots) and (not Use_Invariant_Mass_Plots)):
@@ -255,12 +254,15 @@ def Filter_Conditions_Single(Input):
 #     if("mm0_ELPipMM0" not in str(Input)):
 #         Condition_list.append(True)
 
-    if("mm0'" not in str(Input)):
-        Condition_list.append(True)
+#     if("mm0'" not in str(Input)):
+#         Condition_list.append(True)
 
 
     if(Make_MM_Cuts):
-        if("mm0" not in str(Input)):
+        if("mm0'" not in str(Input)):
+            Condition_list.append(True)
+    else:
+        if("mm0_ELPipMM0" not in str(Input)):
             Condition_list.append(True)
 
     return Condition_list
@@ -874,6 +876,8 @@ for loop_test in ["Ignore_These_Loops"]:
                         Save_Name = str(str(Save_Name.replace("'el'_'el'", "el")).replace("'pip'_'pip'", "pip")).replace("'", "")
                         Save_Name = str(Save_Name.replace("__", "_"))
                         Save_Name = f"Single_Plot_Version_{Save_Name}"
+                        Save_Name = str(Save_Name.replace("Histom", "Histo_m"))
+                        Save_Name = str(Save_Name.replace("1_regall", ""))
                         if(Make_MM_Cuts):
                             Save_Name = Save_Name.replace("Norm", "MM_Cuts" if(Single_EvntType not in ["EO"]) else "WM_Cuts")
                         Single_Histogram_Canvas[Canvas_Name].SaveAs(Save_Name)

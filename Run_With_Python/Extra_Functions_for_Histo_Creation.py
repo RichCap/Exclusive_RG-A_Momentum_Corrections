@@ -557,3 +557,117 @@ def Continue_Loops(In_Name, Cut_Name_In="Not_Defined", Correction_Name_In="Not_D
             Continue_Conditions.append(("P0" in EVENTS and Region_Option_In != 'regall'))
             
     return Continue_Conditions
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+###################################################################################################################
+#####==========#####==========#######################################################==========#####==========#####
+#####==========#####==========#####     Conditions for Combining Histograms     #####==========#####==========#####
+#####==========#####==========#######################################################==========#####==========#####
+###################################################################################################################
+
+def Correction_Histo_Loop_Conditions(histo_ID, CD_Check, Sector=1, Region="regall", Particle_Option="el", HistoType="Delta"):
+    
+    Continue_Conditions = ["Cut Conditions failed: "]
+    
+    try:
+        if(CD_Check == "error"):
+            # print("Cut 1")
+            Continue_Conditions.append("Cut 1")
+            Continue_Conditions.append(True)
+    except:
+        print(f"{color.Error}{str(traceback.format_exc())}{color.END}")
+    
+    if("Dmom" in histo_ID or HistoType == "Delta"):
+        # ∆P Cuts (Electron)
+        if("Dmom_pel" not in str(histo_ID) and Particle_Option == "el"):
+            # print("Cut: ELECTRON ONLY")
+            Continue_Conditions.append("Cut: ELECTRON ONLY")
+            Continue_Conditions.append(True)
+        # ∆P Cuts (Pion)
+        if("Dmom_pip" not in str(histo_ID) and Particle_Option == "pip"):
+            # print("Cut: Pi+ ONLY")
+            Continue_Conditions.append("Cut: Pi+ ONLY")
+            Continue_Conditions.append(True)
+        # ∆P Cuts (Proton)
+        if("Dmom_pro" not in str(histo_ID) and Particle_Option == "pro"):
+            # print("Cut: Pro ONLY")
+            Continue_Conditions.append("Cut: Pro ONLY")
+            Continue_Conditions.append(True)
+
+        if(Region not in str(histo_ID) or (Particle_Option == "pip" and "regall" == Region and ("reg1" in str(histo_ID) or "reg2" in str(histo_ID) or "reg3" in str(histo_ID)))):
+            # print("Cut: Region Cut")
+            Continue_Conditions.append("Cut: Region Cut")
+            Continue_Conditions.append(True)
+            
+        if("Dmom_pel" in str(histo_ID) and ("regall" not in str(histo_ID) or Region not in str(histo_ID))):
+            # print("Cut: Region Cut (∆P_El)")
+            Continue_Conditions.append("Cut: Region Cut (∆P_El)")
+            Continue_Conditions.append(True)
+            
+    else:
+        if(Particle_Option == "el" and Particle_Option not in str(histo_ID)):
+            # print("Cut: MISSING ELECTRON PARTICLE")
+            Continue_Conditions.append("Cut: MISSING ELECTRON PARTICLE")
+            Continue_Conditions.append(True)
+        if(Particle_Option == "pip" and Particle_Option not in str(histo_ID)):
+            # print("Cut: MISSING Pi+ PARTICLE")
+            Continue_Conditions.append("Cut: MISSING Pi+ PARTICLE")
+            Continue_Conditions.append(True)
+        if(Particle_Option == "pro" and Particle_Option not in str(histo_ID)):
+            # print("Cut: MISSING Pro PARTICLE")
+            Continue_Conditions.append("Cut: MISSING Pro PARTICLE")
+            Continue_Conditions.append(True)
+        if(Particle_Option not in str(histo_ID)):
+            # print("Cut: MISSING PARTICLE (GENERAL)")
+            Continue_Conditions.append("Cut: MISSING PARTICLE (GENERAL)")
+            Continue_Conditions.append(True)
+        if("reg1" not in str(histo_ID)):
+            # print("Cut: Region Cut (Missing Mass)")
+            Continue_Conditions.append("Cut: Region Cut (Missing Mass)")
+            Continue_Conditions.append(True)        
+
+    if(("EO" in str(histo_ID)) and ((("mmRP2" not in str(histo_ID)) and ("mmP2" not in str(histo_ID)) and ("mmF" not in str(histo_ID)) and ("mmEF" not in str(histo_ID)) and ("mm0" not in str(histo_ID))) or "Basic" in str(histo_ID))):
+        # print("Cut: Correction Cuts (Elastic)")
+        Continue_Conditions.append("Cut: Correction Cuts (Elastic)")
+        Continue_Conditions.append(True)
+
+    # if(("mmF" not in str(histo_ID) or "mmEF" not in str(histo_ID)) and "mm0" not in str(histo_ID)): #or "PipMM" in str(histo_ID)):
+    #     # print("Cut: Correction Cuts")
+    #     Continue_Conditions.append("Cut: Correction Cuts")
+    #     Continue_Conditions.append(True)
+
+    if("SP" not in str(histo_ID) and "DP" not in str(histo_ID)):
+        # print("Cut: Single/Double Pion Cut")
+        Continue_Conditions.append("Cut: Single/Double Pion Cut")
+        Continue_Conditions.append(True)
+
+    return Continue_Conditions

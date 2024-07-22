@@ -30,13 +30,13 @@ def Print_Correction_Function(h2D, h2DName, CorrectionNameIn, Sector, Particle, 
             try:
                 hist_in_use = h2D[str((h2DName, "both"))]
             except:
-                print(color.RED + "\n\n\nFAILED TO GET THE RIGHT ∆P (PROTON) HISTOGRAM...\n\n" + color.END)
+                print(f"{color.RED}\n\n\nFAILED TO GET THE RIGHT ∆P (PROTON) HISTOGRAM...\n\n{color.END}")
                 hist_in_use = h2D[h2DName].gr2
         else:
             try:
                 hist_in_use = h2D[h2DName].gr2
             except:
-                print(color.RED + "\n\n\nERROR IN GETTING THE CORRECT ∆P HISTOGRAM...\n\n" + color.END)
+                print(f"{color.RED}\n\n\nERROR IN GETTING THE CORRECT ∆P HISTOGRAM...\n\n{color.END}")
                 hist_in_use = h2D
     else:
         hist_in_use = h2D
@@ -139,7 +139,7 @@ def Print_Correction_Function(h2D, h2DName, CorrectionNameIn, Sector, Particle, 
             # line2 = "".join(["dp = ", "dp + " if('Pro'     in CorrectionNameIn) else "", correction])
             line2 = "".join(["dp = ", "dp + " if('Pro'      in CorrectionNameIn) else                                       "", correction])
         
-        line2 = "".join(["dp = ",     "dp + " if('Pro'     in CorrectionNameIn) else "", correction])
+        line2 = "".join(["dp = ",     "dp + " if('Pro'      in CorrectionNameIn) else "", correction])
         
         outputListforTXT.append(line2)
         print(line2)
@@ -501,7 +501,7 @@ def PhiCor_Function(canvas_name, HistoBinC, HistoBinN, HistoBinP, Sector, Partic
 
                     
 
-            gCor_Par["_".join([name_2, str(Sector)])].Fit(Phi_Fit_Function)
+            gCor_Par["_".join([name_2, str(Sector)])].Fit(Phi_Fit_Function, "Q")
 
             cCor_Phi[name_2].Update()
             
