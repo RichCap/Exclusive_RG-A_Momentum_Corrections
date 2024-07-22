@@ -947,6 +947,12 @@ if(event_Name != "error"):
                 # Still using the reduced histogram options to increase the speed at which this code runs while the new electron corrections are being developed (i.e., no pion plots are being made)
             # Updated the elastic scattering/Single Pion channel cuts (based on "_Fall2018_P2_New_Out_V2")
                 # Made with new 'Run_With_Python' scripts (images and cuts saved in that folder)
+                
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V5"
+        # Ran on 7/22/2024
+            # Added new (Outbending) Electron Momentum Correction (called "mmfaP2")
+                # Includes 3 points from EO channel instead of just 1
+            # Running with Pion plots again
             
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
@@ -1490,7 +1496,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
         if("mmRP2"  in corEl):
             coutN = 5
         if("mmfaP2" in corEl):
-            coutN = 6
+            coutN = 6 if("Out" not in datatype) else 4
 
         return coutN
 
@@ -5132,7 +5138,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
         if(datatype == "Outbending"):
             # Delta_P_histo_CorList = ['mm0', 'mmEF', 'mmExF', 'mmEF_PipMMEF', 'mmExF_PipMMExF']
             Delta_P_histo_CorList = ['mm0', 'mmEF', 'mmEF_PipMMEF']
-            Delta_P_histo_CorList = ['mm0']
+            Delta_P_histo_CorList = ['mm0', 'mmfaP2']
             
         if("Pass 2" in str(pass_version)):
             Delta_P_histo_CorList_TEMP = Delta_P_histo_CorList
@@ -5149,7 +5155,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
         # # Select which comparisons you would like to see (i.e. which variables would you like to compare to the theoretical calculations)
         Delta_P_histo_CompareList = ['pi+', 'el']   # Show both corrections
-        Delta_P_histo_CompareList = ['el']          # Electron Corrections only
+        # Delta_P_histo_CompareList = ['el']          # Electron Corrections only
         # Delta_P_histo_CompareList = ['pi+']         # Pi+ Corrections only
             
             
@@ -5200,7 +5206,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                 
                 
         if(datatype == "Outbending"):
-            Delta_P_histo_CorList = ['mm0', 'mmEF'] if("Pass 2" not in str(pass_version)) else ['mm0']
+            Delta_P_histo_CorList = ['mm0', 'mmEF'] if("Pass 2" not in str(pass_version)) else ['mm0', 'mmfaP2']
 
         Delta_P_histo_CompareList = ['el']
 
