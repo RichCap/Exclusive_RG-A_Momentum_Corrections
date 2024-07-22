@@ -1,3 +1,5 @@
+import ROOT
+
 class color:
     CYAN      = '\033[96m'
     PURPLE    = '\033[95m'
@@ -288,3 +290,177 @@ def corNameTitles(CorrectionNameIn, Form="Default", EVENT_TYPE="SP", BENDING_TYP
     ##===================================================================================================##
     ##==========##==========##     Function for Correction Title Names (End)     ##==========##==========##
     ##===================================================================================================##
+    
+    
+    
+    
+    
+##########################################################################################################
+##==========##==========##     From: Momentum_Corrections_Github_Main.ipynb     ##==========##==========##
+##########################################################################################################
+    
+    ##==========================================================================================##
+    ##==========##==========##        General Use Functions/Code        ##==========##==========##
+    ##==========================================================================================##
+    
+def Canvas_Create(Name="test", Num_Columns=3, Num_Rows=2, Size_X=600, Size_Y=800, cd_Space=0):
+    canvas_test = ROOT.TCanvas(str(Name), str(Name), Size_X, Size_Y)
+    canvas_test.Divide(Num_Columns, Num_Rows, cd_Space, cd_Space)
+    canvas_test.SetGrid()
+    ROOT.gStyle.SetAxisColor(16, 'xy')
+    ROOT.gStyle.SetOptStat(0)
+    ROOT.gStyle.SetOptFit(1)
+    return canvas_test
+
+
+def plot_colors(Region, Correction="Corrected", OutPut_Q="All"):
+    reg_color    = root_color.Black    if(Region in ["regall", "reg1", "Center"]) else root_color.Red  if(Region in ["reg2", "Negative"]) else root_color.Green if(Region in ["reg3", "Positive"]) else "error"
+    line_style   = 1
+    marker_style = 8
+    if(Correction in ["mm0", "No Correction", "Uncorrected"]):
+        reg_color    = root_color.Grey if(Region in ["regall", "reg1", "Center"]) else root_color.Rust if(Region in ["reg2", "Negative"]) else root_color.DGreen if(Region in ["reg3", "Positive"]) else "error"
+        line_style   = 9
+        marker_style = 1
+    if(reg_color == "error"):
+        print(f"{color.RED}\nColor Error\n{color.END}")
+        reg_color = root_color.Black
+    if(OutPut_Q == "All"):
+        return [reg_color, line_style, marker_style]
+    elif("color"  in OutPut_Q or "Color"  in OutPut_Q):
+        return reg_color
+    elif("line"   in OutPut_Q or "Line"   in OutPut_Q):
+        return line_style
+    elif("marker" in OutPut_Q or "Marker" in OutPut_Q):
+        return marker_style
+    else:
+        print(f"{color.RED}\nOutput Error?\n{str(OutPut_Q)}\n{color.END}")
+        return [reg_color, line_style, marker_style]
+        
+    
+def palette_move(canvas, histo, x_left, x_right, y_up, y_down):
+        palette_test = 0
+        canvas.Modified()
+        canvas.Update()
+        while(palette_test < 4 and palette_test != -1):
+            try:
+                palette_histo = histo.GetListOfFunctions().FindObject("palette")
+                palette_histo.SetX1NDC(0.905 + x_left)
+                palette_histo.SetX2NDC(0.925 + x_right)
+                palette_histo.SetY1NDC(0.1 + y_down)
+                palette_histo.SetY2NDC(0.9 + y_up)
+                canvas.Modified()
+                canvas.Update()
+                palette_test = -1
+            except:
+                palette_test += 1
+        if(palette_test > 0):
+            print("\nFailed to move palette...")
+              
+    
+def Draw_Canvas(canvas, cd_num=1, left_add=0, right_add=0, up_add=0, down_add=0):
+    canvas.cd(cd_num)
+    canvas.cd(cd_num).SetLeftMargin(0.05 + left_add)
+    canvas.cd(cd_num).SetRightMargin(0.05 + right_add)
+    canvas.cd(cd_num).SetTopMargin(0.1 + up_add)
+    canvas.cd(cd_num).SetBottomMargin(0.1 + down_add)
+    
+    
+def statbox_move(Histogram, Canvas, Default_Stat_Obj, Sector=1, Print_Method="norm", Y1_add=0, Y2_add=0, X1_add=0, X2_add=0):
+    finding, search = 0, 0
+    Canvas.Modified()
+    Canvas.Update()
+    while(finding == 0 and search < 5):
+        if(Default_Stat_Obj == ""):
+            Default_Stat_Obj = Histogram.GetListOfFunctions().FindObject("stats")
+        if("TPaveStats" not in str(type(Default_Stat_Obj))):
+            try:
+                Default_Stat_Obj = Histogram.GetListOfFunctions().FindObject("stats")# Default_Stat_Obj.FindObject("stats")
+            except Exception as e:
+                print(color.RED + str(e) + color.END)
+        try:
+            if(Print_Method == "DP_1D"):                
+                Default_Stat_Obj.SetY1NDC(0.12)
+                Default_Stat_Obj.SetY2NDC(0.45)
+                Default_Stat_Obj.SetX1NDC(0.12)
+                Default_Stat_Obj.SetX2NDC(0.43)
+            if(Print_Method == "MM_1D"):
+                Default_Stat_Obj.SetY1NDC(0.12)
+                Default_Stat_Obj.SetY2NDC(0.45)
+                Default_Stat_Obj.SetX1NDC(0.12)
+                Default_Stat_Obj.SetX2NDC(0.43)
+            if(Print_Method == "off"):
+                Default_Stat_Obj.SetY1NDC(0)
+                Default_Stat_Obj.SetY2NDC(0)
+                Default_Stat_Obj.SetX1NDC(0)
+                Default_Stat_Obj.SetX2NDC(0)
+            if(Print_Method == "norm"):
+                Default_Stat_Obj.SetY1NDC(0.05 + Y1_add)
+                Default_Stat_Obj.SetY2NDC(0.25 + Y2_add)
+                Default_Stat_Obj.SetX1NDC(0.15 + X1_add)
+                Default_Stat_Obj.SetX2NDC(0.45 + X2_add)
+            if(Print_Method == "ver"):
+                Default_Stat_Obj.SetY1NDC(0.05 + Y1_add)
+                Default_Stat_Obj.SetY2NDC(0.25 + Y2_add)
+                if(Sector != -1):
+                    if(Sector > 4):
+                        Default_Stat_Obj.SetY1NDC(0.15 + Y1_add)
+                        Default_Stat_Obj.SetY2NDC(0.25 + Y2_add)
+                    if(Sector%2 == 0):
+                        Default_Stat_Obj.SetX1NDC(0.05 + X1_add)
+                        Default_Stat_Obj.SetX2NDC(0.35 + X2_add)
+                    else:
+                        Default_Stat_Obj.SetX1NDC(0.15 + X1_add)
+                        Default_Stat_Obj.SetX2NDC(0.45 + X2_add)
+            if(Print_Method == "hor"):
+                Default_Stat_Obj.SetY1NDC(0.05 + Y1_add)
+                Default_Stat_Obj.SetY2NDC(0.25 + Y2_add)
+                if(Sector != -1):
+                    if(Sector > 3):
+                        Default_Stat_Obj.SetY1NDC(0.15 + Y1_add)
+                        Default_Stat_Obj.SetY2NDC(0.35 + Y2_add)
+                    if(Sector != 1 and Sector != 4):
+                        Default_Stat_Obj.SetX1NDC(0.05 + X1_add)
+                        Default_Stat_Obj.SetX2NDC(0.35 + X2_add)
+                    else:
+                        Default_Stat_Obj.SetX1NDC(0.15 + X1_add)
+                        Default_Stat_Obj.SetX2NDC(0.45 + X2_add)
+            Default_Stat_Obj.Draw("same")
+            Canvas.Modified()
+            Canvas.Update()
+            finding += 1
+        except Exception as e:
+            Canvas.Modified()
+            Canvas.Update()
+            if(search > 2):
+                print(f"{color.RED}Search is Failing... ({str(search)}){color.END}\nError: {str(e)}")
+                fail
+            finding = 0
+            search += 1
+    if(search > 4):
+        print("Failed search")
+        
+
+def print_rounded_str(number=0, rounding=0):
+    try:
+        if(rounding != 0 and abs(number) >= 0.001):
+            output = round(number, rounding)
+            output = "".join(["{:.", str(rounding), "}"]).format(float(number))
+            # print("round")
+        elif(rounding != 0):
+            output = "".join(["{:.", str(rounding-1), "e}"]).format(float(number))
+            # print("science")
+        else:
+            # print("other")
+            output = number
+            
+        return output
+    
+    except Exception as e:
+        print("".join([color.Error, "Error: number = ", str(output), " is not accepted", " --> failed to round input..." if(rounding != 0) else "", "\nERROR Output Is: \n", str(e), "\nTraceback: ", str(traceback.format_exc()), color.END]))
+        return number
+    
+    ##==========================================================================================##
+    ##==========##==========##     General Use Functions/Code (End)     ##==========##==========##
+    ##==========================================================================================##
+    
+    
