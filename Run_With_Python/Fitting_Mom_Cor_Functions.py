@@ -1253,8 +1253,8 @@ def Merge_Histos(TGE1, TGE2, option="Default", Num_Overlap=2):
         #         break
         # print("Total : " + str(TGE2.GetN() + 1))
         for TGE2_Entry in range(TGE2.GetN() - non_overlapped_points, TGE2.GetN(), 1):
-            Merged_Histo.SetPoint(Merged_Histo.GetN(), TGE2.GetPointX(TGE2_Entry), TGE2.GetPointY(TGE2_Entry))
-            Merged_Histo.SetPointError(Merged_Histo.GetN() - 1, TGE2.GetErrorX(TGE2_Entry), TGE2.GetErrorY(TGE2_Entry))
+            Merged_Histo.SetPoint(Merged_Histo.GetN(),              TGE2.GetPointX(TGE2_Entry),     TGE2.GetPointY(TGE2_Entry))
+            Merged_Histo.SetPointError(Merged_Histo.GetN() - 1, 1.5*TGE2.GetErrorX(TGE2_Entry), 1.5*TGE2.GetErrorY(TGE2_Entry))
         # print("Done with: " + str(Merged_Histo.GetTitle()))
     return Merged_Histo
 
