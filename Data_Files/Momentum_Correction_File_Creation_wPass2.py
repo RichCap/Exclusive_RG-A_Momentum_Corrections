@@ -6,6 +6,7 @@ import traceback
 from CommonPythonFunctions import *
 from TextOfCorrectionCode  import *
 
+import sys
 from sys import argv
 # Let there be 4 arguements in argv when running this code
 
@@ -953,6 +954,12 @@ if(event_Name != "error"):
             # Added new (Outbending) Electron Momentum Correction (called "mmfaP2")
                 # Includes 3 points from EO channel instead of just 1
             # Running with Pion plots again
+            
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V6"
+        # Ran on 7/23/2024
+            # Refined the (Outbending) Electron Momentum Correction (still called "mmfaP2")
+                # Includes 2 points from EO channel instead of just 3, and modified the error bars of the EO channel to be 1.5 times bigger than the SP channel to be more balanced between the two - SP is more important than EO)
+            # Running with Pion plots still (may move to pion corrections if the refinement continues to perform well)
             
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
@@ -5747,7 +5754,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
 
 
-
+    sys.stdout.flush()
     #=======================================================================================================================================================================================================================================================#
     #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
     #=======================================================================================================================================================================================================================================================#
