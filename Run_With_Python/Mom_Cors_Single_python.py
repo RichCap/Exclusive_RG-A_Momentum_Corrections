@@ -14,7 +14,7 @@ from Extra_Functions_for_Histo_Creation import *
 
 
 
-Selection_of_In_or_Out = "Inbending"
+# Selection_of_In_or_Out = "Inbending"
 Selection_of_In_or_Out = "Outbending"
 # Selection_Data_Set = "Fall2018"
 Selection_Data_Set = "Fall2018_Pass2"
@@ -22,11 +22,15 @@ Selection_Data_Set = "Fall2018_Pass2"
 Selection_Data_Set = "Fall2018_Pass2_Forward"
 # Selection_Data_Set = "Spring2019_Pass2"
 # Selection_Data_Set = "Spring2019_Pass1"
+
+
+# Selection_Data_Set = "Monte_Carlo_Pass2"
+
+event_type = "EO" # Single Pion Channel (ep->eπ+N)
+MM_type = "eX" # Use for single pion channel (select with event_type = "SP")
+
 event_type = "SP" # Single Pion Channel (ep->eπ+N)
 MM_type = "epipX" # Use for single pion channel (select with event_type = "SP")
-
-# event_type = "EO" # Single Pion Channel (ep->eπ+N)
-# MM_type = "eX" # Use for single pion channel (select with event_type = "SP")
 
 Single_Histogram_Canvas, histo_search_count_single = {}, {}
 
@@ -34,7 +38,7 @@ Single_Histogram_Canvas, histo_search_count_single = {}, {}
 # Single_EvntType = "P0"
 Single_EvntType = "EO"
 Single_EvntType = "SP"
-Single_Bending_Type = "Inbending"
+# Single_Bending_Type = "Inbending"
 Single_Bending_Type = "Outbending"
 # Single_Data_Run = "Fall2018"
 Single_Data_Run = "Fall2018_Pass2"
@@ -44,15 +48,17 @@ Single_Data_Run = "Fall2018_Pass2_Forward"
 # Single_Data_Run = "Spring2019_Pass2_Central"
 # Single_Data_Run = "Spring2019_Pass2"
 
+# Single_Data_Run = "Monte_Carlo_Pass2"
+
 # Particle_Search = "pro"
 Particle_Search = "el"
-# Particle_Search = "pip"
+Particle_Search = "pip"
 
 Use_Missing_Mass_Plots = not True
 
 Use_Invariant_Mass_Plots = not True
 
-Make_MM_Cuts = True
+Make_MM_Cuts = not True
 if((not Use_Missing_Mass_Plots) and (not Use_Invariant_Mass_Plots)):
     Make_MM_Cuts = False
 elif(Make_MM_Cuts):
@@ -262,7 +268,11 @@ def Filter_Conditions_Single(Input):
         if("mm0'" not in str(Input)):
             Condition_list.append(True)
     else:
-        if("mm0_ELPipMM0" not in str(Input)):
+        # if("mm0_ELPipMM0" not in str(Input)):
+        #     Condition_list.append(True)
+        if(("mmfaP2_ELPipMM0" not in str(Input)) and (Single_EvntType not in ["EO"])):
+            Condition_list.append(True)
+        if(("mmfaP2"          not in str(Input)) and (Single_EvntType     in ["EO"])):
             Condition_list.append(True)
 
     return Condition_list
@@ -481,7 +491,7 @@ for loop_test in ["Ignore_These_Loops"]:
                             Cut_Fit_Line_Upper[out_print].SetLineWidth(3)
                             Cut_Fit_Line_Upper[out_print].SetRange(histo_search_count_single[out_print].gr2_Cut_Range_Up.GetX()[0]     - Half_of_dR,                                                                      histo_search_count_single[out_print].gr2_Cut_Range_Up.GetX()[histo_search_count_single[out_print].gr2_Cut_Range_Up.GetN() - 1] + Half_of_dR)
                             
-                            if((Single_EvntType in ["EO"]) and ("Sector 3" in Histo_Title) and (Selection_of_In_or_Out in ["Outbending"]) and (Selection_Data_Set in ["Fall2018_Pass2"])):
+                            if((Single_EvntType in ["EO"]) and ("Sector 3" in Histo_Title) and (Selection_of_In_or_Out in ["Outbending"]) and (Selection_Data_Set in ["Fall2018_Pass2", "Monte_Carlo_Pass2"])):
                                 Cut_Fit_Line_Upper[out_print].SetRange(histo_search_count_single[out_print].gr2_Cut_Range_Up.GetX()[0] + Half_of_dR,                                                                      histo_search_count_single[out_print].gr2_Cut_Range_Up.GetX()[histo_search_count_single[out_print].gr2_Cut_Range_Up.GetN() - 1] + Half_of_dR)
                             
                             if("pol1" in str(Cut_Function_Upper)):
@@ -492,19 +502,19 @@ for loop_test in ["Ignore_These_Loops"]:
                                 Cut_Fit_Line_Upper[out_print].SetParLimits(0,  0, 2) # if(Single_EvntType not in ["EO"]) else 1.5)
                                 Cut_Fit_Line_Upper[out_print].SetParLimits(1, -1, 1)
                                 if(Single_EvntType in ["EO"]):
-                                    if((Selection_of_In_or_Out in ["Outbending"]) and (Selection_Data_Set in ["Fall2018_Pass2"])):
+                                    if((Selection_of_In_or_Out in ["Outbending"]) and (Selection_Data_Set in ["Fall2018_Pass2", "Monte_Carlo_Pass2"])):
                                         Cut_Fit_Line_Upper[out_print].SetParameter(1, -0.04)
                                         Cut_Fit_Line_Upper[out_print].SetParLimits(1, -0.06, -0.02)
                                         Cut_Fit_Line_Upper[out_print].SetParameter(0,  1.5)
                                         Cut_Fit_Line_Upper[out_print].SetParLimits(0,  0.75, 1.75)
-                                    if(("Sector 3" in Histo_Title) and (Selection_of_In_or_Out in ["Outbending"]) and (Selection_Data_Set in ["Fall2018_Pass2"])):
+                                    if(("Sector 3" in Histo_Title) and (Selection_of_In_or_Out in ["Outbending"]) and (Selection_Data_Set in ["Fall2018_Pass2", "Monte_Carlo_Pass2"])):
                                         # Cut_Fit_Line_Upper[out_print].SetParameter(1,  0.05)
                                         # Cut_Fit_Line_Upper[out_print].SetParLimits(1,  0, 0.1)
                                         Cut_Fit_Line_Upper[out_print].SetParameter(1,  0.02)
                                         Cut_Fit_Line_Upper[out_print].SetParLimits(1,  0, 0.03)
                                         Cut_Fit_Line_Upper[out_print].SetParameter(0,  0.6)
                                         Cut_Fit_Line_Upper[out_print].SetParLimits(0,  0.4, 1)
-                                elif((Selection_of_In_or_Out in ["Outbending"]) and (Selection_Data_Set in ["Fall2018_Pass2", "Fall2018_Pass2_Forward"])):
+                                elif((Selection_of_In_or_Out in ["Outbending"]) and (Selection_Data_Set in ["Fall2018_Pass2", "Fall2018_Pass2_Forward", "Monte_Carlo_Pass2"])):
                                     Cut_Fit_Line_Upper[out_print].SetParameter(1,  0)
                                     Cut_Fit_Line_Upper[out_print].SetParLimits(1, -0.0024, 0.006)
                                     if(("Sector 1" in Histo_Title) and ("reg1" in out_print)):
@@ -551,7 +561,7 @@ for loop_test in ["Ignore_These_Loops"]:
                                         Cut_Fit_Line_Lower[out_print].SetParLimits(1, -1, 1)
 #                                         Cut_Fit_Line_Lower[out_print].SetParameter(1, -0.001)
 #                                         Cut_Fit_Line_Lower[out_print].SetParLimits(1, -1, 0.001)
-                                        if((Selection_of_In_or_Out in ["Outbending"]) and (Selection_Data_Set in ["Fall2018_Pass2", "Fall2018_Pass2_Forward"])):
+                                        if((Selection_of_In_or_Out in ["Outbending"]) and (Selection_Data_Set in ["Fall2018_Pass2", "Fall2018_Pass2_Forward", "Monte_Carlo_Pass2"])):
                                             Cut_Fit_Line_Lower[out_print].SetParameter(1, 0)
                                             Cut_Fit_Line_Lower[out_print].SetParLimits(1, -0.004, 0.0061)
                                             if(("Sector 1" in Histo_Title) and ("reg1" in out_print)):
@@ -569,7 +579,7 @@ for loop_test in ["Ignore_These_Loops"]:
                                         # Cut_Fit_Line_Lower[out_print].SetParLimits(1, -0.5, 1)
                                         Cut_Fit_Line_Lower[out_print].SetParameter(1,  -0.005)
                                         Cut_Fit_Line_Lower[out_print].SetParLimits(1, -0.5, 0.02)
-                                        if(("Sector 5" in Histo_Title) and (Selection_of_In_or_Out in ["Outbending"]) and (Selection_Data_Set in ["Fall2018_Pass2", "Fall2018_Pass2_Forward"])):
+                                        if(("Sector 5" in Histo_Title) and (Selection_of_In_or_Out in ["Outbending"]) and (Selection_Data_Set in ["Fall2018_Pass2", "Fall2018_Pass2_Forward", "Monte_Carlo_Pass2"])):
                                             Cut_Fit_Line_Lower[out_print].SetParameter(1,  0)
                                             Cut_Fit_Line_Lower[out_print].SetParLimits(1, -0.05, 0.05)
                                 if("pol2" in str(Cut_Function_Lower)):
@@ -878,6 +888,7 @@ for loop_test in ["Ignore_These_Loops"]:
                         Save_Name = f"Single_Plot_Version_{Save_Name}"
                         Save_Name = str(Save_Name.replace("Histom", "Histo_m"))
                         Save_Name = str(Save_Name.replace("1_regall", ""))
+                        Save_Name = str(Save_Name.replace("__", "_"))
                         if(Make_MM_Cuts):
                             Save_Name = Save_Name.replace("Norm", "MM_Cuts" if(Single_EvntType not in ["EO"]) else "WM_Cuts")
                         Single_Histogram_Canvas[Canvas_Name].SaveAs(Save_Name)

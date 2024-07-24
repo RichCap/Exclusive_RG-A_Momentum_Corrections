@@ -56,7 +56,7 @@ Data_Run_List = ["Fall2018_Pass2_Forward"]
 # EvntType_List = ["ES", "EO"]
 # EvntType_List = ["SP", "EO"]
 EvntType_List = ["EO", "SP"]
-# EvntType_List = ["SP"]
+EvntType_List = ["SP"]
 # EvntType_List = ["DP", "P0"]
 # EvntType_List = ["DP"]
 # EvntType_List = ["P0"]
@@ -102,11 +102,11 @@ Bending_Type_List = ["Outbending"]
 # Particle_Mom_List = ['el', 'pip']
 # Particle_Sec_List = ['el', 'pip']
 
-# Particle_Mom_List = ['pip']
-# Particle_Sec_List = ['pip']
+Particle_Mom_List = ['pip']
+Particle_Sec_List = ['pip']
 
-Particle_Mom_List = ['el']
-Particle_Sec_List = ['el']
+# Particle_Mom_List = ['el']
+# Particle_Sec_List = ['el']
 
 
 # Particle_Mom_List = ['pro']
@@ -154,6 +154,9 @@ if("pip" not in Particle_Mom_List):
 ##==========================================================================##
 
 Correction_Name_List = ["mm0", "mm0_ELPipMM0"]
+Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMM0"]
+# Correction_Name_List = ["mm0_ELPipMM0", "mmfaP2_ELPipMM0"]
+Correction_Name_List = ["mmfaP2_ELPipMM0"]
 
 ##==========================================================================##
 ##==========##==========##    CORRECTION CHOICES    ##==========##==========##

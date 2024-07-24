@@ -934,6 +934,12 @@ def MM_Fits(h2, minR, maxR, dR, Title, BGq, Particle, Bending_Type="In"):
                 # print("<<<REBINNING>>>")
                 hy2.Rebin(2)
                 
+            # print(f"\n\n\nhy2.GetBinContent(hy2.GetMaximumBin()) = {hy2.GetBinContent(hy2.GetMaximumBin())}\n\n\n")
+            if(hy2.GetBinContent(hy2.GetMaximumBin()) < 50):
+                Slice_Title = "".join(["#splitline{", Title, "}{p_{", Particle.replace("pip", "#pi^{+}"), "} Bin: ", str(round(minR, 4)), " < p_{", Particle.replace("pip", "#pi^{+}"), "} < ", str(round(minR + dR, 4)), "}"])
+                print(f"{color.RED}Warning: Low Bin Content in {color.BOLD}{Slice_Title}{color.END}")
+                hy2.Rebin(2)
+                
             mu = hy2.GetBinCenter(hy2.GetMaximumBin())
             bin_width_mu = hy2.GetBinWidth(hy2.FindBin(mu))
 #             if(hy2.GetBinContent(hy2.GetMaximumBin()) < 200 and Particle in ["el"]):
@@ -1469,7 +1475,13 @@ if(sec == """, "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Ti
                 if(("Fall 2018 - Pass 2" in str(Title)) and ("Fa18" in str(Title))):
                     if(hy2.GetBinContent(hy2.GetMaximumBin()) < 120):
                         hy2.Rebin(2)
-
+                        
+                # print(f"\n\n\nhy2.GetBinContent(hy2.GetMaximumBin()) = {hy2.GetBinContent(hy2.GetMaximumBin())}\n\n\n")
+                # if(hy2.GetBinContent(hy2.GetMaximumBin()) < 50):
+                #     Slice_Title = "".join(["#splitline{", Title, "}{p_{", Particle.replace("pip", "#pi^{+}"), "} Bin: ", str(round(minR, 4)), " < p_{", Particle.replace("pip", "#pi^{+}"), "} < ", str(round(minR + dR, 4)), "}"])
+                #     print(f"{color.RED}Warning: Low Bin Content in {color.BOLD}{Slice_Title}{color.END}")
+                #     hy2.Rebin(2)
+                        
                 hys2.append(hy2)
 
 
@@ -3189,6 +3201,13 @@ def Fitting_Lines(Histo_Type, Event_Type, Bending_Type, Particle, Missing_Mass_T
             # Increment_Fit = 0.475 if("SP" in str(Event_Type)) else 0.25 if("EO" in str(Event_Type)) else 1
             MaxRange_Fit  = 9   if("SP" in str(Event_Type)) else 9.5  if("EO" in str(Event_Type)) else 8
             Increment_Fit = 0.5 if("SP" in str(Event_Type)) else 0.5  if("EO" in str(Event_Type)) else 1
+
+            
+            
+    if("Monte_Carlo_Pass2" in str(DataSet)):
+        if(Particle == "el"):
+            MinRange_Fit, MaxRange_Fit, Increment_Fit = 5.8, 8.20, 0.4
+            MinRange_Fit, MaxRange_Fit, Increment_Fit = 5.9, 8.15, 0.2
     
     TLine_X1, TLine_Y1, TLine_X2, TLine_Y2 = (MinRange_Fit - 2*Increment_Fit), 0, (MaxRange_Fit + 2*Increment_Fit), 0
     

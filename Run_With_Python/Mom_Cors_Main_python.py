@@ -1109,7 +1109,8 @@ if(any("Dmom" in histos_selected for histos_selected in List_of_Locate_name)):
                                             Combined_Histo["".join([str(ref_can), "_Sector_", str(cd_num)])] = Merge_Histos(histo_search[ii], histo_search[ii2].gr2, "Extend")
                                     else:
                                         # Combined_Histo["".join([str(ref_can), "_Sector_", str(cd_num)])]     = Merge_Histos(histo_search[ii], histo_search[ii2].gr2, "Extend", Num_Overlap=1)
-                                        Combined_Histo["".join([str(ref_can), "_Sector_", str(cd_num)])]     = Merge_Histos(histo_search[ii], histo_search[ii2].gr2, "Extend", Num_Overlap=3)
+                                        # Combined_Histo["".join([str(ref_can), "_Sector_", str(cd_num)])]     = Merge_Histos(histo_search[ii], histo_search[ii2].gr2, "Extend", Num_Overlap=3)
+                                        Combined_Histo["".join([str(ref_can), "_Sector_", str(cd_num)])]     = Merge_Histos(histo_search[ii], histo_search[ii2].gr2, "Extend", Num_Overlap=2)
                                 elif(Particle == "pip"):
                                     Combined_Histo["".join([str(ref_can), "_Sector_", str(cd_num)])] = histo_search[ii].gr2
                                     Combined_Histo["".join([str(ref_can), "_Sector_", str(cd_num)])].GetXaxis().SetTitle("p_{#pi^{+}}")
