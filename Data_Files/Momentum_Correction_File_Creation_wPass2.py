@@ -961,6 +961,13 @@ if(event_Name != "error"):
                 # Includes 2 points from EO channel instead of just 3, and modified the error bars of the EO channel to be 1.5 times bigger than the SP channel to be more balanced between the two - SP is more important than EO)
             # Running with Pion plots still (may move to pion corrections if the refinement continues to perform well)
             
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V7"
+        # Ran on 7/23/2024
+            # Added new (Outbending) Pi+ Pion Momentum Correction (called "PipMMfaP2")
+                # Fits for Electron Corrections may need to be checked again in case refinement is still needed (w/out pion correction) but the correction was applied in case the electrons were done
+                    # The Missing Mass electron fits may need some improvements, but the Delta P plots generally looked like they would not improve much unless more of the EO channel was removed
+            # Failed to add the Missing Mass vs pion plots to last version (issue fixed here)
+            
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):
@@ -1537,7 +1544,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
             elif("PipMMsP2"  in corPip):
                 coutN = 5
             elif("PipMMfaP2" in corPip):
-                coutN = 6
+                coutN = 6 if("Out" not in datatype) else 4
             else:
                 coutN = 1
         return coutN
@@ -5151,8 +5158,8 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                 Delta_P_histo_CorList.append("mmEF_PipMMEF")
         if(datatype == "Outbending"):
             # Delta_P_histo_CorList = ['mm0', 'mmEF', 'mmExF', 'mmEF_PipMMEF', 'mmExF_PipMMExF']
-            Delta_P_histo_CorList = ['mm0', 'mmEF', 'mmEF_PipMMEF']
-            Delta_P_histo_CorList = ['mm0', 'mmfaP2']
+            Delta_P_histo_CorList = ['mm0', 'mmEF',   'mmEF_PipMMEF']
+            Delta_P_histo_CorList = ['mm0', 'mmfaP2', 'mmfaP2_PipMMfaP2']
             
         if("Pass 2" in str(pass_version)):
             Delta_P_histo_CorList_TEMP = Delta_P_histo_CorList
@@ -5425,10 +5432,10 @@ pipPhi += 25;""", ""), "return tempsec;"]))
     particleList, particle_plot_List = [], []
     
     if(event_type in ["SP", "MC"]):
-        particleList = ['el', 'pip']
+        particleList       = ['el', 'pip']
         particle_plot_List = ['el', 'pip']
-        particleList = ['el']
-        particle_plot_List = ['el']
+        # particleList = ['el']
+        # particle_plot_List = ['el']
         
         
     if(event_type == "DP"):
