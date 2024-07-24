@@ -968,6 +968,12 @@ if(event_Name != "error"):
                     # The Missing Mass electron fits may need some improvements, but the Delta P plots generally looked like they would not improve much unless more of the EO channel was removed
             # Failed to add the Missing Mass vs pion plots to last version (issue fixed here)
             
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V8"
+        # Ran on 7/24/2024
+            # Refined the (Outbending) Pi+ Pion Momentum Correction (still called "PipMMfaP2")
+                # Original Correction performed VERY poorly - hoping that the refinement fixes whatever issue caused the corrections to get worse
+                    # Last correction had worse (more) momentum dependence, but better (less) phi dependence for the pion
+            
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):
@@ -1496,12 +1502,13 @@ pipPhi += 25;""", ""), "return tempsec;"]))
     ###########################################################################################################
 
     # // corEl ==> Gives the 'generation' of the electron correction
-    #     // corEl == 0 --> No Correction
-    #     // corEl == 1 --> Quad Momentum - Quad Phi (Final Version)
-    #     // corEl == 2 --> Modified Electron Correction with extended range (Created using exsisting corrections (i.e., this is a refinement of those corrections) -- Quad Mom - Quad Phi -- Kinematic Coverage is from 0.95-9.95 GeV using both SP and EO channels)
-    #     // corEl == 3 --> New Electron Correction with extended range (Created from Uncorrected Particles -- Quad Mom - Quad Phi -- Kinematic Coverage is from 0.95-9.95 GeV using both SP and EO channels)
-    #     // corEl == 4 --> Old Electron Correction with pass2 data (Created from Uncorrected Particles -- Quad Mom -- does not use EO channels)
-    #     // corEl == 5 --> New Electron Correction with pass2 data (Created from corEL = 4 Corrections -- Quad Mom -- does not use EO channels)
+    #     // corEl == 0   --> No Correction
+    #     // corEl == 1   --> Quad Momentum - Quad Phi (Final Version)
+    #     // corEl == 2   --> Modified Electron Correction with extended range (Created using exsisting corrections (i.e., this is a refinement of those corrections) -- Quad Mom - Quad Phi -- Kinematic Coverage is from 0.95-9.95 GeV using both SP and EO channels)
+    #     // corEl == 3   --> New Electron Correction with extended range (Created from Uncorrected Particles -- Quad Mom - Quad Phi -- Kinematic Coverage is from 0.95-9.95 GeV using both SP and EO channels)
+    #     // corEl == 4   --> Old Electron Correction with (Spring 2019) pass2 data (Created from Uncorrected Particles -- Quad Mom -- does not use EO channels)
+    #     // corEl == 5   --> New Electron Correction with (Spring 2019) pass2 data (Created from corEL = 4 Corrections -- Quad Mom -- does not use EO channels)
+    #     // corEl == 6/4 --> New Electron Correction with (Fall   2018) pass2 data (6 is for Inbending, 4 is for Outbending)
     def NameElCor(corEl, datatype):
         coutN = 0
         if('mm0'    in corEl):
@@ -1522,12 +1529,13 @@ pipPhi += 25;""", ""), "return tempsec;"]))
         return coutN
 
     # // corPip ==> Gives the 'generation' of the π+ Pion correction
-    #     // corPip == 0 --> No Correction
-    #     // corPip == 1 --> Quad Momentum, Quad Phi (Old Version)
-    #     // corPip == 2 --> Quad Momentum, Quad Phi (Extended - Test - Version)
-    #     // corPip == 3 --> Quad Momentum, Quad Phi (Final Version)
-    #     // corPip == 4 --> New π+ Pion Correction with pass2 data (Created from Uncorrected π+ Pion -- Quad Mom -- does not use EO channels)
-    #     // corPip == 5 --> New π+ Pion Correction with pass2 data (Created from corPip == 4 -- Quad Mom -- Split at p = 4 GeV between two functions)
+    #     // corPip == 0   --> No Correction
+    #     // corPip == 1   --> Quad Momentum, Quad Phi (Old Version)
+    #     // corPip == 2   --> Quad Momentum, Quad Phi (Extended - Test - Version)
+    #     // corPip == 3   --> Quad Momentum, Quad Phi (Final Version)
+    #     // corPip == 4   --> New π+ Pion Correction with (Spring 2019) pass2 data (Created from Uncorrected π+ Pion -- Quad Mom -- does not use EO channels)
+    #     // corPip == 5   --> New π+ Pion Correction with (Spring 2019) pass2 data (Created from corPip == 4 -- Quad Mom -- Split at p = 4 GeV between two functions)
+    #     // corPip == 6/4 --> New π+ Pion Correction with (Fall   2018) pass2 data (6 is for Inbending, 4 is for Outbending)
     def NamePipCor(corPip, datatype):
         coutN = 0
         if("Pip" not in corPip):
