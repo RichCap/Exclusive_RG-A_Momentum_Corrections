@@ -81,7 +81,7 @@ EvntType_List = ["SP"]
 ##==========================================================================##
 
 # Bending_Type_List = ["Inbending", "Outbending"]
-# Bending_Type_List = ["Inbending"]
+Bending_Type_List = ["Inbending"]
 Bending_Type_List = ["Outbending"]
 
 ##==========================================================================##
@@ -99,8 +99,8 @@ Bending_Type_List = ["Outbending"]
 # Particle_Mom_List = ['el', 'pro']
 # Particle_Sec_List = ['el', 'pro']
 
-# Particle_Mom_List = ['el', 'pip']
-# Particle_Sec_List = ['el', 'pip']
+Particle_Mom_List = ['el', 'pip']
+Particle_Sec_List = ['el', 'pip']
 
 Particle_Mom_List = ['pip']
 Particle_Sec_List = ['pip']
@@ -155,8 +155,11 @@ if("pip" not in Particle_Mom_List):
 
 Correction_Name_List = ["mm0", "mm0_ELPipMM0"]
 Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMM0"]
-# Correction_Name_List = ["mm0_ELPipMM0", "mmfaP2_ELPipMM0"]
+Correction_Name_List = ["mm0_ELPipMM0", "mmfaP2_ELPipMM0"]
 Correction_Name_List = ["mmfaP2_ELPipMM0"]
+Correction_Name_List = ["mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
+Correction_Name_List = ["mmfaP2_ELPipMMfaP2"]
+# Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
 
 ##==========================================================================##
 ##==========##==========##    CORRECTION CHOICES    ##==========##==========##
@@ -296,9 +299,9 @@ if("ES" in EvntType_List):
 
 if("el" in Particle_Mom_List):
     print(f"{color.BOLD}\nElectron Corrections available...{color.END}")
-#     List_of_Locate_name.append("Dmom_pel_Histo('Correction_Name_List', '', 'El Sector Sector_Number_List', '1', 'regall', 'Extra_Cut_Option'")
-#     List_of_Locate_name.append("Dmom_pel_Histo('Correction_Name_List', '', 'El Sector Sector_Number_List', 'Binning_Option_List', 'Region_Option_List', 'Extra_Cut_Option'")
-    List_of_Locate_name.append("Dmom_pel_Histo('Correction_Name_List', '', 'El Sector Sector_Number_List', '1', 'regall', 'Binning_Option_List', 'Region_Option_List', 'Extra_Cut_Option'")
+# #     List_of_Locate_name.append("Dmom_pel_Histo('Correction_Name_List', '', 'El Sector Sector_Number_List', '1', 'regall', 'Extra_Cut_Option'")
+# #     List_of_Locate_name.append("Dmom_pel_Histo('Correction_Name_List', '', 'El Sector Sector_Number_List', 'Binning_Option_List', 'Region_Option_List', 'Extra_Cut_Option'")
+#     List_of_Locate_name.append("Dmom_pel_Histo('Correction_Name_List', '', 'El Sector Sector_Number_List', '1', 'regall', 'Binning_Option_List', 'Region_Option_List', 'Extra_Cut_Option'")
     
     
 if("pip" in Particle_Mom_List):

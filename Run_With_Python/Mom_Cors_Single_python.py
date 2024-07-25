@@ -185,11 +185,13 @@ def Filter_Conditions_Single(Input):
             Condition_list.append(True)
 
 
-        # # Require Pi+ Phi Binning
-        # Condition_list.append("regall" in str(Input))
+        # Require Pi+ Phi Binning
+        Condition_list.append("regall" in str(Input))
 
-        # Require EL Phi Binning
-        Condition_list.append("regall" not in str(Input))
+        # # Require EL Phi Binning
+        # Condition_list.append("regall" not in str(Input))
+        
+        # Require (Either) Phi Binning
         if("reg1" not in str(Input) and "reg2" not in str(Input) and "reg3" not in str(Input)):
             Condition_list.append(True)
 
@@ -268,12 +270,19 @@ def Filter_Conditions_Single(Input):
         if("mm0'" not in str(Input)):
             Condition_list.append(True)
     else:
-        # if("mm0_ELPipMM0" not in str(Input)):
-        #     Condition_list.append(True)
-        if(("mmfaP2_ELPipMM0" not in str(Input)) and (Single_EvntType not in ["EO"])):
+        # # No pi+ corrections w/out energy loss
+        if(("PipMM" in str(Input)) and ("ELPipMM" not in str(Input))):
             Condition_list.append(True)
-        if(("mmfaP2"          not in str(Input)) and (Single_EvntType     in ["EO"])):
+        
+        
+#         # if("mm0_ELPipMM0" not in str(Input)):
+#         #     Condition_list.append(True)
+#         if(("mmfaP2_ELPipMM0"    not in str(Input)) and (Single_EvntType not in ["EO"])):
+#             Condition_list.append(True)
+        if(("mmfaP2_ELPipMMfaP2" not in str(Input)) and (Single_EvntType not in ["EO"])):
             Condition_list.append(True)
+#         if(("mmfaP2"             not in str(Input)) and (Single_EvntType     in ["EO"])):
+#             Condition_list.append(True)
 
     return Condition_list
 
@@ -880,15 +889,17 @@ for loop_test in ["Ignore_These_Loops"]:
 
 
                     if(True):
-                        Save_Name = str(str(Canvas_Name.replace("''", "")).replace("(", "")).replace(")", "") + f"_{Single_Bending_Type}.pdf"
-                        Save_Name = str(Save_Name.replace("bending", ""))
-                        Save_Name = str(str(Save_Name.replace(" ", "_")).replace(",", "")).replace("_'3'_", "")
-                        Save_Name = str(str(Save_Name.replace("'el'_'el'", "el")).replace("'pip'_'pip'", "pip")).replace("'", "")
-                        Save_Name = str(Save_Name.replace("__", "_"))
-                        Save_Name = f"Single_Plot_Version_{Save_Name}"
-                        Save_Name = str(Save_Name.replace("Histom", "Histo_m"))
-                        Save_Name = str(Save_Name.replace("1_regall", ""))
-                        Save_Name = str(Save_Name.replace("__", "_"))
+                        Save_Name     = str(str(Canvas_Name.replace("''", "")).replace("(", "")).replace(")", "") + f"_{Single_Bending_Type}.pdf"
+                        Save_Name     = str(Save_Name.replace("bending", ""))
+                        Save_Name     = str(str(Save_Name.replace(" ", "_")).replace(",", "")).replace("_'3'_", "")
+                        Save_Name     = str(str(Save_Name.replace("'el'_'el'", "el")).replace("'pip'_'pip'", "pip")).replace("'", "")
+                        Save_Name     = str(Save_Name.replace("__", "_"))
+                        Save_Name     = f"Single_Plot_Version_{Save_Name}"
+                        Save_Name     = str(Save_Name.replace("Histom", "Histo_m"))
+                        Save_Name     = str(Save_Name.replace("1_regall", ""))
+                        if(("reg" in Save_Name) and ("_reg" not in Save_Name)):
+                            Save_Name = str(Save_Name.replace("reg", "_reg"))
+                        Save_Name     = str(Save_Name.replace("__", "_"))
                         if(Make_MM_Cuts):
                             Save_Name = Save_Name.replace("Norm", "MM_Cuts" if(Single_EvntType not in ["EO"]) else "WM_Cuts")
                         Single_Histogram_Canvas[Canvas_Name].SaveAs(Save_Name)

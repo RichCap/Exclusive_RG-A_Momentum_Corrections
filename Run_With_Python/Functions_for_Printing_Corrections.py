@@ -337,6 +337,8 @@ def PhiCor_Function(canvas_name, HistoBinC, HistoBinN, HistoBinP, Sector, Partic
             
             if((("Outbending" in str(canvas_name)) and ("pip" in canvas_name))):
                 gCor_Par["_".join([name_2, str(Sector)])].GetYaxis().SetRangeUser(-0.004 if("par2" == par) else -0.04 if("par1" == par) else -0.045, 0.004 if("par2" == par) else 0.04 if("par1" == par) else 0.045)
+                if(("MMfaP2" in canvas_name) and ("par0" == par)):
+                    gCor_Par["_".join([name_2, str(Sector)])].GetYaxis().SetRangeUser(-0.025, 0.095)
         ###########################################################################
         ##==========##==========##     Drawing Plots     ##==========##==========##
         ###########################################################################

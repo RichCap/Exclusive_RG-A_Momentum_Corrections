@@ -6,14 +6,14 @@ from CommonPythonFunctions import *
 
 
 # Inbending or Outbending files?
-Selection_of_In_or_Out = "Inbending"
+# Selection_of_In_or_Out = "Inbending"
 Selection_of_In_or_Out = "Outbending"
 
 # Data set from RG-A (Spring data may not be currently compatible - need to rerun)
 # Selection_Data_Set = "Fall2018"
 Selection_Data_Set = "Fall2018_Pass2"
 # Selection_Data_Set = "Fall2018_Pass2_Central"
-# Selection_Data_Set = "Fall2018_Pass2_Forward"
+Selection_Data_Set = "Fall2018_Pass2_Forward"
 # Selection_Data_Set = "Spring2019"
 # Selection_Data_Set = "Spring2019_Pass1"
 # Selection_Data_Set = "Spring2019_Pass2"
@@ -32,13 +32,13 @@ event_type = "SP" # Single Pion Channel (ep->eπ+N)
 # event_type = "DP" # Double Pion Channel (ep->epπ+π- --- also uses the π0 channel for the ∆P histograms)
 # event_type = "P0" # π0 Channel (ep->epπ0)
 # event_type = "ES" # Elastic Scattering Channel (ep->e'p')
-event_type = "EO" # Electron Only Channel (ep->e'X)
+# event_type = "EO" # Electron Only Channel (ep->e'X)
 
 MM_type = "epipX" # Use for single pion channel (select with event_type = "SP")
 # MM_type = "eppipX" # Use for double pion channel (select with event_type = "DP")
 # MM_type = "eppi0X" # Use for π0 channel (select with event_type = "P0")
 # MM_type = "epX" # Use for elastic scattering channel (select with event_type = "ES")
-MM_type = "eX" # Use for electron only channel (select with event_type = "EO")
+# MM_type = "eX" # Use for electron only channel (select with event_type = "EO")
 
 print("".join(["\nStarting ", MM_type if("E" not in event_type) else "Elastic Scattering" if(event_type == "ES") else "Electron Only", " (", str(Selection_of_In_or_Out), ") Corrections (from RG-A ", str(Selection_Data_Set.replace("20", " 20")).replace("_", " "), ")...\n"]))
 
@@ -113,7 +113,7 @@ def DataFrame_Find(Event_Type=event_type, In_or_Out=Selection_of_In_or_Out, Sele
                     Extra_Part_of_Name     = "_Forward_Fall_Pass2_V1"
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall_Pass2_V4"])
                     Extra_Part_of_Name     = Extra_Part_of_Name.replace("Fall_Pass2_V4", "Shift_Test_V4")
-                    Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_New_Out_V6"])
+                    Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_New_Out_V8"])
                 else:
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_In_Forward_Test_V1"])
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_Test_V9"])

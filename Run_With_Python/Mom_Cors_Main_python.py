@@ -819,7 +819,8 @@ if('y' in CheckDataFrameQ2):
                                                                 # print("".join(["\nWould be saving: \n", color.BBLUE]) + str("".join([str(canvas_name_full).replace(Correction_Name, corNameTitles(Correction_Name).replace("/", "_")), str(Extra_Saving_Name), ".png"])).replace(" ", "_") + color.END + "\n")    
                                                                 if(SaveResultsQ == 'yes'):
                                                                     if(Sector_Num == Sector_Number_List_2[len(Sector_Number_List_2)-1]):
-                                                                        Save_Name = ("".join([str(canvas_name_full).replace(Correction_Name, corNameTitles(Correction_Name).replace("/", "_")), str(Extra_Saving_Name), ".png"])).replace(" ", "_")
+                                                                        # Save_Name = ("".join([str(canvas_name_full).replace(Correction_Name, corNameTitles(Correction_Name).replace("/", "_")), str(Extra_Saving_Name), ".png"])).replace(" ", "_")
+                                                                        Save_Name = ("".join([str(canvas_name_full), str(Extra_Saving_Name), ".png"])).replace(" ", "_")
                                                                         Save_Name = str(str(str(str(Save_Name.replace("'", "")).replace(",", "_")).replace("(", "_")).replace(")", "")).replace("Sector_Number_List", "")
                                                                         while("__" in str(Save_Name)):
                                                                             Save_Name = str(Save_Name.replace("__", "_"))
@@ -1060,6 +1061,7 @@ if(any("Dmom" in histos_selected for histos_selected in List_of_Locate_name)):
 
 
                                 ref_can = "".join(["Dmom_pel_Histo_Combined_" if(Particle == "el") else "Dmom_pip_Histo_Final_" if(Particle == "pip") else "Dmom_pro_Histo_Final_" if(Particle == "pro") else "ERROR", str((region, cor_Q, Bending_Type, Data_Run))])
+                                # ref_can = "".join(["Dmom_pel_Histo_Combined_" if(Particle == "el") else f"Dmom_{Particle}_Histo_Final_", str((region, cor_Q, Bending_Type, Data_Run))])
 
                                 try:
                                     Legend_test[ref_can]
