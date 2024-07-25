@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import ROOT
 import numpy as np
 import traceback
@@ -52,7 +54,7 @@ Single_Data_Run = "Fall2018_Pass2_Forward"
 
 # Particle_Search = "pro"
 Particle_Search = "el"
-Particle_Search = "pip"
+# Particle_Search = "pip"
 
 Use_Missing_Mass_Plots = not True
 
@@ -184,12 +186,13 @@ def Filter_Conditions_Single(Input):
         if("No_C" in str(Input)):
             Condition_list.append(True)
 
-
-        # Require Pi+ Phi Binning
-        Condition_list.append("regall" in str(Input))
-
-        # # Require EL Phi Binning
-        # Condition_list.append("regall" not in str(Input))
+            
+        if(Particle_Search in ["el"]):
+            # Require EL Phi Binning
+            Condition_list.append("regall" not in str(Input))
+        else:
+            # Require Pi+ Phi Binning
+            Condition_list.append("regall"     in str(Input))
         
         # Require (Either) Phi Binning
         if("reg1" not in str(Input) and "reg2" not in str(Input) and "reg3" not in str(Input)):
@@ -281,8 +284,8 @@ def Filter_Conditions_Single(Input):
 #             Condition_list.append(True)
         if(("mmfaP2_ELPipMMfaP2" not in str(Input)) and (Single_EvntType not in ["EO"])):
             Condition_list.append(True)
-#         if(("mmfaP2"             not in str(Input)) and (Single_EvntType     in ["EO"])):
-#             Condition_list.append(True)
+        if(("mmfaP2"             not in str(Input)) and (Single_EvntType     in ["EO"])):
+            Condition_list.append(True)
 
     return Condition_list
 
