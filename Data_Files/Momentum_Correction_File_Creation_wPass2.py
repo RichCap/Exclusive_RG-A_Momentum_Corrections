@@ -979,6 +979,13 @@ if(event_Name != "error"):
         # Ran on 7/24/2024
             # Refined the (Outbending) Pi+ Pion Momentum Correction again (still called "PipMMfaP2")
                 # Last refinement worked a lot better but was not yet perfect - hoping that this refinement will help to start finishing the job
+                
+                
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V10"
+        # Ran on 7/25/2024
+            # Refined the (Outbending) Electron Momentum Correction again (after the pion corrections were applied)
+                # Last pion refinement worked very well (to the point that refining the electron seemed to be the more potentially impactful choice over another pion refinement)
+                # All corrections maintain the same names/fitting process as were used in the prior refinements
             
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
