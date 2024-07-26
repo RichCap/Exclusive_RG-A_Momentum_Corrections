@@ -242,10 +242,10 @@ if('y' in CheckDataFrameQ2):
                                                                     canvas_search[canvas_name_full]
                                                                 except:
                                                                     if(print_method == "hor"):
-                                                                        canvas_search[canvas_name_full] = ROOT.TCanvas(canvas_name_full, canvas_name_full, Canvas_Size_1, Canvas_Size_2)
+                                                                        canvas_search[canvas_name_full] = ROOT.TCanvas(canvas_name_full, canvas_name_full, int(1.5*Canvas_Size_1), int(1.5*Canvas_Size_2))
                                                                         canvas_search[canvas_name_full].Divide(Divide_1, Divide_2, 0, 0)
                                                                     else:
-                                                                        canvas_search[canvas_name_full] = ROOT.TCanvas(canvas_name_full, canvas_name_full, Canvas_Size_2, Canvas_Size_1)
+                                                                        canvas_search[canvas_name_full] = ROOT.TCanvas(canvas_name_full, canvas_name_full, int(1.5*Canvas_Size_2), int(1.5*Canvas_Size_1))
                                                                         canvas_search[canvas_name_full].Divide(Divide_2, Divide_1, 0, 0)
                                                                     canvas_search[canvas_name_full].SetGrid()
                                                                     # canvas_search[canvas_name_full] = Canvas_Create(Name=canvas_name_full, Num_Columns=Divide_1, Num_Rows=Divide_2, Size_X=Canvas_Size_1, Size_Y=Canvas_Size_2, cd_Space=0)
@@ -839,8 +839,38 @@ if('y' in CheckDataFrameQ2):
                                                                                     print(f"\n{color.ERROR}More than 20 versions of {color.UNDERLINE}Save_Name = {Save_Name}{color.END_B}{color.RED} were made...{color.END}\n")
                                                                                     Save_Name = str(str(Save_Name.replace(".png", f"_Version_Last.png")).replace(".pdf", f"_Version_Last.pdf"))
                                                                         List_of_Saved_Images.append(Save_Name)
-                                                                        print(f"\nSaving: \n{color.BBLUE}{Save_Name}{color.END}\n")
+                                                                        print(str(f"\nSaving: \n{color.BBLUE}{Save_Name}{color.END}\n"))
+                                                                        # print(str(f"\nSaving: \n{color.BBLUE}{Save_Name}{color.END}\n").replace(".png", ".pdf"))
+                                                                        try:
+                                                                            # Get the list of all objects in the TCanvas and filter TPads
+                                                                            pads = [obj for obj in canvas_search[canvas_name_full].GetListOfPrimitives() if isinstance(obj, ROOT.TPad)]
+                                                                            # Check if there are exactly 6 TPads
+                                                                            if(len(pads) == 6):
+                                                                                # Set the position and size of each TPad for a 2x3 layout
+                                                                                pads[0].SetPad(0.0, 0.5, 0.33, 1.0)  # Top-left
+                                                                                pads[2].SetPad(0.33, 0.5, 0.66, 1.0) # Top-middle
+                                                                                pads[4].SetPad(0.66, 0.5, 1.0, 1.0)  # Top-right
+                                                                                pads[1].SetPad(0.0, 0.0, 0.33, 0.5)  # Bottom-left
+                                                                                pads[3].SetPad(0.33, 0.0, 0.66, 0.5) # Bottom-middle
+                                                                                pads[5].SetPad(0.66, 0.0, 1.0, 0.5)  # Bottom-right
+                                                                                # # Adjust margins for each TPad if necessary
+                                                                                # for pad in pads:
+                                                                                #     pad.SetLeftMargin(0.1)
+                                                                                #     pad.SetRightMargin(0.05)
+                                                                                #     pad.SetTopMargin(0.05)
+                                                                                #     pad.SetBottomMargin(0.1)
+                                                                                #     pad.Update()
+                                                                            else:
+                                                                                print(f"The TCanvas contains {len(pads)} TPads, which is not equal to 6. No adjustments made.")
+                                                                        except:
+                                                                            print(f"{color.RED}Error in redrawing the TPads...\nTraceback: \n{color.END_B}{str(traceback.format_exc())}{color.END}")
+                                                                        # canvas_search[canvas_name_full].SetLeftMargin(0.1)    # Adjust the left margin if necessary
+                                                                        # canvas_search[canvas_name_full].SetRightMargin(0.01)  # Adjust the right margin
+                                                                        # canvas_search[canvas_name_full].SetTopMargin(0.01)    # Adjust the top margin
+                                                                        # canvas_search[canvas_name_full].SetBottomMargin(0.1)  # Adjust the bottom margin if necessary
+                                                                        canvas_search[canvas_name_full].Update()
                                                                         canvas_search[canvas_name_full].SaveAs(Save_Name)
+                                                                        # canvas_search[canvas_name_full].SaveAs(Save_Name.replace(".png", ".pdf"))
 
             ##=========================================================##===================================##=========================================================##
             ##=========================================================##       Drawing 1D Histograms       ##=========================================================##
@@ -1353,6 +1383,30 @@ if(any("Dmom" in histos_selected for histos_selected in List_of_Locate_name)):
                                         List_of_Saved_Images.append(Save_Name)
                                         print(("".join([color.BLUE if(SaveResultsQ == 'yes') else color.BOLD, "\n\n\n\n\tSaving:\t" if(SaveResultsQ == 'yes') else "\n\n\tWould be saving:\t", Save_Name, color.END])))
                                         if(SaveResultsQ == 'yes'):
+                                            try:
+                                                # Get the list of all objects in the TCanvas and filter TPads
+                                                pads = [obj for obj in canvas_test[ref_can].GetListOfPrimitives() if isinstance(obj, ROOT.TPad)]
+                                                # Check if there are exactly 6 TPads
+                                                if(len(pads) == 6):
+                                                    # Set the position and size of each TPad for a 2x3 layout
+                                                    pads[0].SetPad(0.0, 0.5, 0.33, 1.0)  # Top-left
+                                                    pads[2].SetPad(0.33, 0.5, 0.66, 1.0) # Top-middle
+                                                    pads[4].SetPad(0.66, 0.5, 1.0, 1.0)  # Top-right
+                                                    pads[1].SetPad(0.0, 0.0, 0.33, 0.5)  # Bottom-left
+                                                    pads[3].SetPad(0.33, 0.0, 0.66, 0.5) # Bottom-middle
+                                                    pads[5].SetPad(0.66, 0.0, 1.0, 0.5)  # Bottom-right
+                                                    # # Adjust margins for each TPad if necessary
+                                                    # for pad in pads:
+                                                    #     pad.SetLeftMargin(0.1)
+                                                    #     pad.SetRightMargin(0.05)
+                                                    #     pad.SetTopMargin(0.05)
+                                                    #     pad.SetBottomMargin(0.1)
+                                                    #     pad.Update()
+                                                    canvas_test[ref_can].Update()
+                                                else:
+                                                    print(f"The TCanvas contains {len(pads)} TPads, which is not equal to 6. No adjustments made.")
+                                            except:
+                                                print(f"{color.RED}Error in redrawing the TPads...\nTraceback: \n{color.END_B}{str(traceback.format_exc())}{color.END}")
                                             canvas_test[ref_can].SaveAs(Save_Name)
                                     except:
                                         print("".join([color.RED, "\n\nSAVE ERROR: \n\t", str(traceback.format_exc()), "\n\n", color.END]))
