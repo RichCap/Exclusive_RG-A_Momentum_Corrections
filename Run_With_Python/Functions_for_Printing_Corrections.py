@@ -689,9 +689,9 @@ def Print_Cut_By_Points(Histogram, Sector, Particle, Type, Current_Cut=""):
             if(Histogram is list):
                 List_of_Widths = Histogram
             else:
-                print("".join([color.BOLD, color.RED, "ERROR: ", color.END, str(e1)]))
+                print("".join([color.Error, "ERROR: ", color.END, str(e1)]))
         except Exception as e2:
-            print("".join([color.BOLD, color.RED, "ERROR IN INPUT: ", color.END, str(e2)]))
+            print("".join([color.Error, "ERROR IN INPUT: ", color.END, str(e2)]))
     Particle_Sector = "esec" if(Particle == "el") else "pipsec" if(Particle == "pip") else "prosec" if(Particle == "pro") else "pimsec" if(Particle == "pim") else "esec"
     Particle_Vector = "eleC" if(Particle == "el") else "".join([Particle, "C"])
     if(Current_Cut == ""):
