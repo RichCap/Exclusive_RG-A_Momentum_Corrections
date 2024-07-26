@@ -198,6 +198,7 @@ file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_
 
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/SIDIS/Matched_REC_MC/MC_Matching_sidis_epip_richcap.inb.qa.45nA_job_", ""))
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/SIDIS/Matched_REC_MC/With_BeamCharge/Pass2/More_Cut_Info/MC_Matching_sidis_epip_richcap.inb.qa.new4.inb-clasdis_", ""))
+file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/SIDIS/Matched_REC_MC/With_BeamCharge/Pass2/More_Cut_Info/MC_Matching_sidis_epip_richcap.inb.qa.new5.inb-clasdis",  ""))
 
 file_name = str(file_name.replace("/w/hallb-scshelf2102/clas12/richcap/Momentum_Corrections/Central_Tracking/Fall2018/Outbending/Only_Electron_Channel/electron_only.pass2.outb.qa.Fa18.rec_clas_00", ""))
 
@@ -1047,6 +1048,14 @@ if(event_Name != "error"):
             # Running with default plots and (experimental data) corrections (should be treated as if it was just the normal Fall 2018 Pass 2 SP option)
                 # Using same options as selected for "Fall2018_P2_New_Out_V5" (but with Inbending Corrections)
             # Changed the MC beam energy to 10.6 GeV instead of 10.604 GeV to more closely match the beam energy used by Stefan (beam energy from 'Fa18_P2_MC_V1' was still not correct)
+            
+            
+        Extra_Part_of_Name = "_Fa18_P2_MC_V3"
+        # Ran on 7/26/2024
+            # Making Momentum Corrections for the Pass 2 versions of my SIDIS analysis Reconstructed Monte Carlo files
+            # Running with default plots and (experimental data) corrections (should be treated as if it was just the normal Fall 2018 Pass 2 SP option)
+                # Using same options as selected for "Fall2018_P2_New_Out_V10" (but with Inbending Corrections and turned off 'Run_Phase_Space')
+            # Added new version of the Monte Carlo files with additional files that I added to the files already created by Stefan
         
         if(Delta_P_histo_Q != 'y'):
             OutputFileName = "".join(["Simulated_", event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp",   str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
@@ -1054,7 +1063,7 @@ if(event_Name != "error"):
             OutputFileName = "".join(["Simulated_", event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_With_Dp", str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
             
             
-
+    OutputFileName = OutputFileName.replace("__", "_")
     print(f"{color.BGREEN}Name of file that will be saved:{color.END}\n{str(OutputFileName)}\n")
 
 
@@ -1186,7 +1195,8 @@ if(event_Name != "error"):
                 
         if(event_type in ["MC"]):
             # running_code_with_these_files = "".join(["/lustre19/expphy/volatile/clas12/richcap/SIDIS_Analysis/Data_Files_Groovy/Matched_REC_MC/MC_Matching_sidis_epip_richcap.inb.qa.45nA_job_*.root"])
-            running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/SIDIS/Matched_REC_MC/MC_Matching_sidis_epip_richcap.inb.qa.45nA_job_*.root" if("Pass 2" not in pass_version) else "/w/hallb-scshelf2102/clas12/richcap/SIDIS/Matched_REC_MC/With_BeamCharge/Pass2/More_Cut_Info/MC_Matching_sidis_epip_richcap.inb.qa.new4.inb-clasdis_*"
+            # running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/SIDIS/Matched_REC_MC/MC_Matching_sidis_epip_richcap.inb.qa.45nA_job_*.root" if("Pass 2" not in pass_version) else "/w/hallb-scshelf2102/clas12/richcap/SIDIS/Matched_REC_MC/With_BeamCharge/Pass2/More_Cut_Info/MC_Matching_sidis_epip_richcap.inb.qa.new4.inb-clasdis_*"
+            running_code_with_these_files = "/w/hallb-scshelf2102/clas12/richcap/SIDIS/Matched_REC_MC/MC_Matching_sidis_epip_richcap.inb.qa.45nA_job_*.root" if("Pass 2" not in pass_version) else "/w/hallb-scshelf2102/clas12/richcap/SIDIS/Matched_REC_MC/With_BeamCharge/Pass2/More_Cut_Info/MC_Matching_sidis_epip_richcap.inb.qa.new5.inb-clasdis*"
             event_type = "SP"
 
     else:
@@ -5587,7 +5597,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
     # Letting Run_Phase_Space = 'yes' allows for the histograms without the missing mass values to be run
     Run_Phase_Space = 'yes'
-    # Run_Phase_Space = 'no'
+    Run_Phase_Space = 'no'
     
     Skip_Sector_Phase_Space = "yes"
     Skip_Sector_Phase_Space = "no"
