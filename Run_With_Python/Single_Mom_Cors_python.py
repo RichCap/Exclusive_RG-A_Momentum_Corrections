@@ -60,7 +60,7 @@ Use_Missing_Mass_Plots = not True
 
 Use_Invariant_Mass_Plots = not True
 
-Make_MM_Cuts = not True
+Make_MM_Cuts = True
 if((not Use_Missing_Mass_Plots) and (not Use_Invariant_Mass_Plots)):
     Make_MM_Cuts = False
 elif(Make_MM_Cuts):
@@ -280,10 +280,10 @@ def Filter_Conditions_Single(Input):
         
 #         # if("mm0_ELPipMM0" not in str(Input)):
 #         #     Condition_list.append(True)
-#         if(("mmfaP2_ELPipMM0"    not in str(Input)) and (Single_EvntType not in ["EO"])):
-#             Condition_list.append(True)
-        if(("mmfaP2_ELPipMMfaP2" not in str(Input)) and (Single_EvntType not in ["EO"])):
+        if(("mmfaP2_ELPipMM0"    not in str(Input)) and (Single_EvntType not in ["EO"])):
             Condition_list.append(True)
+#         if(("mmfaP2_ELPipMMfaP2" not in str(Input)) and (Single_EvntType not in ["EO"])):
+#             Condition_list.append(True)
         if(("mmfaP2"             not in str(Input)) and (Single_EvntType     in ["EO"])):
             Condition_list.append(True)
 
@@ -327,7 +327,7 @@ for loop_test in ["Ignore_These_Loops"]:
             if(search_count_single == 1 or True):
                 Canvas_Name = "".join([str(histo_search_count_single[out_print].GetName()), "_", str(MC_Test_Type)])
                 
-                # print("".join([color.BOLD, color.GREEN, "\n", histo_search_count_single[out_print].GetName(), color.END]))
+                # print("".join([color.BGREEN, "\n", histo_search_count_single[out_print].GetName(), color.END]))
     #             print(Single_Histo_Title_New)
                 # Single_Histogram_Canvas = Canvas_Create(Name="Single_Histogram_(Base)", Num_Columns=1, Num_Rows=2, Size_X=2400, Size_Y=3600)#2100, cd_Space=0)
         #         Single_Histogram_Canvas = Canvas_Create(Name="Single_Histogram_(Base)", Num_Columns=1, Num_Rows=2, Size_X=1600, Size_Y=2400)#2100, cd_Space=0)
