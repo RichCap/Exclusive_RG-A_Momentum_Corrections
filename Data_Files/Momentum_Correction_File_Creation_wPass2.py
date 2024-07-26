@@ -989,6 +989,17 @@ if(event_Name != "error"):
                 # All corrections maintain the same names/fitting process as were used in the prior refinements
             # Reran with Run_Phase_Space = 'yes' (i.e., Running Phase Space Plots)
             
+            
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V11"
+        # Ran on 7/26/2024
+            # Refined the (Outbending) Electron Momentum Correction again (did not apply the pion corrections)
+                # The last electron correction did not perform well enough with the pion correction to justify how it now performed without it
+                # The new refinement is designed without the pion correction included, but will hopefully be small enough to not force the pion correction to be completely reset (new refinement is very likely)
+                # All corrections maintain the same names/fitting process as were used in the prior refinements
+            # Updated the W-cuts for the EO channel
+                # Cuts are now tighter to (hopefully) improve the elastic ∆P fits
+            # Ran with Run_Phase_Space = 'no' (i.e., NOT running Phase Space Plots)
+            
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):
@@ -4487,7 +4498,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
             } 
             return ((Cut_Variable < Upper_Cut) && (Cut_Variable > Lower_Cut));
             """]) if(("Pass 2" in str(pass_version)) and ("Out" not in str(datatype))) else "".join(["""        
-        // For Invariant Mass Cut (Outbending Fall 2018 (Pass 2) - Based on a 1.75*sigma and 2*sigma cuts on the Invarient Mass - Upper Cut is 1.75*sigma - Lower Cut is 2*sigma - Linear Functions of Momentum - No Phi dependence):
+        // For Invariant Mass Cut (Outbending Fall 2018 (Pass 2) - Based on a 1.45*sigma and 2*sigma cuts on the Invarient Mass - Upper Cut is 1.45*sigma - Lower Cut is 2*sigma - Linear Functions of Momentum - No Phi dependence):
         auto Beam_Energy = """, str(Beam_Energy), """;
         auto Proton_Mass = """, str(Particle_Mass_Proton), """;
         auto beam = ROOT::Math::PxPyPzMVector(0, 0, Beam_Energy, 0);
@@ -4497,27 +4508,27 @@ pipPhi += 25;""", ""), "return tempsec;"]))
         auto Upper_Cut = 1.3;
         auto Lower_Cut = 0.7;
         if(esec == 1){
-            Upper_Cut = (-0.0471233)*el + (1.5390961);
+            Upper_Cut = (-0.0445949)*el + (1.4938545);
             Lower_Cut =  (-0.0405884)*el + (1.1311165);
         }
         if(esec == 2){
-            Upper_Cut = (-0.0330434)*el + (1.4053451);
+            Upper_Cut = (-0.0315795)*el + (1.368575);
             Lower_Cut =  (-0.0781353)*el + (1.4513767);
         }
         if(esec == 3){
-            Upper_Cut = (0.0218953)*el + (0.8750734);
+            Upper_Cut = (0.012916)*el + (0.9385967);
             Lower_Cut =  (-0.0631136)*el + (1.3075803);
         }
         if(esec == 4){
-            Upper_Cut = (-0.0328351)*el + (1.4028829);
+            Upper_Cut = (-0.0303366)*el + (1.357522);
             Lower_Cut =  (-0.0529724)*el + (1.2341513);
         }
         if(esec == 5){
-            Upper_Cut = (-0.0527261)*el + (1.5628387);
+            Upper_Cut = (-0.0490147)*el + (1.5081901);
             Lower_Cut =  (0.0180793)*el + (0.5865123);
         }
         if(esec == 6){
-            Upper_Cut = (-0.0503412)*el + (1.5754511);
+            Upper_Cut = (-0.0485971)*el + (1.5373772);
             Lower_Cut =  (-0.0676014)*el + (1.3853758);
         } 
         return ((Cut_Variable < Upper_Cut) && (Cut_Variable > Lower_Cut));
