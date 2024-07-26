@@ -23,7 +23,7 @@ def Draw_1D_Histos_with_Canvas(Histo_2D_In, Canvas_Object, Canvas_Name, Sector_N
         
         for ii in range(1, len(Histo_2D_In), 1):
             Histo_2D_Extra[ii] = (Histo_2D_In[ii]).Clone()
-            # print("".join(["type(Histo_2D_Extra[", str(ii), "]) == type(Histo_2D) ==> ", color.BLUE, color.BOLD, str(type(Histo_2D_Extra[ii]) == type(Histo_2D)), color.END]))
+            # print("".join(["type(Histo_2D_Extra[", str(ii), "]) == type(Histo_2D) ==> ", color.BBLUE, str(type(Histo_2D_Extra[ii]) == type(Histo_2D)), color.END]))
             try:
                 print(type(Histo_2D_Extra[ii].hys2))
             except:
@@ -129,14 +129,14 @@ def Draw_1D_Histos_with_Canvas(Histo_2D_In, Canvas_Object, Canvas_Name, Sector_N
                 Drawing_1D_Hist.SetLineWidth(3)
                 try:
                     for Extra_Histo in Histo_2D_Extra:
-                        # print("".join(["type(Histo_2D_Extra[Extra_Histo]) == type(Histo_2D) ==> ", color.BLUE, color.BOLD, str(type(Histo_2D_Extra[Extra_Histo]) == type(Histo_2D)), color.END]))
+                        # print("".join(["type(Histo_2D_Extra[Extra_Histo]) == type(Histo_2D) ==> ", color.BBLUE, str(type(Histo_2D_Extra[Extra_Histo]) == type(Histo_2D)), color.END]))
                         Histo_2D_Extra[Extra_Histo].hys2[Drawing_1D_Hist_num].SetLineWidth(3)
                         Histo_2D_Extra[Extra_Histo].hys2[Drawing_1D_Hist_num].SetLineStyle(2)
                         Histo_2D_Extra[Extra_Histo].hys2[Drawing_1D_Hist_num].SetLineColor(1 if("mm0" in str(Histo_2D_Extra[Extra_Histo].GetName())) else 46 if("mmEF_PipMMEF" in str(Histo_2D_Extra[Extra_Histo].GetName())) else 3)
                         Draw_Canvas(Canvas_1D_Sec_CD, Drawing_1D_Hist_num + 1, 0.05, 0, -0.02, 0)
                         Histo_2D_Extra[Extra_Histo].hys2[Drawing_1D_Hist_num].Draw("same")
                 except Exception as e:
-                    print("".join([color.RED, color.BOLD, "ERROR IN EXTRA 1D HISTOGRAM: ", str(e), color.END, color.RED, "\nTraceback: \n", color.END, str(traceback.format_exc())]))
+                    print("".join([color.Error, "ERROR IN EXTRA 1D HISTOGRAM: ", str(e), color.END_R, "\nTraceback: \n", color.END, str(traceback.format_exc())]))
                     
                     
                 Draw_Canvas(Canvas_1D_Sec_CD, Drawing_1D_Hist_num + 1, 0.05, 0, -0.02, 0)
@@ -287,7 +287,7 @@ def Find_And_Slice_Histo(RDF, NAME, EVENT, PARTICLE, BENDING=Selection_of_In_or_
                 if(PARTICLE != "el"):
                     print("".join([color.RED, "\n\nERROR: WRONG PARTICLE INPUT FOR ∆P(el)...\n\n", color.END]))
                     blank_Canvas = Canvas_Create(Name="".join(["test_blank_func_", str(NAME)]), Num_Columns=3, Num_Rows=2, Size_X=1500, Size_Y=1200, cd_Space=0)
-                fit_Dp_2D_Out(Histo_Out, MinRange_Fit, MaxRange_Fit, Increment_Fit, Histo_Out.GetTitle(), dp_bg_option, "el", Bending_Type=BENDING)
+                fit_Dp_2D_Out(Histo_Out, MinRange_Fit, MaxRange_Fit, Increment_Fit, Histo_Out.GetTitle(), dp_bg_option, "el", Bending_Type=BENDING, Event_Type_In=EVENT)
                 # blank_Canvas = Canvas_Create(Name="test_blank_func", Num_Columns=3, Num_Rows=2, Size_X=1500, Size_Y=1200, cd_Space=0)
                 # Histo_Out.GetYaxis().SetRangeUser(-0.5, 1)
                 Histo_Out.GetYaxis().SetRangeUser(-0.3, 0.3)
@@ -299,7 +299,7 @@ def Find_And_Slice_Histo(RDF, NAME, EVENT, PARTICLE, BENDING=Selection_of_In_or_
                 if(PARTICLE != "pro"):
                     print("".join([color.RED, "\n\nERROR: WRONG PARTICLE INPUT FOR ∆P(pro)...\n\n", color.END]))
                     blank_Canvas = Canvas_Create(Name="".join(["test_blank_func_", str(NAME)]), Num_Columns=3, Num_Rows=2, Size_X=1500, Size_Y=1200, cd_Space=0)
-                fit_Dp_2D_Out(Histo_Out, MinRange_Fit, MaxRange_Fit, Increment_Fit, Histo_Out.GetTitle(), dp_bg_option, "pro", Bending_Type=BENDING)
+                fit_Dp_2D_Out(Histo_Out, MinRange_Fit, MaxRange_Fit, Increment_Fit, Histo_Out.GetTitle(), dp_bg_option, "pro", Bending_Type=BENDING, Event_Type_In=EVENT)
                 # blank_Canvas = Canvas_Create(Name="test_blank_func", Num_Columns=3, Num_Rows=2, Size_X=1500, Size_Y=1200, cd_Space=0)
                 Histo_Out.GetYaxis().SetRangeUser(-0.6, 0.6)
                 Histo_Out.GetXaxis().SetRangeUser(Tline_Simple_X1, Tline_Simple_X2)
@@ -310,7 +310,7 @@ def Find_And_Slice_Histo(RDF, NAME, EVENT, PARTICLE, BENDING=Selection_of_In_or_
                 if(PARTICLE != "pip"):
                     print("".join([color.RED, "\n\nERROR: WRONG PARTICLE INPUT FOR ∆P(pip)...\n\n", color.END]))
                     blank_Canvas = Canvas_Create(Name="".join(["test_blank_func_", str(NAME)]), Num_Columns=3, Num_Rows=2, Size_X=1500, Size_Y=1200, cd_Space=0)
-                fit_Dp_2D_Out(Histo_Out, MinRange_Fit, MaxRange_Fit, Increment_Fit, Histo_Out.GetTitle(), dp_bg_option, "pip", Bending_Type=BENDING)
+                fit_Dp_2D_Out(Histo_Out, MinRange_Fit, MaxRange_Fit, Increment_Fit, Histo_Out.GetTitle(), dp_bg_option, "pip", Bending_Type=BENDING, Event_Type_In=EVENT)
                 # blank_Canvas = Canvas_Create(Name="test_blank_func", Num_Columns=3, Num_Rows=2, Size_X=1500, Size_Y=1200, cd_Space=0)
                 Histo_Out.GetYaxis().SetRangeUser(-0.3, 0.3)
                 # Histo_Out.GetXaxis().SetRangeUser(Tline_Simple_X1, Tline_Simple_X2 + 0.5)
@@ -334,7 +334,7 @@ def Find_And_Slice_Histo(RDF, NAME, EVENT, PARTICLE, BENDING=Selection_of_In_or_
                         Histo_Out.GetYaxis().SetTitle(Histo_Out.GetYaxis().GetTitle().replace("#Delta#phi", "#Delta #phi_{|El-Pro|}"))
                 Histo_Out.SetTitle(title_Dth)
                 blank_Canvas = Canvas_Create(Name="".join(["test_blank_func_", str(NAME)]), Num_Columns=3, Num_Rows=2, Size_X=1500, Size_Y=1200, cd_Space=0)
-                fit_Dp_2D_Out(Histo_Out, MinRange_Fit, MaxRange_Fit, Increment_Fit, Histo_Out.GetTitle(), dp_bg_option, "el", Bending_Type=BENDING, D_Angle=("Theta" if("D_Angle_V3" not in NAME) else "Phi"), Cut_Q=False)
+                fit_Dp_2D_Out(Histo_Out, MinRange_Fit, MaxRange_Fit, Increment_Fit, Histo_Out.GetTitle(), dp_bg_option, "el", Bending_Type=BENDING, D_Angle=("Theta" if("D_Angle_V3" not in NAME) else "Phi"), Cut_Q=False, Event_Type_In=EVENT)
                 # blank_Canvas = Canvas_Create(Name="test_blank_func", Num_Columns=3, Num_Rows=2, Size_X=1500, Size_Y=1200, cd_Space=0)
                 Histo_Out.GetXaxis().SetRangeUser(Tline_Simple_X1, Tline_Simple_X2 + 0.5)
 
@@ -349,7 +349,7 @@ def Find_And_Slice_Histo(RDF, NAME, EVENT, PARTICLE, BENDING=Selection_of_In_or_
                 Histo_Out.GetYaxis().SetTitle(Histo_Out.GetYaxis().GetTitle().replace("MM^2", "MM^{2}"))
                 blank_Canvas = Canvas_Create(Name="".join(["test_blank_func_", str(NAME)]), Num_Columns=3, Num_Rows=2, Size_X=1500, Size_Y=1200, cd_Space=0)
                 # Histo_Out = fit2dall(Histo_Out.Clone(), MinRange_Fit, MaxRange_Fit, Increment_Fit, Histo_Out.GetTitle(), MM_bg_option, PARTICLE)
-                Histo_Out = MM_Fits(Histo_Out.Clone(), MinRange_Fit, MaxRange_Fit, Increment_Fit, Histo_Out.GetTitle(), MM_bg_option, PARTICLE, Bending_Type=BENDING)
+                Histo_Out = MM_Fits(Histo_Out.Clone(), MinRange_Fit, MaxRange_Fit, Increment_Fit, Histo_Out.GetTitle(), MM_bg_option, PARTICLE, Bending_Type=BENDING, Event_Type_In=EVENT)
                 # blank_Canvas = Canvas_Create(Name="test_blank_func", Num_Columns=3, Num_Rows=2, Size_X=1500, Size_Y=1200, cd_Space=0)
                 # if(EVENT == "SP"):
                 #     Histo_Out.GetYaxis().SetRangeUser(0.88, 1)
@@ -380,7 +380,7 @@ def Find_And_Slice_Histo(RDF, NAME, EVENT, PARTICLE, BENDING=Selection_of_In_or_
         # blank_Canvas = Canvas_Create(Name="test_blank_func", Num_Columns=1, Num_Rows=1, Size_X=600, Size_Y=800, cd_Space=0)
         
     except Exception as e:
-        print("".join([color.RED, color.BOLD, "\n\nERROR IN HISTOGRAM:\n", color.END, color.RED, str(e), "\n", color.END]))
+        print("".join([color.Error, "\n\nERROR IN HISTOGRAM:\n", color.END_R, str(e), "\n", color.END]))
         print(traceback.format_exc())
         print("\n")
         Histo_Out, Histo_Title_New = "error", "error"

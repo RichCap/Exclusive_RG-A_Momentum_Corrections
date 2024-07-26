@@ -11,363 +11,26 @@ from File_Search_Script    import *
 #####==========#####==========####################################################==========#####==========#####
 ################################################################################################################
 
-# Meaning of below: h2 is the 2D histogram to be sliced and fit; minR/maxR is the starting/ending point of the slice range, and dR is the increments of increase between each slice (for p_e, fit range should be minR=2, maxR=8, and dR=1)
-def fit2dall(h2, minR, maxR, dR, Title, BGq, Particle):
+# # Meaning of below: h2 is the 2D histogram to be sliced and fit; minR/maxR is the starting/ending point of the slice range, and dR is the increments of increase between each slice (for p_e, fit range should be minR=2, maxR=8, and dR=1)
+# def fit2dall(h2, minR, maxR, dR, Title, BGq, Particle):
 
-    hx = h2.ProjectionX()
-    hys2, Sigma_Widths = [], []
-    gr2, gr2_Sigma, gr2_Cut_Range_Up, gr2_Cut_Range_Down = ROOT.TGraphErrors(), ROOT.TGraphErrors(), ROOT.TGraphErrors(), ROOT.TGraphErrors()
-    gr2_V2 = ROOT.TGraphAsymmErrors()
-    gr2.SetMarkerStyle(20)
-    gr2_V2.SetMarkerStyle(20)
-    gr2_Sigma.SetMarkerStyle(20)
-    gr2_Cut_Range_Up.SetMarkerStyle(20)
-    gr2_Cut_Range_Down.SetMarkerStyle(20)
+#     hx = h2.ProjectionX()
+#     hys2, Sigma_Widths = [], []
+#     gr2, gr2_Sigma, gr2_Cut_Range_Up, gr2_Cut_Range_Down = ROOT.TGraphErrors(), ROOT.TGraphErrors(), ROOT.TGraphErrors(), ROOT.TGraphErrors()
+#     gr2_V2 = ROOT.TGraphAsymmErrors()
+#     gr2.SetMarkerStyle(20)
+#     gr2_V2.SetMarkerStyle(20)
+#     gr2_Sigma.SetMarkerStyle(20)
+#     gr2_Cut_Range_Up.SetMarkerStyle(20)
+#     gr2_Cut_Range_Down.SetMarkerStyle(20)
     
-    FindPeak_x, FindPeak_y = [], []
+#     FindPeak_x, FindPeak_y = [], []
 
-    while minR+dR <= maxR:
+#     while minR+dR <= maxR:
         
-        extra_con_pro = False
-        if(Particle == "pro"):
-            extra_con_pro = True
-            if(event_type == "DP" and minR == 2.9):
-                dR = 0.5
-            if(event_type == "P0" and minR == 1.2):
-                dR = 0.5
-            if(Particle == "pro"):
-                if(event_type == "DP" and minR >= 0.85 and dR == 0.05):
-                    dR = 0.1
-                # if(event_type == "DP" and minR >= 1.1 and dR < 0.25):
-                #     dR += 0.05
-                #     dR = round(dR, 3)
-                if(event_type == "DP" and minR >= 1.25 and dR < 0.25):
-                    dR = 0.25
-                if(event_type == "P0"):
-                    dR = 0.25
-                if(event_type == "DP" and minR == 2.9):
-                    dR = 0.5
-                if(event_type == "P0" and minR == 1.2):
-                    dR = 0.5
-                    
-                if(event_type in ["DP", "P0"]):
-                    dR = 0.25
-                    if(minR >= 2.2):
-                        dR = 0.5
-                        if(minR < 1 and event_type == "DP"):
-                            dR = 0.1
-
-#                 if(event_type == "P0"):
-#                     dR = 0.1
-        
-        ib0, ib1 = hx.FindBin(minR), hx.FindBin(minR+dR)
-
-        hy2 = h2.ProjectionY(f"hy{ib1}", ib0, ib1)
-        hy2.SetDirectory(0)
-
-        # if(event_type == "P0"):
-        #     hy2.Rebin(2)
-        #     hy2.Rebin(2)
-        # if(hy2.GetBinContent(hy2.GetMaximumBin()) < 100):
-        #     hy2.Rebin(2)
-        hy2.Rebin(2)
-#         hy2.Rebin(2)
-        
-        if(Particle == "pro"):
-            # if(minR < 1):
-            #     hy2.Rebin(2)
-            if(hy2.GetBinContent(hy2.GetMaximumBin()) < 200):
-                hy2.Rebin(2)
-        
-        Slice_Title = "".join(["#splitline{", Title, "}{p_{", Particle.replace("pip", "#pi^{+}"), "} Bin: ", str(round(minR, 4)), " < p_{", Particle.replace("pip", "#pi^{+}"), "} < ", str(round(minR + dR, 4)), "}"])
-        hy2.SetTitle(Slice_Title)
-        
-        
-        extra_con_1 = ((Particle == "pip" and ("mmF_PipMMF" in h2.GetName())) and ("Sector 2" in Title and (minR == 3.75 and "reg1" in h2.GetName())))
-        extra_con_2 = ((Particle == "pip" and ("mmF_PipMMF" in h2.GetName())) and (("Sector 2" in Title or "Sector 5" in Title) and (minR == 6.75 and "reg2" in h2.GetName())))
-        extra_con_3 = ((Particle == "pip" and ("mmEF_PipMMEF" in h2.GetName())) and ("Sector 5" in Title and (minR == 6.75)))# and "reg2" in h2.GetName())))
-        extra_con_4 = ((Particle == "pip" and ("'mmEF'" in h2.GetName())) and ((("Sector 5" in Title and minR == 6.75) or ("Sector 6" in Title and minR > 6.15)) and "reg2" in h2.GetName()))
-        
-        extra_con_5 = ((Particle == "el" and ("mmEF_PipMMEF" in h2.GetName())) and ("Sector 6" in Title and (minR == 2.5 and "reg3" in h2.GetName())))
-        
-        extra_rebin_con = (extra_con_2 or extra_con_3 or extra_con_4 or extra_con_5) and (Particle != "pro")
-        
-        if(extra_rebin_con):
-            hy2.Rebin(2)
-        
-
-        hys2.append(hy2)
-
-        mu = hy2.GetBinCenter(hy2.GetMaximumBin())
-        bin_width_mu = hy2.GetBinWidth(hy2.FindBin(mu))
-
-        if(MM_type == "epipX" and (mu < 0.5 or mu > 1.15)):
-            mu = 0.9396
-            # print("".join(["\nCheck: ", color.BOLD, color.BLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
-            bin_width_mu = 2.5*hy2.GetBinWidth(hy2.FindBin(mu))
-                
-        if(MM_type == "eppipX" and (mu < -0.1 or mu > 0.2)):
-            mu = 0
-            print("".join([color.RED, "\nCheck: ", color.BOLD, color.BLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
-            bin_width_mu = 2.5*hy2.GetBinWidth(hy2.FindBin(mu))
-                
-        if(MM_type == "epX" and (mu < -0.1 or mu > 0.2)):
-            mu = 0        
-            print("".join([color.RED, "\nCheck: ", color.BOLD, color.BLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
-            bin_width_mu = 2.5*hy2.GetBinWidth(hy2.FindBin(mu))
-
-        
-        spectrum = ROOT.TSpectrum(5, 2.5)
-        nfound = spectrum.Search(hy2, 2)
-        
-        
-        if(Particle == "pro"):
-            MM_DP       = 0.13957*0.13957
-            MM_DP_Bin   = hy2.FindBin(MM_DP)
-            MM_MU_Bin   = hy2.FindBin(mu)
-            MM_Spec_Bin = hy2.FindBin((spectrum.GetPositionX())[0])
-            
-            MM_Bin_Best = MM_DP
-            
-            if(abs(MM_DP_Bin - MM_MU_Bin) < abs(MM_DP_Bin - MM_Spec_Bin)):
-                MM_Bin_Best = MM_MU_Bin
-                # print("\nMax")
-                # print("".join(["minR = ", str(minR)]))
-                # print("".join(["abs(MM_DP_Bin - MM_MU_Bin) = ", str(abs(MM_DP_Bin - MM_MU_Bin))]))
-                # print("".join(["abs(MM_DP_Bin - MM_Spec_Bin) = ", str(abs(MM_DP_Bin - MM_Spec_Bin))]))
-                # if(("Sector 6" in str(Title)) and (minR == 0.45)):
-                #     print("Max")
-            else:
-                MM_Bin_Best = MM_Spec_Bin
-                # print("\nPeak")
-                # print("".join(["minR = ", str(minR)]))
-                # print("".join(["abs(MM_DP_Bin - MM_MU_Bin) = ", str(abs(MM_DP_Bin - MM_MU_Bin))]))
-                # print("".join(["abs(MM_DP_Bin - MM_Spec_Bin) = ", str(abs(MM_DP_Bin - MM_Spec_Bin))]))
-                # if(("Sector 5" in str(Title)) and (minR == 0.45)):
-                #     # print("".join(["abs(MM_DP_Bin - MM_MU_Bin) = ", str(abs(MM_DP_Bin - MM_MU_Bin))]))
-                #     # print("".join(["abs(MM_DP_Bin - MM_Spec_Bin) = ", str(abs(MM_DP_Bin - MM_Spec_Bin))]))
-                #     # print("Peak")
-                #     MM_Bin_Best += 1
-                # if(("Sector 6" in str(Title)) and (minR == 0.45)):
-                #     print("".join(["minR = ", str(minR)]))
-                #     print("Peak")
-                
-            mu = hy2.GetBinCenter(MM_Bin_Best)
-            bin_width_mu = hy2.GetBinWidth(MM_Bin_Best)
-            
-            
-            if(MM_DP_Bin == MM_Bin_Best):
-                bin_width_mu = 0.25*bin_width_mu
-            else:
-                bin_width_mu = 1.5*bin_width_mu
-                
-            if("ProMMpro_LEF" in str(h2.GetName())):
-                # if("Sector 1" in str(Title)):
-                # if("Sector 2" in str(Title)):
-                # if("Sector 3" in str(Title)):
-                # if("Sector 4" in str(Title)):
-                if("Sector 5" in str(Title)):
-                    if(minR == 0.45):
-                        bin_width_mu = 0.35*hy2.GetBinWidth(MM_Bin_Best)
-                #     if(minR == 0.7):
-                #         bin_width_mu = 2.5*hy2.GetBinWidth(MM_Bin_Best)
-                if("Sector 6" in str(Title)):
-                    if(minR == 0.45):
-                        bin_width_mu = 0.35*hy2.GetBinWidth(MM_Bin_Best)
-            
-            
-
-        if(event_type not in ["DP"]):
-            fit_function = "gaus(0) + pol1(3)"
-        else:
-            fit_function = "gaus(0) + pol2(3)"
-        
-        # fy2 = ROOT.TF1("fy2", str(fit_function), mu - 2*0.065, mu + 2*0.065)
-        # fy2 = ROOT.TF1("fy2", str(fit_function), mu - 1*0.065, mu + 1*0.065)
-        
-        if(extra_con_1):
-            # print(color.BOLD + "\n" + color.BLUE + str(Slice_Title) + color.END)
-            # print(color.BOLD + color.BLUE + str(h2.GetName()) + color.END + "\n")
-            # fy2 = ROOT.TF1("fy2", str(fit_function), mu - 2*0.065, mu + 2*0.065)
-            fy2 = ROOT.TF1("fy2", str(fit_function), mu - 1*0.065, mu + 1*0.065)
-        elif(extra_con_2 and False):
-            # print(color.BOLD + "\n" + color.BLUE + str(Slice_Title) + color.END)
-            # print(color.BOLD + color.BLUE + str(h2.GetName()) + color.END + "\n")
-            fy2 = ROOT.TF1("fy2", str(fit_function), mu - 3*0.065, mu + 2*0.065)
-        elif(extra_con_pro):
-            fy2 = ROOT.TF1("fy2", str(fit_function), mu - 3*0.065, mu + 4*0.065)
-#             fy2 = ROOT.TF1("fy2", str(fit_function), mu - 3*0.065, mu + 2*0.065)
-        else:
-            fy2 = ROOT.TF1("fy2", str(fit_function), mu - 3*0.065, mu + 3*0.065)
-
-        fy2.SetParameter(0, 0.85*hy2.GetBinContent(hy2.FindBin(mu)))
-        fy2.SetParLimits(0, 0.65*hy2.GetBinContent(hy2.FindBin(mu)), 1.15*hy2.GetBinContent(hy2.FindBin(mu)))
-        fy2.SetParameter(2, 0.1)
-        fy2.SetParLimits(2, 0.01, 0.3)
-
-        fy2.SetParName(0, "Constant")
-        fy2.SetParName(1, "Mean")
-        fy2.SetParName(2, "Sigma")
-        
-        
-
-        
-        
-#         if(not (Particle == "pro" and minR < 0.7)):# True):
-#         if(Particle != "pro"):
-        if(True):
-            fy2.SetParameter(1, mu)
-            # if(Particle == "pro" and minR < 0.7):
-            #     fy2.SetParLimits(1, mu - 1.25*bin_width_mu, mu + 1.25*bin_width_mu)
-            # elif(Particle == "pro" and minR < 2.6):
-            #     fy2.SetParLimits(1, mu - 0.75*bin_width_mu, mu + 0.75*bin_width_mu)
-            # elif(Particle == "pro" and minR > 2.6):
-            #     fy2.SetParLimits(1, mu - 1.75*bin_width_mu, mu + 1.75*bin_width_mu)
-            # else:
-            fy2.SetParLimits(1, mu - 1.0*bin_width_mu, mu + 1.0*bin_width_mu)
-            
-        else:
-            num_test = 0
-            for peaks in spectrum.GetPositionX():
-                num_test += 1
-                current_constant = hy2.GetBinContent(hy2.FindBin(peaks))
-                fy2.SetParameter((3*num_test) - 3, 0.85*current_constant)
-                fy2.SetParLimits((3*num_test) - 3, 0.65*current_constant, 1.15*current_constant)
-                fy2.SetParameter((3*num_test) - 2, peaks)
-#                 fy2.SetParLimits((3*num_test) - 2, peaks - 2*0.0025, peaks + 2*0.0025)
-                fy2.SetParLimits((3*num_test) - 2, peaks - 0.25*bin_width_mu, peaks + 0.25*bin_width_mu)
-                fy2.SetParameter((3*num_test) - 1, 0.1)
-                fy2.SetParLimits((3*num_test) - 1, 0.01, 0.3)
-                fy2.SetRange(peaks - 2*0.065, peaks + 2*0.065)
-                break
-
-        hy2.Fit(fy2, "BRQ")
-        
-
-#         fit_function_BG = "pol1(0)"
-#         fy2_BG = ROOT.TF1("fy2_BG", str(fit_function_BG), mu - 4*0.065, mu + 4*0.065)
-#         fy2_BG.SetParameter(0, fy2.GetParameter(3))
-#         fy2_BG.SetParLimits(0, fy2.GetParameter(3), fy2.GetParameter(3))
-#         fy2_BG.SetParameter(1, fy2.GetParameter(4))
-#         fy2_BG.SetParLimits(1, fy2.GetParameter(4), fy2.GetParameter(4))
-#         fy2_BG.SetLineColor(root_color.Blue)
-#         hy2.Fit(fy2_BG, "BRQ")
-        
-
-        # mu, sig = fy2.GetParameter(1), abs(fy2.GetParameter(2))
-        
-        # sigma_factor = 1.25
-        sigma_factor = 3
-        sigma_factor_up = 1.75
-        sigma_factor_down = 2
-        
-        
-        MM_Peak, SIG = fy2.GetParameter(1), abs(fy2.GetParameter(2))
-
-        gr2.SetPoint(gr2.GetN(), minR+dR/2.0, MM_Peak)
-        gr2_V2.SetPoint(gr2_V2.GetN(), minR+dR/2.0, MM_Peak)
-        
-        gr2_Sigma.SetPoint(gr2_Sigma.GetN(), minR+dR/2.0, SIG)
-        
-        gr2_Cut_Range_Up.SetPoint(gr2_Sigma.GetN(), minR+dR/2.0, MM_Peak + sigma_factor_up*(SIG))
-        gr2_Cut_Range_Down.SetPoint(gr2_Sigma.GetN(), minR+dR/2.0, MM_Peak - sigma_factor_down*(SIG))
-            
-            
-        Error_of_MM_Peak = fy2.GetParError(1)
-        Error_of_SIG = fy2.GetParError(2)
-        
-#         try:
-#             if(Error_of_MM_Peak < 0.5*(hy2.GetBinWidth(hy2.FindBin(MM_Peak)))):
-#                 Error_of_MM_Peak = 0.5*(hy2.GetBinWidth(hy2.FindBin(MM_Peak)))
-#         except:
-#             print(color.RED + str(traceback.format_exc()) + color.END)
-        
-        gr2.SetPointError(gr2.GetN() - 1, dR/2.0, Error_of_MM_Peak)
-        gr2_V2.SetPointError(gr2_V2.GetN() - 1, dR/2.0, Error_of_MM_Peak + sigma_factor_down*(SIG + Error_of_SIG), Error_of_MM_Peak + sigma_factor_up*(SIG + Error_of_SIG))
-        # gr2_V2.SetPointError(gr2_V2.GetN() - 1, 0, 0, Error_of_MM_Peak + sigma_factor_down*(SIG + Error_of_SIG), Error_of_MM_Peak + sigma_factor_up*(SIG + Error_of_SIG))
-        
-        gr2_Sigma.SetPointError(gr2_Sigma.GetN() - 1, 0, Error_of_SIG)
-        
-        gr2_Cut_Range_Up.SetPointError(gr2_Cut_Range_Up.GetN() - 1, dR/2.0, Error_of_MM_Peak + sigma_factor_up*(Error_of_SIG))
-        gr2_Cut_Range_Down.SetPointError(gr2_Cut_Range_Down.GetN() - 1, dR/2.0, Error_of_MM_Peak + sigma_factor_down*(Error_of_SIG))
-
-        
-        FindPeak_x.append(MM_Peak)
-        FindPeak_y.append(hy2.GetBinContent(hy2.FindBin(MM_Peak)))
-
-        minR += dR
-    
-    setattr(h2, "hys2", hys2)
-    setattr(h2, "gr2", gr2)
-    setattr(h2, "gr2_V2", gr2_V2)
-    setattr(h2, "gr2_Sigma", gr2_Sigma)
-    setattr(h2, "gr2_Cut_Range_Up", gr2_Cut_Range_Up)
-    setattr(h2, "gr2_Cut_Range_Down", gr2_Cut_Range_Down)
-    setattr(h2, "FindPeak_x", FindPeak_x)
-    setattr(h2, "FindPeak_y", FindPeak_y)
-    
-    return h2
-
-
-
-
-
-
-################################################################################################################################################################################################################################################################################################################
-### New Cell ###################################################################################################################################################################################################################################################################################################
-################################################################################################################################################################################################################################################################################################################
-
-
-
-
-
-
-# Meaning of below: h2 is the 2D histogram to be sliced and fit; minR/maxR is the starting/ending point of the slice range, and dR is the increments of increase between each slice (for p_e, fit range should be minR=2, maxR=8, and dR=1)
-def fit2dall(h2, minR, maxR, dR, Title, BGq, Particle):
-
-    hx = h2.ProjectionX()
-    hys2, Sigma_Widths = [], []
-    gr2, gr2_Sigma, gr2_Cut_Range_Up, gr2_Cut_Range_Down = ROOT.TGraphErrors(), ROOT.TGraphErrors(), ROOT.TGraphErrors(), ROOT.TGraphErrors()
-    gr2_V2 = ROOT.TGraphAsymmErrors()
-    gr2.SetMarkerStyle(20)
-    gr2_V2.SetMarkerStyle(20)
-    gr2_Sigma.SetMarkerStyle(20)
-    gr2_Cut_Range_Up.SetMarkerStyle(20)
-    gr2_Cut_Range_Down.SetMarkerStyle(20)
-    
-    FindPeak_x, FindPeak_y = [], []
-
-    while minR+dR <= maxR:
-        
-        extra_con_pro = False
-        if(Particle == "pro"):
-            extra_con_pro = True
-            
-            if(Particle == "pro"):
-                if(event_type == "DP" and minR < 0.8):
-                    dR = 0.1
-                elif(event_type == "DP"):
-                    dR = 0.25
-                if(event_type == "DP" and minR >= 0.85 and dR == 0.05):
-                    dR = 0.1
-                # if(event_type == "DP" and minR >= 1.1 and dR < 0.25):
-                #     dR += 0.05
-                #     dR = round(dR, 3)
-                if(event_type == "DP" and minR >= 1.25 and dR < 0.25):
-                    dR = 0.25
-                if(event_type == "P0"):
-                    dR = 0.25
-                if(event_type == "DP" and minR == 2.9):
-                    dR = 0.5
-                if(event_type == "P0" and minR == 1.2):
-                    dR = 0.5
-
-                if(event_type in ["DP", "P0"]):
-                    dR = 0.25
-                    if(minR >= 2.2):
-                        dR = 0.5
-                    if(minR < 1 and event_type == "DP"):
-                        dR = 0.1
+#         extra_con_pro = False
+#         if(Particle == "pro"):
+#             extra_con_pro = True
 #             if(event_type == "DP" and minR == 2.9):
 #                 dR = 0.5
 #             if(event_type == "P0" and minR == 1.2):
@@ -396,48 +59,357 @@ def fit2dall(h2, minR, maxR, dR, Title, BGq, Particle):
 
 # #                 if(event_type == "P0"):
 # #                     dR = 0.1
+        
+#         ib0, ib1 = hx.FindBin(minR), hx.FindBin(minR+dR)
 
+#         hy2 = h2.ProjectionY(f"hy{ib1}", ib0, ib1)
+#         hy2.SetDirectory(0)
+
+#         # if(event_type == "P0"):
+#         #     hy2.Rebin(2)
+#         #     hy2.Rebin(2)
+#         # if(hy2.GetBinContent(hy2.GetMaximumBin()) < 100):
+#         #     hy2.Rebin(2)
+#         hy2.Rebin(2)
+# #         hy2.Rebin(2)
+        
+#         if(Particle == "pro"):
+#             # if(minR < 1):
+#             #     hy2.Rebin(2)
+#             if(hy2.GetBinContent(hy2.GetMaximumBin()) < 200):
+#                 hy2.Rebin(2)
+        
+#         Slice_Title = "".join(["#splitline{", Title, "}{p_{", Particle.replace("pip", "#pi^{+}"), "} Bin: ", str(round(minR, 4)), " < p_{", Particle.replace("pip", "#pi^{+}"), "} < ", str(round(minR + dR, 4)), "}"])
+#         hy2.SetTitle(Slice_Title)
+        
+        
+#         extra_con_1 = ((Particle == "pip" and ("mmF_PipMMF" in h2.GetName())) and ("Sector 2" in Title and (minR == 3.75 and "reg1" in h2.GetName())))
+#         extra_con_2 = ((Particle == "pip" and ("mmF_PipMMF" in h2.GetName())) and (("Sector 2" in Title or "Sector 5" in Title) and (minR == 6.75 and "reg2" in h2.GetName())))
+#         extra_con_3 = ((Particle == "pip" and ("mmEF_PipMMEF" in h2.GetName())) and ("Sector 5" in Title and (minR == 6.75)))# and "reg2" in h2.GetName())))
+#         extra_con_4 = ((Particle == "pip" and ("'mmEF'" in h2.GetName())) and ((("Sector 5" in Title and minR == 6.75) or ("Sector 6" in Title and minR > 6.15)) and "reg2" in h2.GetName()))
+        
+#         extra_con_5 = ((Particle == "el" and ("mmEF_PipMMEF" in h2.GetName())) and ("Sector 6" in Title and (minR == 2.5 and "reg3" in h2.GetName())))
+        
+#         extra_rebin_con = (extra_con_2 or extra_con_3 or extra_con_4 or extra_con_5) and (Particle != "pro")
+        
+#         if(extra_rebin_con):
+#             hy2.Rebin(2)
+        
+
+#         hys2.append(hy2)
+
+#         mu = hy2.GetBinCenter(hy2.GetMaximumBin())
+#         bin_width_mu = hy2.GetBinWidth(hy2.FindBin(mu))
+
+#         if(MM_type == "epipX" and (mu < 0.5 or mu > 1.15)):
+#             mu = 0.9396
+#             # print("".join(["\nCheck: ", color.BBLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
+#             bin_width_mu = 2.5*hy2.GetBinWidth(hy2.FindBin(mu))
+                
+#         if(MM_type == "eppipX" and (mu < -0.1 or mu > 0.2)):
+#             mu = 0
+#             print("".join([color.RED, "\nCheck: ", color.BBLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
+#             bin_width_mu = 2.5*hy2.GetBinWidth(hy2.FindBin(mu))
+                
+#         if(MM_type == "epX" and (mu < -0.1 or mu > 0.2)):
+#             mu = 0        
+#             print("".join([color.RED, "\nCheck: ", color.BBLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
+#             bin_width_mu = 2.5*hy2.GetBinWidth(hy2.FindBin(mu))
+
+        
+#         spectrum = ROOT.TSpectrum(5, 2.5)
+#         nfound = spectrum.Search(hy2, 2)
+        
+        
+#         if(Particle == "pro"):
+#             MM_DP       = 0.13957*0.13957
+#             MM_DP_Bin   = hy2.FindBin(MM_DP)
+#             MM_MU_Bin   = hy2.FindBin(mu)
+#             MM_Spec_Bin = hy2.FindBin((spectrum.GetPositionX())[0])
+            
+#             MM_Bin_Best = MM_DP
+            
+#             if(abs(MM_DP_Bin - MM_MU_Bin) < abs(MM_DP_Bin - MM_Spec_Bin)):
+#                 MM_Bin_Best = MM_MU_Bin
+#                 # print("\nMax")
+#                 # print("".join(["minR = ", str(minR)]))
+#                 # print("".join(["abs(MM_DP_Bin - MM_MU_Bin) = ", str(abs(MM_DP_Bin - MM_MU_Bin))]))
+#                 # print("".join(["abs(MM_DP_Bin - MM_Spec_Bin) = ", str(abs(MM_DP_Bin - MM_Spec_Bin))]))
+#                 # if(("Sector 6" in str(Title)) and (minR == 0.45)):
+#                 #     print("Max")
+#             else:
+#                 MM_Bin_Best = MM_Spec_Bin
+#                 # print("\nPeak")
+#                 # print("".join(["minR = ", str(minR)]))
+#                 # print("".join(["abs(MM_DP_Bin - MM_MU_Bin) = ", str(abs(MM_DP_Bin - MM_MU_Bin))]))
+#                 # print("".join(["abs(MM_DP_Bin - MM_Spec_Bin) = ", str(abs(MM_DP_Bin - MM_Spec_Bin))]))
+#                 # if(("Sector 5" in str(Title)) and (minR == 0.45)):
+#                 #     # print("".join(["abs(MM_DP_Bin - MM_MU_Bin) = ", str(abs(MM_DP_Bin - MM_MU_Bin))]))
+#                 #     # print("".join(["abs(MM_DP_Bin - MM_Spec_Bin) = ", str(abs(MM_DP_Bin - MM_Spec_Bin))]))
+#                 #     # print("Peak")
+#                 #     MM_Bin_Best += 1
+#                 # if(("Sector 6" in str(Title)) and (minR == 0.45)):
+#                 #     print("".join(["minR = ", str(minR)]))
+#                 #     print("Peak")
+                
+#             mu = hy2.GetBinCenter(MM_Bin_Best)
+#             bin_width_mu = hy2.GetBinWidth(MM_Bin_Best)
+            
+            
+#             if(MM_DP_Bin == MM_Bin_Best):
+#                 bin_width_mu = 0.25*bin_width_mu
+#             else:
+#                 bin_width_mu = 1.5*bin_width_mu
+                
+#             if("ProMMpro_LEF" in str(h2.GetName())):
+#                 # if("Sector 1" in str(Title)):
+#                 # if("Sector 2" in str(Title)):
+#                 # if("Sector 3" in str(Title)):
+#                 # if("Sector 4" in str(Title)):
+#                 if("Sector 5" in str(Title)):
+#                     if(minR == 0.45):
+#                         bin_width_mu = 0.35*hy2.GetBinWidth(MM_Bin_Best)
+#                 #     if(minR == 0.7):
+#                 #         bin_width_mu = 2.5*hy2.GetBinWidth(MM_Bin_Best)
+#                 if("Sector 6" in str(Title)):
+#                     if(minR == 0.45):
+#                         bin_width_mu = 0.35*hy2.GetBinWidth(MM_Bin_Best)
+            
+            
+
+#         if(event_type not in ["DP"]):
+#             fit_function = "gaus(0) + pol1(3)"
+#         else:
+#             fit_function = "gaus(0) + pol2(3)"
+        
+#         # fy2 = ROOT.TF1("fy2", str(fit_function), mu - 2*0.065, mu + 2*0.065)
+#         # fy2 = ROOT.TF1("fy2", str(fit_function), mu - 1*0.065, mu + 1*0.065)
+        
+#         if(extra_con_1):
+#             # print(color.BOLD + "\n" + color.BLUE + str(Slice_Title) + color.END)
+#             # print(color.BBLUE + str(h2.GetName()) + color.END + "\n")
+#             # fy2 = ROOT.TF1("fy2", str(fit_function), mu - 2*0.065, mu + 2*0.065)
+#             fy2 = ROOT.TF1("fy2", str(fit_function), mu - 1*0.065, mu + 1*0.065)
+#         elif(extra_con_2 and False):
+#             # print(color.BOLD + "\n" + color.BLUE + str(Slice_Title) + color.END)
+#             # print(color.BBLUE + str(h2.GetName()) + color.END + "\n")
+#             fy2 = ROOT.TF1("fy2", str(fit_function), mu - 3*0.065, mu + 2*0.065)
+#         elif(extra_con_pro):
+#             fy2 = ROOT.TF1("fy2", str(fit_function), mu - 3*0.065, mu + 4*0.065)
+# #             fy2 = ROOT.TF1("fy2", str(fit_function), mu - 3*0.065, mu + 2*0.065)
+#         else:
+#             fy2 = ROOT.TF1("fy2", str(fit_function), mu - 3*0.065, mu + 3*0.065)
+
+#         fy2.SetParameter(0, 0.85*hy2.GetBinContent(hy2.FindBin(mu)))
+#         fy2.SetParLimits(0, 0.65*hy2.GetBinContent(hy2.FindBin(mu)), 1.15*hy2.GetBinContent(hy2.FindBin(mu)))
+#         fy2.SetParameter(2, 0.1)
+#         fy2.SetParLimits(2, 0.01, 0.3)
+
+#         fy2.SetParName(0, "Constant")
+#         fy2.SetParName(1, "Mean")
+#         fy2.SetParName(2, "Sigma")
+        
+        
+
+        
+        
+# #         if(not (Particle == "pro" and minR < 0.7)):# True):
+# #         if(Particle != "pro"):
+#         if(True):
+#             fy2.SetParameter(1, mu)
+#             # if(Particle == "pro" and minR < 0.7):
+#             #     fy2.SetParLimits(1, mu - 1.25*bin_width_mu, mu + 1.25*bin_width_mu)
+#             # elif(Particle == "pro" and minR < 2.6):
+#             #     fy2.SetParLimits(1, mu - 0.75*bin_width_mu, mu + 0.75*bin_width_mu)
+#             # elif(Particle == "pro" and minR > 2.6):
+#             #     fy2.SetParLimits(1, mu - 1.75*bin_width_mu, mu + 1.75*bin_width_mu)
+#             # else:
+#             fy2.SetParLimits(1, mu - 1.0*bin_width_mu, mu + 1.0*bin_width_mu)
+            
+#         else:
+#             num_test = 0
+#             for peaks in spectrum.GetPositionX():
+#                 num_test += 1
+#                 current_constant = hy2.GetBinContent(hy2.FindBin(peaks))
+#                 fy2.SetParameter((3*num_test) - 3, 0.85*current_constant)
+#                 fy2.SetParLimits((3*num_test) - 3, 0.65*current_constant, 1.15*current_constant)
+#                 fy2.SetParameter((3*num_test) - 2, peaks)
+# #                 fy2.SetParLimits((3*num_test) - 2, peaks - 2*0.0025, peaks + 2*0.0025)
+#                 fy2.SetParLimits((3*num_test) - 2, peaks - 0.25*bin_width_mu, peaks + 0.25*bin_width_mu)
+#                 fy2.SetParameter((3*num_test) - 1, 0.1)
+#                 fy2.SetParLimits((3*num_test) - 1, 0.01, 0.3)
+#                 fy2.SetRange(peaks - 2*0.065, peaks + 2*0.065)
+#                 break
+
+#         hy2.Fit(fy2, "BRQ")
+        
+
+# #         fit_function_BG = "pol1(0)"
+# #         fy2_BG = ROOT.TF1("fy2_BG", str(fit_function_BG), mu - 4*0.065, mu + 4*0.065)
+# #         fy2_BG.SetParameter(0, fy2.GetParameter(3))
+# #         fy2_BG.SetParLimits(0, fy2.GetParameter(3), fy2.GetParameter(3))
+# #         fy2_BG.SetParameter(1, fy2.GetParameter(4))
+# #         fy2_BG.SetParLimits(1, fy2.GetParameter(4), fy2.GetParameter(4))
+# #         fy2_BG.SetLineColor(root_color.Blue)
+# #         hy2.Fit(fy2_BG, "BRQ")
+        
+
+#         # mu, sig = fy2.GetParameter(1), abs(fy2.GetParameter(2))
+        
+#         # sigma_factor = 1.25
+#         sigma_factor = 3
+#         sigma_factor_up = 1.75
+#         sigma_factor_down = 2
+        
+        
+#         MM_Peak, SIG = fy2.GetParameter(1), abs(fy2.GetParameter(2))
+
+#         gr2.SetPoint(gr2.GetN(), minR+dR/2.0, MM_Peak)
+#         gr2_V2.SetPoint(gr2_V2.GetN(), minR+dR/2.0, MM_Peak)
+        
+#         gr2_Sigma.SetPoint(gr2_Sigma.GetN(), minR+dR/2.0, SIG)
+        
+#         gr2_Cut_Range_Up.SetPoint(gr2_Sigma.GetN(), minR+dR/2.0, MM_Peak + sigma_factor_up*(SIG))
+#         gr2_Cut_Range_Down.SetPoint(gr2_Sigma.GetN(), minR+dR/2.0, MM_Peak - sigma_factor_down*(SIG))
+            
+            
+#         Error_of_MM_Peak = fy2.GetParError(1)
+#         Error_of_SIG = fy2.GetParError(2)
+        
+# #         try:
+# #             if(Error_of_MM_Peak < 0.5*(hy2.GetBinWidth(hy2.FindBin(MM_Peak)))):
+# #                 Error_of_MM_Peak = 0.5*(hy2.GetBinWidth(hy2.FindBin(MM_Peak)))
+# #         except:
+# #             print(color.RED + str(traceback.format_exc()) + color.END)
+        
+#         gr2.SetPointError(gr2.GetN() - 1, dR/2.0, Error_of_MM_Peak)
+#         gr2_V2.SetPointError(gr2_V2.GetN() - 1, dR/2.0, Error_of_MM_Peak + sigma_factor_down*(SIG + Error_of_SIG), Error_of_MM_Peak + sigma_factor_up*(SIG + Error_of_SIG))
+#         # gr2_V2.SetPointError(gr2_V2.GetN() - 1, 0, 0, Error_of_MM_Peak + sigma_factor_down*(SIG + Error_of_SIG), Error_of_MM_Peak + sigma_factor_up*(SIG + Error_of_SIG))
+        
+#         gr2_Sigma.SetPointError(gr2_Sigma.GetN() - 1, 0, Error_of_SIG)
+        
+#         gr2_Cut_Range_Up.SetPointError(gr2_Cut_Range_Up.GetN() - 1, dR/2.0, Error_of_MM_Peak + sigma_factor_up*(Error_of_SIG))
+#         gr2_Cut_Range_Down.SetPointError(gr2_Cut_Range_Down.GetN() - 1, dR/2.0, Error_of_MM_Peak + sigma_factor_down*(Error_of_SIG))
+
+        
+#         FindPeak_x.append(MM_Peak)
+#         FindPeak_y.append(hy2.GetBinContent(hy2.FindBin(MM_Peak)))
+
+#         minR += dR
+    
+#     setattr(h2, "hys2", hys2)
+#     setattr(h2, "gr2", gr2)
+#     setattr(h2, "gr2_V2", gr2_V2)
+#     setattr(h2, "gr2_Sigma", gr2_Sigma)
+#     setattr(h2, "gr2_Cut_Range_Up", gr2_Cut_Range_Up)
+#     setattr(h2, "gr2_Cut_Range_Down", gr2_Cut_Range_Down)
+#     setattr(h2, "FindPeak_x", FindPeak_x)
+#     setattr(h2, "FindPeak_y", FindPeak_y)
+    
+#     return h2
+
+
+
+
+
+
+# ################################################################################################################################################################################################################################################################################################################
+# ### New Cell ###################################################################################################################################################################################################################################################################################################
+# ################################################################################################################################################################################################################################################################################################################
+
+
+
+
+
+
+# Meaning of below: h2 is the 2D histogram to be sliced and fit; minR/maxR is the starting/ending point of the slice range, and dR is the increments of increase between each slice (for p_e, fit range should be minR=2, maxR=8, and dR=1)
+def fit2dall(h2, minR, maxR, dR, Title, BGq, Particle, Event_Type_In=event_type):
+
+    hx = h2.ProjectionX()
+    hys2, Sigma_Widths = [], []
+    gr2, gr2_Sigma, gr2_Cut_Range_Up, gr2_Cut_Range_Down = ROOT.TGraphErrors(), ROOT.TGraphErrors(), ROOT.TGraphErrors(), ROOT.TGraphErrors()
+    gr2_V2 = ROOT.TGraphAsymmErrors()
+    gr2.SetMarkerStyle(20)
+    gr2_V2.SetMarkerStyle(20)
+    gr2_Sigma.SetMarkerStyle(20)
+    gr2_Cut_Range_Up.SetMarkerStyle(20)
+    gr2_Cut_Range_Down.SetMarkerStyle(20)
+    
+    FindPeak_x, FindPeak_y = [], []
+
+    while minR+dR <= maxR:
+        
+        extra_con_pro = False
+        if(Particle == "pro"):
+            extra_con_pro = True
+            
             if(Particle == "pro"):
-                if(event_type == "DP" and minR < 0.8):
+                if(Event_Type_In == "DP" and minR < 0.8):
                     dR = 0.1
-                elif(event_type == "DP"):
+                elif(Event_Type_In == "DP"):
                     dR = 0.25
-                if(event_type == "DP" and minR >= 0.85 and dR == 0.05):
+                if(Event_Type_In == "DP" and minR >= 0.85 and dR == 0.05):
                     dR = 0.1
-                # if(event_type == "DP" and minR >= 1.1 and dR < 0.25):
+                # if(Event_Type_In == "DP" and minR >= 1.1 and dR < 0.25):
                 #     dR += 0.05
                 #     dR = round(dR, 3)
-                if(event_type == "DP" and minR >= 1.25 and dR < 0.25):
+                if(Event_Type_In == "DP" and minR >= 1.25 and dR < 0.25):
                     dR = 0.25
-                if(event_type == "P0"):
+                if(Event_Type_In == "P0"):
                     dR = 0.25
-                if(event_type == "DP" and minR == 2.9):
+                if(Event_Type_In == "DP" and minR == 2.9):
                     dR = 0.5
-                if(event_type == "P0" and minR == 1.2):
+                if(Event_Type_In == "P0" and minR == 1.2):
                     dR = 0.5
 
-                if(event_type in ["DP", "P0"]):
+                if(Event_Type_In in ["DP", "P0"]):
                     dR = 0.25
                     if(minR >= 2.2):
                         dR = 0.5
-                    if(minR < 1 and event_type == "DP"):
+                    if(minR < 1 and Event_Type_In == "DP"):
+                        dR = 0.1
+
+            if(Particle == "pro"):
+                if(Event_Type_In == "DP" and minR < 0.8):
+                    dR = 0.1
+                elif(Event_Type_In == "DP"):
+                    dR = 0.25
+                if(Event_Type_In == "DP" and minR >= 0.85 and dR == 0.05):
+                    dR = 0.1
+                # if(Event_Type_In == "DP" and minR >= 1.1 and dR < 0.25):
+                #     dR += 0.05
+                #     dR = round(dR, 3)
+                if(Event_Type_In == "DP" and minR >= 1.25 and dR < 0.25):
+                    dR = 0.25
+                if(Event_Type_In == "P0"):
+                    dR = 0.25
+                if(Event_Type_In == "DP" and minR == 2.9):
+                    dR = 0.5
+                if(Event_Type_In == "P0" and minR == 1.2):
+                    dR = 0.5
+
+                if(Event_Type_In in ["DP", "P0"]):
+                    dR = 0.25
+                    if(minR >= 2.2):
+                        dR = 0.5
+                    if(minR < 1 and Event_Type_In == "DP"):
                         dR = 0.1
                             
 #                         dR = 0.05
 
-#                 if(event_type == "P0"):
+#                 if(Event_Type_In == "P0"):
 #                     dR = 0.1
-                if((event_type == "DP") and (dR < 0.25)):
+                if((Event_Type_In == "DP") and (dR < 0.25)):
                     dR = 0.25
 
             
             
             
-#                 if(Particle == "pro" and (event_type in ["DP", "P0"])):
+#                 if(Particle == "pro" and (Event_Type_In in ["DP", "P0"])):
 #                     dR = 0.25
 #                     if(minR >= 2.2):
 #                         dR = 0.5
-#                     if(minR < 1 and event_type == "DP"):
+#                     if(minR < 1 and Event_Type_In == "DP"):
 #                         dR = 0.1
 
 #                         # dR = 0.05
@@ -447,56 +419,56 @@ def fit2dall(h2, minR, maxR, dR, Title, BGq, Particle):
 
 
             if(Particle == "pro"):
-                if(event_type == "DP" and minR < 0.8):
+                if(Event_Type_In == "DP" and minR < 0.8):
                     dR = 0.1
-                elif(event_type == "DP"):
+                elif(Event_Type_In == "DP"):
                     dR = 0.25
-                if(event_type == "DP" and minR >= 0.85 and dR == 0.05):
+                if(Event_Type_In == "DP" and minR >= 0.85 and dR == 0.05):
                     dR = 0.1
-                # if(event_type == "DP" and minR >= 1.1 and dR < 0.25):
+                # if(Event_Type_In == "DP" and minR >= 1.1 and dR < 0.25):
                 #     dR += 0.05
                 #     dR = round(dR, 3)
-                if(event_type == "DP" and minR >= 1.25 and dR < 0.25):
+                if(Event_Type_In == "DP" and minR >= 1.25 and dR < 0.25):
                     dR = 0.25
-                if(event_type == "P0"):
+                if(Event_Type_In == "P0"):
                     dR = 0.25
-                if(event_type == "DP" and minR == 2.9):
+                if(Event_Type_In == "DP" and minR == 2.9):
                     dR = 0.5
-                if(event_type == "P0" and minR == 1.2):
+                if(Event_Type_In == "P0" and minR == 1.2):
                     dR = 0.5
 
-                if(event_type in ["DP", "P0"]):
+                if(Event_Type_In in ["DP", "P0"]):
                     dR = 0.25
                     if(minR >= 2.2):
                         dR = 0.5
-                    if(minR < 1 and event_type == "DP"):
+                    if(minR < 1 and Event_Type_In == "DP"):
                         dR = 0.1
 
 
             if(Particle == "pro"):
-                if(event_type == "DP" and minR < 0.8):
+                if(Event_Type_In == "DP" and minR < 0.8):
                     dR = 0.1
-                elif(event_type == "DP"):
+                elif(Event_Type_In == "DP"):
                     dR = 0.25
-                if(event_type == "DP" and minR >= 0.85 and dR == 0.05):
+                if(Event_Type_In == "DP" and minR >= 0.85 and dR == 0.05):
                     dR = 0.1
-                # if(event_type == "DP" and minR >= 1.1 and dR < 0.25):
+                # if(Event_Type_In == "DP" and minR >= 1.1 and dR < 0.25):
                 #     dR += 0.05
                 #     dR = round(dR, 3)
-                if(event_type == "DP" and minR >= 1.25 and dR < 0.25):
+                if(Event_Type_In == "DP" and minR >= 1.25 and dR < 0.25):
                     dR = 0.25
-                if(event_type == "P0"):
+                if(Event_Type_In == "P0"):
                     dR = 0.25
-                if(event_type == "DP" and minR == 2.9):
+                if(Event_Type_In == "DP" and minR == 2.9):
                     dR = 0.5
-                if(event_type == "P0" and minR == 1.2):
+                if(Event_Type_In == "P0" and minR == 1.2):
                     dR = 0.5
 
-                if(event_type in ["DP", "P0"]):
+                if(Event_Type_In in ["DP", "P0"]):
                     dR = 0.25
                     if(minR >= 2.2):
                         dR = 0.5
-                    if(minR < 1 and event_type == "DP"):
+                    if(minR < 1 and Event_Type_In == "DP"):
                         dR = 0.1
 
                         dR = 0.05
@@ -512,7 +484,7 @@ def fit2dall(h2, minR, maxR, dR, Title, BGq, Particle):
         hy2 = h2.ProjectionY(f"hy{ib1}", ib0, ib1)
         hy2.SetDirectory(0)
 
-        # if(event_type == "P0"):
+        # if(Event_Type_In == "P0"):
         #     hy2.Rebin(2)
         #     hy2.Rebin(2)
         # if(hy2.GetBinContent(hy2.GetMaximumBin()) < 100):
@@ -523,7 +495,7 @@ def fit2dall(h2, minR, maxR, dR, Title, BGq, Particle):
         
         hy2.Rebin(2)
         
-        if(Particle == "pro" or event_type == "DP"):
+        if(Particle == "pro" or Event_Type_In == "DP"):
 #             if(minR in [0.45]):
 #                 hy2.Rebin(2)
             hy2.Rebin(2)
@@ -568,17 +540,17 @@ def fit2dall(h2, minR, maxR, dR, Title, BGq, Particle):
 
         if(MM_type == "epipX" and (mu < 0.5 or mu > 1.15)):
             mu = 0.9396
-            # print("".join(["\nCheck: ", color.BOLD, color.BLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
+            # print("".join(["\nCheck: ", color.BBLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
             bin_width_mu = 2.5*hy2.GetBinWidth(hy2.FindBin(mu))
                 
         if(MM_type == "eppipX" and (mu < -0.1 or mu > 0.2)):
             mu = 0
-            print("".join([color.RED, "\nCheck: ", color.BOLD, color.BLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
+            print("".join([color.RED, "\nCheck: ", color.BBLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
             bin_width_mu = 2.5*hy2.GetBinWidth(hy2.FindBin(mu))
                 
         if(MM_type == "epX" and (mu < -0.1 or mu > 0.2)):
             mu = 0        
-            print("".join([color.RED, "\nCheck: ", color.BOLD, color.BLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
+            print("".join([color.RED, "\nCheck: ", color.BBLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
             bin_width_mu = 2.5*hy2.GetBinWidth(hy2.FindBin(mu))
 
         
@@ -678,7 +650,7 @@ def fit2dall(h2, minR, maxR, dR, Title, BGq, Particle):
 
             
 
-        if(event_type not in ["DP"]):
+        if(Event_Type_In not in ["DP"]):
             fit_function = "gaus(0) + pol1(3)"
         else:
             fit_function = "gaus(0) + pol2(3)"
@@ -689,12 +661,12 @@ def fit2dall(h2, minR, maxR, dR, Title, BGq, Particle):
         if(Particle != "pro"):
             if(extra_con_1):
                 # print(color.BOLD + "\n" + color.BLUE + str(Slice_Title) + color.END)
-                # print(color.BOLD + color.BLUE + str(h2.GetName()) + color.END + "\n")
+                # print(color.BBLUE + str(h2.GetName()) + color.END + "\n")
                 # fy2 = ROOT.TF1("fy2", str(fit_function), mu - 2*0.065, mu + 2*0.065)
                 fy2 = ROOT.TF1("fy2", str(fit_function), mu - 1*0.065, mu + 1*0.065)
             elif(extra_con_2 and False):
                 # print(color.BOLD + "\n" + color.BLUE + str(Slice_Title) + color.END)
-                # print(color.BOLD + color.BLUE + str(h2.GetName()) + color.END + "\n")
+                # print(color.BBLUE + str(h2.GetName()) + color.END + "\n")
                 fy2 = ROOT.TF1("fy2", str(fit_function), mu - 3*0.065, mu + 2*0.065)
             elif(extra_con_pro):
                 fy2 = ROOT.TF1("fy2", str(fit_function), mu - 3*0.065, mu + 4*0.065)
@@ -878,9 +850,9 @@ def fit2dall(h2, minR, maxR, dR, Title, BGq, Particle):
 ############################################################################################################################
 
 
-def MM_Fits(h2, minR, maxR, dR, Title, BGq, Particle, Bending_Type="In"):
+def MM_Fits(h2, minR, maxR, dR, Title, BGq, Particle, Bending_Type="In", Event_Type_In=event_type):
     if("In" in Bending_Type and False):
-        h2_return = fit2dall(h2, minR, maxR, dR, Title, BGq, Particle)
+        h2_return = fit2dall(h2, minR, maxR, dR, Title, BGq, Particle, Event_Type_In=Event_Type_In)
         return h2_return
     else:
         hx = h2.ProjectionX()
@@ -989,17 +961,17 @@ def MM_Fits(h2, minR, maxR, dR, Title, BGq, Particle, Bending_Type="In"):
 
             if(MM_type == "epipX"  and (mu <  0.5 or mu > 1.15)):
                 mu = 0.9396
-                # print("".join(["\nCheck: ", color.BOLD, color.BLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
+                # print("".join(["\nCheck: ", color.BBLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
                 # bin_width_mu = 2.5*hy2.GetBinWidth(hy2.FindBin(mu))
 
             if(MM_type == "eppipX" and (mu < -0.1 or mu > 0.2)):
                 mu = 0
-                print("".join([color.RED, "\nCheck: ", color.BOLD, color.BLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
+                print("".join([color.RED, "\nCheck: ", color.BBLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
                 bin_width_mu = 2.5*hy2.GetBinWidth(hy2.FindBin(mu))
 
             if(MM_type == "epX"    and (mu < -0.1 or mu > 0.2)):
                 mu = 0        
-                print("".join([color.RED, "\nCheck: ", color.BOLD, color.BLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
+                print("".join([color.RED, "\nCheck: ", color.BBLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
                 bin_width_mu = 2.5*hy2.GetBinWidth(hy2.FindBin(mu))
 
             try:
@@ -1033,7 +1005,7 @@ def MM_Fits(h2, minR, maxR, dR, Title, BGq, Particle, Bending_Type="In"):
                     # bin_width_mu = 1.5*bin_width_mu
 
 
-            if(event_type not in ["DP", "SP"]):
+            if(Event_Type_In not in ["DP", "SP"]):
                 fit_function = "gaus(0) + pol1(3)"
             else:
                 fit_function = "gaus(0) + pol2(3)"
@@ -1087,8 +1059,8 @@ def MM_Fits(h2, minR, maxR, dR, Title, BGq, Particle, Bending_Type="In"):
                 num_test = 0
                 for peaks in spectrum.GetPositionX():
                     num_test += 1
-                    if(peaks > 1.1 or (peaks < 0.5 and event_type in ["SP"])):
-                        if(peaks < 0.5 and event_type in ["SP"]):
+                    if(peaks > 1.1 or (peaks < 0.5 and Event_Type_In in ["SP"])):
+                        if(peaks < 0.5 and Event_Type_In in ["SP"]):
                             current_constant = hy2.GetBinContent(hy2.FindBin(mu))
                             fy2.SetParameter((3*num_test) - 3, 0.85*current_constant)
                             fy2.SetParLimits((3*num_test) - 3, 0.65*current_constant, 1.15*current_constant)
@@ -1137,8 +1109,8 @@ def MM_Fits(h2, minR, maxR, dR, Title, BGq, Particle, Bending_Type="In"):
 #                 # print("INCREASING SIG FACTORS...")
 #                 sigma_factor_up   = 2.25
 #                 sigma_factor_down = 2.25
-# #                 if(("reg1" in h2.GetName()) and (Particle in ["el"]) and (event_type in ["SP"]) and (minR > 7.75)):
-#                 if((Particle in ["el"]) and (event_type in ["SP"]) and ((minR+dR/2.0) > 6)):
+# #                 if(("reg1" in h2.GetName()) and (Particle in ["el"]) and (Event_Type_In in ["SP"]) and (minR > 7.75)):
+#                 if((Particle in ["el"]) and (Event_Type_In in ["SP"]) and ((minR+dR/2.0) > 6)):
 #                     sigma_factor_up   = 2
 #                     sigma_factor_down = 2
 
@@ -1305,8 +1277,8 @@ for ii in Dp_Cor_Ideal_FRE:
 
 
 
-def fit_Dp_2D(h2, minR, maxR, dR, Title, BGq, Particle, D_Angle=False, Cut_Q=True):
-    if("E" not in event_type):
+def fit_Dp_2D(h2, minR, maxR, dR, Title, BGq, Particle, D_Angle=False, Cut_Q=True, Event_Type_In=event_type):
+    if("E" not in Event_Type_In):
         
         Short_Q_2 = False
         # if(("El Sector 3" in Title and "(#phi_{El} < -5)" in Title and ("9.0" in Title or "")) or ("El Sector 4" in Title and "(#phi_{El} < -5)" in Title and "9.0" in Title)):
@@ -1352,58 +1324,58 @@ if(sec == """, "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Ti
             while minR+dR <= maxR:
                 
                 if(Particle == "pro"):
-                    if(event_type == "DP" and minR < 0.8):
+                    if(Event_Type_In == "DP" and minR < 0.8):
                         dR = 0.1
-                    elif(event_type == "DP"):
+                    elif(Event_Type_In == "DP"):
                         dR = 0.25
-                    if(event_type == "DP" and minR >= 0.85 and dR == 0.05):
+                    if(Event_Type_In == "DP" and minR >= 0.85 and dR == 0.05):
                         dR = 0.1
-                    # if(event_type == "DP" and minR >= 1.1 and dR < 0.25):
+                    # if(Event_Type_In == "DP" and minR >= 1.1 and dR < 0.25):
                     #     dR += 0.05
                     #     dR = round(dR, 3)
-                    if(event_type == "DP" and minR >= 1.25 and dR < 0.25):
+                    if(Event_Type_In == "DP" and minR >= 1.25 and dR < 0.25):
                         dR = 0.25
-                    if(event_type == "P0"):
+                    if(Event_Type_In == "P0"):
                         dR = 0.25
-                    if(event_type == "DP" and minR == 2.9):
+                    if(Event_Type_In == "DP" and minR == 2.9):
                         dR = 0.5
-                    if(event_type == "P0" and minR == 1.2):
+                    if(Event_Type_In == "P0" and minR == 1.2):
                         dR = 0.5
                         
-                    if(event_type in ["DP", "P0"]):
+                    if(Event_Type_In in ["DP", "P0"]):
                         dR = 0.25
                         if(minR >= 2.2):
                             dR = 0.5
-                        if(minR < 1 and event_type == "DP"):
+                        if(minR < 1 and Event_Type_In == "DP"):
                             dR = 0.1
                         
-#                     if(event_type == "P0"):
+#                     if(Event_Type_In == "P0"):
 #                         dR = 0.1
 
                 if(Particle == "pro"):
-                    if(event_type == "DP" and minR < 0.8):
+                    if(Event_Type_In == "DP" and minR < 0.8):
                         dR = 0.1
-                    elif(event_type == "DP"):
+                    elif(Event_Type_In == "DP"):
                         dR = 0.25
-                    if(event_type == "DP" and minR >= 0.85 and dR == 0.05):
+                    if(Event_Type_In == "DP" and minR >= 0.85 and dR == 0.05):
                         dR = 0.1
-                    # if(event_type == "DP" and minR >= 1.1 and dR < 0.25):
+                    # if(Event_Type_In == "DP" and minR >= 1.1 and dR < 0.25):
                     #     dR += 0.05
                     #     dR = round(dR, 3)
-                    if(event_type == "DP" and minR >= 1.25 and dR < 0.25):
+                    if(Event_Type_In == "DP" and minR >= 1.25 and dR < 0.25):
                         dR = 0.25
-                    if(event_type == "P0"):
+                    if(Event_Type_In == "P0"):
                         dR = 0.25
-                    if(event_type == "DP" and minR == 2.9):
+                    if(Event_Type_In == "DP" and minR == 2.9):
                         dR = 0.5
-                    if(event_type == "P0" and minR == 1.2):
+                    if(Event_Type_In == "P0" and minR == 1.2):
                         dR = 0.5
 
-                    if(event_type in ["DP", "P0"]):
+                    if(Event_Type_In in ["DP", "P0"]):
                         dR = 0.25
                         if(minR >= 2.2):
                             dR = 0.5
-                        if(minR < 1 and event_type == "DP"):
+                        if(minR < 1 and Event_Type_In == "DP"):
                             dR = 0.1
                             
                             dR = 0.05
@@ -1411,13 +1383,6 @@ if(sec == """, "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Ti
                 if(Particle == "pro"):
                     dR = 0.25
                     dR = 0.15
-#                     if(minR > 2.4 and event_type == "DP"):
-#                         dR = 0.5
-                            
-
-                            
-#                     if((event_type == "DP") and (dR < 0.25)):
-#                         dR = 0.25
                         
                 ib0, ib1 = hx.FindBin(minR), hx.FindBin(minR+dR)
 
@@ -1437,38 +1402,10 @@ if(sec == """, "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Ti
                     
                 if(Particle == "pro"):
                     hy2.Rebin()
-#                     hy2.Rebin()
-    
-#                     if(hy2.GetBinContent(hy2.GetMaximumBin()) < 400):
-#                         hy2.Rebin(2)
-#                     if(hy2.GetBinContent(hy2.GetMaximumBin()) < 300):
-#                         hy2.Rebin(2)
-#                     if(hy2.GetBinContent(hy2.GetMaximumBin()) < 200):
-#                         hy2.Rebin(2)
-
                     if(hy2.GetBinContent(hy2.FindBin(0)) < 100):
                         hy2.Rebin(2)
                     if(hy2.GetBinContent(hy2.FindBin(0)) < 50):
                         hy2.Rebin(2)
-                        
-#                     if(minR > 1.9 and minR < 2.0):
-#                         hy2.Rebin()
-    
-                        
-# #                     if((event_type == "DP") and ("Sector 6" in Title) and (minR == 2.7) and ("ProMMpro_LEF" in h2.GetName())):
-#                     if((event_type == "DP") and (minR == 2.7)):
-#                         hy2.Rebin(2)
-#                     if((event_type == "DP") and (minR == 1.55) and ("Sector 1" in Title)):
-#                     if((event_type == "DP") and (minR == 1.55)):
-#                         hy2.Rebin(2)
-#                     if((event_type == "DP") and (minR == 1.8) and ("Sector 2" in Title)):
-#                         hy2.Rebin(2)
-                    # if(hy2.GetBinContent(hy2.GetMaximumBin()) < 400):
-    
-#                     if((Sector_Title in ["1", "2", "6"]) and (minR > 0.54) and ("'')" in str(h2.GetName()))):# and minR < 0.6)):
-#                         # if(hy2.GetBinContent(hy2.GetMaximumBin()) < 450):
-#                         if((Sector_Title not in ["2"]) or (minR < 0.9) and ("'')" in str(h2.GetName()))):
-#                             hy2.Rebin(2)
 
 
                 # if(("Fall 2018 - Pass 2" in str(Title)) and ("Fa18" in str(Title)) and ("pip" not in Particle)):
@@ -1486,7 +1423,7 @@ if(sec == """, "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Ti
 
 
                 mu = hy2.GetBinCenter(hy2.GetMaximumBin())
-                if(event_type in ["DP"] and (mu < -0.2 or mu > 0.2)):
+                if(Event_Type_In in ["DP"] and (mu < -0.2 or mu > 0.2)):
                     # print("RESET")
                     mu = 0
 
@@ -1583,7 +1520,7 @@ if(sec == """, "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Ti
     
                 ReFit = ("'')" in str(h2.GetName()))
                 # Pre-set ∆P correction factors
-                if(Use_Pre_Set and ((event_type in ["DP"]) and ("mmEF_PipMMEF" in str(h2.GetName())) and ("_ProMMpro" not in str(h2.GetName())))):
+                if(Use_Pre_Set and ((Event_Type_In in ["DP"]) and ("mmEF_PipMMEF" in str(h2.GetName())) and ("_ProMMpro" not in str(h2.GetName())))):
                     ReFit = False
                     Dp_Cor_Ideal_FRE_Finding = Dp_Cor_Ideal_FRE_Sec_1 if("1" in str(Sector_Title)) else Dp_Cor_Ideal_FRE_Sec_2 if("2" in str(Sector_Title)) else Dp_Cor_Ideal_FRE_Sec_3 if("3" in str(Sector_Title)) else Dp_Cor_Ideal_FRE_Sec_4 if("4" in str(Sector_Title)) else Dp_Cor_Ideal_FRE_Sec_5 if("5" in str(Sector_Title)) else Dp_Cor_Ideal_FRE_Sec_6
                     for Dp_Cor_Final in Dp_Cor_Ideal_FRE_Finding:
@@ -1624,11 +1561,6 @@ if(sec == """, "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Ti
                         
                     else:
                         fy2.SetParameter(1, mu)
-                        # fy2.SetParLimits(1, -0.045, 0.075)
-#                         if((abs(mu) < 0.075) or ("_RE" not in str(h2.GetName()))):
-#                             fy2.SetParLimits(1, -0.075, 0.075)
-#                         else:
-#                             fy2.SetParLimits(1, mu - 0.025, mu + 0.025)
                         fy2.SetRange(-0.1, 0.1)
                         hy2.Fit(fy2, "BRQ")
 
@@ -1641,38 +1573,6 @@ if(sec == """, "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Ti
                             
                         fy2.SetParameter(1, mu)
                         fy2.SetParLimits(1, 0.9*mu, 1.1*mu if(mu > 0) else 0.055)
-#                         if(("FRE" not in str(h2.GetName())) and ("_RE" not in str(h2.GetName()))):
-#                             if(Sector_Title in ["6"]):
-#                                 if(minR > 0.94):
-#                                     fy2.SetRange(-0.35, 0.2)
-#                                 elif(minR < 0.49):
-#                                     fy2.SetRange(-0.1, 0.2)
-#                                 else:
-#                                     fy2.SetRange(-0.125, 0.14)
-#                             elif(Sector_Title in ["2"]):
-#                                 if(minR > 1.7):
-#                                     fy2.SetRange(-0.3, 0.25)
-#                                 else:
-#                                     fy2.SetRange(-0.175, 0.175)
-#                             elif(Sector_Title in ["1"]):
-#                                 if((minR > 0.96 and minR < 1.2) or (minR > 1.45)):
-#                                     fy2.SetRange(-0.1, 0.2)
-#                                 else:
-#                                     fy2.SetRange(-0.175, 0.175)
-#                             else:
-#                                 fy2.SetRange(-0.175, 0.175)
-#                         else:
-#                             # fy2.SetRange(-0.175, 0.175)
-#                             fy2.SetRange(-0.19, 0.19)
-#                             if(minR < 1.2):
-#                                 fy2.SetRange(-0.115, 0.1)
-#                             if("_RE" in str(h2.GetName())):
-#                                 fy2.SetRange(-0.3, 0.3)
-#                                 if(minR < 1.1):
-#                                     fy2.SetRange(-0.19, 0.19)
-#                                 if(minR < 1.0):
-#                                     fy2.SetRange(-0.115, 0.1)
-                            
                             
                         hy2.Fit(fy2, "BRQ")
 
@@ -1819,7 +1719,7 @@ if(sec == """, "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Ti
                         if(hy2.GetBinContent(ii) < 0):
                             hy2.SetBinContent(ii,0)
 
-                if(event_type == "P0"):
+                if(Event_Type_In == "P0"):
                     hy2.Rebin(4)
                     if(hy2.GetBinContent(hy2.GetMaximumBin()) < 100):
                         hy2.Rebin()
@@ -1830,9 +1730,9 @@ if(sec == """, "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Ti
                 hys2.append(hy2)
 
 
-                # fit_function = "gaus(0) + pol1(3)" if(event_type != "ES") else "gaus(0)" if(not D_phi) else "gaus(0) + gaus(3)"
+                # fit_function = "gaus(0) + pol1(3)" if(Event_Type_In != "ES") else "gaus(0)" if(not D_phi) else "gaus(0) + gaus(3)"
 
-                fit_function = "gaus(0) + pol1(3)" if(event_type != "ES") else "gaus(0) + gaus(3)" if(not Cut_Q) else "gaus(0)"
+                fit_function = "gaus(0) + pol1(3)" if(Event_Type_In != "ES") else "gaus(0) + gaus(3)" if(not Cut_Q) else "gaus(0)"
 
                 fit_function = "gaus(0) + pol1(3)"
                 
@@ -1852,7 +1752,7 @@ if(sec == """, "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Ti
                     if(hy2.GetBinContent(hy2.GetMaximumBin()) < 180):
                         hy2.Rebin()
 
-                if("E" not in event_type):
+                if("E" not in Event_Type_In):
                     if(hy2.GetBinContent(hy2.GetMaximumBin()) < 180 and Particle == 'el'):
                         hy2.Rebin()
     #                 if(minR > 1.5):
@@ -1916,7 +1816,7 @@ if(sec == """, "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Ti
                 mu, sig = fy2.GetParameter(1), abs(fy2.GetParameter(2))
 
                 if(not D_Angle):
-                    if("E" not in event_type):
+                    if("E" not in Event_Type_In):
                         fy2.SetRange(mu - 3*sig, mu + 3*sig)
                     else:
                         fy2.SetRange(mu - 5*sig, mu + 5*sig)
@@ -2171,7 +2071,7 @@ if(sec == """, "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Ti
                         if(hy2.GetBinContent(ii) < 0):
                             hy2.SetBinContent(ii,0)
 
-                if(event_type == "P0"):
+                if(Event_Type_In == "P0"):
                     hy2.Rebin(4)
                     if(hy2.GetBinContent(hy2.GetMaximumBin()) < 100):
                         hy2.Rebin()
@@ -2360,7 +2260,7 @@ if(sec == """, "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Ti
                             par_main_peak = 7
 
                 if(Slice_Title in ["#splitline{#splitline{Electron Only}{#color[2]{#splitline{#splitline{(Inbending) #Delta p_{El} vs p_{El}}{Correction: #font[22]{No Momentum Corrections}}}{#splitline{El Sector 3 -- #phi_{El} Bin:  (#phi_{El} < -5)}{Cut Applied: Calculated Exclusivity Cuts}}}}}{p_{el} Bin: 8.95 < p_{el} < 9.2}", "#splitline{#splitline{Electron Only}{#color[2]{#splitline{#splitline{(Inbending) #Delta p_{El} vs p_{El}}{Correction: #font[22]{No Momentum Corrections}}}{#splitline{El Sector 3}{Cut Applied: Calculated Exclusivity Cuts}}}}}{p_{el} Bin: 8.95 < p_{el} < 9.2}"]):
-                    # print(color.RED + color.BOLD + "\nCHECKING ERRORS")
+                    # print(color.Error + "\nCHECKING ERRORS")
                     # print("TITLE:")
                     # print(Slice_Title)
                     # print("fit_function = " + str(fit_function))
@@ -2475,14 +2375,14 @@ if(sec == """, "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Ti
 
 
 
-def fit_Dp_2D_Out(h2, minR, maxR, dR, Title, BGq, Particle, Bending_Type="In", D_Angle=False, Cut_Q=True):
+def fit_Dp_2D_Out(h2, minR, maxR, dR, Title, BGq, Particle, Bending_Type="In", D_Angle=False, Cut_Q=True, Event_Type_In=event_type):
     if(("In" in str(Bending_Type)) or (D_Angle != False) or (Cut_Q != True)):
-        fit_Dp_2D(h2, minR, maxR, dR, Title, BGq, Particle, D_Angle, Cut_Q)
+        fit_Dp_2D(h2, minR, maxR, dR, Title, BGq, Particle, D_Angle, Cut_Q, Event_Type_In=Event_Type_In)
     else:
         # print("Using Outbending Correction Fit Functions...\n")
         # fit_Dp_2D(h2, minR, maxR, dR, Title, BGq, Particle, D_Angle, Cut_Q)
         Sector_Title = "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Title)) else "3" if("Sector 3" in str(Title)) else "4" if("Sector 4" in str(Title)) else "5" if("Sector 5" in str(Title)) else "6" if("Sector 6" in str(Title)) else "All"
-        if("E" not in event_type or True):
+        if("E" not in Event_Type_In or True):
 
             Use_Pre_Set = False # True
 
@@ -2535,18 +2435,18 @@ if(sec == """, str(Sector_Title), "):"]))
                 # fit_function = "gaus(0) + pol2(3)"
                 
                 
-                min_FitR = -0.2 if(event_type not in ["SP", "EO"]) else -0.1 if(event_type not in ["EO"]) else (-0.075 if(minR < 9.9) else -0.09)
-                max_FitR =  0.2 if(event_type not in ["SP", "EO"]) else  0.1 if(event_type not in ["EO"]) else ( 0.075 if(minR < 9.9) else  0.09)
+                min_FitR = -0.2 if(Event_Type_In not in ["SP", "EO"]) else -0.1 if(Event_Type_In not in ["EO"]) else (-0.075 if(minR < 9.9) else -0.09)
+                max_FitR =  0.2 if(Event_Type_In not in ["SP", "EO"]) else  0.1 if(Event_Type_In not in ["EO"]) else ( 0.075 if(minR < 9.9) else  0.09)
                 mu       = hy2.GetBinCenter(hy2.GetMaximumBin())
                 
                 if(mu < min_FitR or mu > max_FitR):
                     print("RESET:", Slice_Title)
                     mu = 0
                 
-                # if(event_type in ["DP"] and (mu < -0.2 or mu > 0.2)):
+                # if(Event_Type_In in ["DP"] and (mu < -0.2 or mu > 0.2)):
                 #     # print("RESET")
                 #     mu = 0
-                # if(event_type in ["EO"] and (mu < -0.2 or mu > 0.1)):
+                # if(Event_Type_In in ["EO"] and (mu < -0.2 or mu > 0.1)):
                 #     # print("RESET")
                 #     mu = 0
                     
@@ -2604,16 +2504,16 @@ if(sec == """, str(Sector_Title), "):"]))
 
                 mu, sig = fy2.GetParameter(1), abs(fy2.GetParameter(2))
                 
-                if(mu < 0 and (event_type in ["SP"])): # The following ranges typically work better for the peaks which are shifted in this direction
+                if(mu < 0 and (Event_Type_In in ["SP"])): # The following ranges typically work better for the peaks which are shifted in this direction
                     fy2.SetRange(-0.125, 0.075)
                     hy2.Fit(fy2, "BRQ")
                     mu, sig = fy2.GetParameter(1), abs(fy2.GetParameter(2))
                 # ReFit = ("'')" in str(h2.GetName()))
-                if(mu > 0.045 and (event_type in ["EO"])):
+                if(mu > 0.045 and (Event_Type_In in ["EO"])):
                     fy2.SetRange(-0.05, 0.125)
                     hy2.Fit(fy2, "BRQ")
                     mu, sig = fy2.GetParameter(1), abs(fy2.GetParameter(2))
-                if(mu < -0.05 and (event_type in ["EO"])):
+                if(mu < -0.05 and (Event_Type_In in ["EO"])):
                     fy2.SetRange(-0.15, 0.05)
                     hy2.Fit(fy2, "BRQ")
                     mu, sig = fy2.GetParameter(1), abs(fy2.GetParameter(2))
@@ -2859,7 +2759,7 @@ def fit_WM_2D(h2, minR, maxR, dR, Title, BGq, Particle, Cut_Q=False):
         
         if(mu < 0.8 or mu > 1.0):
             mu = 0.9383
-            # print("".join(["\nCheck: ", color.BOLD, color.BLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
+            # print("".join(["\nCheck: ", color.BBLUE, str(Slice_Title), color.END, "\nMax bin centered at: ", str(hy2.GetBinCenter(hy2.GetMaximumBin())), "\n"]))
             bin_width_mu = 1.5*hy2.GetBinWidth(hy2.FindBin(mu))
 
         
