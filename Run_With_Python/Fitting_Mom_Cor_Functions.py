@@ -2434,9 +2434,13 @@ if(sec == """, str(Sector_Title), "):"]))
                 fit_function = "gaus(0) + pol1(3)"
                 # fit_function = "gaus(0) + pol2(3)"
                 
+                if((Event_Type_In in ["EO"]) and (minR < 9.9)):
+                    fit_function = "gaus(0) + pol2(3)"
                 
-                min_FitR = -0.2 if(Event_Type_In not in ["SP", "EO"]) else -0.1 if(Event_Type_In not in ["EO"]) else (-0.075 if(minR < 9.9) else -0.09)
-                max_FitR =  0.2 if(Event_Type_In not in ["SP", "EO"]) else  0.1 if(Event_Type_In not in ["EO"]) else ( 0.075 if(minR < 9.9) else  0.09)
+                # min_FitR = -0.2 if(Event_Type_In not in ["SP", "EO"]) else -0.1 if(Event_Type_In not in ["EO"]) else (-0.075 if(minR < 9.9) else -0.09)
+                # max_FitR =  0.2 if(Event_Type_In not in ["SP", "EO"]) else  0.1 if(Event_Type_In not in ["EO"]) else ( 0.075 if(minR < 9.9) else  0.09)
+                min_FitR = -0.2 if(Event_Type_In not in ["SP", "EO"]) else -0.1 if(Event_Type_In not in ["EO"]) else (-0.12  if(minR < 9.6) else -0.12)
+                max_FitR =  0.2 if(Event_Type_In not in ["SP", "EO"]) else  0.1 if(Event_Type_In not in ["EO"]) else ( 0.075 if(minR < 9.6) else  0.12)
                 mu       = hy2.GetBinCenter(hy2.GetMaximumBin())
                 
                 if(mu < min_FitR or mu > max_FitR):
@@ -2845,6 +2849,8 @@ def fit_WM_2D(h2, minR, maxR, dR, Title, BGq, Particle, Cut_Q=False):
             sigma_factor_down = 3
             sigma_factor_down = 2
             sigma_factor_down = 3
+            # if(minR < 9.5):
+            sigma_factor_up   = 1.45
         
         WM_Peak, SIG = fy2.GetParameter(1), abs(fy2.GetParameter(2))
 
