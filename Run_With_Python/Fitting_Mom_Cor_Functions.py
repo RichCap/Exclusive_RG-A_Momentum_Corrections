@@ -2513,12 +2513,16 @@ if(sec == """, str(Sector_Title), "):"]))
                     hy2.Fit(fy2, "BRQ")
                     mu, sig = fy2.GetParameter(1), abs(fy2.GetParameter(2))
                 # ReFit = ("'')" in str(h2.GetName()))
-                if(mu > 0.045 and (Event_Type_In in ["EO"])):
+                if(mu > 0.045   and (Event_Type_In in ["EO"])):
                     fy2.SetRange(-0.05, 0.125)
                     hy2.Fit(fy2, "BRQ")
                     mu, sig = fy2.GetParameter(1), abs(fy2.GetParameter(2))
-                if(mu < -0.05 and (Event_Type_In in ["EO"])):
+                elif(mu < -0.05 and (Event_Type_In in ["EO"])):
                     fy2.SetRange(-0.15, 0.05)
+                    hy2.Fit(fy2, "BRQ")
+                    mu, sig = fy2.GetParameter(1), abs(fy2.GetParameter(2))
+                elif(Event_Type_In in ["EO"]):
+                    fy2.SetRange(-0.15, 0.1 if(str(Sector_Title) not in ["5"]) else 0.08)
                     hy2.Fit(fy2, "BRQ")
                     mu, sig = fy2.GetParameter(1), abs(fy2.GetParameter(2))
                     
@@ -3025,6 +3029,7 @@ def Fitting_Lines(Histo_Type, Event_Type, Bending_Type, Particle, Missing_Mass_T
 #                 MinRange_Fit += 2*Increment_Fit
                 if("Fall2018_Pass2" in str(DataSet)):
                     MinRange_Fit, MaxRange_Fit, Increment_Fit = 8.2,  10.2, 0.5
+                    # Increment_Fit = 1.0
                     # MinRange_Fit += Increment_Fit
         if(Particle == "pro"):
             if(Bending_Type == "Inbending"):

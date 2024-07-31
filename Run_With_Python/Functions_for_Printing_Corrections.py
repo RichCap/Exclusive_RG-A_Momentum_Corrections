@@ -494,12 +494,16 @@ def PhiCor_Function(canvas_name, HistoBinC, HistoBinN, HistoBinP, Sector, Partic
                     # print("B (linear coefficient):",    coefficients[1])
                     # print("C (constant term):",         coefficients[2])
                     
+                    par_A_Limits = [0.2*coefficients[0], 1.8*coefficients[0]]
+                    par_B_Limits = [0.2*coefficients[1], 1.8*coefficients[1]]
+                    par_C_Limits = [0.2*coefficients[2], 1.8*coefficients[2]]
+                    
                     Phi_Fit_Function.SetParameter(2,  coefficients[0])
-                    Phi_Fit_Function.SetParLimits(2,  0.2*coefficients[0], 1.8*coefficients[0])
+                    Phi_Fit_Function.SetParLimits(2,  min(par_A_Limits), max(par_A_Limits))
                     Phi_Fit_Function.SetParameter(1,  coefficients[1])
-                    Phi_Fit_Function.SetParLimits(1,  0.2*coefficients[1], 1.8*coefficients[1])
+                    Phi_Fit_Function.SetParLimits(1,  min(par_B_Limits), max(par_B_Limits))
                     Phi_Fit_Function.SetParameter(0,  coefficients[2])
-                    Phi_Fit_Function.SetParLimits(0,  0.2*coefficients[2], 1.8*coefficients[2])
+                    Phi_Fit_Function.SetParLimits(0,  min(par_C_Limits), max(par_C_Limits))
 
                     
 

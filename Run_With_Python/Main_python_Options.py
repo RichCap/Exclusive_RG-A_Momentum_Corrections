@@ -104,8 +104,8 @@ Bending_Type_List = ["Outbending"]
 Particle_Mom_List = ['el', 'pip']
 Particle_Sec_List = ['el', 'pip']
 
-# Particle_Mom_List = ['pip']
-# Particle_Sec_List = ['pip']
+Particle_Mom_List = ['pip']
+Particle_Sec_List = ['pip']
 
 Particle_Mom_List = ['el']
 Particle_Sec_List = ['el']
@@ -162,9 +162,10 @@ Correction_Name_List = ["mmfaP2_ELPipMMfaP2"]
 Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
 # Correction_Name_List = ["mmfaP2_ELPipMM0"]
 # Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMMfaP2"]
-# Correction_Name_List = ["mm0"]
-Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
-Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMM0"]
+Correction_Name_List = ["mm0"]
+Correction_Name_List = ["mmfaP2"]
+# Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
+# Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMM0"]
 
 ##==========================================================================##
 ##==========##==========##    CORRECTION CHOICES    ##==========##==========##
@@ -311,7 +312,7 @@ if("el" in Particle_Mom_List):
     
 if("pip" in Particle_Mom_List):
     print(f"{color.BOLD}\nPi+ Corrections available...{color.END}")
-#     List_of_Locate_name.append("Dmom_pip_Histo('Correction_Name_List', '', 'Pi+ Sector Sector_Number_List', 'Binning_Option_List', 'Region_Option_List', 'Extra_Cut_Option'")
+    List_of_Locate_name.append("Dmom_pip_Histo('Correction_Name_List', '', 'Pi+ Sector Sector_Number_List', 'Binning_Option_List', 'Region_Option_List', 'Extra_Cut_Option'")
 
     
 if("pro" in Particle_Mom_List):
