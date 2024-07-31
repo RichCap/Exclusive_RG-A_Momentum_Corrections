@@ -1000,6 +1000,15 @@ if(event_Name != "error"):
                 # Cuts are now tighter to (hopefully) improve the elastic ∆P fits
             # Ran with Run_Phase_Space = 'no' (i.e., NOT running Phase Space Plots)
             
+            
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V12"
+        # Ran on 7/31/2024
+            # Refined the (Outbending) Electron Momentum Correction again (did not apply any of the pion corrections)
+                # Applying the pion energy loss correction before the electron correction makes the elastic scattering channel and the single pion channel incompatible with each other (electron corrections will be better if the electron is corrected by itself first)
+                    # Will DEFINITELY need to rerun the pion corrections after this version
+                # All corrections maintain the same names/fitting process as were used in the prior refinements
+            # Ran with Run_Phase_Space = 'no' (i.e., NOT running Phase Space Plots)
+            
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):
