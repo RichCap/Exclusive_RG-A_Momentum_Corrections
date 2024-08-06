@@ -36,7 +36,7 @@ Data_Run_List = ["Fall2018_Pass2"]
 Data_Run_List = ["Fall2018_Pass2_Forward"]
 
 # Data_Run_List = ["Monte_Carlo"]
-Data_Run_List = ["Monte_Carlo_Pass2"]
+# Data_Run_List = ["Monte_Carlo_Pass2"]
 
 ##==========================================================================##
 ##==========##==========##     DATA RUN CHOICES     ##==========##==========##
@@ -58,7 +58,7 @@ Data_Run_List = ["Monte_Carlo_Pass2"]
 # EvntType_List = ["ES", "EO"]
 # EvntType_List = ["SP", "EO"]
 EvntType_List = ["EO", "SP"]
-EvntType_List = ["SP"]
+# EvntType_List = ["SP"]
 # EvntType_List = ["DP", "P0"]
 # EvntType_List = ["DP"]
 # EvntType_List = ["P0"]
@@ -83,8 +83,8 @@ EvntType_List = ["SP"]
 ##==========================================================================##
 
 # Bending_Type_List = ["Inbending", "Outbending"]
-Bending_Type_List = ["Inbending"]
-# Bending_Type_List = ["Outbending"]
+# Bending_Type_List = ["Inbending"]
+Bending_Type_List = ["Outbending"]
 
 ##==========================================================================##
 ##==========##==========##  IN/OUT-BENDING CHOICES  ##==========##==========##
@@ -107,8 +107,8 @@ Particle_Sec_List = ['el', 'pip']
 # Particle_Mom_List = ['pip']
 # Particle_Sec_List = ['pip']
 
-# Particle_Mom_List = ['el']
-# Particle_Sec_List = ['el']
+Particle_Mom_List = ['el']
+Particle_Sec_List = ['el']
 
 
 # Particle_Mom_List = ['pro']
@@ -163,7 +163,7 @@ Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2", "mmfaP2_ELPipMM0", "mmf
 # Correction_Name_List = ["mmfaP2_ELPipMM0"]
 # Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMMfaP2"]
 Correction_Name_List = ["mm0"]
-# Correction_Name_List = ["mmfaP2"]
+Correction_Name_List = ["mmfaP2"]
 # Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
 # Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMM0"]
 
@@ -251,11 +251,11 @@ List_of_Locate_name = []
 
 if("SP" in EvntType_List or "DP" in EvntType_List or ("P0" in EvntType_List or "P0_MC" in EvntType_List)):
     print(f"{color.BOLD}Missing Mass plots are available...{color.END}")
-    # List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List'")
-    # # List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List'")
-    List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List', '')")
-    # List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List', 'Calculated Exclusivity Cuts')")
-    # List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', '3', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List', '')")
+#     # List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List'")
+#     # # List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List'")
+#     List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List', '')")
+#     # List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List', 'Calculated Exclusivity Cuts')")
+#     # List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', '3', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List', '')")
 
 ##==========================================================================##
 ##==========##==========##       MISSING MASS       ##==========##==========##
@@ -305,9 +305,9 @@ if("ES" in EvntType_List):
 
 if("el" in Particle_Mom_List):
     print(f"{color.BOLD}\nElectron Corrections available...{color.END}")
-# #     List_of_Locate_name.append("Dmom_pel_Histo('Correction_Name_List', '', 'El Sector Sector_Number_List', '1', 'regall', 'Extra_Cut_Option'")
-# #     List_of_Locate_name.append("Dmom_pel_Histo('Correction_Name_List', '', 'El Sector Sector_Number_List', 'Binning_Option_List', 'Region_Option_List', 'Extra_Cut_Option'")
-#     List_of_Locate_name.append("Dmom_pel_Histo('Correction_Name_List', '', 'El Sector Sector_Number_List', '1', 'regall', 'Binning_Option_List', 'Region_Option_List', 'Extra_Cut_Option'")
+#     List_of_Locate_name.append("Dmom_pel_Histo('Correction_Name_List', '', 'El Sector Sector_Number_List', '1', 'regall', 'Extra_Cut_Option'")
+#     List_of_Locate_name.append("Dmom_pel_Histo('Correction_Name_List', '', 'El Sector Sector_Number_List', 'Binning_Option_List', 'Region_Option_List', 'Extra_Cut_Option'")
+    List_of_Locate_name.append("Dmom_pel_Histo('Correction_Name_List', '', 'El Sector Sector_Number_List', '1', 'regall', 'Binning_Option_List', 'Region_Option_List', 'Extra_Cut_Option'")
     
     
 if("pip" in Particle_Mom_List):

@@ -9,13 +9,15 @@ from CommonPythonFunctions import *
 
 # Inbending or Outbending files?
 Selection_of_In_or_Out = "Inbending"
-# Selection_of_In_or_Out = "Outbending"
+Selection_of_In_or_Out = "Outbending"
 
 # Data set from RG-A (Spring data may not be currently compatible - need to rerun)
 # Selection_Data_Set = "Fall2018"
-Selection_Data_Set = "Fall2018_Pass2"
-# Selection_Data_Set = "Fall2018_Pass2_Central"
+
 Selection_Data_Set = "Fall2018_Pass2_Forward"
+# Selection_Data_Set = "Fall2018_Pass2"
+
+# Selection_Data_Set = "Fall2018_Pass2_Central"
 # Selection_Data_Set = "Spring2019"
 # Selection_Data_Set = "Spring2019_Pass1"
 # Selection_Data_Set = "Spring2019_Pass2"
@@ -23,7 +25,7 @@ Selection_Data_Set = "Fall2018_Pass2_Forward"
 
 # Selection_Data_Set = "Monte_Carlo"
 
-Selection_Data_Set = "Monte_Carlo_Pass2"
+# Selection_Data_Set = "Monte_Carlo_Pass2"
 
 # Selection_Data_Set = "Spring2019_Pass1_Central"
 # Selection_Data_Set = "Spring2019_Pass2_Central"
@@ -115,7 +117,7 @@ def DataFrame_Find(Event_Type=event_type, In_or_Out=Selection_of_In_or_Out, Sele
                     Extra_Part_of_Name     = "_Forward_Fall_Pass2_V1"
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall_Pass2_V4"])
                     Extra_Part_of_Name     = Extra_Part_of_Name.replace("Fall_Pass2_V4", "Shift_Test_V4")
-                    Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_New_Out_V11"])
+                    Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_New_Out_V12"])
                 else:
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_In_Forward_Test_V1"])
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_Test_V9"])
@@ -132,7 +134,7 @@ def DataFrame_Find(Event_Type=event_type, In_or_Out=Selection_of_In_or_Out, Sele
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall_Pass2_V4"])
 
                     Extra_Part_of_Name     = Extra_Part_of_Name.replace("Fall_Pass2_V4", "Shift_Test_V1")
-                    Extra_Part_of_Name     = "_Fall2018_P2_New_Out_V11"
+                    Extra_Part_of_Name     = "_Fall2018_P2_New_Out_V12"
                 else:
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_In_Forward_Test_V1"])
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_Test_V8"])
@@ -333,8 +335,8 @@ def DataFrame_Find(Event_Type=event_type, In_or_Out=Selection_of_In_or_Out, Sele
         return rdf_out
     
 
-
-rdf = DataFrame_Find()
+if(__name__ in ["__main__"]):
+    rdf = DataFrame_Find()
 
 
 
@@ -367,7 +369,7 @@ rdf = DataFrame_Find()
 
 if(__name__ in ["__main__"]):
     CheckDataFrameQ = 'y'
-#     CheckDataFrameQ = 'n'
+    CheckDataFrameQ = 'n'
     count = 1
     if(CheckDataFrameQ == 'y'):
         print("\nPrinting the full list of histogram names saved in the root file loaded...\n")

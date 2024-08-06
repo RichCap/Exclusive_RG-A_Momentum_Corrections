@@ -16,8 +16,8 @@ from Extra_Functions_for_Histo_Creation import *
 
 
 
-Selection_of_In_or_Out = "Inbending"
-# Selection_of_In_or_Out = "Outbending"
+# Selection_of_In_or_Out = "Inbending"
+Selection_of_In_or_Out = "Outbending"
 # Selection_Data_Set = "Fall2018"
 Selection_Data_Set = "Fall2018_Pass2"
 # Selection_Data_Set = "Fall2018_Pass2_Central"
@@ -26,7 +26,7 @@ Selection_Data_Set = "Fall2018_Pass2_Forward"
 # Selection_Data_Set = "Spring2019_Pass1"
 
 
-Selection_Data_Set = "Monte_Carlo_Pass2"
+# Selection_Data_Set = "Monte_Carlo_Pass2"
 
 event_type = "EO" # Single Pion Channel (ep->eπ+N)
 MM_type = "eX" # Use for single pion channel (select with event_type = "SP")
@@ -40,8 +40,8 @@ Single_Histogram_Canvas, histo_search_count_single = {}, {}
 # Single_EvntType = "P0"
 Single_EvntType = "EO"
 Single_EvntType = "SP"
-Single_Bending_Type = "Inbending"
-# Single_Bending_Type = "Outbending"
+# Single_Bending_Type = "Inbending"
+Single_Bending_Type = "Outbending"
 # Single_Data_Run = "Fall2018"
 Single_Data_Run = "Fall2018_Pass2"
 # Single_Data_Run = "Fall2018_Pass2_Central"
@@ -50,13 +50,13 @@ Single_Data_Run = "Fall2018_Pass2_Forward"
 # Single_Data_Run = "Spring2019_Pass2_Central"
 # Single_Data_Run = "Spring2019_Pass2"
 
-Single_Data_Run = "Monte_Carlo_Pass2"
+# Single_Data_Run = "Monte_Carlo_Pass2"
 
 # Particle_Search = "pro"
 Particle_Search = "el"
-Particle_Search = "pip"
+# Particle_Search = "pip"
 
-Use_Missing_Mass_Plots = True
+Use_Missing_Mass_Plots = not True
 
 Use_Invariant_Mass_Plots = not True
 
@@ -286,13 +286,13 @@ def Filter_Conditions_Single(Input):
 # # #             Condition_list.append(True)
 #         if(("mmfaP2"             not in str(Input)) and (Single_EvntType     in ["EO"])):
 #             Condition_list.append(True)
-#         if("ELPipMM"     in str(Input)):
-#             Condition_list.append(True)
-#         if("mmfaP2"  not in str(Input)):
-#             Condition_list.append(True)
-
-        if("mm0'"  not in str(Input)):
+        if("ELPipMM"     in str(Input)):
             Condition_list.append(True)
+        if("mmfaP2"  not in str(Input)):
+            Condition_list.append(True)
+
+#         if("mm0'"  not in str(Input)):
+#             Condition_list.append(True)
 
     return Condition_list
 
