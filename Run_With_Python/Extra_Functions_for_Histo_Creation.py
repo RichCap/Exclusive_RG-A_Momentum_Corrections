@@ -252,7 +252,7 @@ def Find_And_Slice_Histo(RDF, NAME, EVENT, PARTICLE, BENDING=Selection_of_In_or_
     try:
         
         Histo_Out = (RDF.Get(NAME)).Clone()
-        event_title = "".join(["#splitline{", "Single Pion Channel" if(EVENT == "SP") else "Electron Only" if(EVENT == "EO") else "Elastic Scattering" if(EVENT == "ES") else "Double Pion Channel" if(EVENT == "DP") else "#pi^{0} Channel" if(EVENT == "P0") else "Single Pion Channel (Monte Carlo)" if(EVENT in ["MC", "Monte_Carlo"]) else "ERROR", "}{"])
+        event_title = "".join(["#splitline{", "Single Pion Channel" if((EVENT in ["SP"]) and (Pass_Type not in ["Monte_Carlo_Pass2"])) else "Electron Only" if(EVENT == "EO") else "Elastic Scattering" if(EVENT == "ES") else "Double Pion Channel" if(EVENT == "DP") else "#pi^{0} Channel" if(EVENT == "P0") else "Single Pion Channel (Monte Carlo)" if((EVENT in ["MC", "Monte_Carlo"]) or (Pass_Type in ["Monte_Carlo_Pass2"])) else "ERROR", "}{"])
         if("ERROR" in event_title):
             event_title = ""
         Histo_Title_New = "".join([event_title, "#color[", str(root_color.Red), "]{",  Histo_Out.GetTitle(), "}", "}" if(event_title != "") else ""])
