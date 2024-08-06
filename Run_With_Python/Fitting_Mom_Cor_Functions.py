@@ -875,6 +875,14 @@ def MM_Fits(h2, minR, maxR, dR, Title, BGq, Particle, Bending_Type="In", Event_T
         Region_Name = "reg1" if("reg1" in h2.GetName()) else "reg2" if("reg2" in h2.GetName()) else "reg3" if("reg3" in h2.GetName()) else "regall"
         # print("\nFor", color.BOLD, str(Sector_Name), "--", str(Region_Name), color.END, "the Correction:", color.BOLD, str(correction_name_print), color.END, "the Missing Mass vs", color.BOLD, Particle, color.END, "peaks are:")
         
+        Conditions_for_P2_MC = ((Event_Type_In in ["Monte_Carlo_Pass2"]) or all(title_search in Title for title_search in ["(Monte Carlo)", "Pass 2"]))
+        
+        if(Conditions_for_P2_MC and (Particle in ["pip"])):
+            minR, maxR, dR = 1.25, 4.25, 0.5
+        #     print(f"{color.BGREEN}\n\nminR, maxR, dR = {minR}, {maxR}, {dR}\n\n{color.END}")
+        # else:
+        #     print(f"{color.ERROR}\nTitle = {Title}, Event_Type_In = {Event_Type_In}, Particle = {Particle}\nminR, maxR, dR = {minR}, {maxR}, {dR}\n\n{color.END}")
+        
         while(minR+dR <= maxR):
 
             extra_con_pip = (str(Sector_Name) not in ["Sector 1", "Sector 3"]) and (((Region_Name in ["reg2", "reg3"]) and (minR == 6.75)) or ((str(Sector_Name) in ["Sector 4"]) and (Region_Name in ["reg3"]) and (minR > 5.7)))
@@ -911,6 +919,12 @@ def MM_Fits(h2, minR, maxR, dR, Title, BGq, Particle, Bending_Type="In", Event_T
                 Slice_Title = "".join(["#splitline{", Title, "}{p_{", Particle.replace("pip", "#pi^{+}"), "} Bin: ", str(round(minR, 4)), " < p_{", Particle.replace("pip", "#pi^{+}"), "} < ", str(round(minR + dR, 4)), "}"])
                 print(f"{color.RED}Warning: Low Bin Content in {color.BOLD}{Slice_Title}{color.END}")
                 hy2.Rebin(2)
+                
+            if(Conditions_for_P2_MC and (Particle in ["pip"])):
+                if(hy2.GetBinContent(hy2.GetMaximumBin()) < 100):
+                    hy2.Rebin(2)
+                if(hy2.GetBinContent(hy2.GetMaximumBin()) < 150):
+                    hy2.Rebin(2)
                 
             mu = hy2.GetBinCenter(hy2.GetMaximumBin())
             bin_width_mu = hy2.GetBinWidth(hy2.FindBin(mu))
