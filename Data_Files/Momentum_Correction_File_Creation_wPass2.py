@@ -1459,7 +1459,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                         int pion_det;
                         if(pipsec < 7){{pion_det = 2;}} // Forward Detector
                         else{{pion_det = 3;          }} // Central Detector
-                        auto p_pip_loss = eloss_pip(pip, pipth, pion_det, {"false" if("In" in Data_Type) else "true"});
+                        auto p_pip_loss = eloss_pip(pip, pipth, pion_det, {"false" if("In" in datatype) else "true"});
                         auto f_pip_loss = ((pip+p_pip_loss)/pip);"""
                         ##=====##    (Energy Corrected) Momentum Coordinates    ##=====##
                         rdf = rdf.Define("pipx_cor", f"""
