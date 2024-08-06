@@ -8,8 +8,8 @@ from CommonPythonFunctions import *
 
 
 # Inbending or Outbending files?
-# Selection_of_In_or_Out = "Inbending"
-Selection_of_In_or_Out = "Outbending"
+Selection_of_In_or_Out = "Inbending"
+# Selection_of_In_or_Out = "Outbending"
 
 # Data set from RG-A (Spring data may not be currently compatible - need to rerun)
 # Selection_Data_Set = "Fall2018"
@@ -23,7 +23,7 @@ Selection_Data_Set = "Fall2018_Pass2_Forward"
 
 # Selection_Data_Set = "Monte_Carlo"
 
-# Selection_Data_Set = "Monte_Carlo_Pass2"
+Selection_Data_Set = "Monte_Carlo_Pass2"
 
 # Selection_Data_Set = "Spring2019_Pass1_Central"
 # Selection_Data_Set = "Spring2019_Pass2_Central"
@@ -308,9 +308,10 @@ def DataFrame_Find(Event_Type=event_type, In_or_Out=Selection_of_In_or_Out, Sele
                 
                 
     if("Monte_Carlo_Pass2" in Selection_Data_Set_In):
-        Extra_Part_of_Name = "Fa18_P2_MC_V2"
+        Extra_Part_of_Name = "Fa18_P2_MC_V3"
         general_batch_file_location = "/w/hallb-scshelf2102/clas12/richcap/Exclusive_RG-A_Momentum_Corrections/Data_Files/Monte_Carlo_SIDIS/Pass2/"
         file_name = f"Simulated_Single_Pion_Channel_epipX_Inbending_With_Dp_{Extra_Part_of_Name}_File_All.root"
+        file_name = f"Simulated_Single_Pion_Channel_epipX_Inbending_With_Dp_{Extra_Part_of_Name}_File_Incomplete.root"
     elif("Monte_Carlo"     in Selection_Data_Set_In):
         Extra_Part_of_Name = "Fa18_P1_MC_V1"
         general_batch_file_location = "/w/hallb-scshelf2102/clas12/richcap/Exclusive_RG-A_Momentum_Corrections/Data_Files/Monte_Carlo_SIDIS/"
@@ -366,7 +367,7 @@ rdf = DataFrame_Find()
 
 if(__name__ in ["__main__"]):
     CheckDataFrameQ = 'y'
-    CheckDataFrameQ = 'n'
+#     CheckDataFrameQ = 'n'
     count = 1
     if(CheckDataFrameQ == 'y'):
         print("\nPrinting the full list of histogram names saved in the root file loaded...\n")
@@ -377,9 +378,9 @@ if(__name__ in ["__main__"]):
     #         if("Histo_P_v_Phi_" in str(ii.GetName())):
     #             print("".join([str(count), ") ", str(ii.GetName()), "\n\t-- object type: ", str(type(rdf.Get(ii.GetName()))), "\n"]))
     #         print("".join([str(count), ") ", str(ii.GetName()), "\n\t-- object type: ", str(type(rdf.Get(ii.GetName()))), "\n"]))
-    #         if("Dmom_" in str(ii.GetName())):
-    #             print("".join([str(count), ") ", str(ii.GetName()), "\n\t-- object type: ", str(type(rdf.Get(ii.GetName()))), "\n"]))
-            print("".join([str(count), ") ", str(ii.GetName()), "\n\t-- object type: ", str(type(rdf.Get(ii.GetName()))), "\n"]))
+            if("Dmom_pel" in str(ii.GetName())):
+                print("".join([str(count), ") ", str(ii.GetName()), "\n\t-- object type: ", str(type(rdf.Get(ii.GetName()))), "\n"]))
+#             print("".join([str(count), ") ", str(ii.GetName()), "\n\t-- object type: ", str(type(rdf.Get(ii.GetName()))), "\n"]))
             count += 1
         print("".join(["\tTotal length= ", str(len(rdf.GetListOfKeys()))]))
 
