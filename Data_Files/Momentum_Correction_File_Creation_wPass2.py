@@ -1009,6 +1009,14 @@ if(event_Name != "error"):
                 # All corrections maintain the same names/fitting process as were used in the prior refinements
             # Ran with Run_Phase_Space = 'no' (i.e., NOT running Phase Space Plots)
             
+            
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V13"
+        # Ran on 8/6/2024
+            # Modified the ∆P plots for the pions so that ∆P is plotted against the Energy Loss Corrected Momentum (and Theta) of the pion if the correction includes it
+                # This issue was overlooked when the energy loss correction was first added
+            # Refined the (Outbending) Electron Momentum Correction again (without the pion corrections still)
+            # Ran with Run_Phase_Space = 'no' (i.e., NOT running Phase Space Plots)
+            
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):
@@ -1076,6 +1084,13 @@ if(event_Name != "error"):
             # Running with default plots and (experimental data) corrections (should be treated as if it was just the normal Fall 2018 Pass 2 SP option)
                 # Using same options as selected for "Fall2018_P2_New_Out_V10" (but with Inbending Corrections and turned off 'Run_Phase_Space')
             # Added new version of the Monte Carlo files with additional files that I added to the files already created by Stefan
+        # ERROR NOTED ON 8/6/2024: Due to issues with the ifarm, this file version did not run to completion. Only 'final' version of this file is called: "Simulated_Single_Pion_Channel_epipX_Inbending_With_Dp_Fa18_P2_MC_V3_File_Incomplete.root"
+            # Moved to "_Fa18_P2_MC_V4" instead of completing this version
+            
+        Extra_Part_of_Name = "_Fa18_P2_MC_V4"
+        # Ran on 8/6/2024
+            # Same as "_Fa18_P2_MC_V3" but with the bug fix to the ∆P (pion) plots (see "_Fall2018_P2_New_Out_V13")
+                # "_Fa18_P2_MC_V3" may not have run to completion due to issues with the ifarm (see above)
         
         if(Delta_P_histo_Q != 'y'):
             OutputFileName = "".join(["Simulated_", event_Name.replace(" ", "_"), "_", str(MM_type), "_", str(datatype), "_No_Dp",   str(Extra_Part_of_Name), "_File_", str(file_name), ".root"])
@@ -1434,6 +1449,52 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                     return pipPhiS;
                 """]))
                 rdf = rdf.Define("pipPhiNS", "(180/3.1415926)*atan2(pipy, pipx)") # 'NS' ==> No shifts (distribution will be from ±180˚)
+                #-----------------------------------------------------------#
+                #---------------#  Pion (Energy Corrected)  #---------------#
+                #-----------------------------------------------------------#
+                if("Pass 2" in str(pass_version)):
+                    try:
+                        pion_EL_cor = f"""
+                        {Pion_Energy_Loss_Cor_Function}
+                        int pion_det;
+                        if(pipsec < 7){{pion_det = 2;}} // Forward Detector
+                        else{{pion_det = 3;          }} // Central Detector
+                        auto p_pip_loss = eloss_pip(pip, pipth, pion_det, {"false" if("In" in Data_Type) else "true"});
+                        auto f_pip_loss = ((pip+p_pip_loss)/pip);"""
+                        ##=====##    (Energy Corrected) Momentum Coordinates    ##=====##
+                        rdf = rdf.Define("pipx_cor", f"""
+                        {pion_EL_cor}
+                        double pipx_cor = f_pip_loss*pipx;
+                        return pipx_cor;""")
+                        rdf = rdf.Define("pipy_cor", f"""
+                        {pion_EL_cor}
+                        double pipy_cor = f_pip_loss*pipy;
+                        return pipy_cor;""")
+                        rdf = rdf.Define("pipz_cor", f"""
+                        {pion_EL_cor}
+                        double pipz_cor = f_pip_loss*pipz;
+                        return pipz_cor;""")
+                        del pion_EL_cor
+                        ##=====##    (Energy Corrected) Momentum Magnitude    ##=====##
+                        rdf = rdf.Define("pip_EL", "sqrt(pipx_cor*pipx_cor + pipy_cor*pipy_cor + pipz_cor*pipz_cor)")
+                        ##=====##       (Energy Corrected) Polar Angles       ##=====##
+                        rdf = rdf.Define("pipth_EL", "atan2(sqrt(pipx_cor*pipx_cor + pipy_cor*pipy_cor), pipz_cor)*(180/3.1415926)")
+                        ##=====##     (Energy Corrected) Azimuthal Angles     ##=====##
+                        rdf = rdf.Define("pipPhi_EL", """
+                            double pipPhi_EL = (180/3.1415926)*atan2(pipy_EL, pipx_EL);
+                            if(((pipsec == 4 || pipsec == 3) && pipPhi_EL < 0) || (pipsec > 4 && pipPhi_EL < 90)){
+                                pipPhi_EL += 360;
+                            }
+                            return pipPhi_EL;
+                        """)
+                        rdf = rdf.Define("localpipPhi_EL",  "pipPhi_EL - (pipsec - 1)*60")
+                        rdf = rdf.Define("localpipPhiS_EL", "localpipPhi_EL + (32/(pip_EL-0.05))")
+                        rdf = rdf.Define("pipPhiS_EL",      "pipPhi_EL + (32/(pip_EL-0.05))")
+                        rdf = rdf.Define("pipPhiNS_EL",     "(180/3.1415926)*atan2(pipy_EL, pipx_EL)") # 'NS' ==> No shifts (distribution will be from ±180˚)
+                    except Exception as e:
+                        print(f"{color.ERROR}\n\nFailure to process Pi+ Pion Kinematics (Corrected for Energy Loss)\n\n{color.END}")
+                        print("".join(["ERROR: ", str(e)]))
+                        print("".join([color.Error, "TRACEBACK: \n", color.END, str(traceback.format_exc()), "\n\n"]))
             except Exception as e:
                 print(f"{color.ERROR}\n\nFailure to process Pi+ Pion Kinematics\n\n{color.END}")
                 print("".join(["ERROR: ", str(e)]))
@@ -5154,7 +5215,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
     ExtraElectronSecListFilterOn = 'yes'
     
     
-    if(event_type != "SP" and "E" not in event_type):
+    if(event_type not in ["SP", "MC"] and "E" not in event_type):
         Delta_Pip_histo_SecList = ['all', 1, 2, 3, 4, 5, 6] # Only the proton correction is available for the double pion channel (Turned off π0 channel as well)
         ExtraElectronSecListFilterOn = 'no'
     
@@ -6055,11 +6116,12 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
 
                                             if('pi+' in Delta_P_histo_CompareList and Delta_Pip_histo_Q == 'y'):
-                                                Dmom_pip_Histo[histoName]             = sdf.Histo2D(("".join(["Dmom_pip_Histo",          str(histoName)]),             Title.replace("Particle",       "#pi^{+}"), 200, 0, 10,  NumOfExtendedBins, extendx_min, extendx_max), 'pip',   ''.join(['D_pip_', str(correction)]))
+                                                # Need to plot versus energy loss corrected pion
+                                                Dmom_pip_Histo[histoName]             = sdf.Histo2D(("".join(["Dmom_pip_Histo",          str(histoName)]),             Title.replace("Particle",       "#pi^{+}"), 200, 0, 10,  NumOfExtendedBins, extendx_min, extendx_max), 'pip'   if("_ELPip" not in str(correction)) else 'pip_EL',   ''.join(['D_pip_', str(correction)]))
                                                 Delta_P_histo_Count += 1
                                                 Title_Theta          = Title.replace(Title_Line_1, Title_Line_1.replace("vs p_{Particle}", "vs #theta_{Particle}"))
                                                 Title_Theta          = Title_Theta.replace(Title_Axis, "; #theta_{Particle} (#circ); #Delta p_{Particle} (GeV)")
-                                                Dmom_pip_Histo[histoName_3D_Theta_Dp] = sdf.Histo2D(("".join(["Dmom_pip_vs_Theta_Histo", str(histoName_3D_Theta_Dp)]), Title_Theta.replace("Particle", "#pi^{+}"), 350, 0, 140, NumOfExtendedBins, extendx_min, extendx_max), 'pipth', ''.join(['D_pip_', str(correction)]))
+                                                Dmom_pip_Histo[histoName_3D_Theta_Dp] = sdf.Histo2D(("".join(["Dmom_pip_vs_Theta_Histo", str(histoName_3D_Theta_Dp)]), Title_Theta.replace("Particle", "#pi^{+}"), 350, 0, 140, NumOfExtendedBins, extendx_min, extendx_max), 'pipth' if("_ELPip" not in str(correction)) else 'pipth_EL', ''.join(['D_pip_', str(correction)]))
                                                 Delta_P_histo_Count += 1
                                                 # Title_Theta          = Title.replace(Title_Line_1, Title_Line_1.replace("vs p_{Particle}", "vs p_{Particle} vs #theta_{Particle}"))
                                                 # Title_Theta          = Title_Theta.replace(Title_Axis, "; p_{Particle} (GeV); #theta_{Particle} (#circ); #Delta p_{Particle} (GeV)")
