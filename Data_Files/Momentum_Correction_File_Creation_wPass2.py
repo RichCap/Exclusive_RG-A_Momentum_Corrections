@@ -1490,7 +1490,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                         rdf = rdf.Define("localpipPhi_EL",  "pipPhi_EL - (pipsec - 1)*60")
                         rdf = rdf.Define("localpipPhiS_EL", "localpipPhi_EL + (32/(pip_EL-0.05))")
                         rdf = rdf.Define("pipPhiS_EL",      "pipPhi_EL + (32/(pip_EL-0.05))")
-                        rdf = rdf.Define("pipPhiNS_EL",     "(180/3.1415926)*atan2(pipy_EL, pipx_EL)") # 'NS' ==> No shifts (distribution will be from ±180˚)
+                        rdf = rdf.Define("pipPhiNS_EL",     "(180/3.1415926)*atan2(pipy_cor, pipx_cor)") # 'NS' ==> No shifts (distribution will be from ±180˚)
                     except Exception as e:
                         print(f"{color.ERROR}\n\nFailure to process Pi+ Pion Kinematics (Corrected for Energy Loss)\n\n{color.END}")
                         print("".join(["ERROR: ", str(e)]))
