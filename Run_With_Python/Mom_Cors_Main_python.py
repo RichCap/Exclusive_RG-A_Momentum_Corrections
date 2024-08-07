@@ -1004,6 +1004,11 @@ if(any("Dmom" in histos_selected for histos_selected in List_of_Locate_name)):
     correction_type = "quadratic"
     # correction_type = "complex_L"
     # correction_type = "complex_Q"
+    
+    Use_Split_Cor = "lower"
+    Use_Split_Cor = "upper"
+    Use_Split_Cor = "no"
+    Used_Split_Op = False
 
     try:
         for Data_Run in Data_Run_List:
@@ -1229,11 +1234,21 @@ if(any("Dmom" in histos_selected for histos_selected in List_of_Locate_name)):
                                     max_fit_range = 0.95*Combined_Histo["".join([str(ref_can), "_Sector_", str(cd_num)])].GetXaxis().GetXmax()
 
                                 if("Fall2018_Pass2" in Data_Run):
+                                    # Switch_Point_EL   = 6.5 if(((sec in [1, 2, 3, 4, 6]) and (region in ['reg1'])) or ((sec in [1, 2, 4]) and (region in ['reg2'])) or ((sec in [1, 2, 3, 4, 5]) and (region in ['reg3']))) else 4.75
+                                    Switch_Point_EL   = 6.5 if(sec in [1, 2, 4]) else 4.75
                                     min_fit_range     = Fitting_Lines(Histo_Type="Dmom_p", Event_Type="SP", Bending_Type=Bending_Type, Particle=Particle, Missing_Mass_Type="None", DataSet="Fall2018_Pass2", Sector=1)[0][0]
                                     if("pip" in Particle):
                                         max_fit_range = Fitting_Lines(Histo_Type="Dmom_p", Event_Type="SP", Bending_Type=Bending_Type, Particle=Particle, Missing_Mass_Type="None", DataSet="Fall2018_Pass2", Sector=1)[0][1]
                                     else:
                                         max_fit_range = Fitting_Lines(Histo_Type="Dmom_p", Event_Type="EO", Bending_Type=Bending_Type, Particle=Particle, Missing_Mass_Type="None", DataSet="Fall2018_Pass2", Sector=1)[0][1]
+                                        if(Use_Split_Cor not in ["no"]):
+                                            Used_Split_Op = True
+                                            if(Use_Split_Cor in ["min", "low", "lower"]):
+                                                max_fit_range = Switch_Point_EL
+                                                print(f"{color.BOLD}\n\n\n\n\n\nNEW MAX RANGE = {max_fit_range}\n\n\n\n\n{color.END}")
+                                            else:
+                                                min_fit_range = Switch_Point_EL
+                                                print(f"{color.BOLD}\n\n\n\n\n\nNEW MIN RANGE = {min_fit_range}\n\n\n\n\n{color.END}")
 
                                 fitting_line = ROOT.TF1("fit_function", "".join([fit_function, "(0)"]), min_fit_range, max_fit_range)
                                 if(Particle == "pro" and "complex" in correction_type):
@@ -1372,6 +1387,8 @@ if(any("Dmom" in histos_selected for histos_selected in List_of_Locate_name)):
                                         while("__" in str(Save_Name)):
                                             Save_Name = str(Save_Name.replace("__", "_"))
                                         Save_Name = str(Save_Name.replace("_-_", "-"))
+                                        if(Used_Split_Op and (f"_{Use_Split_Cor}." not in str(Save_Name))):
+                                            Save_Name = str(Save_Name.replace(".png", f"_{Use_Split_Cor}.png")).replace(".pdf", f"_{Use_Split_Cor}.pdf")
                                         if(Save_Name in List_of_Saved_Images):
                                             for ii in range(2, 21):
                                                 if(str(str(Save_Name.replace(".png", f"_Version_{ii}.png")).replace(".pdf", f"_Version_{ii}.pdf")) not in List_of_Saved_Images):
@@ -1565,6 +1582,8 @@ if(any("Dmom" in histos_selected for histos_selected in List_of_Locate_name)):
                 Save_Name = str(Save_Name.replace("__", "_"))
             Save_Name = str(Save_Name.replace("_-_", "-"))
             Save_Name = str(Save_Name.replace("_Dmom", "Dmom")).replace("_pol2", "")
+            if(Used_Split_Op and (f"_{Use_Split_Cor}." not in str(Save_Name))):
+                Save_Name = str(Save_Name.replace(".png", f"_{Use_Split_Cor}.png")).replace(".pdf", f"_{Use_Split_Cor}.pdf")
             if(Save_Name in List_of_Saved_Images):
                 for ii in range(2, 21):
                     if(str(str(Save_Name.replace(".png", f"_Version_{ii}.png")).replace(".pdf", f"_Version_{ii}.pdf")) not in List_of_Saved_Images):
