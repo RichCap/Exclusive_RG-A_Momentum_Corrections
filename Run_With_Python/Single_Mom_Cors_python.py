@@ -899,7 +899,7 @@ for loop_test in ["Ignore_These_Loops"]:
 
 
                     if(True):
-                        Save_Name     = str(str(Canvas_Name.replace("''", "")).replace("(", "")).replace(")", "") + f"_{Single_Bending_Type}.pdf"
+                        Save_Name     = str(str(Canvas_Name.replace("''", "")).replace("(", "")).replace(")", "") + f"_{Single_Bending_Type}_{Single_EvntType}.pdf"
                         Save_Name     = str(Save_Name.replace("bending", ""))
                         Save_Name     = str(str(Save_Name.replace(" ", "_")).replace(",", "")).replace("_'3'_", "")
                         Save_Name     = str(str(Save_Name.replace("'el'_'el'", "el")).replace("'pip'_'pip'", "pip")).replace("'", "")
