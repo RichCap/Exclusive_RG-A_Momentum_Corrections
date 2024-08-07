@@ -1017,6 +1017,16 @@ if(event_Name != "error"):
             # Refined the (Outbending) Electron Momentum Correction again (without the pion corrections still)
             # Ran with Run_Phase_Space = 'no' (i.e., NOT running Phase Space Plots)
             
+            
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V14"
+        # Ran on 8/7/2024
+            # Refined the (Outbending) Electron Momentum Correction again (without the pion corrections still)
+                # Refinement is split into 2 regions for higher and lower electron momentums
+                    # For sectors 1, 2, and 4, the cutoff is at 6.5 GeV while for sectors 3, 5, and 6, the cutoff is at 4.75 GeV
+                    # The split is meant to better correct for discrepancies in ∆P that remain at the edges due to high and low momentum electrons needing different types of corrections (i.e., the fits were being pulled in opposite ways so this prevents them from canceling each other out)
+            # Ran with Run_Phase_Space = 'no' (i.e., NOT running Phase Space Plots)
+            
+            
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):
