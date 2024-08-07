@@ -1481,7 +1481,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                         rdf = rdf.Define("pipth_EL", "atan2(sqrt(pipx_cor*pipx_cor + pipy_cor*pipy_cor), pipz_cor)*(180/3.1415926)")
                         ##=====##     (Energy Corrected) Azimuthal Angles     ##=====##
                         rdf = rdf.Define("pipPhi_EL", """
-                            double pipPhi_EL = (180/3.1415926)*atan2(pipy_EL, pipx_EL);
+                            double pipPhi_EL = (180/3.1415926)*atan2(pipy_cor, pipx_cor);
                             if(((pipsec == 4 || pipsec == 3) && pipPhi_EL < 0) || (pipsec > 4 && pipPhi_EL < 90)){
                                 pipPhi_EL += 360;
                             }
