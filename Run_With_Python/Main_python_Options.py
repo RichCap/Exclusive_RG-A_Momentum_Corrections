@@ -107,8 +107,8 @@ Particle_Sec_List = ['el', 'pip']
 # Particle_Mom_List = ['pip']
 # Particle_Sec_List = ['pip']
 
-Particle_Mom_List = ['el']
-Particle_Sec_List = ['el']
+# Particle_Mom_List = ['el']
+# Particle_Sec_List = ['el']
 
 
 # Particle_Mom_List = ['pro']
@@ -122,6 +122,39 @@ Particle_Sec_List = ['el']
 ##==========================================================================##
 
 
+
+import argparse
+
+# Create the parser with a description of the script
+parser = argparse.ArgumentParser(description='Process some histograms.')
+
+# Add a positional argument that is optional with help text
+parser.add_argument('Histogram_Type_Option', nargs='?', choices=['MM', 'Dp', 'MM_el', 'Dp_el', 'MM_pip', 'Dp_pip', 'Out_MM', 'Out_Dp', 'Out_MM_el', 'Out_Dp_el', 'Out_MM_pip', 'Out_Dp_pip', 'In_MM', 'In_Dp', 'In_MM_el', 'In_Dp_el', 'In_MM_pip', 'In_Dp_pip'], help='Specify the histogram type (MM or Dp).')
+# Parse the arguments
+args = parser.parse_args()
+# Access the argument
+histogram_type = args.Histogram_Type_Option
+
+
+if('In'   in str(histogram_type)):
+    print(f"{color.BGREEN}\nInbending Files Selected\n{color.END}")
+    Bending_Type_List = ["Inbending"]
+if('Out'  in str(histogram_type)):
+    print(f"{color.BGREEN}\nOutbending Files Selected\n{color.END}")
+    Bending_Type_List = ["Outbending"]
+
+if('el'   in str(histogram_type)):
+    print(f"{color.BGREEN}\nElectron Particle option selected\n{color.END}")
+    Particle_Mom_List = ['el']
+    Particle_Sec_List = ['el']
+    if(("Dp" in str(histogram_type)) and ("EO" not in EvntType_List)):
+        EvntType_List = ["EO", "SP"]
+if('pip'  in str(histogram_type)):
+    print(f"{color.BGREEN}\nPi+ Pion Particle option selected\n{color.END}")
+    Particle_Mom_List = ['pip']
+    Particle_Sec_List = ['pip']
+    if("EO" in EvntType_List):
+        EvntType_List.remove("EO")
 
 
 
@@ -251,11 +284,11 @@ List_of_Locate_name = []
 
 if("SP" in EvntType_List or "DP" in EvntType_List or ("P0" in EvntType_List or "P0_MC" in EvntType_List)):
     print(f"{color.BOLD}Missing Mass plots are available...{color.END}")
-#     # List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List'")
-#     # # List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List'")
-#     List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List', '')")
-#     # List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List', 'Calculated Exclusivity Cuts')")
-#     # List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', '3', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List', '')")
+    # List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List'")
+    # # List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List'")
+    List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List', '')")
+    # List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List', 'Calculated Exclusivity Cuts')")
+    # List_of_Locate_name.append("hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', '3', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List', '')")
 
 ##==========================================================================##
 ##==========##==========##       MISSING MASS       ##==========##==========##
@@ -312,7 +345,7 @@ if("el" in Particle_Mom_List):
     
 if("pip" in Particle_Mom_List):
     print(f"{color.BOLD}\nPi+ Corrections available...{color.END}")
-#     List_of_Locate_name.append("Dmom_pip_Histo('Correction_Name_List', '', 'Pi+ Sector Sector_Number_List', 'Binning_Option_List', 'Region_Option_List', 'Extra_Cut_Option'")
+    List_of_Locate_name.append("Dmom_pip_Histo('Correction_Name_List', '', 'Pi+ Sector Sector_Number_List', 'Binning_Option_List', 'Region_Option_List', 'Extra_Cut_Option'")
 
     
 if("pro" in Particle_Mom_List):
@@ -325,6 +358,18 @@ if("pro" in Particle_Mom_List):
 ##==========##==========##        ∆ MOMENTUM        ##==========##==========##
 ##==========================================================================##
 
+
+if('MM'   in str(histogram_type)):
+    print(f"\n{color.BGREEN}Missing Mass Histogram(s) option selected{color.END}")
+    List_of_Locate_name = ["hmmCPARTall_('Correction_Name_List', Sector_Number_List, '', 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List', '')"]
+    if("EO" in EvntType_List):
+        EvntType_List.remove("EO")
+elif('Dp' in str(histogram_type)):
+    print(f"\n{color.BGREEN}∆P Histogram(s) option selected{color.END}")
+    if("el" in Particle_Mom_List):
+        List_of_Locate_name = ["Dmom_pel_Histo('Correction_Name_List', '', 'El Sector Sector_Number_List', '1', 'regall', 'Binning_Option_List', 'Region_Option_List', 'Extra_Cut_Option'"]
+    if("pip" in Particle_Mom_List):
+        List_of_Locate_name = ["Dmom_pip_Histo('Correction_Name_List', '', 'Pi+ Sector Sector_Number_List', 'Binning_Option_List', 'Region_Option_List', 'Extra_Cut_Option'"]
 
 
 
