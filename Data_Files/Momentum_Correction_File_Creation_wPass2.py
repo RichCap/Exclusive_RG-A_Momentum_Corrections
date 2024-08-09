@@ -1040,6 +1040,13 @@ if(event_Name != "error"):
                 # The new refinement is NOT split like the last two refinements (hopefully will be the final electron refinement)
             # Ran with Run_Phase_Space = 'yes' (i.e., Running Phase Space Plots)
             
+            
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V17"
+        # Ran on 8/8/2024
+            # Refined the (Outbending) Electron Momentum Correction again (without the pion corrections still)
+                # The new refinement is NOT split
+            # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
+            
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):
@@ -5701,7 +5708,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
     # Letting Run_Phase_Space = 'yes' allows for the histograms without the missing mass values to be run
     Run_Phase_Space = 'yes'
-    # Run_Phase_Space = 'no'
+    Run_Phase_Space = 'no'
     
     Skip_Sector_Phase_Space = "yes"
     Skip_Sector_Phase_Space = "no"

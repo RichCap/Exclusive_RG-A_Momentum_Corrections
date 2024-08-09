@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --ntasks=1
-#SBATCH --job-name=fa2SPF_MomC_Out_Fall2018_P2_New_Out_V16_8_8_2024_R1
+#SBATCH --job-name=fa2SPF_MomC_Out_Fall2018_P2_New_Out_V17_8_8_2024_R1
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=richard.capobianco@uconn.edu 
 #SBATCH --output=/farm_out/%u/%x-%A_%a-%j-%N.out
@@ -8,7 +8,7 @@
 #SBATCH --partition=production
 #SBATCH --account=clas12
 #SBATCH --mem-per-cpu=5000
-#SBATCH --time=3:30:00
+#SBATCH --time=4:00:00
 #SBATCH --array=0-180
 
 
