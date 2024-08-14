@@ -1053,6 +1053,15 @@ if(event_Name != "error"):
             # Refined the (Outbending) Pion Momentum Correction (with all corrections)
             # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
             
+            
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V19"
+        # Ran on 8/14/2024
+            # Refined the (Outbending) Pion Momentum Correction (with all corrections)
+                # Using Split Mom Correction like what was done with the electron refinements
+                # For sectors 1, 2, and 3, the cutoff is at 5 GeV while for sectors 4, 5, and 6, the cutoff is at 4.5 GeV
+            # Additional refinements may still be necessary after this one (potentially to both particles)
+            # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
+            
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):
