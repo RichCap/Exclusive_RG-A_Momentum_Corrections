@@ -1053,7 +1053,7 @@ if(any("Dmom" in histos_selected for histos_selected in List_of_Locate_name)):
     # correction_type = "complex_Q"
     
     Use_Split_Cor = "lower"
-    Use_Split_Cor = "upper"
+#     Use_Split_Cor = "upper"
     Use_Split_Cor = "no"
     Used_Split_Op = False
 
@@ -1286,6 +1286,15 @@ if(any("Dmom" in histos_selected for histos_selected in List_of_Locate_name)):
                                     min_fit_range     = Fitting_Lines(Histo_Type="Dmom_p", Event_Type="SP", Bending_Type=Bending_Type, Particle=Particle, Missing_Mass_Type="None", DataSet="Fall2018_Pass2", Sector=1)[0][0]
                                     if("pip" in Particle):
                                         max_fit_range = Fitting_Lines(Histo_Type="Dmom_p", Event_Type="SP", Bending_Type=Bending_Type, Particle=Particle, Missing_Mass_Type="None", DataSet="Fall2018_Pass2", Sector=1)[0][1]
+                                        if(Use_Split_Cor not in ["no"]):
+                                            Used_Split_Op = True
+                                            Switch_Point_Pip = 4.5 if(sec in [4, 5, 6]) else 5
+                                            if(Use_Split_Cor in ["min", "low", "lower"]):
+                                                max_fit_range = Switch_Point_Pip
+                                                print(f"{color.BOLD}\n\n\n\n\n\nNEW MAX RANGE = {max_fit_range}\n\n\n\n\n{color.END}")
+                                            else:
+                                                min_fit_range = Switch_Point_Pip
+                                                print(f"{color.BOLD}\n\n\n\n\n\nNEW MIN RANGE = {min_fit_range}\n\n\n\n\n{color.END}")
                                     else:
                                         max_fit_range = Fitting_Lines(Histo_Type="Dmom_p", Event_Type="EO", Bending_Type=Bending_Type, Particle=Particle, Missing_Mass_Type="None", DataSet="Fall2018_Pass2", Sector=1)[0][1]
                                         if(Use_Split_Cor not in ["no"]):

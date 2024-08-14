@@ -286,7 +286,9 @@ def Filter_Conditions_Single(Input):
 # # #             Condition_list.append(True)
 #         if(("mmfaP2"             not in str(Input)) and (Single_EvntType     in ["EO"])):
 #             Condition_list.append(True)
-        if("ELPipMM"     in str(Input)):
+#         if("ELPipMM"     in str(Input)):
+#             Condition_list.append(True)
+        if("mmfaP2_ELPipMMfaP2" not in str(Input)):
             Condition_list.append(True)
         if("mmfaP2"  not in str(Input)):
             Condition_list.append(True)

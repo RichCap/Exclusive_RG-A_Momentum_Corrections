@@ -925,6 +925,15 @@ def MM_Fits(h2, minR, maxR, dR, Title, BGq, Particle, Bending_Type="In", Event_T
                     hy2.Rebin(2)
                 if(hy2.GetBinContent(hy2.GetMaximumBin()) < 150):
                     hy2.Rebin(2)
+                    
+            if((Particle in ["pip"]) and all(title_search in Title for title_search in ["(Outbending)", "Pass 2", "Fall 2018"])):
+                if((minR > 7.5) and (Region_Name in ["reg2", "reg3"])):
+                    # hy2.Rebin(2)
+                    break # Not able to fit thes points anymore (Central Phi Bin is still fine though)
+                    
+            if((Particle in ["el"]) and all(title_search in Title for title_search in ["(Outbending)", "Pass 2", "Fall 2018"])):
+                hy2.Rebin(2)
+
                 
             mu = hy2.GetBinCenter(hy2.GetMaximumBin())
             bin_width_mu = hy2.GetBinWidth(hy2.FindBin(mu))
