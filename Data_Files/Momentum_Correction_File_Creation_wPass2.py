@@ -1047,6 +1047,12 @@ if(event_Name != "error"):
                 # The new refinement is NOT split
             # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
             
+            
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V18"
+        # Ran on 8/13/2024
+            # Refined the (Outbending) Pion Momentum Correction (with all corrections)
+            # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
+            
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):
