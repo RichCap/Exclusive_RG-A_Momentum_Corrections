@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --ntasks=1
-#SBATCH --job-name=fa2EO_MomC_Out_Fall2018_P2_New_Out_V17_8_8_2024_R1
+#SBATCH --job-name=fa2EO_MomC_Out_Fall2018_P2_New_Out_V21_8_15_2024_R1
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=richard.capobianco@uconn.edu 
 #SBATCH --output=/farm_out/%u/%x-%A_%a-%j-%N.out

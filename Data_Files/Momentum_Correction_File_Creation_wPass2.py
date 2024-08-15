@@ -1062,6 +1062,20 @@ if(event_Name != "error"):
             # Additional refinements may still be necessary after this one (potentially to both particles)
             # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
             
+            
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V20"
+        # Ran on 8/14/2024
+            # Refined the (Outbending) Pion Momentum Correction (with all corrections)
+                # Used non-split (i.e., normal) correction for refinement
+            # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
+            
+            
+        Extra_Part_of_Name = "_Fall2018_P2_New_Out_V21"
+        # Ran on 8/15/2024
+            # Refined the (Outbending) Electron Momentum Correction (with all corrections)
+                # Should (hopefully) be the final refinement (if it doesn't work well, may just revert to the corrections used in 'Fall2018_P2_New_Out_V20')
+            # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
+            
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):
