@@ -931,8 +931,8 @@ def MM_Fits(h2, minR, maxR, dR, Title, BGq, Particle, Bending_Type="In", Event_T
                     # hy2.Rebin(2)
                     break # Not able to fit thes points anymore (Central Phi Bin is still fine though)
                     
-            if((Particle in ["el"]) and all(title_search in Title for title_search in ["(Outbending)", "Pass 2", "Fall 2018"])):
-                hy2.Rebin(2)
+            # if((Particle in ["el"]) and all(title_search in Title for title_search in ["(Outbending)", "Pass 2", "Fall 2018"])):
+            #     hy2.Rebin(2)
 
                 
             mu = hy2.GetBinCenter(hy2.GetMaximumBin())
@@ -2436,9 +2436,11 @@ if(sec == """, str(Sector_Title), "):"]))
 
                 if(Particle != "pro"):
                     hy2.Rebin()
-
-                if(hy2.GetBinContent(hy2.FindBin(0)) < 100):
+                    
+                if(hy2.GetBinContent(hy2.GetMaximumBin()) < 90):
                     hy2.Rebin(2)
+#                 if(hy2.GetBinContent(hy2.FindBin(0)) < 100):
+#                     hy2.Rebin(2)
 #                 if(hy2.GetBinContent(hy2.FindBin(0)) < 100):
 #                     hy2.Rebin(2)
                 # if(hy2.GetBinContent(hy2.FindBin(0)) < 50):
