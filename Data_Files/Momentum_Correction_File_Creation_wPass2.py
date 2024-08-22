@@ -1089,6 +1089,13 @@ if(event_Name != "error"):
                 # Correction was not split (were very small - likely the last electron refinement possible/necessary)
             # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
             
+            
+        Extra_Part_of_Name = "_Fall2018_P2_In_Refine_V3"
+        # Ran on 8/22/2024
+            # Making refinements to the Inbending Fall 2018 P2 Electron corrections (based on 'Forward_Fall2018_P2_In_Refine_V2')
+                # Likely the last electron refinement possible/necessary (pion refinements to come next)
+            # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
+            
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):
