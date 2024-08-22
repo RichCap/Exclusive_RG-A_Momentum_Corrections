@@ -19,8 +19,8 @@ from Extra_Functions_for_Histo_Creation import *
 
 
 
-# Selection_of_In_or_Out = "Inbending"
-Selection_of_In_or_Out = "Outbending"
+Selection_of_In_or_Out = "Inbending"
+# Selection_of_In_or_Out = "Outbending"
 # Selection_Data_Set = "Fall2018"
 Selection_Data_Set = "Fall2018_Pass2"
 # Selection_Data_Set = "Fall2018_Pass2_Central"
@@ -43,8 +43,8 @@ Single_Histogram_Canvas, histo_search_count_single = {}, {}
 # Single_EvntType = "P0"
 Single_EvntType = "EO"
 Single_EvntType = "SP"
-# Single_Bending_Type = "Inbending"
-Single_Bending_Type = "Outbending"
+Single_Bending_Type = "Inbending"
+# Single_Bending_Type = "Outbending"
 # Single_Data_Run = "Fall2018"
 Single_Data_Run = "Fall2018_Pass2"
 # Single_Data_Run = "Fall2018_Pass2_Central"
@@ -291,9 +291,11 @@ def Filter_Conditions_Single(Input):
 #             Condition_list.append(True)
 #         if("ELPipMM"     in str(Input)):
 #             Condition_list.append(True)
-        if("mmfaP2_ELPipMMfaP2" not in str(Input)):
-            Condition_list.append(True)
+#         if("mmfaP2_ELPipMMfaP2" not in str(Input)):
+#             Condition_list.append(True)
         if("mmfaP2"  not in str(Input)):
+            Condition_list.append(True)
+        if("PipMM"       in str(Input)):
             Condition_list.append(True)
 
 #         if("mm0'"  not in str(Input)):
