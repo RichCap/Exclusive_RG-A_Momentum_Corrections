@@ -1096,6 +1096,13 @@ if(event_Name != "error"):
                 # Likely the last electron refinement possible/necessary (pion refinements to come next)
             # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
             
+            
+        Extra_Part_of_Name = "_Fall2018_P2_In_Refine_V4"
+        # Ran on 8/22/2024
+            # Making refinements to the Inbending Fall 2018 P2 Pion corrections (based on 'Forward_Fall2018_P2_In_Refine_V3')
+                # Using Split Mom Correction at p_pip = 2.5 GeV (for all sectors)
+            # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
+            
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):

@@ -1056,9 +1056,9 @@ if(any("Dmom" in histos_selected for histos_selected in List_of_Locate_name)):
     # correction_type = "complex_Q"
     
     Use_Split_Cor = "lower"
-    Use_Split_Cor = "upper"
-    Use_Split_Cor = "no"
-    Used_Split_Op = False
+#     Use_Split_Cor = "upper"
+#     Use_Split_Cor = "no"
+    Used_Split_Op = not False
 
     try:
         for Data_Run in Data_Run_List:
@@ -1294,6 +1294,8 @@ if(any("Dmom" in histos_selected for histos_selected in List_of_Locate_name)):
                                         if(Use_Split_Cor not in ["no"]):
                                             Used_Split_Op = True
                                             Switch_Point_Pip = 4.5 if(sec in [4, 5, 6]) else 5
+                                            if("In" in str(Bending_Type)):
+                                                Switch_Point_Pip = 2.5
                                             if(Use_Split_Cor in ["min", "low", "lower"]):
                                                 max_fit_range = Switch_Point_Pip
                                                 print(f"{color.BOLD}\n\n\n\n\n\nNEW MAX RANGE = {max_fit_range}\n\n\n\n\n{color.END}")

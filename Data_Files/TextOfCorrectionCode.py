@@ -874,6 +874,61 @@ auto dppC = [&](float Px, float Py, float Pz, int sec, int ivec, int corEl, int 
                 // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmfaP2_ELPipMMfaP2][Sector 6] is:
                 dp = dp + ((-1.0246e-06)*phi*phi + (-1.3784e-05)*phi + (6.4560e-05))*pp*pp + ((9.8205e-06)*phi*phi + (1.4208e-04)*phi + (-0.001803))*pp + ((-1.3982e-05)*phi*phi + (-2.5638e-04)*phi + (0.0027303));
             }
+            
+            
+            // Split Pion Refinement made from Extra_Version_Name = "Forward_Fall2018_P2_In_Refine_V3" (refined with full Pion Momentum + Energy Loss Corrections) - Made on 8/22/2024
+            if(pp < 2.5){
+                if(sec == 1){
+                    // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmfaP2_ELPipMMfaP2][Sector 1] is:
+                    dp = dp +  ((1.0929e-05)*phi*phi + (-3.8002e-04)*phi +   (-0.01412))*pp*pp + ((-2.8491e-05)*phi*phi +  (5.0952e-04)*phi +  (0.037728))*pp +  ((1.6927e-05)*phi*phi +  (1.8165e-04)*phi + (-0.027772));
+                }
+                if(sec == 2){
+                    // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmfaP2_ELPipMMfaP2][Sector 2] is:
+                    dp = dp +  ((9.2373e-06)*phi*phi + (-3.3151e-04)*phi +  (-0.019254))*pp*pp + ((-2.7546e-05)*phi*phi +  (5.3915e-04)*phi +  (0.052516))*pp +  ((2.5220e-05)*phi*phi +  (7.5362e-05)*phi + (-0.033504));
+                }
+                if(sec == 3){
+                    // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmfaP2_ELPipMMfaP2][Sector 3] is:
+                    dp = dp +  ((1.8595e-06)*phi*phi +  (3.6900e-04)*phi + (-0.0099622))*pp*pp +  ((8.4410e-06)*phi*phi +  (-0.0010457)*phi +  (0.027038))*pp + ((-1.2191e-05)*phi*phi +  (6.0203e-04)*phi + (-0.019176));
+                }
+                if(sec == 4){
+                    // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmfaP2_ELPipMMfaP2][Sector 4] is:
+                    dp = dp +  ((9.5779e-06)*phi*phi +  (3.5339e-04)*phi +   (-0.01054))*pp*pp + ((-1.8077e-05)*phi*phi +  (-0.0010543)*phi +  (0.028379))*pp +  ((3.1773e-06)*phi*phi +  (5.6223e-04)*phi + (-0.018865));
+                }
+                if(sec == 5){
+                    // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmfaP2_ELPipMMfaP2][Sector 5] is:
+                    dp = dp +  ((3.3685e-05)*phi*phi +  (2.8972e-04)*phi +  (-0.017862))*pp*pp + ((-8.4089e-05)*phi*phi + (-9.8038e-04)*phi +  (0.050405))*pp +  ((4.3478e-05)*phi*phi +  (6.9924e-04)*phi + (-0.033066));
+                }
+                if(sec == 6){
+                    // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmfaP2_ELPipMMfaP2][Sector 6] is:
+                    dp = dp +  ((1.7381e-05)*phi*phi +  (5.4630e-04)*phi +  (-0.019637))*pp*pp + ((-3.8681e-05)*phi*phi +  (-0.0017358)*phi +    (0.0565))*pp +  ((1.2268e-05)*phi*phi +   (0.0011412)*phi + (-0.035608));
+                }
+            }
+            else{
+                if(sec == 1){
+                    // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmfaP2_ELPipMMfaP2][Sector 1] is:
+                    dp = dp +  ((4.3191e-07)*phi*phi + (-9.0581e-05)*phi + (-0.0011766))*pp*pp + ((-3.6232e-06)*phi*phi +   (0.0010342)*phi +  (0.012454))*pp +  ((1.2235e-05)*phi*phi +  (-0.0025855)*phi + (-0.035323));
+                }
+                if(sec == 2){
+                    // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmfaP2_ELPipMMfaP2][Sector 2] is:
+                    dp = dp +  ((2.2654e-08)*phi*phi + (-8.8436e-05)*phi + (-0.0013542))*pp*pp +  ((3.0630e-07)*phi*phi +  (9.4319e-04)*phi +    (0.0147))*pp + ((-3.5941e-06)*phi*phi +  (-0.0022473)*phi + (-0.036874));
+                }
+                if(sec == 3){
+                    // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmfaP2_ELPipMMfaP2][Sector 3] is:
+                    dp = dp +  ((6.8265e-07)*phi*phi +  (3.0246e-05)*phi + (-0.0011116))*pp*pp + ((-4.8481e-06)*phi*phi + (-3.7082e-04)*phi +  (0.011452))*pp +  ((7.2478e-06)*phi*phi +  (9.9858e-04)*phi + (-0.027972));
+                }
+                if(sec == 4){
+                    // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmfaP2_ELPipMMfaP2][Sector 4] is:
+                    dp = dp +  ((7.7000e-07)*phi*phi +  (4.1000e-06)*phi + (-0.0010144))*pp*pp + ((-8.1960e-06)*phi*phi + (-4.7753e-05)*phi +  (0.010594))*pp +  ((2.0716e-05)*phi*phi +  (1.2151e-04)*phi + (-0.028619));
+                }
+                if(sec == 5){
+                    // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmfaP2_ELPipMMfaP2][Sector 5] is:
+                    dp = dp +  ((4.6106e-07)*phi*phi + (-3.6786e-05)*phi + (-0.0015894))*pp*pp + ((-4.4217e-06)*phi*phi +  (3.7321e-04)*phi +  (0.015917))*pp +  ((7.5188e-06)*phi*phi + (-8.0676e-04)*phi + (-0.036944));
+                }
+                if(sec == 6){
+                    // The CONTINUOUS QUADRATIC function predicted for ∆p_{#pi^{+}} for [Cor = mmfaP2_ELPipMMfaP2][Sector 6] is:
+                    dp = dp + ((-8.9398e-08)*phi*phi + (-1.2347e-05)*phi + (-0.0018442))*pp*pp +  ((7.8164e-08)*phi*phi +  (1.3063e-04)*phi +   (0.01783))*pp +  ((8.2374e-06)*phi*phi + (-3.5862e-04)*phi + (-0.047011));
+                }
+            }
 
         }
         

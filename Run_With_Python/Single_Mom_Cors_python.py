@@ -57,7 +57,7 @@ Single_Data_Run = "Fall2018_Pass2_Forward"
 
 # Particle_Search = "pro"
 Particle_Search = "el"
-# Particle_Search = "pip"
+Particle_Search = "pip"
 
 Use_Missing_Mass_Plots = not True
 
@@ -291,12 +291,12 @@ def Filter_Conditions_Single(Input):
 #             Condition_list.append(True)
 #         if("ELPipMM"     in str(Input)):
 #             Condition_list.append(True)
-#         if("mmfaP2_ELPipMMfaP2" not in str(Input)):
-#             Condition_list.append(True)
+        if("mmfaP2_ELPipMMfaP2" not in str(Input)):
+            Condition_list.append(True)
         if("mmfaP2"  not in str(Input)):
             Condition_list.append(True)
-        if("PipMM"       in str(Input)):
-            Condition_list.append(True)
+#         if("PipMM"       in str(Input)):
+#             Condition_list.append(True)
 
 #         if("mm0'"  not in str(Input)):
 #             Condition_list.append(True)
