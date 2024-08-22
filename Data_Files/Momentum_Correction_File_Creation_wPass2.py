@@ -1076,6 +1076,19 @@ if(event_Name != "error"):
                 # Should (hopefully) be the final refinement (if it doesn't work well, may just revert to the corrections used in 'Fall2018_P2_New_Out_V20')
             # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
             
+            
+        Extra_Part_of_Name = "_Fall2018_P2_In_Refine_V1"
+        # Ran on 8/21/2024
+            # Making refinements to the Inbending Fall 2018 P2 Electron corrections (based on 'Forward_Fall2018_P2_Test_V9')
+                # Refinements are made without any of the pion corrections and use a split momentum correction at p_el = 7 GeV (for all sectors)
+            # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
+            
+        Extra_Part_of_Name = "_Fall2018_P2_In_Refine_V2"
+        # Ran on 8/21/2024
+            # Making refinements to the Inbending Fall 2018 P2 Electron corrections (based on 'Forward_Fall2018_P2_In_Refine_V1')
+                # Correction was not split (were very small - likely the last electron refinement possible/necessary)
+            # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
+            
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):
