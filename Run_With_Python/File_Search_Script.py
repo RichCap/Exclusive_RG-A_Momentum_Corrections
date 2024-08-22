@@ -9,7 +9,7 @@ from CommonPythonFunctions import *
 
 # Inbending or Outbending files?
 Selection_of_In_or_Out = "Inbending"
-Selection_of_In_or_Out = "Outbending"
+# Selection_of_In_or_Out = "Outbending"
 
 # Data set from RG-A (Spring data may not be currently compatible - need to rerun)
 # Selection_Data_Set = "Fall2018"
@@ -117,7 +117,7 @@ def DataFrame_Find(Event_Type=event_type, In_or_Out=Selection_of_In_or_Out, Sele
                     Extra_Part_of_Name     = "_Forward_Fall_Pass2_V1"
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall_Pass2_V4"])
                     Extra_Part_of_Name     = Extra_Part_of_Name.replace("Fall_Pass2_V4", "Shift_Test_V4")
-                    Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_New_Out_V20"])
+                    Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_New_Out_V21"])
                 else:
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_In_Forward_Test_V1"])
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_Test_V9"])
@@ -134,7 +134,7 @@ def DataFrame_Find(Event_Type=event_type, In_or_Out=Selection_of_In_or_Out, Sele
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall_Pass2_V4"])
 
                     Extra_Part_of_Name     = Extra_Part_of_Name.replace("Fall_Pass2_V4", "Shift_Test_V1")
-                    Extra_Part_of_Name     = "_Fall2018_P2_New_Out_V17"
+                    Extra_Part_of_Name     = "_Fall2018_P2_New_Out_V21"
                 else:
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_In_Forward_Test_V1"])
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_Test_V8"])

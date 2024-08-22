@@ -14,6 +14,9 @@ ll, ll2 = ROOT.TLine(), ROOT.TLine()
 ll.SetLineColor(2)
 ll2.SetLineColor(1)
 
+# Turns off the canvases when running in the command line
+ROOT.gROOT.SetBatch(1)
+
 from Main_python_Options import *
 
 
@@ -1053,9 +1056,9 @@ if(any("Dmom" in histos_selected for histos_selected in List_of_Locate_name)):
     # correction_type = "complex_Q"
     
     Use_Split_Cor = "lower"
-#     Use_Split_Cor = "upper"
-    Use_Split_Cor = "no"
-    Used_Split_Op = False
+    Use_Split_Cor = "upper"
+#     Use_Split_Cor = "no"
+    Used_Split_Op = not False
 
     try:
         for Data_Run in Data_Run_List:
@@ -1283,6 +1286,8 @@ if(any("Dmom" in histos_selected for histos_selected in List_of_Locate_name)):
                                 if("Fall2018_Pass2" in Data_Run):
                                     # Switch_Point_EL   = 6.5 if(((sec in [1, 2, 3, 4, 6]) and (region in ['reg1'])) or ((sec in [1, 2, 4]) and (region in ['reg2'])) or ((sec in [1, 2, 3, 4, 5]) and (region in ['reg3']))) else 4.75
                                     Switch_Point_EL   = 6.5 if(sec in [1, 2, 4]) else 4.75
+                                    if("In" in str(Bending_Type)):
+                                        Switch_Point_EL = 7
                                     min_fit_range     = Fitting_Lines(Histo_Type="Dmom_p", Event_Type="SP", Bending_Type=Bending_Type, Particle=Particle, Missing_Mass_Type="None", DataSet="Fall2018_Pass2", Sector=1)[0][0]
                                     if("pip" in Particle):
                                         max_fit_range = Fitting_Lines(Histo_Type="Dmom_p", Event_Type="SP", Bending_Type=Bending_Type, Particle=Particle, Missing_Mass_Type="None", DataSet="Fall2018_Pass2", Sector=1)[0][1]

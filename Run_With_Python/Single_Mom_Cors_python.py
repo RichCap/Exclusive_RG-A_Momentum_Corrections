@@ -12,6 +12,9 @@ ll, ll2 = ROOT.TLine(), ROOT.TLine()
 ll.SetLineColor(2)
 ll2.SetLineColor(1)
 
+# Turns off the canvases when running in the command line
+ROOT.gROOT.SetBatch(1)
+
 from Extra_Functions_for_Histo_Creation import *
 
 

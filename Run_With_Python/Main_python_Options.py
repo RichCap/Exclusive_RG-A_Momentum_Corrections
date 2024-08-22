@@ -83,8 +83,8 @@ EvntType_List = ["EO", "SP"]
 ##==========================================================================##
 
 # Bending_Type_List = ["Inbending", "Outbending"]
-# Bending_Type_List = ["Inbending"]
-Bending_Type_List = ["Outbending"]
+Bending_Type_List = ["Inbending"]
+# Bending_Type_List = ["Outbending"]
 
 ##==========================================================================##
 ##==========##==========##  IN/OUT-BENDING CHOICES  ##==========##==========##
@@ -197,10 +197,11 @@ Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2", "mmfaP2_ELPipMM0", "mmf
 # Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMMfaP2"]
 Correction_Name_List = ["mm0"]
 Correction_Name_List = ["mmfaP2"]
-# Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
-Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMM0"]
-Correction_Name_List = ["mmfaP2_ELPipMMfaP2"]
-Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMMfaP2"]
+# # Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
+# Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMM0"]
+# Correction_Name_List = ["mmfaP2_ELPipMMfaP2"]
+# Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMMfaP2"]
+# Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
 
 ##==========================================================================##
 ##==========##==========##    CORRECTION CHOICES    ##==========##==========##
