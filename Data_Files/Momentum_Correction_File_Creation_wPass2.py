@@ -1103,6 +1103,14 @@ if(event_Name != "error"):
                 # Using Split Mom Correction at p_pip = 2.5 GeV (for all sectors)
             # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
             
+            
+        Extra_Part_of_Name = "_Fall2018_P2_In_Refine_V5"
+        # Ran on 8/23/2024
+            # Making refinements to the Inbending Fall 2018 P2 Pion corrections (based on 'Forward_Fall2018_P2_In_Refine_V4')
+                # Correction was not split (were very small - likely the last pion refinement possible/necessary)
+            # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
+            
+            
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):
