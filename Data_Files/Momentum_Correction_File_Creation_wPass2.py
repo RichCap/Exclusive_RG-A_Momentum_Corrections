@@ -1140,6 +1140,12 @@ if(event_Name != "error"):
             # Refining the electron corrections (without the existing pion corrections) again
                 # Last likely electron refinement
             # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
+            
+        Extra_Part_of_Name = "_Sp19_P2_Refine_V3"
+        # Ran on 8/27/2024
+            # Refining the pion corrections with a split momentum correction
+                # The cutoff for this correction is at 3.5 GeV for all sectors
+            # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
                 
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
