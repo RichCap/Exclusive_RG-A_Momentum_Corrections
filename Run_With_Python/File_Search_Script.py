@@ -36,13 +36,13 @@ event_type = "SP" # Single Pion Channel (ep->eπ+N)
 # event_type = "DP" # Double Pion Channel (ep->epπ+π- --- also uses the π0 channel for the ∆P histograms)
 # event_type = "P0" # π0 Channel (ep->epπ0)
 # event_type = "ES" # Elastic Scattering Channel (ep->e'p')
-event_type = "EO" # Electron Only Channel (ep->e'X)
+# event_type = "EO" # Electron Only Channel (ep->e'X)
 
 MM_type = "epipX" # Use for single pion channel (select with event_type = "SP")
 # MM_type = "eppipX" # Use for double pion channel (select with event_type = "DP")
 # MM_type = "eppi0X" # Use for π0 channel (select with event_type = "P0")
 # MM_type = "epX" # Use for elastic scattering channel (select with event_type = "ES")
-MM_type = "eX" # Use for electron only channel (select with event_type = "EO")
+# MM_type = "eX" # Use for electron only channel (select with event_type = "EO")
 
 print("".join(["\nStarting ", MM_type if("E" not in event_type) else "Elastic Scattering" if(event_type == "ES") else "Electron Only", " (", str(Selection_of_In_or_Out), ") Corrections (from RG-A ", str(Selection_Data_Set.replace("20", " 20")).replace("_", " "), ")...\n"]))
 
@@ -289,24 +289,29 @@ def DataFrame_Find(Event_Type=event_type, In_or_Out=Selection_of_In_or_Out, Sele
                 file_name = "".join(["Single_Pion_Channel_epipX_", str(In_or_Out), "_With_Dp_GitHub_Spring_2019_Pass_1",   str(Extra_Part_of_Name), "_File_All.root"])
                 file_name = "".join(["Single_Pion_Channel_epipX_", str(In_or_Out), "_With_Dp_Spring_2019_Pass_1",                                          "_Forward" if(("F" in Event_Type) or ("Forward" in Selection_Data_Set_In)) else "_Central" if(("C" in Event_Type) or ("Central" in Selection_Data_Set_In)) else "", "_rec_clas", str(Extra_Part_of_Name), "_File_All.root"])
             if("Pass2" in Selection_Data_Set_In):
-                Extra_Part_of_Name = "_V5"
-                Extra_Part_of_Name = "_NEW_V1"
-                Extra_Part_of_Name = "_V3"
-                Extra_Part_of_Name = "_V4"
-                Extra_Part_of_Name = "_V11"
+                Extra_Part_of_Name = "_rec_clas_V5"
+                Extra_Part_of_Name = "_rec_clas_NEW_V1"
+                Extra_Part_of_Name = "_rec_clas_V3"
+                Extra_Part_of_Name = "_rec_clas_V4"
+                Extra_Part_of_Name = "_rec_clas_V11"
+                
+                Extra_Part_of_Name = "_Sp19_P2_Refine_V1"
                 # general_batch_file_location = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Spring_2019_epipN/Pass2/"
                 general_batch_file_location = "".join([main_location, "Spring_2019_epipN/Pass2/"])
                 # # file_name                 = "".join(["Single_Pion_Channel_epipX_",                 str(In_or_Out), "_With_Dp_GitHub_Spring_2019_Pass_2", str(Extra_Part_of_Name), "_File_nSidis_All.root"])
                 # # file_name                 = "".join(["Single_Pion_Channel_epipX_",                 str(In_or_Out), "_With_Dp_GitHub_Spring_2019_Pass_2", str(Extra_Part_of_Name), "_File_All.root"])
                 # file_name                   = "".join(["Single_Pion_Channel_epipX_",                 str(In_or_Out), "_With_Dp_GitHub_Spring_2019_Pass_2",                                                                                                                                                                                   str(Extra_Part_of_Name), "_File_nSidis_All.root"])
                 # file_name                   = "".join(["Single_Pion_Channel_epipX_",                 str(In_or_Out), "_With_Dp_GitHub_Spring_2019_Pass_2",                                                                                                                                                                                   str(Extra_Part_of_Name), "_File_All.root"])
-                file_name                   = "".join(["Single_Pion_Channel_epipX_",                 str(In_or_Out), "_With_Dp_Spring_2019_Pass_2",        "_Forward" if(("F" in Event_Type) or ("Forward" in Selection_Data_Set_In)) else "_Central" if(("C" in Event_Type) or ("Central" in Selection_Data_Set_In)) else "", "_rec_clas", str(Extra_Part_of_Name), "_File_All.root"])
+                # file_name                   = "".join(["Single_Pion_Channel_epipX_",                 str(In_or_Out), "_With_Dp_Spring_2019_Pass_2",        "_Forward" if(("F" in Event_Type) or ("Forward" in Selection_Data_Set_In)) else "_Central" if(("C" in Event_Type) or ("Central" in Selection_Data_Set_In)) else "", "_rec_clas", str(Extra_Part_of_Name), "_File_All.root"])
+                file_name                   = "".join(["Single_Pion_Channel_epipX_",                 str(In_or_Out), "_With_Dp_Forward", str(Extra_Part_of_Name), "_File_All.root"])
         if(Event_Type in ["EO", "EOC", "EOF"] or "EO" in Selection_Data_Set_In):
             if("Pass2" in Selection_Data_Set_In):
-                Extra_Part_of_Name = "_V11"
+                Extra_Part_of_Name = "_rec_clas_V11"
+                Extra_Part_of_Name = "_Sp19_P2_Refine_V1"
                 general_batch_file_location = "".join([str(main_location), "Only_Electron_Channel/", str(In_or_Out), "/Spring2019_Pass2/"])
                 # file_name                   = "".join([                    "Electron_Only_eX_",      str(In_or_Out), "_With_Dp_GitHub_Spring_2019_Pass_2",                                                                                                                                                                                   str(Extra_Part_of_Name), "_File_All.root"])
-                file_name                   = "".join([                    "Electron_Only_eX_",      str(In_or_Out), "_With_Dp_Spring_2019_Pass_2",        "_Forward" if(("F" in Event_Type) or ("Forward" in Selection_Data_Set_In)) else "_Central" if(("C" in Event_Type) or ("Central" in Selection_Data_Set_In)) else "", "_rec_clas", str(Extra_Part_of_Name), "_File_All.root"])
+                # file_name                   = "".join([                    "Electron_Only_eX_",      str(In_or_Out), "_With_Dp_Spring_2019_Pass_2",        "_Forward" if(("F" in Event_Type) or ("Forward" in Selection_Data_Set_In)) else "_Central" if(("C" in Event_Type) or ("Central" in Selection_Data_Set_In)) else "", "_rec_clas", str(Extra_Part_of_Name), "_File_All.root"])
+                file_name                   = "".join(["Electron_Only_eX_",                          str(In_or_Out), "_With_Dp_Forward", str(Extra_Part_of_Name), "_File_All.root"])
             else:
                 Extra_Part_of_Name = "_V7"
                 general_batch_file_location = "".join([str(main_location), "Only_Electron_Channel/", str(In_or_Out), "/Spring2019_Pass1/"])
