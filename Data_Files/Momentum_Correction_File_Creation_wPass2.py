@@ -1124,6 +1124,15 @@ if(event_Name != "error"):
                 # New ∆P and MM vs Theta Plots added (to study theta dependence)
                 # Turned off the phase space plots to save time while running
                     # i.e., Run_Phase_Space = 'no'
+                    
+                    
+        Extra_Part_of_Name = "_Sp19_P2_Refine_V1"
+        # Ran on 8/27/2024
+            # Refining the electron corrections (without the existing pion corrections)
+                # Will revisit the pion corrections (with energy loss) in a later version of this code
+            # Basically reviewing the Spring 2019 corrections with the newer version of this code (i.e., after all changes seen up to Extra_Part_of_Name = "_Fall2018_P2_In_Refine_V5" for the Fall 2018 dataset)
+                # Removed some older corrections and am now just going to use 'mm0', 'mmRP2', 'ELPipMM0', 'ELPipMMP2' and all of their relevant combinations
+            # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
                 
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
@@ -5425,7 +5434,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
         if(datatype == "Inbending"):
             Delta_P_histo_CorList = ['mm0']
             if("Spring 2019 - Pass " in str(pass_version)):
-                Delta_P_histo_CorList.append("mmP2")
+                # Delta_P_histo_CorList.append("mmP2")
                 Delta_P_histo_CorList.append("mmRP2")
             elif("Pass 2" in str(pass_version)):
                 Delta_P_histo_CorList.append("mmfaP2")
@@ -5721,7 +5730,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                 if(datatype == "Inbending"):
                     correctionList = ['mm0', 'mmEF']
                     if("Spring 2019 - Pass " in str(pass_version)):
-                        correctionList.append("mmP2")
+                        # correctionList.append("mmP2")
                         correctionList.append("mmRP2")
                 if(datatype == "Outbending"):
                     correctionList = ['mm0', 'mmEF']

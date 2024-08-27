@@ -20,7 +20,7 @@ Selection_Data_Set = "Fall2018_Pass2_Forward"
 # Selection_Data_Set = "Fall2018_Pass2_Central"
 # Selection_Data_Set = "Spring2019"
 # Selection_Data_Set = "Spring2019_Pass1"
-# Selection_Data_Set = "Spring2019_Pass2"
+Selection_Data_Set = "Spring2019_Pass2"
 # # Selection_Data_Set = "Monte Carlo"
 
 # Selection_Data_Set = "Monte_Carlo"
@@ -36,13 +36,13 @@ event_type = "SP" # Single Pion Channel (ep->eπ+N)
 # event_type = "DP" # Double Pion Channel (ep->epπ+π- --- also uses the π0 channel for the ∆P histograms)
 # event_type = "P0" # π0 Channel (ep->epπ0)
 # event_type = "ES" # Elastic Scattering Channel (ep->e'p')
-# event_type = "EO" # Electron Only Channel (ep->e'X)
+event_type = "EO" # Electron Only Channel (ep->e'X)
 
 MM_type = "epipX" # Use for single pion channel (select with event_type = "SP")
 # MM_type = "eppipX" # Use for double pion channel (select with event_type = "DP")
 # MM_type = "eppi0X" # Use for π0 channel (select with event_type = "P0")
 # MM_type = "epX" # Use for elastic scattering channel (select with event_type = "ES")
-# MM_type = "eX" # Use for electron only channel (select with event_type = "EO")
+MM_type = "eX" # Use for electron only channel (select with event_type = "EO")
 
 print("".join(["\nStarting ", MM_type if("E" not in event_type) else "Elastic Scattering" if(event_type == "ES") else "Electron Only", " (", str(Selection_of_In_or_Out), ") Corrections (from RG-A ", str(Selection_Data_Set.replace("20", " 20")).replace("_", " "), ")...\n"]))
 
@@ -123,7 +123,7 @@ def DataFrame_Find(Event_Type=event_type, In_or_Out=Selection_of_In_or_Out, Sele
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_Test_V9"])
                     # Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_Test_V6"])
                     
-                    Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_In_Refine_V4"])
+                    Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_In_Refine_V5"])
 
                 general_batch_file_location = "".join([str(main_location), "Single_Pion_Channel_epipN/Pass2/", str(In_or_Out), "/"])
                 file_name                   = "".join([                    "Single_Pion_Channel_epipX_",       str(In_or_Out), "_With_Dp", str(Extra_Part_of_Name), "_File_All.root"])
