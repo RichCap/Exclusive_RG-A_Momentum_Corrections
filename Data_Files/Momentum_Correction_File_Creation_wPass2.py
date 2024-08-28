@@ -1074,6 +1074,7 @@ if(event_Name != "error"):
         # Ran on 8/15/2024
             # Refined the (Outbending) Electron Momentum Correction (with all corrections)
                 # Should (hopefully) be the final refinement (if it doesn't work well, may just revert to the corrections used in 'Fall2018_P2_New_Out_V20')
+                # Correction was not enough of an improvement to use (refer to 'Fall2018_P2_New_Out_V20' for the final versions of the electron/pi+ pion corrections)
             # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
             
             
@@ -1145,6 +1146,12 @@ if(event_Name != "error"):
         # Ran on 8/27/2024
             # Refining the pion corrections with a split momentum correction
                 # The cutoff for this correction is at 3.5 GeV for all sectors
+            # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
+            
+        Extra_Part_of_Name = "_Sp19_P2_Refine_V4"
+        # Ran on 8/28/2024
+            # Refining the pion corrections with a non-split momentum correction
+                # Normal correction applied across the full range of fittable momentum distribution
             # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
                 
         if("Central"   in pass_version):
