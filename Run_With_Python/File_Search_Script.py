@@ -117,7 +117,7 @@ def DataFrame_Find(Event_Type=event_type, In_or_Out=Selection_of_In_or_Out, Sele
                     Extra_Part_of_Name     = "_Forward_Fall_Pass2_V1"
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall_Pass2_V4"])
                     Extra_Part_of_Name     = Extra_Part_of_Name.replace("Fall_Pass2_V4", "Shift_Test_V4")
-                    Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_New_Out_V21"])
+                    Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_New_Out_V20"])
                 else:
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_In_Forward_Test_V1"])
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_Test_V9"])
@@ -136,7 +136,7 @@ def DataFrame_Find(Event_Type=event_type, In_or_Out=Selection_of_In_or_Out, Sele
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall_Pass2_V4"])
 
                     Extra_Part_of_Name     = Extra_Part_of_Name.replace("Fall_Pass2_V4", "Shift_Test_V1")
-                    Extra_Part_of_Name     = "_Fall2018_P2_New_Out_V21"
+                    Extra_Part_of_Name     = "_Fall2018_P2_New_Out_V17"
                 else:
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_In_Forward_Test_V1"])
                     Extra_Part_of_Name     = "".join(["_Forward" if("Forward" in Selection_Data_Set_In) else "_Central" if("Central" in Selection_Data_Set_In) else "", "_Fall2018_P2_Test_V8"])
@@ -295,7 +295,7 @@ def DataFrame_Find(Event_Type=event_type, In_or_Out=Selection_of_In_or_Out, Sele
                 Extra_Part_of_Name = "_rec_clas_V4"
                 Extra_Part_of_Name = "_rec_clas_V11"
                 
-                Extra_Part_of_Name = "_Sp19_P2_Refine_V1"
+                Extra_Part_of_Name = "_Sp19_P2_Refine_V4"
                 # general_batch_file_location = "/lustre19/expphy/volatile/clas12/richcap/Momentum_Cors/Exclusive_RG-A_Momentum_Corrections/Data_Files/Spring_2019_epipN/Pass2/"
                 general_batch_file_location = "".join([main_location, "Spring_2019_epipN/Pass2/"])
                 # # file_name                 = "".join(["Single_Pion_Channel_epipX_",                 str(In_or_Out), "_With_Dp_GitHub_Spring_2019_Pass_2", str(Extra_Part_of_Name), "_File_nSidis_All.root"])
@@ -307,7 +307,7 @@ def DataFrame_Find(Event_Type=event_type, In_or_Out=Selection_of_In_or_Out, Sele
         if(Event_Type in ["EO", "EOC", "EOF"] or "EO" in Selection_Data_Set_In):
             if("Pass2" in Selection_Data_Set_In):
                 Extra_Part_of_Name = "_rec_clas_V11"
-                Extra_Part_of_Name = "_Sp19_P2_Refine_V1"
+                Extra_Part_of_Name = "_Sp19_P2_Refine_V2"
                 general_batch_file_location = "".join([str(main_location), "Only_Electron_Channel/", str(In_or_Out), "/Spring2019_Pass2/"])
                 # file_name                   = "".join([                    "Electron_Only_eX_",      str(In_or_Out), "_With_Dp_GitHub_Spring_2019_Pass_2",                                                                                                                                                                                   str(Extra_Part_of_Name), "_File_All.root"])
                 # file_name                   = "".join([                    "Electron_Only_eX_",      str(In_or_Out), "_With_Dp_Spring_2019_Pass_2",        "_Forward" if(("F" in Event_Type) or ("Forward" in Selection_Data_Set_In)) else "_Central" if(("C" in Event_Type) or ("Central" in Selection_Data_Set_In)) else "", "_rec_clas", str(Extra_Part_of_Name), "_File_All.root"])

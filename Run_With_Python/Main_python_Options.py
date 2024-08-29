@@ -33,7 +33,7 @@ Data_Run_List = ["Fall2018_Pass2"]
 Data_Run_List = ["Spring2019_Pass2"]
 
 # # Data_Run_List = ["Fall2018_Pass2_Central"]
-# Data_Run_List = ["Fall2018_Pass2_Forward"]
+Data_Run_List = ["Fall2018_Pass2_Forward"]
 
 # Data_Run_List = ["Monte_Carlo"]
 # Data_Run_List = ["Monte_Carlo_Pass2"]
@@ -197,13 +197,16 @@ Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2", "mmfaP2_ELPipMM0", "mmf
 # Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMMfaP2"]
 Correction_Name_List = ["mm0"]
 Correction_Name_List = ["mmfaP2"]
-# # Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
-# Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMM0"]
-Correction_Name_List = ["mmfaP2_ELPipMMfaP2"]
-# Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMMfaP2"]
-# Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
+Correction_Name_List = ["mm0", "mmfaP2", "mmfaP2_ELPipMMfaP2"]
+# # # Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
+# # Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMM0"]
+# Correction_Name_List = ["mmfaP2_ELPipMMfaP2"]
+# # Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMMfaP2"]
+Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
+Correction_Name_List = ["mmfaP2_ELPipMM0"]
 
-Correction_Name_List = ["mmRP2"]
+# Correction_Name_List = ["mmRP2"]
+# Correction_Name_List = ["mmRP2_ELPipMMP2"]
 
 ##==========================================================================##
 ##==========##==========##    CORRECTION CHOICES    ##==========##==========##

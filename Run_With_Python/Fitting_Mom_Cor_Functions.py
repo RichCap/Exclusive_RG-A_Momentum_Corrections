@@ -1553,7 +1553,12 @@ if(sec == """, "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Ti
                             fy2.SetParLimits(1, cor_Y - 0.00001, cor_Y + 0.00001)
                             fy2.SetRange(-0.15, 0.15)
                             break
-                    
+                
+                
+                if(("Spring 2019 - Pass 2" in str(Title)) and (minR > 1.25) and (Particle in ["pip"])):
+                    print("\n\nReseting fit range...\n")
+                    fy2.SetRange(-0.1, 0.1)
+                
                 
                 hy2.Fit(fy2, "BRQ")
                 
@@ -1631,6 +1636,11 @@ if(sec == """, "1" if("Sector 1" in str(Title)) else "2" if("Sector 2" in str(Ti
                             fy2.SetRange(-0.145, 0.08)
                     else:
                         fy2.SetRange(-0.16, 0.135)
+                    hy2.Fit(fy2, "BRQ")
+                    mu, sig = fy2.GetParameter(1), abs(fy2.GetParameter(2))
+                    
+                if(("Spring 2019 - Pass 2" in str(Title)) and (minR > 1.25) and (Particle in ["pip"])):
+                    fy2.SetRange(-0.1, 0.1)
                     hy2.Fit(fy2, "BRQ")
                     mu, sig = fy2.GetParameter(1), abs(fy2.GetParameter(2))
                     
