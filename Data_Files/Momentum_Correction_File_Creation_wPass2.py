@@ -1154,6 +1154,15 @@ if(event_Name != "error"):
                 # Normal correction applied across the full range of fittable momentum distribution
             # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
                 
+                
+        Extra_Part_of_Name = "_Sp19_P2_Refine_V5"
+        # Ran on 8/29/2024
+            # Removed refinement of the pion corrections that was added in Extra_Part_of_Name = "_Sp19_P2_Refine_V4"
+                # Did not improve the MM plots
+            # Also testing the Single-line version of the corrections to be used as the distributed version of the corrections
+            # Ran with Run_Phase_Space = 'yes' (i.e., Running Phase Space Plots)
+            
+            
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):
@@ -5801,7 +5810,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
     # Letting Run_Phase_Space = 'yes' allows for the histograms without the missing mass values to be run
     Run_Phase_Space = 'yes'
-    Run_Phase_Space = 'no'
+    # Run_Phase_Space = 'no'
     
     Skip_Sector_Phase_Space = "yes"
     Skip_Sector_Phase_Space = "no"
