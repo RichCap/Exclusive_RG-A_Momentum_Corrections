@@ -30,7 +30,7 @@ Data_Run_List = ["Fall2018_Pass2"]
 
 # # Data_Run_List = ["Fall2018", "Spring2019_Pass2"]
 # # Data_Run_List = ["Spring2019_Pass1"]
-Data_Run_List = ["Spring2019_Pass2"]
+# Data_Run_List = ["Spring2019_Pass2"]
 
 # # Data_Run_List = ["Fall2018_Pass2_Central"]
 Data_Run_List = ["Fall2018_Pass2_Forward"]
@@ -196,17 +196,19 @@ Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2", "mmfaP2_ELPipMM0", "mmf
 # Correction_Name_List = ["mmfaP2_ELPipMM0"]
 # Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMMfaP2"]
 Correction_Name_List = ["mm0"]
-Correction_Name_List = ["mmfaP2"]
-Correction_Name_List = ["mm0", "mmfaP2", "mmfaP2_ELPipMMfaP2"]
-# # # Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
-# # Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMM0"]
-# Correction_Name_List = ["mmfaP2_ELPipMMfaP2"]
-# # Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMMfaP2"]
+# Correction_Name_List = ["mmfaP2"]
+# Correction_Name_List = ["mm0", "mmfaP2", "mmfaP2_ELPipMMfaP2"]
+# # # # Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
+# # # Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMM0"]
+# # Correction_Name_List = ["mmfaP2_ELPipMMfaP2"]
+# # # Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMMfaP2"]
 Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
-Correction_Name_List = ["mmfaP2_ELPipMM0"]
+# Correction_Name_List = ["mmfaP2_ELPipMM0"]
 
-# Correction_Name_List = ["mmRP2"]
-# Correction_Name_List = ["mmRP2_ELPipMMP2"]
+# # Correction_Name_List = ["mmRP2"]
+# # Correction_Name_List = ["mmRP2_ELPipMMP2"]
+# Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmRP2", "mmRP2_ELPipMM0", "mmRP2_ELPipMMP2"]
+# Correction_Name_List = ["mmRP2_ELPipMM0"]
 
 ##==========================================================================##
 ##==========##==========##    CORRECTION CHOICES    ##==========##==========##
@@ -420,6 +422,7 @@ elif('Dp' in str(histogram_type)):
 # List_of_Locate_name.append("Histo_Th_v_Phi_('Correction_Name_List', Sector_Number_List, 'Particle_Mom_List', 'Extra_Cut_Option', 'local', ''")
 # List_of_Locate_name.append("Histo_Th_v_Phi_('Correction_Name_List', Sector_Number_List, 'Particle_Mom_List', 'Extra_Cut_Option', '', 'S'")
 
+# List_of_Locate_name = []
 # List_of_Locate_name.append("Histo_P_v_Th_('Correction_Name_List', Sector_Number_List, 'Particle_Mom_List', 'Extra_Cut_Option', '', '')")
 # List_of_Locate_name.append("Histo_P_v_Phi_('Correction_Name_List', Sector_Number_List, 'Particle_Mom_List', 'Extra_Cut_Option', 'local', 'S'")
 # List_of_Locate_name.append("Histo_Th_v_Phi_('Correction_Name_List', Sector_Number_List, 'Particle_Mom_List', 'Extra_Cut_Option', 'local', 'S'")

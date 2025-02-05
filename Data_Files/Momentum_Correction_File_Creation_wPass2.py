@@ -1112,6 +1112,13 @@ if(event_Name != "error"):
             # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
             
             
+        Extra_Part_of_Name = "_Fall2018_P2_In_Refine_V6"
+        # Ran on 9/3/2024
+            # Final Version of refinements
+                # No change to either correction, but now they are both applied with the same condensed format as is used in the publically distributed version
+            # Ran with Run_Phase_Space = 'no' (i.e., Not running Phase Space Plots)
+            
+            
         if("Central"   in pass_version):
             Extra_Part_of_Name = f"_Central{Extra_Part_of_Name}"
         elif("Forward" in pass_version):
@@ -5810,7 +5817,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
     # Letting Run_Phase_Space = 'yes' allows for the histograms without the missing mass values to be run
     Run_Phase_Space = 'yes'
-    # Run_Phase_Space = 'no'
+    Run_Phase_Space = 'no'
     
     Skip_Sector_Phase_Space = "yes"
     Skip_Sector_Phase_Space = "no"

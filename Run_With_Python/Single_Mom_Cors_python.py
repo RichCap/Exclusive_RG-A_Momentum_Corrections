@@ -25,14 +25,14 @@ Selection_of_In_or_Out = "Inbending"
 Selection_Data_Set = "Fall2018_Pass2"
 # Selection_Data_Set = "Fall2018_Pass2_Central"
 Selection_Data_Set = "Fall2018_Pass2_Forward"
-# Selection_Data_Set = "Spring2019_Pass2"
+Selection_Data_Set = "Spring2019_Pass2"
 # Selection_Data_Set = "Spring2019_Pass1"
 
 
 # Selection_Data_Set = "Monte_Carlo_Pass2"
 
-# event_type = "EO" # Single Pion Channel (ep->eπ+N)
-# MM_type    = "eX" # Use for single pion channel (select with event_type = "SP")
+event_type = "EO" # Single Pion Channel (ep->eπ+N)
+MM_type    = "eX" # Use for single pion channel (select with event_type = "SP")
 
 event_type = "SP" # Single Pion Channel (ep->eπ+N)
 MM_type    = "epipX" # Use for single pion channel (select with event_type = "SP")
@@ -64,9 +64,9 @@ Single_Data_Run     = Selection_Data_Set
 
 # Particle_Search = "pro"
 Particle_Search = "el"
-# Particle_Search = "pip"
+Particle_Search = "pip"
 
-Use_Missing_Mass_Plots = True
+Use_Missing_Mass_Plots = not True
 
 Use_Invariant_Mass_Plots = not True
 
@@ -301,15 +301,15 @@ def Filter_Conditions_Single(Input):
 #         if("mmfaP2_ELPipMMfaP2" not in str(Input)):
 #             Condition_list.append(True)
         if("Spring2019" not in str(Selection_Data_Set)):
-            if("mmfaP2" not in str(Input)):
+            if("mmfaP2"     in str(Input)):
                 Condition_list.append(True)
             if("PipMM"  not in str(Input)):
                 Condition_list.append(True)
         else:
             if("mmRP2"  not in str(Input)):
                 Condition_list.append(True)
-            if("PipMMP" not in str(Input)):
-                Condition_list.append(True)
+#             if("PipMMP" not in str(Input)):
+#                 Condition_list.append(True)
 
 #         if("mm0'"  not in str(Input)):
 #             Condition_list.append(True)
