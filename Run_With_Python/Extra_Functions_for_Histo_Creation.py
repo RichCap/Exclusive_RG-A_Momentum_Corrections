@@ -347,7 +347,7 @@ def Find_And_Slice_Histo(RDF, NAME, EVENT, PARTICLE, BENDING=Selection_of_In_or_
             MM_bg_option = "no"
             if("hmmCPARTall" in NAME):
                 Histo_Out.GetYaxis().SetTitle(Histo_Out.GetYaxis().GetTitle().replace("MM^2", "MM^{2}"))
-                blank_Canvas = Canvas_Create(Name="".join(["test_blank_func_", str(NAME)]), Num_Columns=3, Num_Rows=2, Size_X=1500, Size_Y=1200, cd_Space=0)
+                # blank_Canvas = Canvas_Create(Name="".join(["test_blank_func_", str(NAME)]), Num_Columns=3, Num_Rows=2, Size_X=1500, Size_Y=1200, cd_Space=0)
                 # Histo_Out = fit2dall(Histo_Out.Clone(), MinRange_Fit, MaxRange_Fit, Increment_Fit, Histo_Out.GetTitle(), MM_bg_option, PARTICLE)
                 Histo_Out = MM_Fits(Histo_Out.Clone(), MinRange_Fit, MaxRange_Fit, Increment_Fit, Histo_Out.GetTitle(), MM_bg_option, PARTICLE, Bending_Type=BENDING, Event_Type_In=EVENT)
                 # blank_Canvas = Canvas_Create(Name="test_blank_func", Num_Columns=3, Num_Rows=2, Size_X=1500, Size_Y=1200, cd_Space=0)
@@ -356,7 +356,6 @@ def Find_And_Slice_Histo(RDF, NAME, EVENT, PARTICLE, BENDING=Selection_of_In_or_
                 # else:
                 #     Histo_Out.GetYaxis().SetRangeUser((Tline_Simple_Y1 - 0.1) if(EVENT != "DP") else -0.05, (Tline_Simple_Y1 + 0.1) if(EVENT != "DP") else 0.1)
                 Histo_Out.GetXaxis().SetRangeUser(Tline_Simple_X1, Tline_Simple_X2 + 0.5)
-
         ###############################################################################################################
         ##==================================#######################################==================================##
         ##==========##==========##==========##     Invariant Mass Histograms     ##==========##==========##==========##

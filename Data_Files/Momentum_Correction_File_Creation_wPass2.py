@@ -1769,6 +1769,8 @@ pipPhi += 25;""", ""), "return tempsec;"]))
             coutN = 5
         if("mmfaP2" in corEl):
             coutN = 6 if("Out" not in datatype) else 4
+        if("mmRGK" in corEl):
+            coutN = 7
 
         return coutN
 
@@ -5392,8 +5394,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
 
 
     Delta_P_histo_CorList = ['mm0']
-
-    
+    Delta_P_histo_CorList.append("mmRGK")
     
     if(event_type in ["SP", "MC"]):
         if(datatype == "Inbending"):
@@ -5425,6 +5426,8 @@ pipPhi += 25;""", ""), "return tempsec;"]))
                     # if("mm0" not in str(EL_cor_ii)):
                     #     Delta_P_histo_CorList.remove(EL_cor_ii)
             del Delta_P_histo_CorList_TEMP
+
+
 
         # # Select which comparisons you would like to see (i.e. which variables would you like to compare to the theoretical calculations)
         Delta_P_histo_CompareList = ['pi+', 'el']   # Show both corrections
@@ -5488,7 +5491,7 @@ pipPhi += 25;""", ""), "return tempsec;"]))
         Delta_Pip_histo_SecList = ["all"]
 
         
-        
+    Delta_P_histo_CorList.append("mmRGK")
     # Delta_P_histo_CorList = ['mm0']
 
     

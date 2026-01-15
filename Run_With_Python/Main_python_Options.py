@@ -126,7 +126,12 @@ Particle_Sec_List = ['el', 'pip']
 import argparse
 
 # Create the parser with a description of the script
-parser = argparse.ArgumentParser(description='Process some histograms.')
+parser = argparse.ArgumentParser(description='Main options script to be used with "Mom_Cors_Main_python.py" (running that script will use the options given by this script)')
+
+# These arguments are just used in 'Mom_Cors_Main_python.py'
+parser.add_argument('-ff', '--file_format',  type=str,  default=".png", choices=[".png", ".pdf"], help='File output format (Default: ".png").')
+parser.add_argument('-ns', '-t', '-test', '--no_save',                  action='store_true',      help='Overwrites "SaveResultsQ" to make it so no image should be saved (for testing/code only outputs — Not a part of the original code design. Could cause unintended issues so use with caution).')
+parser.add_argument('-c', '-cor', '--correction',       default=None,   type=str,                 help='Unique correction to be run by itself (overwrites whenever default code exists for other corrections — reliability is not fully tested).')
 
 # Add a positional argument that is optional with help text
 parser.add_argument('Histogram_Type_Option', nargs='?', choices=['MM', 'Dp', 'MM_el', 'Dp_el', 'MM_pip', 'Dp_pip', 'Out_MM', 'Out_Dp', 'Out_MM_el', 'Out_Dp_el', 'Out_MM_pip', 'Out_Dp_pip', 'In_MM', 'In_Dp', 'In_MM_el', 'In_Dp_el', 'In_MM_pip', 'In_Dp_pip'], help='Specify the histogram type (MM or Dp).')
@@ -134,6 +139,9 @@ parser.add_argument('Histogram_Type_Option', nargs='?', choices=['MM', 'Dp', 'MM
 args = parser.parse_args()
 # Access the argument
 histogram_type = args.Histogram_Type_Option
+
+if((args.no_save) and (SaveResultsQ in ["yes", True])):
+    print(f"{color.ERROR}Note: 'SaveResultsQ' will be overwritten to be {color.END_B}'no'{color.END}\n")
 
 
 if('In'   in str(histogram_type)):
@@ -203,12 +211,32 @@ Correction_Name_List = ["mm0"]
 # # Correction_Name_List = ["mmfaP2_ELPipMMfaP2"]
 # # # Correction_Name_List = ["mmfaP2", "mmfaP2_ELPipMMfaP2"]
 Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
+Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
 # Correction_Name_List = ["mmfaP2_ELPipMM0"]
+# Correction_Name_List = ["mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
 
-# # Correction_Name_List = ["mmRP2"]
-# # Correction_Name_List = ["mmRP2_ELPipMMP2"]
-# Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmRP2", "mmRP2_ELPipMM0", "mmRP2_ELPipMMP2"]
-# Correction_Name_List = ["mmRP2_ELPipMM0"]
+
+
+# Correction_Name_List = ["mm0"]
+
+
+# Correction_Name_List = ["mmRP2"]
+# # # Correction_Name_List = ["mmRP2_ELPipMMP2"]
+# # Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmRP2", "mmRP2_ELPipMM0", "mmRP2_ELPipMMP2"]
+# Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmRP2_ELPipMM0", "mmRP2_ELPipMMP2"]
+# # Correction_Name_List = ["mm0", "mmRP2", "mmRP2_ELPipMMP2"]
+# Correction_Name_List = ["mmRP2_ELPipMM0", "mmRP2_ELPipMMP2"]
+# # Correction_Name_List = ["mmRP2_ELPipMM0"]
+
+Correction_Name_List = ["mm0", "mm0_ELPipMM0", "mmfaP2", "mmfaP2_ELPipMM0", "mmfaP2_ELPipMMfaP2"]
+
+if(args.correction is not None):
+    Correction_Name_List = ["mm0"]
+    if(args.correction not in ["mm0"]):
+        if(("Pip" in str(args.correction)) or ("_" in str(args.correction))):
+            Correction_Name_List.append(str((str(args.correction).split("_"))[0]))
+        Correction_Name_List.append(str(args.correction))
+        
 
 ##==========================================================================##
 ##==========##==========##    CORRECTION CHOICES    ##==========##==========##

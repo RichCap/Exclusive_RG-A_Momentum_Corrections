@@ -17,20 +17,31 @@ ll2.SetLineColor(1)
 # Turns off the canvases when running in the command line
 ROOT.gROOT.SetBatch(1)
 
-from Main_python_Options import *
-
 
 import argparse
 
 # Create the parser with a description of the script
-parser = argparse.ArgumentParser(description='Process some histograms.')
+parser = argparse.ArgumentParser(description='Main Momentum Correction Code for producing images/new corrections (will need to run ROOT histogram creation scripts separately using the code outputs of the "DP" options in this script).')
+
+parser.add_argument('-ff', '--file_format',  type=str,  default=".png", choices=[".png", ".pdf"], help='File output format (Default: ".png").')
+parser.add_argument('-ns', '-t', '-test', '--no_save',                  action='store_true',      help='Overwrites "SaveResultsQ" to make it so no image should be saved (for testing/code only outputs — Not a part of the original code design. Could cause unintended issues so use with caution).')
+parser.add_argument('-c', '-cor', '--correction',       default=None,   type=str,                 help='Unique correction to be run by itself (overwrites whenever default code exists for other corrections — reliability is not fully tested).')
 
 # Add a positional argument that is optional with help text
-parser.add_argument('Histogram_Type_Option', nargs='?', choices=['MM', 'Dp', 'MM_el', 'Dp_el', 'MM_pip', 'Dp_pip', 'Out_MM', 'Out_Dp', 'Out_MM_el', 'Out_Dp_el', 'Out_MM_pip', 'Out_Dp_pip', 'In_MM', 'In_Dp', 'In_MM_el', 'In_Dp_el', 'In_MM_pip', 'In_Dp_pip'], help='Specify the histogram type (MM or Dp).')
+parser.add_argument('Histogram_Type_Option', nargs='?',                 choices=['MM', 'Dp', 'MM_el', 'Dp_el', 'MM_pip', 'Dp_pip', 'Out_MM', 'Out_Dp', 'Out_MM_el', 'Out_Dp_el', 'Out_MM_pip', 'Out_Dp_pip', 'In_MM', 'In_Dp', 'In_MM_el', 'In_Dp_el', 'In_MM_pip', 'In_Dp_pip'], help='Specify the histogram type (MM or Dp).')
 # Parse the arguments
 args = parser.parse_args()
 # Access the argument
 histogram_type = args.Histogram_Type_Option
+file_format = args.file_format
+
+from Main_python_Options import *
+
+SaveResultsQ = SaveResultsQ if(not args.no_save) else "no"
+
+if((SaveResultsQ in ["yes"]) and (file_format not in [".png"])):
+    print(f"\n{color.BBLUE}Will be saving images as {color.END_B}'{file_format}'{color.BBLUE} files.{color.END}\n")
+
 
 if(str(histogram_type) in ['MM', 'Dp', 'MM_el', 'Dp_el', 'MM_pip', 'Dp_pip', 'Out_MM', 'Out_Dp', 'Out_MM_el', 'Out_Dp_el', 'Out_MM_pip', 'Out_Dp_pip', 'In_MM', 'In_Dp', 'In_MM_el', 'In_Dp_el', 'In_MM_pip', 'In_Dp_pip']):
     print(f"\n\n{color.Error}Default Option(s) Not In Use {color.END_R}(run the given arguement with 'Main_python_Options.py' to see more details about the option selected)\n{color.END}")
@@ -872,7 +883,7 @@ if('y' in CheckDataFrameQ2):
                                                                 if(SaveResultsQ == 'yes'):
                                                                     if(Sector_Num == Sector_Number_List_2[len(Sector_Number_List_2)-1]):
                                                                         # Save_Name = ("".join([str(canvas_name_full).replace(Correction_Name, corNameTitles(Correction_Name).replace("/", "_")), str(Extra_Saving_Name), ".png"])).replace(" ", "_")
-                                                                        Save_Name = ("".join([str(canvas_name_full), str(Extra_Saving_Name), ".png"])).replace(" ", "_")
+                                                                        Save_Name = ("".join([str(canvas_name_full), str(Extra_Saving_Name), file_format])).replace(" ", "_")
                                                                         Save_Name = str(str(str(str(Save_Name.replace("'", "")).replace(",", "_")).replace("(", "_")).replace(")", "")).replace("Sector_Number_List", "")
                                                                         while("__" in str(Save_Name)):
                                                                             Save_Name = str(Save_Name.replace("__", "_"))
@@ -882,12 +893,12 @@ if('y' in CheckDataFrameQ2):
                                                                         Save_Name = str(Save_Name.replace("el_el", "el")).replace("pip_pip", "pip")
                                                                         if((Save_Name in List_of_Saved_Images) and ("hmmCPARTall" not in str(Save_Name))):
                                                                             for ii in range(2, 21):
-                                                                                if(str(str(Save_Name.replace(".png", f"_Version_{ii}.png")).replace(".pdf", f"_Version_{ii}.pdf")) not in List_of_Saved_Images):
-                                                                                    Save_Name = str(str(Save_Name.replace(".png", f"_Version_{ii}.png")).replace(".pdf", f"_Version_{ii}.pdf"))
+                                                                                if(str(Save_Name.replace(file_format, f"_Version_{ii}{file_format}")) not in List_of_Saved_Images):
+                                                                                    Save_Name = str(Save_Name.replace(file_format, f"_Version_{ii}{file_format}"))
                                                                                     break
                                                                                 elif(ii >= 20):
                                                                                     print(f"\n{color.ERROR}More than 20 versions of {color.UNDERLINE}Save_Name = {Save_Name}{color.END_B}{color.RED} were made...{color.END}\n")
-                                                                                    Save_Name = str(str(Save_Name.replace(".png", f"_Version_Last.png")).replace(".pdf", f"_Version_Last.pdf"))
+                                                                                    Save_Name = str(Save_Name.replace(file_format, f"_Version_Last{file_format}"))
                                                                         List_of_Saved_Images.append(Save_Name)
                                                                         print(str(f"\nSaving: \n{color.BBLUE}{Save_Name}{color.END}\n"))
                                                                         # print(str(f"\nSaving: \n{color.BBLUE}{Save_Name}{color.END}\n").replace(".png", ".pdf"))
@@ -1132,7 +1143,7 @@ if(any("Dmom" in histos_selected for histos_selected in List_of_Locate_name)):
                                 else:
                                     cor_Q = "Uncorrected"
 
-                                correction_Code_Name = "mm0" if("mm0" in str(ii)) else "mmEF" if("mmEF" in str(ii)) else "mmP2" if("mmP2" in str(ii)) else "mmRP2" if("mmRP2" in str(ii)) else "mmfaP2" if("mmfaP2" in str(ii)) else "mmError"
+                                correction_Code_Name = "mm0" if("mm0" in str(ii)) else "mmEF" if("mmEF" in str(ii)) else "mmP2" if("mmP2" in str(ii)) else "mmRP2" if("mmRP2" in str(ii)) else "mmfaP2" if("mmfaP2" in str(ii)) else "mmRGK" if("mmRGK" in str(ii)) else "mmError"
                                 if(f"{correction_Code_Name}_" in str(ii)):
                                     correction_Code_Name = "".join([correction_Code_Name, "_", "EL" if("_ELPipMM"      in str(ii)) else ""])
                                 correction_Code_Name = "".join([str(correction_Code_Name), ""       if( "PipMM"    not in str(ii)) else  "PipMMEF"     if("PipMMEF"     in str(ii)) else  "PipMMP2"      if("PipMMP2"      in str(ii)) else  "PipMM0"       if("PipMM0"       in str(ii)) else  "PipMMfaP2"    if("PipMMfaP2"    in str(ii)) else  "PipMMError"])
@@ -1452,23 +1463,23 @@ if(any("Dmom" in histos_selected for histos_selected in List_of_Locate_name)):
                                     try:
                                         # Save_Name = ("".join([str(ref_can).replace(Correction_Name, corNameTitles(Correction_Name).replace("/", "_")), "_", str(Selection_of_In_or_Out), "".join(["_", str(Extra_Saving_Name)]) if(str(Extra_Saving_Name) != "") else "", ".png"])).replace(" ", "_")
                                         if(str(Selection_of_In_or_Out) not in str(ref_can)):
-                                            Save_Name = ("".join([str(ref_can), "_", str(Selection_of_In_or_Out), "".join(["_", str(Extra_Saving_Name)]) if(str(Extra_Saving_Name) != "") else "", ".png"])).replace(" ", "_")
+                                            Save_Name = ("".join([str(ref_can), "_", str(Selection_of_In_or_Out), "".join(["_", str(Extra_Saving_Name)]) if(str(Extra_Saving_Name) != "") else "", file_format])).replace(" ", "_")
                                         else:
-                                            Save_Name = ("".join([str(ref_can), "".join(["_", str(Extra_Saving_Name)]) if(str(Extra_Saving_Name) != "") else "", ".png"])).replace(" ", "_")
+                                            Save_Name = ("".join([str(ref_can), "".join(["_", str(Extra_Saving_Name)]) if(str(Extra_Saving_Name) != "") else "", file_format])).replace(" ", "_")
                                         Save_Name = str(str(str(str(Save_Name.replace("'", "")).replace(",", "_")).replace("(", "_")).replace(")", "")).replace("Sector_Number_List", "")
                                         while("__" in str(Save_Name)):
                                             Save_Name = str(Save_Name.replace("__", "_"))
                                         Save_Name = str(Save_Name.replace("_-_", "-"))
                                         if(Used_Split_Op and (f"_{Use_Split_Cor}." not in str(Save_Name))):
-                                            Save_Name = str(Save_Name.replace(".png", f"_{Use_Split_Cor}.png")).replace(".pdf", f"_{Use_Split_Cor}.pdf")
+                                            Save_Name = str(Save_Name.replace(file_format, f"_{Use_Split_Cor}{file_format}"))
                                         if(Save_Name in List_of_Saved_Images):
                                             for ii in range(2, 21):
-                                                if(str(str(Save_Name.replace(".png", f"_Version_{ii}.png")).replace(".pdf", f"_Version_{ii}.pdf")) not in List_of_Saved_Images):
-                                                    Save_Name = str(str(Save_Name.replace(".png", f"_Version_{ii}.png")).replace(".pdf", f"_Version_{ii}.pdf"))
+                                                if(str(Save_Name.replace(file_format, f"_Version_{ii}{file_format}")) not in List_of_Saved_Images):
+                                                    Save_Name = str(Save_Name.replace(file_format, f"_Version_{ii}{file_format}"))
                                                     break
                                                 elif(ii >= 20):
                                                     print(f"\n{color.ERROR}More than 20 versions of {color.UNDERLINE}Save_Name = {Save_Name}{color.END_B}{color.RED} were made...{color.END}\n")
-                                                    Save_Name = str(str(Save_Name.replace(".png", f"_Version_Last.png")).replace(".pdf", f"_Version_Last.pdf"))
+                                                    Save_Name = str(Save_Name.replace(file_format, f"_Version_Last{file_format}"))
                                         List_of_Saved_Images.append(Save_Name)
                                         print(("".join([color.BLUE if(SaveResultsQ == 'yes') else color.BOLD, "\n\n\n\n\tSaving:\t" if(SaveResultsQ == 'yes') else "\n\n\tWould be saving:\t", Save_Name, color.END])))
                                         if(SaveResultsQ == 'yes'):
@@ -1648,22 +1659,22 @@ if(any("Dmom" in histos_selected for histos_selected in List_of_Locate_name)):
 
     try:
         for ref_can in canvas_phi:
-            Save_Name = str("".join([str(ref_can), ".png"])).replace(" ", "_")
+            Save_Name = str("".join([str(ref_can), file_format])).replace(" ", "_")
             Save_Name = str(str(str(str(Save_Name.replace("'", "")).replace(",", "_")).replace("(", "_")).replace(")", "")).replace("Sector_Number_List", "")
             while("__" in str(Save_Name)):
                 Save_Name = str(Save_Name.replace("__", "_"))
             Save_Name = str(Save_Name.replace("_-_", "-"))
             Save_Name = str(Save_Name.replace("_Dmom", "Dmom")).replace("_pol2", "")
             if(Used_Split_Op and (f"_{Use_Split_Cor}." not in str(Save_Name))):
-                Save_Name = str(Save_Name.replace(".png", f"_{Use_Split_Cor}.png")).replace(".pdf", f"_{Use_Split_Cor}.pdf")
+                Save_Name = str(Save_Name.replace(file_format, f"_{Use_Split_Cor}{file_format}"))
             if(Save_Name in List_of_Saved_Images):
                 for ii in range(2, 21):
-                    if(str(str(Save_Name.replace(".png", f"_Version_{ii}.png")).replace(".pdf", f"_Version_{ii}.pdf")) not in List_of_Saved_Images):
-                        Save_Name = str(str(Save_Name.replace(".png", f"_Version_{ii}.png")).replace(".pdf", f"_Version_{ii}.pdf"))
+                    if(str(Save_Name.replace(file_format, f"_Version_{ii}{file_format}")) not in List_of_Saved_Images):
+                        Save_Name = str(Save_Name.replace(file_format, f"_Version_{ii}{file_format}"))
                         break
                     elif(ii >= 20):
                         print(f"\n{color.ERROR}More than 20 versions of {color.UNDERLINE}Save_Name = {Save_Name}{color.END_B}{color.RED} were made...{color.END}\n")
-                        Save_Name = str(str(Save_Name.replace(".png", f"_Version_Last.png")).replace(".pdf", f"_Version_Last.pdf"))
+                        Save_Name = str(Save_Name.replace(file_format, f"_Version_Last{file_format}"))
             List_of_Saved_Images.append(Save_Name)
             print(("".join([color.BLUE if(SaveResultsQ == 'yes') else color.BOLD, "\n\n\nSaving:\n\t" if(SaveResultsQ == 'yes') else "\nWould be saving:\n\t", Save_Name, color.END])))
             if(SaveResultsQ == 'yes'):

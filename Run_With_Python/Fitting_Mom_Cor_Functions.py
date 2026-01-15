@@ -1207,6 +1207,11 @@ def MM_Fits(h2, minR, maxR, dR, Title, BGq, Particle, Bending_Type="In", Event_T
     
 # The function below is used to merge the ∆P fits from the double pion and π0 channel to get the proton corrections from both channels simultaneously
 def Merge_Histos(TGE1, TGE2, option="Default", Num_Overlap=2):
+    # Merged_Histo = TGE1.Clone(f"{TGE1.GetName()}_Copy")
+    # Merged_Histo.SetMarkerStyle(20)
+    # Merged_Histo.SetMarkerColor(root_color.Red)
+    # Merged_Histo.SetLineColor(root_color.Red)
+    # return Merged_Histo
     if(option == "Default"):
         Merged_Histo = ROOT.TGraphErrors()
         Merged_Histo.SetMarkerStyle(20)
