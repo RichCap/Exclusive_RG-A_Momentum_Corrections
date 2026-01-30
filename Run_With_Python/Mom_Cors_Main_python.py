@@ -28,7 +28,7 @@ parser.add_argument('-ns', '-t', '-test', '--no_save',                  action='
 parser.add_argument('-c', '-cor', '--correction',       default=None,   type=str,                 help='Unique correction to be run by itself (overwrites whenever default code exists for other corrections — reliability is not fully tested).')
 
 # Add a positional argument that is optional with help text
-parser.add_argument('Histogram_Type_Option', nargs='?',                 choices=['MM', 'Dp', 'MM_el', 'Dp_el', 'MM_pip', 'Dp_pip', 'Out_MM', 'Out_Dp', 'Out_MM_el', 'Out_Dp_el', 'Out_MM_pip', 'Out_Dp_pip', 'In_MM', 'In_Dp', 'In_MM_el', 'In_Dp_el', 'In_MM_pip', 'In_Dp_pip'], help='Specify the histogram type (MM or Dp).')
+parser.add_argument('Histogram_Type_Option', nargs='?', choices=['MM', 'Dp', 'Phase', 'MM_el', 'Dp_el', 'MM_pip', 'Dp_pip', 'Out_MM', 'Out_Dp', 'Out_MM_el', 'Out_Dp_el', 'Out_MM_pip', 'Out_Dp_pip', 'In_MM', 'In_Dp', 'In_MM_el', 'In_Dp_el', 'In_MM_pip', 'In_Dp_pip', 'In_Phase', 'In_Phase_el', 'In_Phase_pip', 'Out_Phase', 'Out_Phase_el', 'Out_Phase_pip'], help='Specify the histogram type (MM, Dp, or Phase).')
 # Parse the arguments
 args = parser.parse_args()
 # Access the argument
@@ -43,7 +43,7 @@ if((SaveResultsQ in ["yes"]) and (file_format not in [".png"])):
     print(f"\n{color.BBLUE}Will be saving images as {color.END_B}'{file_format}'{color.BBLUE} files.{color.END}\n")
 
 
-if(str(histogram_type) in ['MM', 'Dp', 'MM_el', 'Dp_el', 'MM_pip', 'Dp_pip', 'Out_MM', 'Out_Dp', 'Out_MM_el', 'Out_Dp_el', 'Out_MM_pip', 'Out_Dp_pip', 'In_MM', 'In_Dp', 'In_MM_el', 'In_Dp_el', 'In_MM_pip', 'In_Dp_pip']):
+if(str(histogram_type) in ['MM', 'Dp', 'Phase', 'MM_el', 'Dp_el', 'MM_pip', 'Dp_pip', 'Out_MM', 'Out_Dp', 'Out_MM_el', 'Out_Dp_el', 'Out_MM_pip', 'Out_Dp_pip', 'In_MM', 'In_Dp', 'In_MM_el', 'In_Dp_el', 'In_MM_pip', 'In_Dp_pip', 'In_Phase', 'In_Phase_el', 'In_Phase_pip', 'Out_Phase', 'Out_Phase_el', 'Out_Phase_pip']):
     print(f"\n\n{color.Error}Default Option(s) Not In Use {color.END_R}(run the given arguement with 'Main_python_Options.py' to see more details about the option selected)\n{color.END}")
 
 if('In'   in str(histogram_type)):

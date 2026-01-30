@@ -134,7 +134,7 @@ parser.add_argument('-ns', '-t', '-test', '--no_save',                  action='
 parser.add_argument('-c', '-cor', '--correction',       default=None,   type=str,                 help='Unique correction to be run by itself (overwrites whenever default code exists for other corrections — reliability is not fully tested).')
 
 # Add a positional argument that is optional with help text
-parser.add_argument('Histogram_Type_Option', nargs='?', choices=['MM', 'Dp', 'MM_el', 'Dp_el', 'MM_pip', 'Dp_pip', 'Out_MM', 'Out_Dp', 'Out_MM_el', 'Out_Dp_el', 'Out_MM_pip', 'Out_Dp_pip', 'In_MM', 'In_Dp', 'In_MM_el', 'In_Dp_el', 'In_MM_pip', 'In_Dp_pip'], help='Specify the histogram type (MM or Dp).')
+parser.add_argument('Histogram_Type_Option', nargs='?', choices=['MM', 'Dp', 'Phase', 'MM_el', 'Dp_el', 'MM_pip', 'Dp_pip', 'Out_MM', 'Out_Dp', 'Out_MM_el', 'Out_Dp_el', 'Out_MM_pip', 'Out_Dp_pip', 'In_MM', 'In_Dp', 'In_MM_el', 'In_Dp_el', 'In_MM_pip', 'In_Dp_pip', 'In_Phase', 'In_Phase_el', 'In_Phase_pip', 'Out_Phase', 'Out_Phase_el', 'Out_Phase_pip'], help='Specify the histogram type (MM, Dp, or Phase).')
 # Parse the arguments
 args = parser.parse_args()
 # Access the argument
@@ -340,10 +340,10 @@ if("SP" in EvntType_List or "DP" in EvntType_List or ("P0" in EvntType_List or "
 ##==========##==========##      INVARIANT MASS      ##==========##==========##
 ##==========================================================================##
 
-
-# # List_of_Locate_name.append("HWC_Histo_All_('Correction_Name_List', Sector_Number_List, 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List', 'Extra_Cut_Option'")
-# # List_of_Locate_name.append("HWC_Histo_All_('Correction_Name_List', Sector_Number_List, '1', 'regall', 'Particle_Mom_List', 'Particle_Sec_List', 'Extra_Cut_Option'")
-# List_of_Locate_name.append("HWC_Histo_All_('Correction_Name_List', Sector_Number_List, '1', 'regall', 'Particle_Mom_List', 'Particle_Sec_List', ''")
+if("WM" in str(histogram_type)):
+    # List_of_Locate_name.append("HWC_Histo_All_('Correction_Name_List', Sector_Number_List, 'Binning_Option_List', 'Region_Option_List', 'Particle_Mom_List', 'Particle_Sec_List', 'Extra_Cut_Option'")
+    # List_of_Locate_name.append("HWC_Histo_All_('Correction_Name_List', Sector_Number_List, '1', 'regall', 'Particle_Mom_List', 'Particle_Sec_List', 'Extra_Cut_Option'")
+    List_of_Locate_name.append("HWC_Histo_All_('Correction_Name_List', Sector_Number_List, '1', 'regall', 'Particle_Mom_List', 'Particle_Sec_List', ''")
 
 ##==========================================================================##
 ##==========##==========##      INVARIANT MASS      ##==========##==========##
@@ -450,10 +450,12 @@ elif('Dp' in str(histogram_type)):
 # List_of_Locate_name.append("Histo_Th_v_Phi_('Correction_Name_List', Sector_Number_List, 'Particle_Mom_List', 'Extra_Cut_Option', 'local', ''")
 # List_of_Locate_name.append("Histo_Th_v_Phi_('Correction_Name_List', Sector_Number_List, 'Particle_Mom_List', 'Extra_Cut_Option', '', 'S'")
 
-# List_of_Locate_name = []
-# List_of_Locate_name.append("Histo_P_v_Th_('Correction_Name_List', Sector_Number_List, 'Particle_Mom_List', 'Extra_Cut_Option', '', '')")
-# List_of_Locate_name.append("Histo_P_v_Phi_('Correction_Name_List', Sector_Number_List, 'Particle_Mom_List', 'Extra_Cut_Option', 'local', 'S'")
-# List_of_Locate_name.append("Histo_Th_v_Phi_('Correction_Name_List', Sector_Number_List, 'Particle_Mom_List', 'Extra_Cut_Option', 'local', 'S'")
+if("Phase" in str(histogram_type)):
+    print(f"\n{color.BGREEN}Phase Space Histograms option selected{color.END}")
+    List_of_Locate_name = []
+    List_of_Locate_name.append("Histo_P_v_Th_('Correction_Name_List', Sector_Number_List, 'Particle_Mom_List', 'Extra_Cut_Option', '', '')")
+    List_of_Locate_name.append("Histo_P_v_Phi_('Correction_Name_List', Sector_Number_List, 'Particle_Mom_List', 'Extra_Cut_Option', 'local', 'S'")
+    List_of_Locate_name.append("Histo_Th_v_Phi_('Correction_Name_List', Sector_Number_List, 'Particle_Mom_List', 'Extra_Cut_Option', 'local', 'S'")
 ##==========================================================================##
 ##==========##==========##          OTHERS          ##==========##==========##
 ##==========================================================================##
